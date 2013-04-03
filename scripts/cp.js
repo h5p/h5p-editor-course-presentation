@@ -14,8 +14,6 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.field = field;
   this.params = params;
   this.setValue = setValue;
-  
-  console.log(params);
 };
 
 /**
@@ -28,6 +26,11 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.$item = H5PEditor.$(this.createHtml()).appendTo($wrapper);
   this.$editor = this.$item.children('.editor');
   this.$errors = this.$item.children('.errors');
+  
+  var cpInstance = new H5P.CoursePresentation({
+    slides: this.params
+  }, H5PEditor.contentId);
+  cpInstance.attach(this.$editor);
 };
 
 /**
