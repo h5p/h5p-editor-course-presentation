@@ -8,7 +8,12 @@
   "author": "Frode Petterson",
   "preloadedJs": [
     {
-      "path": "scripts/cp.js"
+      "path": "scripts/cp-editor.js"
+    }
+  ],
+  "preloadedCss": [
+    {
+      "path": "styles/cp-editor.css"
     }
   ]
 }

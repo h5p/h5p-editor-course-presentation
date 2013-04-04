@@ -1,0 +1,19 @@
+.h5p-course-presentation .h5p-controls {
+  float: right;
+  font-size: 12px;
+}
+.h5p-course-presentation .h5p-controls a {
+  display: block;
+  float: left;
+  background: #e0f0e0;
+  padding: 6px;
+  color: #000;
+  border-left: 1px solid #f0fff0;
+}
+.h5p-course-presentation .h5p-controls a:first-child {
+  border-left: 0;
+}
+.h5p-course-presentation .h5p-controls a:hover {
+  text-decoration: none;
+  background: #d0dfd0;
+}
