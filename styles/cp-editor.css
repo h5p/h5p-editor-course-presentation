@@ -5,15 +5,20 @@
 .h5p-course-presentation .h5p-controls a {
   display: block;
   float: left;
-  background: #e0f0e0;
+  background: #e0f0e0 no-repeat 7px 13px;
   padding: 6px;
   color: #000;
   border-left: 1px solid #f0fff0;
+  width: 10px;
+  height: 18px;
 }
 .h5p-course-presentation .h5p-controls a:first-child {
   border-left: 0;
 }
 .h5p-course-presentation .h5p-controls a:hover {
   text-decoration: none;
-  background: #d0dfd0;
+  background-color: #d0dfd0;
+}
+.h5p-course-presentation .h5p-controls a.h5p-clone-slide {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QQEDiMt6X6S2AAAAFxJREFUGNNtjrENgDAQAy+7U0EZJFZImVWomAFqetP40StKYelln61HEpIACtABATfQJUECLodZZzTbJAxRvTALHwAZ2IB3AGo0F0NHasYyu801Pdz+20YdZksAH8FZVmd1aArIAAAAAElFTkSuQmCC);
 }

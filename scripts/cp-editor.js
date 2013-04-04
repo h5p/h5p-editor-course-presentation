@@ -37,7 +37,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   
   // Add and bind slide controls.
   // TODO: Remember to translate texts.
-  H5PEditor.$('<div class="h5p-controls"><a href="#" title="Sort slide - left">&lt;</a><a href="#" title="Sort slide - right">&gt;</a><a href="#" title="Remove slide">&times;</a><a href="#" title="Clone slide">&oplus;</a><a href="#" title="Add slide">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
+  H5PEditor.$('<div class="h5p-controls"><a href="#" title="Sort slide - left">&lt;</a><a href="#" title="Sort slide - right">&gt;</a><a href="#" title="Remove slide">&times;</a><a href="#" title="Clone slide" class="h5p-clone-slide"></a><a href="#" title="Add slide">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
     console.log('Sorting left...');
     return false;
   }).next().click(function () {
