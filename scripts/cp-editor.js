@@ -137,7 +137,9 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   this.cp.addElements($slide, slideParams.elements);
   
   // Add keywords
-  H5P.jQuery(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword);
+  H5P.jQuery(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).find('span').click(function () {
+    that.editKeyword(H5PEditor.$(this));
+  });
   
   // Add to and update slideination.
   var $slideinationSlide = H5P.jQuery(H5P.CoursePresentation.createSlideinationSlide()).insertAfter(this.cp.$currentSlideinationSlide).children('a').click(function () {
