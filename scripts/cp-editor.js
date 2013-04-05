@@ -107,14 +107,14 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   }
   
   // Add slide with elements
-  var $slide = H5P.jQuery('<div class="h5p-slide"></div>').insertAfter(this.cp.$current);
+  var $slide = H5P.jQuery(H5P.CoursePresentation.createSlide(slideParams)).insertAfter(this.cp.$current);
   this.cp.addElements($slide, slideParams.elements);
   
   // Add keywords
   H5P.jQuery(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword);
   
   // Add to and update slideination.
-  var $slideinationSlide = H5P.jQuery('<li><a href="#"></a></li>').insertAfter(this.cp.$currentSlideinationSlide).children('a').click(function () {
+  var $slideinationSlide = H5P.jQuery(H5P.CoursePresentation.createSlideinationSlide()).insertAfter(this.cp.$currentSlideinationSlide).children('a').click(function () {
     that.cp.jumpToSlide(H5P.jQuery(this).text() - 1);
     return false;
   }).end();
@@ -153,7 +153,7 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var $remove = this.cp.$current.add(this.cp.$currentSlideinationSlide).add(this.cp.$currentKeyword);
   
   // Confirm and change slide.
-  if (!confirm('Are you sure you wish to delete this slide?')) {
+  if (!confirm('Are you sure you wish to delete this slide?')) { // TODO: Translate
     return false;
   }
   
