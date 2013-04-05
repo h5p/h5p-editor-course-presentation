@@ -57,7 +57,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.cp.attach(this.$editor);
   
   // Add and bind slide controls.
-  // TODO: Remember to translate texts.
   H5PEditor.$('<div class="h5p-controls"><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'left'}) + '">&lt;</a><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'right'}) + '">&gt;</a><a href="#" title="' + H5PEditor.t('removeSlide') + '">&times;</a><a href="#" title="' + H5PEditor.t('cloneSlide') + '" class="h5p-clone-slide"></a><a href="#" title="' + H5PEditor.t('newSlide') + '">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
     that.sortLeft();
     return false;
@@ -73,6 +72,11 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   }).next().click(function () {
     that.addSlide();
     return false;
+  });
+  
+  // Convert keywords into text areas when clicking
+  this.cp.$keywords.find('span').click(function () {
+    that.editKeyword(H5PEditor.$(this));
   });
 };
 
@@ -243,6 +247,49 @@ H5PEditor.CoursePresentation.prototype.sortRight = function () {
   
   // Update params
   this.params.splice(index + 1, 0, this.params.splice(index, 1)[0]);
+};
+
+/**
+ * Edit keyword.
+ * 
+ * @param {H5PEditor.$} $span Keyword wrapper.
+ * @returns {unresolved} Nothing
+ */
+H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
+  var that = this;
+
+  var $li = $span.parent();
+  var $ancestor = $li.parent().parent();
+  var main = $ancestor.hasClass('h5p-current');
+    
+  if (!main && !$ancestor.parent().parent().hasClass('h5p-current')) {
+    return;
+  }
+    
+  var $textarea = H5PEditor.$('<textarea>' + $span.text() + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
+    if (event.keyCode === 13) {
+      $textarea.blur();
+      return false;
+    }
+  }).keyup(function () {
+    $textarea.css('height', 1).css('height', $textarea[0].scrollHeight - 8);
+  }).blur(function () {
+    var keyword = $textarea.val();
+      
+    // Update visuals
+    $span.text(keyword).show();
+    $textarea.remove();
+      
+    // Update params
+    var slideIndex = that.cp.$current.index();
+    if (main) {
+      that.params[slideIndex].keywords[$li.index()].main = keyword;
+    }
+    else {
+      that.params[slideIndex].keywords[$li.parent().parent().index()].subs[$li.index()] = keyword;
+    }
+  }).focus();
+  $textarea.keyup();
 };
 
 // Tell the editor what widget we are.

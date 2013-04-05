@@ -22,3 +22,10 @@
 .h5p-course-presentation .h5p-controls a.h5p-clone-slide {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QQFBSMgIyZm4QAAADtJREFUGNNj/P//PwMMMDIyIjhQwMRAABBUwIJkrCQxJnxBV8DIwMAAM0EWJvj///8n2BQwIClgJNqRAIXMDxh1bmE1AAAAAElFTkSuQmCC);
 }
+
+.h5p-course-presentation .h5p-keywords-wrapper textarea {
+  resize: none;
+  overflow: hidden;
+  font-size: 12px;
+  
+}
