@@ -10,10 +10,31 @@ var H5PEditor = H5PEditor || {};
  * @returns {H5PEditor.Text}
  */
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
+  if (params === undefined) {
+    // TODO: Remove slide content, only here for testing.
+    params = [{
+      elements: [{
+          action: {
+            library: 'H5P.cpText 1.0',
+            params: {
+              text: 'New slide'
+            }
+          },
+          height: 60,
+          width: 200,
+          x: 0,
+          y: 0
+      }],
+      keywords: [{
+          main: 'New keyword'
+      }]
+    }];
+    setValue(field, params);
+  }
+  
   this.parent = parent;
   this.field = field;
   this.params = params;
-  this.setValue = setValue;
 };
 
 /**
@@ -37,7 +58,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   
   // Add and bind slide controls.
   // TODO: Remember to translate texts.
-  H5PEditor.$('<div class="h5p-controls"><a href="#" title="Sort slide - left">&lt;</a><a href="#" title="Sort slide - right">&gt;</a><a href="#" title="Remove slide">&times;</a><a href="#" title="Clone slide" class="h5p-clone-slide"></a><a href="#" title="Add slide">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
+  H5PEditor.$('<div class="h5p-controls"><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'left'}) + '">&lt;</a><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'right'}) + '">&gt;</a><a href="#" title="' + H5PEditor.t('removeSlide') + '">&times;</a><a href="#" title="' + H5PEditor.t('cloneSlide') + '" class="h5p-clone-slide"></a><a href="#" title="' + H5PEditor.t('newSlide') + '">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
     that.sortLeft();
     return false;
   }).next().click(function () {
@@ -154,7 +175,7 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var $remove = this.cp.$current.add(this.cp.$currentSlideinationSlide).add(this.cp.$currentKeyword);
   
   // Confirm and change slide.
-  if (!confirm('Are you sure you wish to delete this slide?')) { // TODO: Translate
+  if (!confirm(H5PEditor.t('confirmDeleteSlide'))) { // TODO: Translate
     return false;
   }
   
@@ -226,3 +247,10 @@ H5PEditor.CoursePresentation.prototype.sortRight = function () {
 
 // Tell the editor what widget we are.
 H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
+
+// Add translations
+H5PEditor.l10n.confirmDeleteSlide = 'Are you sure you wish to delete this slide?';
+H5PEditor.l10n.sortSlide = 'Sort slide - :dir';
+H5PEditor.l10n.removeSlide = 'Remove slide';
+H5PEditor.l10n.cloneSlide = 'Clone slide';
+H5PEditor.l10n.newSlide = 'Add new slide';
