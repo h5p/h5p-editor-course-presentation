@@ -38,10 +38,10 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   // Add and bind slide controls.
   // TODO: Remember to translate texts.
   H5PEditor.$('<div class="h5p-controls"><a href="#" title="Sort slide - left">&lt;</a><a href="#" title="Sort slide - right">&gt;</a><a href="#" title="Remove slide">&times;</a><a href="#" title="Clone slide" class="h5p-clone-slide"></a><a href="#" title="Add slide">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
-    console.log('Sorting left...');
+    that.sortLeft();
     return false;
   }).next().click(function () {
-    console.log('Sorting right...');
+    that.sortRight();
     return false;
   }).next().click(function () {
     that.removeSlide();
@@ -79,7 +79,8 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
 /**
  * Adds slide after current slide.
  * 
- * @returns {undefined}
+ * @param {object} slideParams
+ * @returns {undefined} Nothing
  */
 H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   var that = this;
@@ -171,6 +172,56 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   
   // Update presentation params.
   this.params.splice(index, 1);
+};
+
+/**
+ * Sort current slide to the left.
+ * 
+ * @returns {Boolean}
+ */
+H5PEditor.CoursePresentation.prototype.sortLeft = function () {
+  var $prev = this.cp.$current.prev();
+  if (!$prev.length) {
+    return false;
+  }
+  
+  var index = this.cp.$current.index();
+  this.cp.$current.insertBefore($prev.removeClass('h5p-previous'));
+  
+  // Keywords
+  this.cp.$currentKeyword.insertBefore(this.cp.$currentKeyword.prev());
+  this.cp.scrollToKeywords();
+
+  // Slideination
+  this.cp.jumpSlideination(index - 1);
+  
+  // Update params
+  this.params.splice(index - 1, 0, this.params.splice(index, 1)[0]);
+};
+
+/**
+ * Sort current slide to the right.
+ * 
+ * @returns {Boolean}
+ */
+H5PEditor.CoursePresentation.prototype.sortRight = function () {
+  var $next = this.cp.$current.next();
+  if (!$next.length) {
+    return false;
+  }
+  
+  var index = this.cp.$current.index();
+  this.cp.$current.insertAfter($next.addClass('h5p-previous'));
+  
+  // Keywords
+  this.cp.$currentKeyword.insertAfter(this.cp.$currentKeyword.next());
+  this.cp.scrollToKeywords();
+
+  // Slideination
+  this.cp.jumpSlideination(this.cp.$currentSlideinationSlide.index() + 1);
+  
+  // Update params
+  this.params.splice(index + 1, 0, this.params.splice(index, 1)[0]);
 };
 
 // Tell the editor what widget we are.
