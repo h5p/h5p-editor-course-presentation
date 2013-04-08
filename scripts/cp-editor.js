@@ -61,10 +61,10 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   
   // Add and bind slide controls.
   H5PEditor.$('<div class="h5p-controls"><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'left'}) + '">&lt;</a><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'right'}) + '">&gt;</a><a href="#" title="' + H5PEditor.t('removeSlide') + '">&times;</a><a href="#" title="' + H5PEditor.t('cloneSlide') + '" class="h5p-clone-slide"></a><a href="#" title="' + H5PEditor.t('newSlide') + '">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
-    that.sortLeft();
+    that.sortSlide(that.cp.$current.prev(), -1); // Left
     return false;
-  }).next().click(function () {
-    that.sortRight();
+  }).next().click(function () {    
+    that.sortSlide(that.cp.$current.next(), 1); // Right
     return false;
   }).next().click(function () {
     that.removeSlide();
@@ -370,53 +370,38 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 };
 
 /**
- * Sort current slide to the left.
+ * Sort current slide in the given direction.
  * 
- * @returns {Boolean}
+ * @param {H5PEditor.$} $element The next/prev slide.
+ * @param {int} direction 1 for next, -1 for prev.
+ * @returns {Boolean} Indicates success.
  */
-H5PEditor.CoursePresentation.prototype.sortLeft = function () {
-  var $prev = this.cp.$current.prev();
-  if (!$prev.length) {
+H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction) {
+  if (!$element.length) {
     return false;
   }
   
   var index = this.cp.$current.index();
-  this.cp.$current.insertBefore($prev.removeClass('h5p-previous'));
   
-  // Keywords
-  this.cp.$currentKeyword.insertBefore(this.cp.$currentKeyword.prev());
-  this.cp.scrollToKeywords();
-
-  // Slideination
-  this.cp.jumpSlideination(index - 1);
-  
-  // Update params
-  this.params.splice(index - 1, 0, this.params.splice(index, 1)[0]);
-};
-
-/**
- * Sort current slide to the right.
- * 
- * @returns {Boolean}
- */
-H5PEditor.CoursePresentation.prototype.sortRight = function () {
-  var $next = this.cp.$current.next();
-  if (!$next.length) {
-    return false;
+  // Move slides and keywords.
+  if (direction === -1) {
+    this.cp.$current.insertBefore($element.removeClass('h5p-previous'));
+    this.cp.$currentKeyword.insertBefore(this.cp.$currentKeyword.prev());
   }
-  
-  var index = this.cp.$current.index();
-  this.cp.$current.insertAfter($next.addClass('h5p-previous'));
-  
-  // Keywords
-  this.cp.$currentKeyword.insertAfter(this.cp.$currentKeyword.next());
+  else {
+    this.cp.$current.insertAfter($element.addClass('h5p-previous'));
+    this.cp.$currentKeyword.insertAfter(this.cp.$currentKeyword.next());
+  }
   this.cp.scrollToKeywords();
 
-  // Slideination
-  this.cp.jumpSlideination(this.cp.$currentSlideinationSlide.index() + 1);
+  // Update slideination
+  var newIndex = index + direction;
+  this.cp.jumpSlideination(newIndex);
   
-  // Update params
-  this.params.splice(index + 1, 0, this.params.splice(index, 1)[0]);
+  // Update params.
+  this.params.splice(newIndex, 0, this.params.splice(index, 1)[0]);
+  
+  return true;
 };
 
 /**
