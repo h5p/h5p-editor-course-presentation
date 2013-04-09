@@ -22,17 +22,39 @@
 .h5p-course-presentation .h5p-controls a.h5p-clone-slide {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QQFBSMgIyZm4QAAADtJREFUGNNj/P//PwMMMDIyIjhQwMRAABBUwIJkrCQxJnxBV8DIwMAAM0EWJvj///8n2BQwIClgJNqRAIXMDxh1bmE1AAAAAElFTkSuQmCC);
 }
-
+.h5p-course-presentation .h5p-keywords-wrapper > ol {
+  position: relative; 
+}
 .h5p-course-presentation .h5p-keywords-wrapper textarea {
   resize: none;
   overflow: hidden;
   font-size: 12px;
+  padding-right: 22px;
+  width: 81%;
+}
+.h5p-course-presentation .h5p-keywords-wrapper li li li textarea {
+  padding-right: 22px;
+  width: 79%;
+}
+.h5p-course-presentation .h5p-empty-keyword > span {
+  font-style: italic;
+}
+.h5p-course-presentation .h5p-delete-keyword {
+  position: absolute;
+  margin: 8px;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  background: no-repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QQJDCwQx2DOtQAAARBJREFUKM91kE9Kw2AUxH+TGzQLqWbtBRqybEr3Wih4B//coRvBEwh6CUEo3YemS0kv4LqgIvEI4+L7klaob/V4b968mdF6MLoFTg1Pk7b54EjVaT403Al/JoYhsBBe1mmeHQFnwFKwAJ0lsp+BN1BhqNYHR7GvgCJgeJRt6jTPjCuh87i4MCBY2S4kvQPTsm12sh1eD/IM8RrZNmBA40DgedludwD9QTganSC9AOM42oCvynb71WGSPw4lAjMEnijsENJLCgb/kcS8bJu9pDrNM9sVCqYVTQMroBDsTa8HoyGwjMz9ovtqu5K69HyZADf7nN2DAUKvaZRVYF0n4G/gwXjWRXdYk59mZzPDvge3v046iYmbcYsaAAAAAElFTkSuQmCC);
+  opacity: 0.5;
+  filter: alpha(opacity = 50);
+}
+.h5p-course-presentation .h5p-delete-keyword:hover {
+  opacity: 1;
+  filter: alpha(opacity = 100);
 }
 .h5p-course-presentation .h5p-moving {
   position: absolute;
-}
-.h5p-course-presentation .h5p-placeholder {
-  
 }
 
 .h5p-course-presentation .h5p-elements-bar {

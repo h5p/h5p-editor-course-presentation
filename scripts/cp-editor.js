@@ -132,7 +132,8 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       that.keywordsDNS.dnd.adjust.y += that.keywordsDNS.$element.offset().top - event.pageY + 16;
       that.keywordsDNS.$element.removeClass('h5p-new-keyword');
     }
-  
+    
+    that.keywordsDNS.dnd.scrollTop = that.cp.$keywords.scrollTop() - parseInt(that.cp.$keywords.css('marginTop'));
     return true;
   };
   
@@ -170,18 +171,47 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     that.keywordsDNS.press(H5PEditor.$(this).parent(), event.pageX, event.pageY);
     return false;
   };
+  var newKeyword = function ($li, newKeywordString, x, y) {
+    var $ol = $li.children('ol');
+    if (!$ol.length) {
+      $ol = H5PEditor.$('<ol></ol>').appendTo($li);
+    }
+    var $element = H5PEditor.$('<li class="h5p-new-keyword h5p-empty-keyword"><span>' + newKeywordString + '</span></li>').appendTo($ol).children('span').click(keywordClick).mousedown(keywordMousedown).end();
+    
+    that.keywordsDNS.press($element, x, y);
+    return false;
+  };
   
   this.cp.$keywords.find('span').click(keywordClick).mousedown(keywordMousedown);
   
-  this.$bar.children(':first').children(':first').click(function () {
+  this.$bar.children(':first').children().click(function () {
     return false;
-  }).mousedown(function (event) {
-    var newKeyword = H5PEditor.t('newKeyword');
-    var $element = H5PEditor.$('<li class="h5p-new-keyword"><span>' + newKeyword + '</span></li>').appendTo(that.cp.$keywords.children('.h5p-current').children()).children('span').click(keywordClick).mousedown(keywordMousedown).end();
-    that.params[that.cp.$current.index()].keywords.push({main: newKeyword});
+  }).filter(':first').mousedown(function (event) {
+    // Create new keyword.
+    var newKeywordString = H5PEditor.t('newKeyword');
     
-    that.keywordsDNS.press($element, event.pageX, event.pageY);
-    return false;
+    // Add to params
+    that.params[that.cp.$current.index()].keywords.push({main: newKeywordString});
+
+    return newKeyword(that.cp.$keywords.children('.h5p-current'), newKeywordString, event.pageX, event.pageY);
+  }).next().mousedown(function (event) {
+    // Create new sub keyword.
+    var newKeywordString = H5PEditor.t('newKeyword');
+    
+    // Add to params
+    var keywords = that.params[that.cp.$current.index()].keywords;
+    if (!keywords.length) {
+      return false;
+    }
+    keywords = keywords[keywords.length - 1];
+    if (keywords.subs === undefined) {
+      keywords.subs = [newKeywordString];
+    }
+    else {
+      keywords.subs.push(newKeywordString);
+    }
+    
+    return newKeyword(that.cp.$keywords.children('.h5p-current').children().children(':last'), newKeywordString, event.pageX, event.pageY);
   });
 };
 
@@ -402,8 +432,9 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   if (!main && !$ancestor.parent().parent().hasClass('h5p-current')) {
     return;
   }
-    
-  var $textarea = H5PEditor.$('<textarea>' + $span.text() + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
+
+  var $delete = H5PEditor.$('<a href="#" class="h5p-delete-keyword" title="' + H5PEditor.t('deleteKeyword') + '"></a>');
+  var $textarea = H5PEditor.$('<textarea>' + ($li.hasClass('h5p-empty-keyword') ? '' : $span.text()) + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
     if (event.keyCode === 13) {
       $textarea.blur();
       return false;
@@ -412,35 +443,21 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     $textarea.css('height', 1).css('height', $textarea[0].scrollHeight - 8);
   }).blur(function () {
     var keyword = $textarea.val();
-    var slideIndex = that.cp.$current.index();
       
-    if (keyword === '') {
-      // Remove empty keywords
-      if (main) {
-        that.params[slideIndex].keywords.splice($li.index(), 1);
-        $li.add($textarea).remove();
-      }
-      else {
-        // Sub keywords
-        var pi = $li.parent().parent().index();
-        var $ol = $li.parent();
-        if ($ol.children().length === 1) {
-          delete that.params[slideIndex].keywords[pi].subs;
-          $ol.remove();
-        }
-        else {
-          that.params[slideIndex].keywords[pi].subs.splice($li.index(), 1);
-          $li.add($textarea).remove();
-        }
-      }
-      return;
+    if (H5PEditor.trim(keyword) === '') {
+      $li.addClass('h5p-empty-keyword');
+      keyword = H5PEditor.t('newKeyword');
+    }
+    else {
+      $li.removeClass('h5p-empty-keyword');
     }
       
     // Update visuals
     $span.text(keyword).show();
-    $textarea.remove();
+    $textarea.add($delete).remove();
       
     // Update params
+    var slideIndex = that.cp.$current.index();
     if (main) {
       that.params[slideIndex].keywords[$li.index()].main = keyword;
     }
@@ -448,7 +465,30 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
       that.params[slideIndex].keywords[$li.parent().parent().index()].subs[$li.index()] = keyword;
     }
   }).focus();
+  
   $textarea.keyup();
+  
+  $delete.insertBefore($textarea).mousedown(function () {
+    // Remove keyword
+    var slideIndex = that.cp.$current.index();
+    if (main) {
+      that.params[slideIndex].keywords.splice($li.index(), 1);
+      $li.add($textarea).remove();
+    }
+    else {
+      // Sub keywords
+      var pi = $li.parent().parent().index();
+      var $ol = $li.parent();
+      if ($ol.children().length === 1) {
+        delete that.params[slideIndex].keywords[pi].subs;
+        $ol.remove();
+      }
+      else {
+        that.params[slideIndex].keywords[pi].subs.splice($li.index(), 1);
+        $li.add($textarea).remove();
+      }
+    }
+  });
 };
 
 // Tell the editor what widget we are.
@@ -464,3 +504,4 @@ H5PEditor.l10n.newSlide = 'Add new slide';
 H5PEditor.l10n.insertElement = 'Click and drag to place :type';
 
 H5PEditor.l10n.newKeyword = 'New keyword';
+H5PEditor.l10n.deleteKeyword = 'Remove this keyword';
