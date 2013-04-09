@@ -57,7 +57,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.cp.attach(this.$editor);
   
   // Elements bar
-  H5PEditor.$('<div class="h5p-elements-bar"><ul><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'main keyword'}) + '">1.</a></li><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'sub keyword'}) + '">1.1</a></li></ul><ul><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'text'}) + '">T</a></li><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'image'}) + '">I</a></li></ul></div>').insertBefore(this.cp.$presentationWrapper);
+  this.$bar = H5PEditor.$('<div class="h5p-elements-bar"><ul><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'main keyword'}) + '">1.</a></li><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'sub keyword'}) + '">1.1.</a></li></ul><ul><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'text'}) + '">T</a></li><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'image'}) + '">I</a></li></ul></div>').insertBefore(this.cp.$presentationWrapper);
   
   // Add and bind slide controls.
   H5PEditor.$('<div class="h5p-controls"><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'left'}) + '">&lt;</a><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'right'}) + '">&gt;</a><a href="#" title="' + H5PEditor.t('removeSlide') + '">&times;</a><a href="#" title="' + H5PEditor.t('cloneSlide') + '" class="h5p-clone-slide"></a><a href="#" title="' + H5PEditor.t('newSlide') + '">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
@@ -109,164 +109,146 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
  */
 H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   var that = this;
-  var $keyword, $placeholder, $parent, startX, startY, moving, adjust, keywordMarginAdjust, moveThreshold = 4;
-  var keywordsOffset = this.cp.$keywords.offset();
   
-  // Private function for updateing params after swapping keywords.
-  var swapKeywords = function (direction) {
-    var keywords = that.params[that.cp.$current.index()].keywords;
-    if ($parent !== undefined) {
-      // We're swapping sub keywords.
-      keywords = keywords[$parent.index()].subs;
-    }
+  // We use this awesome library to make things easier.
+  this.keywordsDNS = new H5P.DragNSort(this.cp.$keywords.offset());
 
-    var index = $keyword.index() - 1;
-    var oldIndex = index + direction;
-    var oldItem = keywords[oldIndex];
-    keywords[oldIndex] = keywords[index];
-    keywords[index] = oldItem;
-  };
-  
-  // Private function for jumping a sub keyword to another parent.
-  var jumpKeyword = function ($target, direction) {
-    var $ol = $target.children('ol');
-    if (!$ol.length) {
-      $ol = H5PEditor.$('<ol></ol>').appendTo($target);
-    }
-    
-    // Remove from params
-    var keywords = that.params[that.cp.$current.index()].keywords;
-    var subs = keywords[$parent.index()];
-    var item = subs.subs.splice($keyword.index() - 1, 1)[0];
-    if (!subs.subs.length) {
-      delete subs.subs;
-    }
-    
-    // Update UI
-    if (direction === -1) {
-      $keyword.add($placeholder).prependTo($ol);
-    }
-    else {
-      $keyword.add($placeholder).appendTo($ol);
-    }
-    
-    // Add to params
-    subs = keywords[$target.index()];
-    if (subs.subs === undefined) {
-      subs.subs = [item];
-    }
-    else {
-      subs.subs.splice($keyword.index() - 1, 0, item);
-    }
-        
-    // Remove ol if empty.
-    $ol = $parent.children('ol');
-    if (!$ol.children('li').length) {
-      $ol.remove();
-    }
-    $parent = $target;
-  };
-  
-  // Private function for handling the mouse move event.
-  var move = function (event) {
-    if (!moving) {
-      if (event.pageX > startX + moveThreshold || event.pageX < startX - moveThreshold || event.pageY > startY + moveThreshold || event.pageY < startY - moveThreshold) {
-        // Start moving
-        
-        $parent = $keyword.parent().parent();
-        if (!$parent.hasClass('h5p-current')) {
-          if (!$parent.parent().parent().hasClass('h5p-current')) {
-            return;
-          }
-          else {
-            adjust.x += parseInt($keyword.css('marginLeft'));
-          }
-        }
-        else {
-          $parent = undefined;
-        }
-        
-        moving = true;
-        $placeholder = $('<li class="h5p-placeholder" style="height:' + $keyword.height() + 'px"><span></span></li>').insertBefore($keyword.css('width', $keyword.width() + 'px').addClass('h5p-moving'));
-      }
-      else {
-        return;
+  this.keywordsDNS.startMovingCallback = function (event) {
+    // Make sure we're moving the keywords that belongs to this slide.
+    that.keywordsDNS.$parent = that.keywordsDNS.$element.parent().parent();
+    if (!that.keywordsDNS.$parent.hasClass('h5p-current')) {
+      // Element is a sub keyword.
+      if (!that.keywordsDNS.$parent.parent().parent().hasClass('h5p-current')) {
+        return false;
       }
     }
-    
-    var x = event.pageX - adjust.x;
-    var y = event.pageY - adjust.y;
-    $keyword.css({left: x - keywordsOffset.left, top: y - keywordsOffset.top});
-    
-    // Try to move up.
-    var $prev = $keyword.prev().prev();
-    if ($prev.length && y < $prev.offset().top + (($prev.height() + keywordMarginAdjust + parseInt($prev.css('paddingBottom'))) / 2)) {
-      $prev.insertAfter($keyword);
-      return swapKeywords(1);
+    else {
+      delete that.keywordsDNS.$parent; // Remove since we're not a sub keyword.
     }
-    
-    // Try to move down.
-    var $next = $keyword.next();
-    if ($next.length && y + $keyword.height() > $next.offset().top + (($next.height() + keywordMarginAdjust + parseInt($next.css('paddingBottom'))) / 2)) {
-      $next.insertBefore($placeholder);
-      return swapKeywords(-1);
+  
+    if (that.keywordsDNS.$element.hasClass('h5p-new-keyword')) {
+      // Adjust new keywords to mouse pos.
+      that.keywordsDNS.dnd.adjust.x += 15;
+      that.keywordsDNS.dnd.adjust.y += that.keywordsDNS.$element.offset().top - event.pageY + 16;
+      that.keywordsDNS.$element.removeClass('h5p-new-keyword');
     }
-    
+  
+    return true;
+  };
+  
+  this.keywordsDNS.moveCallback = function (x, y) {
     // Check if sub keyword should change parent.
-    if ($parent !== undefined) {
-      // Jump up
-      $prev = $parent.prev();
-      if ($prev.length && y < $prev.offset().top + ($prev.height() + keywordMarginAdjust + parseInt($prev.css('paddingBottom')) - 5)) {
-        return jumpKeyword($prev, 1);
-      }
-      
-      // Jump down
-      $next = $parent.next();
-      if ($next.length && y + $keyword.height() > $next.offset().top + 20) {
-        return jumpKeyword($next, -1);
-      }
+    if (that.keywordsDNS.$parent === undefined) {
+      return;
     }
-  };
-  
-  // Private function for handling the mouse up event.
-  var up = function () {
-    // Stop tracking mouse
-    H5PEditor.$body.unbind('mousemove', move).unbind('mouseup', up).removeAttr('style')[0].onselectstart = null;
     
-    if (moving) {
-      $keyword.removeClass('h5p-moving').removeAttr('style');
-      $placeholder.remove();
+    // Jump up
+    var $prev = that.keywordsDNS.$parent.prev();
+    if ($prev.length && y < $prev.offset().top + ($prev.height() + that.keywordsDNS.marginAdjust + parseInt($prev.css('paddingBottom')) - 5)) {
+      return that.jumpKeyword($prev, 1);
+    }
+      
+    // Jump down
+    var $next = that.keywordsDNS.$parent.next();
+    if ($next.length && y + that.keywordsDNS.$element.height() > $next.offset().top + 20) {
+      return that.jumpKeyword($next, -1);
     }
   };
   
-  this.cp.$keywords.find('span').click(function () {
-    if (!moving) {
+  this.keywordsDNS.swapCallback = function (direction) {
+    that.swapKeywords(direction);
+  };
+
+  // Keyword events
+  var keywordClick = function () {
+    if (!that.keywordsDNS.moving) {
       // Convert keywords into text areas when clicking.
       that.editKeyword(H5PEditor.$(this));
     }
+  };
+  var keywordMousedown = function (event) {
+    that.keywordsDNS.press(H5PEditor.$(this).parent(), event.pageX, event.pageY);
+    return false;
+  };
+  
+  this.cp.$keywords.find('span').click(keywordClick).mousedown(keywordMousedown);
+  
+  this.$bar.children(':first').children(':first').click(function () {
+    return false;
   }).mousedown(function (event) {
-    // Start tracking mouse
-    H5PEditor.$body.attr('unselectable', 'on').mouseup(up).bind('mouseleave', up).css({'-moz-user-select': 'none', '-webkit-user-select': 'none', 'user-select': 'none', '-ms-user-select': 'none'}).mousemove(move)[0].onselectstart = function () {
-      return false;
-    };
+    var newKeyword = H5PEditor.t('newKeyword');
+    var $element = H5PEditor.$('<li class="h5p-new-keyword"><span>' + newKeyword + '</span></li>').appendTo(that.cp.$keywords.children('.h5p-current').children()).children('span').click(keywordClick).mousedown(keywordMousedown).end();
+    that.params[that.cp.$current.index()].keywords.push({main: newKeyword});
     
-    $keyword = H5PEditor.$(this).parent();
-    moving = false;
-    startX = event.pageX;
-    startY = event.pageY;
-    
-    if (keywordMarginAdjust === undefined) {
-      keywordMarginAdjust = parseInt($keyword.css('marginTop')) + parseInt($keyword.css('marginBottom'));
-    }
-    
-    var offset = $keyword.offset();
-    adjust = {
-      x: event.pageX - offset.left,
-      y: event.pageY - offset.top - keywordMarginAdjust
-    };
-    
+    that.keywordsDNS.press($element, event.pageX, event.pageY);
     return false;
   });
+};
+
+/**
+ * Update params after swapping keywords.
+ * 
+ * @param {type} direction
+ * @returns {undefined}
+ */
+H5PEditor.CoursePresentation.prototype.swapKeywords = function (direction) {
+  var keywords = this.params[this.cp.$current.index()].keywords;
+  if (this.keywordsDNS.$parent !== undefined) {
+    // We're swapping sub keywords.
+    keywords = keywords[this.keywordsDNS.$parent.index()].subs;
+  }
+
+  var index = this.keywordsDNS.$element.index() - 1;
+  var oldIndex = index + direction;
+  var oldItem = keywords[oldIndex];
+  keywords[oldIndex] = keywords[index];
+  keywords[index] = oldItem;
+};
+
+/**
+ * Move a sub keyword to another parent.
+ *
+ * @param {jQuery} $target The new parent.
+ * @param {int} direction Indicates the direction we're jumping in.
+ * @returns {undefined} 
+ */
+H5PEditor.CoursePresentation.prototype.jumpKeyword = function ($target, direction) {
+  var $ol = $target.children('ol');
+  if (!$ol.length) {
+    $ol = H5PEditor.$('<ol></ol>').appendTo($target);
+  }
+    
+  // Remove from params
+  var keywords = this.params[this.cp.$current.index()].keywords;
+  var subs = keywords[this.keywordsDNS.$parent.index()];
+  var item = subs.subs.splice(this.keywordsDNS.$element.index() - 1, 1)[0];
+  if (!subs.subs.length) {
+    delete subs.subs;
+  }
+    
+  // Update UI
+  if (direction === -1) {
+    this.keywordsDNS.$element.add(this.keywordsDNS.$placeholder).prependTo($ol);
+  }
+  else {
+    this.keywordsDNS.$element.add(this.keywordsDNS.$placeholder).appendTo($ol);
+  }
+    
+  // Add to params
+  subs = keywords[$target.index()];
+  if (subs.subs === undefined) {
+    subs.subs = [item];
+  }
+  else {
+    subs.subs.splice(this.keywordsDNS.$element.index() - 1, 0, item);
+  }
+        
+  // Remove ol if empty.
+  $ol = this.keywordsDNS.$parent.children('ol');
+  if (!$ol.children('li').length) {
+    $ol.remove();
+  }
+  this.keywordsDNS.$parent = $target;
 };
 
 /**
@@ -430,13 +412,35 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     $textarea.css('height', 1).css('height', $textarea[0].scrollHeight - 8);
   }).blur(function () {
     var keyword = $textarea.val();
+    var slideIndex = that.cp.$current.index();
+      
+    if (keyword === '') {
+      // Remove empty keywords
+      if (main) {
+        that.params[slideIndex].keywords.splice($li.index(), 1);
+        $li.add($textarea).remove();
+      }
+      else {
+        // Sub keywords
+        var pi = $li.parent().parent().index();
+        var $ol = $li.parent();
+        if ($ol.children().length === 1) {
+          delete that.params[slideIndex].keywords[pi].subs;
+          $ol.remove();
+        }
+        else {
+          that.params[slideIndex].keywords[pi].subs.splice($li.index(), 1);
+          $li.add($textarea).remove();
+        }
+      }
+      return;
+    }
       
     // Update visuals
     $span.text(keyword).show();
     $textarea.remove();
       
     // Update params
-    var slideIndex = that.cp.$current.index();
     if (main) {
       that.params[slideIndex].keywords[$li.index()].main = keyword;
     }
@@ -458,3 +462,5 @@ H5PEditor.l10n.cloneSlide = 'Clone slide';
 H5PEditor.l10n.newSlide = 'Add new slide';
 
 H5PEditor.l10n.insertElement = 'Click and drag to place :type';
+
+H5PEditor.l10n.newKeyword = 'New keyword';

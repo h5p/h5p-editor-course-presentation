@@ -15,5 +15,12 @@
     {
       "path": "styles/cp-editor.css"
     }
+  ],
+  "preloadedDependencies": [
+    {
+      "machineName": "H5P.DragNSort",
+      "majorVersion": 1,
+      "minorVersion": 0
+    }
   ]
 }
