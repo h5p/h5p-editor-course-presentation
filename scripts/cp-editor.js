@@ -10,6 +10,8 @@ var H5PEditor = H5PEditor || {};
  * @returns {H5PEditor.Text}
  */
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
+  var that = this;
+  
   if (params === undefined) {
     // TODO: Remove slide content, only here for testing.
     params = [{
@@ -35,6 +37,62 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.parent = parent;
   this.field = field;
   this.params = params;
+  
+  parent.ready(function () {
+    that.setLocalization();
+  });
+};
+
+H5PEditor.CoursePresentation.prototype.setLocalization = function () {
+  var that = this;
+  
+  var fields = H5PEditor.findField('l10n', this.parent).children;
+  for (var i = 0; i < fields.length; i++) {
+    var field = fields[i];
+    switch (field.field.name) {
+      case 'prev':
+        field.change(function (value) {
+          that.cp.$slideination.children('.h5p-previous').text(value);
+        });
+        break;
+        
+      case 'prevSlide':
+        field.change(function (value) {
+          that.cp.$slideination.children('.h5p-previous').attr('title', value);
+        });
+        break;
+      
+      case 'scrollLeft':
+        field.change(function (value) {
+          that.cp.$slideination.children('.h5p-scroll-left').attr('title', value);
+        });
+        break;
+        
+      case 'jumpToSlide':
+        field.change(function (value) {
+          that.cp.$slideinationSlides.children('li').children('a').attr('title', value);
+        });
+        break;
+        
+      case 'scrollRight':
+        field.change(function (value) {
+          that.cp.$slideination.children('.h5p-scroll-right').attr('title', value);
+        });
+        break;
+        
+      case 'next':
+        field.change(function (value) {
+          that.cp.$slideination.children('.h5p-next').text(value);
+        });
+        break;
+        
+      case 'nextSlide':
+        field.change(function (value) {
+          that.cp.$slideination.children('.h5p-next').attr('title', value);
+        });
+        break;
+   }
+  }
 };
 
 /**
