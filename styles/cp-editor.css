@@ -1,16 +1,23 @@
+.h5p-course-presentation .h5p-wrapper {
+  height: 440px;
+}
+.h5p-course-presentation .h5p-presentation-wrapper {
+  height: 81.82%;
+}
 .h5p-course-presentation .h5p-controls {
   float: right;
-  font-size: 12px;
+  font-size: 0.75em;
 }
 .h5p-course-presentation .h5p-controls a {
   display: block;
   float: left;
-  background: #e0f0e0 no-repeat 7px 13px;
-  padding: 6px;
+  background: #e0f0e0 no-repeat 0.5833em 1.0833em;
+  background-size: 0.667em 0.667em;
+  padding: 0.5em;
   color: #000;
-  border-left: 1px solid #f0fff0;
-  width: 10px;
-  height: 18px;
+  border-left: 0.0625em solid #f0fff0;
+  width: 0.833em;
+  height: 1.5em;
 }
 .h5p-course-presentation .h5p-controls a:first-child {
   border-left: 0;
@@ -28,12 +35,12 @@
 .h5p-course-presentation .h5p-keywords-wrapper textarea {
   resize: none;
   overflow: hidden;
-  font-size: 12px;
-  padding-right: 22px;
+  font-size: 1em;
+  padding-right: 1.833em;
   width: 81%;
 }
 .h5p-course-presentation .h5p-keywords-wrapper li li li textarea {
-  padding-right: 22px;
+  padding-right: 1.833em;
   width: 79%;
 }
 .h5p-course-presentation .h5p-empty-keyword > span {
@@ -41,11 +48,12 @@
 }
 .h5p-course-presentation .h5p-delete-keyword {
   position: absolute;
-  margin: 8px;
-  right: 10px;
-  width: 12px;
-  height: 12px;
+  margin: 0.667em;
+  right: 0.833em;
+  width: 1em;
+  height: 1em;
   background: no-repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QQJDCwQx2DOtQAAARBJREFUKM91kE9Kw2AUxH+TGzQLqWbtBRqybEr3Wih4B//coRvBEwh6CUEo3YemS0kv4LqgIvEI4+L7klaob/V4b968mdF6MLoFTg1Pk7b54EjVaT403Al/JoYhsBBe1mmeHQFnwFKwAJ0lsp+BN1BhqNYHR7GvgCJgeJRt6jTPjCuh87i4MCBY2S4kvQPTsm12sh1eD/IM8RrZNmBA40DgedludwD9QTganSC9AOM42oCvynb71WGSPw4lAjMEnijsENJLCgb/kcS8bJu9pDrNM9sVCqYVTQMroBDsTa8HoyGwjMz9ovtqu5K69HyZADf7nN2DAUKvaZRVYF0n4G/gwXjWRXdYk59mZzPDvge3v046iYmbcYsaAAAAAElFTkSuQmCC);
+  background-size: 1em 1em;
   opacity: 0.5;
   filter: alpha(opacity = 50);
 }
@@ -56,8 +64,11 @@
 .h5p-course-presentation .h5p-moving {
   position: absolute;
 }
-
+.h5p-course-presentation .slideination {
+  height: 9.09%;
+}
 .h5p-course-presentation .h5p-elements-bar {
+  height: 9.09%;
   background: #f7f0f9;
   overflow: hidden;
 }
@@ -66,6 +77,7 @@
   float: right;
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 .h5p-course-presentation .h5p-elements-bar ul:first-child {
   float: left;
@@ -75,11 +87,13 @@
   margin: 0;
   padding: 0;
   border-left: 1px solid #f7f0f9;
+  height: 100%;
 }
 .h5p-course-presentation .h5p-elements-bar ul:first-child li:first-child {
   border-left: 0;
 }
 .h5p-course-presentation .h5p-elements-bar a {
+  height: 100%;
   display: block;
   padding: 10px;
   color: #000;

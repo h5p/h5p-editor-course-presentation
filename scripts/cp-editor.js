@@ -137,6 +137,13 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   
   // Bind keyword interactions.
   this.initKeywordInteractions();
+  
+  this.cp.resize = function (fullscreen) {
+    // Reset drag and drop adjustments.
+    that.keywordsDNS.dnd.containerOffset = undefined;
+    that.keywordsDNS.marginAdjust === undefined;
+    H5P.CoursePresentation.prototype.resize.apply(that.cp, [fullscreen]);
+  };
 };
 
 /**
@@ -169,7 +176,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   var that = this;
   
   // We use this awesome library to make things easier.
-  this.keywordsDNS = new H5P.DragNSort(this.cp.$keywords.offset());
+  this.keywordsDNS = new H5P.DragNSort(this.cp.$keywords);
 
   this.keywordsDNS.startMovingCallback = function (event) {
     // Make sure we're moving the keywords that belongs to this slide.
@@ -186,8 +193,9 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   
     if (that.keywordsDNS.$element.hasClass('h5p-new-keyword')) {
       // Adjust new keywords to mouse pos.
-      that.keywordsDNS.dnd.adjust.x += 15;
-      that.keywordsDNS.dnd.adjust.y += that.keywordsDNS.$element.offset().top - event.pageY + 16;
+      var height = that.keywordsDNS.$element.height() / 2;
+      that.keywordsDNS.dnd.adjust.x += height;
+      that.keywordsDNS.dnd.adjust.y += that.keywordsDNS.$element.offset().top - event.pageY + (height * 1.75);
       that.keywordsDNS.$element.removeClass('h5p-new-keyword');
     }
     
@@ -201,15 +209,17 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       return;
     }
     
+    var fontSize = parseInt(that.cp.$wrapper.css('fontSize'));
+    
     // Jump up
     var $prev = that.keywordsDNS.$parent.prev();
-    if ($prev.length && y < $prev.offset().top + ($prev.height() + that.keywordsDNS.marginAdjust + parseInt($prev.css('paddingBottom')) - 5)) {
+    if ($prev.length && y < $prev.offset().top + ($prev.height() + that.keywordsDNS.marginAdjust + parseInt($prev.css('paddingBottom')) - (fontSize/2))) {
       return that.jumpKeyword($prev, 1);
     }
       
     // Jump down
     var $next = that.keywordsDNS.$parent.next();
-    if ($next.length && y + that.keywordsDNS.$element.height() > $next.offset().top + 20) {
+    if ($next.length && y + that.keywordsDNS.$element.height() > $next.offset().top + fontSize) {
       return that.jumpKeyword($next, -1);
     }
   };
@@ -219,10 +229,11 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   };
 
   // Keyword events
-  var keywordClick = function () {
+  var keywordClick = function (event) {
     if (!that.keywordsDNS.moving) {
       // Convert keywords into text areas when clicking.
       that.editKeyword(H5PEditor.$(this));
+      event.stopPropagation();
     }
   };
   var keywordMousedown = function (event) {
