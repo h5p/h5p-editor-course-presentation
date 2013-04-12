@@ -4,11 +4,16 @@
 .h5p-course-presentation .h5p-presentation-wrapper {
   height: 81.82%;
 }
-.h5p-course-presentation .h5p-controls {
+
+.h5p-course-presentation .h5p-slidecontrols {
   float: right;
   font-size: 0.75em;
 }
-.h5p-course-presentation .h5p-controls a {
+.h5p-course-presentation .h5p-keywordcontrols {
+  float: left;
+  font-size: 0.75em;
+}
+.h5p-course-presentation .h5p-keywordcontrols-button, .h5p-course-presentation .h5p-slidecontrols-button {
   display: block;
   float: left;
   background: #e0f0e0 no-repeat 0.5833em 1.0833em;
@@ -19,16 +24,23 @@
   width: 0.833em;
   height: 1.5em;
 }
-.h5p-course-presentation .h5p-controls a:first-child {
+.h5p-course-presentation .h5p-keywordcontrols-button {
+  background-color: #ffe6e6;
+}
+.h5p-course-presentation .h5p-keywordcontrols-button:first-child, .h5p-course-presentation .h5p-slidecontrols-button:first-child {
   border-left: 0;
 }
-.h5p-course-presentation .h5p-controls a:hover {
+.h5p-course-presentation .h5p-keywordcontrols-button:hover, .h5p-course-presentation .h5p-slidecontrols-button:hover {
   text-decoration: none;
   background-color: #d0dfd0;
 }
-.h5p-course-presentation .h5p-controls a.h5p-clone-slide {
+.h5p-course-presentation .h5p-keywordcontrols-button:hover {
+  background-color: #edd9d9;
+}
+.h5p-course-presentation .h5p-clone-slide {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QQFBSMgIyZm4QAAADtJREFUGNNj/P//PwMMMDIyIjhQwMRAABBUwIJkrCQxJnxBV8DIwMAAM0EWJvj///8n2BQwIClgJNqRAIXMDxh1bmE1AAAAAElFTkSuQmCC);
 }
+
 .h5p-course-presentation .h5p-keywords-wrapper > ol {
   position: relative; 
 }

@@ -118,7 +118,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.$bar = H5PEditor.$('<div class="h5p-elements-bar"><ul><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'main keyword'}) + '">1.</a></li><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'sub keyword'}) + '">1.1.</a></li></ul><ul><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'text'}) + '">T</a></li><li><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'image'}) + '">I</a></li></ul></div>').insertBefore(this.cp.$presentationWrapper);
   
   // Add and bind slide controls.
-  H5PEditor.$('<div class="h5p-controls"><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'left'}) + '">&lt;</a><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'right'}) + '">&gt;</a><a href="#" title="' + H5PEditor.t('removeSlide') + '">&times;</a><a href="#" title="' + H5PEditor.t('cloneSlide') + '" class="h5p-clone-slide"></a><a href="#" title="' + H5PEditor.t('newSlide') + '">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
+  H5PEditor.$('<div class="h5p-slidecontrols"><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button">&lt;</a><a href="#" title="' + H5PEditor.t('sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button">&gt;</a><a href="#" title="' + H5PEditor.t('removeSlide') + '" class="h5p-slidecontrols-button">&times;</a><a href="#" title="' + H5PEditor.t('cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button"></a><a href="#" title="' + H5PEditor.t('newSlide') + '" class="h5p-slidecontrols-button">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
     that.sortSlide(that.cp.$current.prev(), -1); // Left
     return false;
   }).next().click(function () {    
@@ -135,8 +135,17 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     return false;
   });
   
-  // Bind keyword interactions.
-  this.initKeywordInteractions();
+  
+  if (this.cp.$keywordsWrapper !== undefined) {
+    // Remove keywords button.
+    H5PEditor.$('<div class="h5p-keywordcontrols"><a href="#" title="' + H5PEditor.t('disableKeywords') + '" class="h5p-keywordcontrols-button">x</a></div>').insertAfter(this.cp.$presentationWrapper).children().click(function () {
+      that.removeKeywords(H5PEditor.$(this));
+      return false;
+    });
+    
+    // Bind keyword interactions.
+    this.initKeywordInteractions();
+  }
   
   this.cp.resize = function (fullscreen) {
     // Reset drag and drop adjustments.
@@ -560,6 +569,27 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   });
 };
 
+/**
+ * Remove keywords sidebar.
+ * 
+ * @param {jQuery} $button
+ * @returns {Boolean}
+ */
+H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
+  if (!confirm(H5PEditor.t('removeKeywords'))) {
+    return false;
+  }
+  
+  $button.parent().add(this.cp.$keywordsWrapper).remove();
+  this.cp.keywordsWidth = 0;
+  for (var i = 0; i < this.params.length; i++) {
+    if (this.params[i].keywords !== undefined) {
+      delete this.params[i].keywords;
+    }
+  }
+};
+
+
 // Tell the editor what widget we are.
 H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
 
@@ -569,6 +599,8 @@ H5PEditor.l10n.sortSlide = 'Sort slide - :dir';
 H5PEditor.l10n.removeSlide = 'Remove slide';
 H5PEditor.l10n.cloneSlide = 'Clone slide';
 H5PEditor.l10n.newSlide = 'Add new slide';
+
+H5PEditor.l10n.insertElement = 'Click and drag to place :type';
 
 H5PEditor.l10n.insertElement = 'Click and drag to place :type';
 
