@@ -39,6 +39,15 @@
   padding-right: 1.833em;
   width: 81%;
 }
+.h5p-course-presentation .h5p-keywords-wrapper span {
+  cursor: default;
+}
+.h5p-course-presentation .h5p-keywords-wrapper .h5p-current span {
+  cursor: pointer;
+}
+.h5p-course-presentation .h5p-keywords-wrapper .h5p-current span:hover {
+  color: #000;
+}
 .h5p-course-presentation .h5p-keywords-wrapper li li li textarea {
   padding-right: 1.833em;
   width: 79%;
