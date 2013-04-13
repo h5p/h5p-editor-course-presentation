@@ -42,7 +42,7 @@
 }
 
 .h5p-course-presentation .h5p-keywords-wrapper > ol {
-  position: relative; 
+  position: relative;
 }
 .h5p-course-presentation .h5p-keywords-wrapper textarea {
   resize: none;
@@ -123,4 +123,8 @@
 .h5p-course-presentation .h5p-elements-bar a:hover {
   text-decoration: none;
   background: #e7dcea;
+}
+.h5p-course-presentation .h5p-element {
+  border: 1px solid #999999;
+  margin: -1px 0 0 -1px;
 }
