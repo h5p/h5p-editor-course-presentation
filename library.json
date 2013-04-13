@@ -21,6 +21,11 @@
       "machineName": "H5P.DragNSort",
       "majorVersion": 1,
       "minorVersion": 0
+    },
+    {
+      "machineName": "jQuery.ui",
+      "majorVersion": 1,
+      "minorVersion": 10
     }
   ]
 }
