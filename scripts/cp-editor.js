@@ -44,12 +44,42 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 };
 
 H5PEditor.CoursePresentation.prototype.processElement = function(slideIndex, element, elementInstance, $elementContainer) {
-  var $solutionButton = H5P.jQuery('<a href="#" class="h5p-element-solution h5p-no-solution">?</a>')
-  .data('solution', element.solution).click(function(event) {
-    event.preventDefault();
-    alert('edit me');
-  });
-  $elementContainer.append($solutionButton);
+  if (elementInstance.showSolutions === undefined) {
+    var extraClass = element.solution ? '' : ' h5p-no-solution';
+    var $solutionButton = H5P.jQuery('<a href="#" class="h5p-element-solution' + extraClass + '">?</a>')
+    .click(function(event) {
+      event.preventDefault();
+      var $solution = H5P.jQuery('<div title="Solution"></div>');
+      var htmlInstance = new H5PEditor.Html($solution, {"type": "text", "widget": "html"}, element.solution, function(value) {
+        element.solution = value;
+      });
+      htmlInstance.appendTo($solution);
+      $solution.dialog({
+        modal: true,
+        dialogClass: "h5p-dialog-no-close",
+        appendTo: '.h5p-course-presentation',
+        buttons: [
+          {
+            text: "Save",
+            click: function() {
+              H5P.jQuery(this).dialog("close");
+              var val = htmlInstance.validate();
+              if (val !== false) {
+                element.solution = val;
+                $solutionButton.removeClass('h5p-no-solution');
+              }
+              else {
+                element.solution = '';
+                $solutionButton.addClass('h5p-no-solution');
+              }
+              htmlInstance.ckeditor.destroy();
+            }
+          }
+        ]
+      });
+    });
+    $elementContainer.append($solutionButton);
+  }
 }
 
 H5PEditor.CoursePresentation.prototype.setLocalization = function () {

@@ -128,3 +128,17 @@
   border: 1px solid #999999;
   margin: -1px 0 0 -1px;
 }
+
+.h5p-course-presentation .h5p-dialog-no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+.h5p-course-presentation .ui-widget-header {
+  background: none;
+  border: none;
+}
+
+.h5p-course-presentation .ui-dialog-buttonpane {
+  border: none;
+  margin-top: 0;
+}
