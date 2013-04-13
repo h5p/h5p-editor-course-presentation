@@ -679,7 +679,5 @@ H5PEditor.l10n.newSlide = 'Add new slide';
 
 H5PEditor.l10n.insertElement = 'Click and drag to place :type';
 
-H5PEditor.l10n.insertElement = 'Click and drag to place :type';
-
 H5PEditor.l10n.newKeyword = 'New keyword';
 H5PEditor.l10n.deleteKeyword = 'Remove this keyword';
