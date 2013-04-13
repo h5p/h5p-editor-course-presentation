@@ -11,7 +11,6 @@ var H5PEditor = H5PEditor || {};
  */
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   var that = this;
-
   if (params === undefined) {
     // TODO: Remove slide content, only here for testing.
     params = [{
@@ -45,42 +44,80 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 
 H5PEditor.CoursePresentation.prototype.processElement = function(slideIndex, element, elementInstance, $elementContainer) {
   if (elementInstance.showSolutions === undefined) {
-    var extraClass = element.solution ? '' : ' h5p-no-solution';
-    var $solutionButton = H5P.jQuery('<a href="#" class="h5p-element-solution' + extraClass + '">?</a>')
-    .click(function(event) {
-      event.preventDefault();
-      var $solution = H5P.jQuery('<div title="Solution"></div>');
-      var htmlInstance = new H5PEditor.Html($solution, {"type": "text", "widget": "html"}, element.solution, function(value) {
-        element.solution = value;
-      });
-      htmlInstance.appendTo($solution);
-      $solution.dialog({
-        modal: true,
-        dialogClass: "h5p-dialog-no-close",
-        appendTo: '.h5p-course-presentation',
-        buttons: [
-          {
-            text: "Save",
-            click: function() {
-              H5P.jQuery(this).dialog("close");
-              var val = htmlInstance.validate();
-              if (val !== false) {
-                element.solution = val;
-                $solutionButton.removeClass('h5p-no-solution');
-              }
-              else {
-                element.solution = '';
-                $solutionButton.addClass('h5p-no-solution');
-              }
-              htmlInstance.ckeditor.destroy();
+    this.initSolutionEditing(slideIndex, element, elementInstance, $elementContainer);
+  }
+  this.initLibraryEditing(slideIndex, element, elementInstance, $elementContainer);
+};
+
+H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideIndex, element, elementInstance, $elementContainer) {
+  var extraClass = element.solution ? '' : ' h5p-no-solution';
+  var $solutionButton = H5P.jQuery('<a href="#" class="h5p-element-solution' + extraClass + '">?</a>')
+  .click(function(event) {
+    event.preventBubble();
+    var $solution = H5P.jQuery('<div title="Edit solution"></div>');
+    var htmlInstance = new H5PEditor.Html($solution, {"type": "text", "widget": "html"}, element.solution, function(value) {
+      element.solution = value;
+    });
+    htmlInstance.appendTo($solution);
+    $solution.dialog({
+      modal: true,
+      dialogClass: "h5p-dialog-no-close",
+      appendTo: '.h5p-course-presentation',
+      buttons: [
+        {
+          text: "Save",
+          click: function() {
+            H5P.jQuery(this).dialog("close");
+            var val = htmlInstance.validate();
+            if (val !== false) {
+              element.solution = val;
+              $solutionButton.removeClass('h5p-no-solution');
+            }
+            else {
+              element.solution = '';
+              $solutionButton.addClass('h5p-no-solution');
+            }
+            htmlInstance.ckeditor.destroy();
+          }
+        }
+      ]
+    });
+  });
+  $elementContainer.append($solutionButton);
+};
+
+H5PEditor.CoursePresentation.prototype.initLibraryEditing = function(slideIndex, element, elementInstance, $elementContainer) {
+  var semantics = this.field.field.fields[0].field.fields[0];
+  $elementContainer.click(function(event) {
+    var $library = H5P.jQuery('<div title="Edit content"></div>');
+    console.log(element);
+    /*var editorForm = new H5PEditor.form();
+    editorForm.processSemantics(semantics, element.action);
+    editorForm.replace($library);
+     * TODO: Make this work...
+     */
+    var libraryInstance = new H5PEditor.Library($library, semantics, element.action, function(){}, true);
+    libraryInstance.appendTo($library);
+    $library.dialog({
+      modal: true,
+      width: '80%',
+      dialogClass: "h5p-dialog-no-close",
+      appendTo: '.h5p-course-presentation',
+      buttons: [
+        {
+          text: "OK",
+          click: function() {
+            H5P.jQuery(this).dialog("close");
+            var val = libraryInstance.validate();
+            if (val !== false) {
+              element.action.params = val;
             }
           }
-        ]
-      });
+        }
+      ]
     });
-    $elementContainer.append($solutionButton);
-  }
-}
+  });
+};
 
 H5PEditor.CoursePresentation.prototype.setLocalization = function () {
   var that = this;
