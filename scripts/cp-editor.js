@@ -87,16 +87,11 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
 };
 
 H5PEditor.CoursePresentation.prototype.initLibraryEditing = function(slideIndex, element, elementInstance, $elementContainer) {
+  var that = this;
   var semantics = this.field.field.fields[0].field.fields[0];
   $elementContainer.click(function(event) {
     var $library = H5P.jQuery('<div title="Edit content"></div>');
-    console.log(element);
-    /*var editorForm = new H5PEditor.form();
-    editorForm.processSemantics(semantics, element.action);
-    editorForm.replace($library);
-     * TODO: Make this work...
-     */
-    var libraryInstance = new H5PEditor.Library($library, semantics, element.action, function(){}, true);
+    var libraryInstance = new H5PEditor.Library(that, semantics, element.action, function(){}, true);
     libraryInstance.appendTo($library);
     $library.dialog({
       modal: true,
@@ -108,10 +103,7 @@ H5PEditor.CoursePresentation.prototype.initLibraryEditing = function(slideIndex,
           text: "OK",
           click: function() {
             H5P.jQuery(this).dialog("close");
-            var val = libraryInstance.validate();
-            if (val !== false) {
-              element.action.params = val;
-            }
+            libraryInstance.validate(); // Store the values
           }
         }
       ]
@@ -666,6 +658,15 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
   }
 };
 
+/**
+ * Collect functions to execute once the tree is complete.
+ * 
+ * @param {function} ready
+ * @returns {undefined}
+ */
+H5PEditor.CoursePresentation.prototype.ready = function (ready) {
+  this.parent.ready(ready);
+};
 
 // Tell the editor what widget we are.
 H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
