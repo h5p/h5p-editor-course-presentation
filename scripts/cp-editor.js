@@ -88,7 +88,6 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
 
 H5PEditor.CoursePresentation.prototype.initLibraryEditing = function(slideIndex, element, elementInstance, $elementContainer) {
   var that = this;
-  var semantics = this.field.field.fields[0].field.fields[0];
   $elementContainer.click(function(event) {
     var $library = H5P.jQuery('<div title="Edit content"></div>');
     H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $library, that);
@@ -106,6 +105,26 @@ H5PEditor.CoursePresentation.prototype.initLibraryEditing = function(slideIndex,
         }
       ]
     });
+  });
+  // this.makeElementDraggable($elementContainer, element);
+};
+
+H5PEditor.CoursePresentation.prototype.makeElementDraggable = function($element, elementParams) {
+  $element.draggable({
+    // TODO: Make sure the parent is correct
+    containment: "parent",
+    stop: function(event, ui) {
+      var pos = $element.position();
+      elementParams.x = pos.left / $element.parent().width();
+      elementParams.y = pos.top / $element.parent().height();
+    }
+  })
+  .resizable({
+    containment: "parent",
+    stop: function(event, ui) {
+      elementParams.width = $element.width() / $element.parent().width();
+      elementParams.y = $element.height() / $element.parent().height();
+    }
   });
 };
 
