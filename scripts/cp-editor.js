@@ -91,8 +91,10 @@ H5PEditor.CoursePresentation.prototype.initLibraryEditing = function(slideIndex,
   var semantics = this.field.field.fields[0].field.fields[0];
   $elementContainer.click(function(event) {
     var $library = H5P.jQuery('<div title="Edit content"></div>');
-    var libraryInstance = new H5PEditor.Library(that, semantics, element.action, function(){}, true);
-    libraryInstance.appendTo($library);
+    H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $library, that);
+    console.log(that.field.field.fields);
+    /*var libraryInstance = new H5PEditor.Library(that, semantics, element.action, function(){}, true);
+    libraryInstance.appendTo($library);*/
     $library.dialog({
       modal: true,
       width: '80%',
@@ -103,7 +105,7 @@ H5PEditor.CoursePresentation.prototype.initLibraryEditing = function(slideIndex,
           text: "OK",
           click: function() {
             H5P.jQuery(this).dialog("close");
-            libraryInstance.validate(); // Store the values
+       //     libraryInstance.validate(); // Store the values
           }
         }
       ]
