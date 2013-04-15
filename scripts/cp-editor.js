@@ -37,12 +37,14 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.field = field;
   this.params = params;
 
+  this.passReadies = true;
   parent.ready(function () {
     that.setLocalization();
+    that.passReadies = false;
   });
 };
 
-H5PEditor.CoursePresentation.prototype.processElement = function(slideIndex, element, elementInstance, $elementContainer) {
+H5PEditor.CoursePresentation.prototype.processElement = function (slideIndex, element, elementInstance, $elementContainer) {
   if (elementInstance.showSolutions === undefined) {
     this.initSolutionEditing(slideIndex, element, elementInstance, $elementContainer);
   }
@@ -52,10 +54,10 @@ H5PEditor.CoursePresentation.prototype.processElement = function(slideIndex, ele
 H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideIndex, element, elementInstance, $elementContainer) {
   var extraClass = element.solution ? '' : ' h5p-no-solution';
   var $solutionButton = H5P.jQuery('<a href="#" class="h5p-element-solution' + extraClass + '">?</a>')
-  .click(function(event) {
-    event.preventBubble();
+  .click(function (event) {
+    event.stopPropagation();
     var $solution = H5P.jQuery('<div title="Edit solution"></div>');
-    var htmlInstance = new H5PEditor.Html($solution, {"type": "text", "widget": "html"}, element.solution, function(value) {
+    var htmlInstance = new H5PEditor.Html($solution, {"type": "text", "widget": "html"}, element.solution, function (value) {
       element.solution = value;
     });
     htmlInstance.appendTo($solution);
@@ -66,7 +68,7 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
       buttons: [
         {
           text: "Save",
-          click: function() {
+          click: function () {
             H5P.jQuery(this).dialog("close");
             var val = htmlInstance.validate();
             if (val !== false) {
@@ -82,15 +84,26 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
         }
       ]
     });
+    
+    return false;
   });
   $elementContainer.append($solutionButton);
 };
 
-H5PEditor.CoursePresentation.prototype.initLibraryEditing = function(slideIndex, element, elementInstance, $elementContainer) {
+H5PEditor.CoursePresentation.prototype.initLibraryEditing = function (slideIndex, element, elementInstance, $elementContainer) {
   var that = this;
-  $elementContainer.click(function(event) {
+  $elementContainer.click(function (event) {
     var $library = H5P.jQuery('<div title="Edit content"></div>');
+    if (!that.passReadies) {
+      that.readies = [];
+    }
     H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $library, that);
+    if (!that.passReadies) {
+      for (var i = 0; i < that.readies.length; i++) {
+        that.readies[i]();
+      }
+      delete that.readies;
+    }
     $library.dialog({
       modal: true,
       width: '80%',
@@ -99,7 +112,7 @@ H5PEditor.CoursePresentation.prototype.initLibraryEditing = function(slideIndex,
       buttons: [
         {
           text: "OK",
-          click: function() {
+          click: function () {
             H5P.jQuery(this).dialog("close");
           }
         }
@@ -109,11 +122,11 @@ H5PEditor.CoursePresentation.prototype.initLibraryEditing = function(slideIndex,
   // this.makeElementDraggable($elementContainer, element);
 };
 
-H5PEditor.CoursePresentation.prototype.makeElementDraggable = function($element, elementParams) {
+H5PEditor.CoursePresentation.prototype.makeElementDraggable = function ($element, elementParams) {
   $element.draggable({
     // TODO: Make sure the parent is correct
     containment: "parent",
-    stop: function(event, ui) {
+    stop: function (event, ui) {
       var pos = $element.position();
       elementParams.x = pos.left / $element.parent().width();
       elementParams.y = pos.top / $element.parent().height();
@@ -121,7 +134,7 @@ H5PEditor.CoursePresentation.prototype.makeElementDraggable = function($element,
   })
   .resizable({
     containment: "parent",
-    stop: function(event, ui) {
+    stop: function (event, ui) {
       elementParams.width = $element.width() / $element.parent().width();
       elementParams.y = $element.height() / $element.parent().height();
     }
@@ -682,7 +695,12 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
  * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.ready = function (ready) {
-  this.parent.ready(ready);
+  if (this.passReadies) {
+    this.parent.ready(ready);
+  }
+  else {
+    this.readies.push(ready);
+  }
 };
 
 // Tell the editor what widget we are.
