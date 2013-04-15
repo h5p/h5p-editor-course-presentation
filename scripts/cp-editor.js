@@ -63,6 +63,8 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
     htmlInstance.appendTo($solution);
     $solution.dialog({
       modal: true,
+      draggable: false,
+      resizable: false,
       dialogClass: "h5p-dialog-no-close",
       appendTo: '.h5p-course-presentation',
       buttons: [
@@ -106,6 +108,8 @@ H5PEditor.CoursePresentation.prototype.initLibraryEditing = function (slideIndex
     }
     $library.dialog({
       modal: true,
+      draggable: false,
+      resizable: false,
       width: '80%',
       dialogClass: "h5p-dialog-no-close",
       appendTo: '.h5p-course-presentation',
