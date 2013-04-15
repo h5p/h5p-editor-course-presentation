@@ -84,7 +84,7 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
         }
       ]
     });
-    
+
     return false;
   });
   $elementContainer.append($solutionButton);
@@ -209,8 +209,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   // Create new presentation.
   this.cp = new H5P.CoursePresentation({
     slides: this.params
-  }, H5PEditor.contentId);
-  this.cp.editor = this;
+  }, H5PEditor.contentId, this);
   this.cp.attach(this.$editor);
 
   // Elements bar
@@ -690,7 +689,7 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
 
 /**
  * Collect functions to execute once the tree is complete.
- * 
+ *
  * @param {function} ready
  * @returns {undefined}
  */
