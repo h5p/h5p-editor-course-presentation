@@ -46,7 +46,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 
 /**
  * Finds localization fields and updates value as they change.
- * 
+ *
  * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.setLocalization = function () {
@@ -103,7 +103,7 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
 
 /**
  * Add an element to the current slide and params.
- * 
+ *
  * @param {String} library
  * @param {Object} params
  * @returns {unresolved}
@@ -119,7 +119,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
     width: 30,
     height: 20
   };
-  
+
   this.params[this.cp.$current.index()].elements.push(elParams);
   return this.cp.addElement(elParams);
 };
@@ -142,7 +142,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     slides: this.params
   }, H5PEditor.contentId, this);
   this.cp.attach(this.$editor);
-  
+
   // Add drag and drop menu bar.
   that.initializeDNB();
 
@@ -179,16 +179,16 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
 /**
  * Initialize the drag and drop menu bar.
- * 
+ *
  * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   var that = this;
-  
+
   this.dnb = new H5P.DragNBar([
     {
       id: 'text',
-      title: H5PEditor.t('insertElement', {':type': 'text'}), 
+      title: H5PEditor.t('insertElement', {':type': 'text'}),
       createElement: function () {
         return that.addElement('H5P.Text 1.0');
       }
@@ -215,14 +215,14 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       }
     }
   ], this.cp.$current);
-  
+
   // Update params when the element is dropped.
   this.dnb.stopMovingCallback = function (x, y) {
     var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
     params.x = x;
     params.y = y;
   };
-  
+
   this.$bar = H5PEditor.$('<div class="h5p-dragnbar"></div>').insertBefore(this.cp.$presentationWrapper);
   this.dnb.attach(this.$bar);
 };
@@ -255,13 +255,13 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
  */
 H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   var that = this;
-  
+
   // Keywords removal button.
   H5PEditor.$('<div class="h5p-keywordcontrols"><a href="#" title="' + H5PEditor.t('disableKeywords') + '" class="h5p-keywordcontrols-button">x</a></div>').insertAfter(this.cp.$presentationWrapper).children().click(function () {
     that.removeKeywords(H5PEditor.$(this));
     return false;
   });
-  
+
   // Add our own menu to the drag and drop menu bar.
   H5PEditor.$('<ul class="h5p-dragnbar-ul h5p-dragnbar-left"><li class="h5p-dragnbar-li"><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'main keyword'}) + '" class="h5p-dragnbar-a h5p-dragnbar-mainkeyword-button"></a></li><li class="h5p-dragnbar-li"><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'sub keyword'}) + '" class="h5p-dragnbar-a h5p-dragnbar-subkeyword-button"></a></li></ul>').prependTo(this.$bar);
 
@@ -369,7 +369,7 @@ H5PEditor.CoursePresentation.prototype.keywordStartMoving = function (event) {
 
 /**
  * Keyword move handler.
- * 
+ *
  * @param {int} x
  * @param {int} y
  * @returns {undefined}
@@ -693,7 +693,7 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
 
 /**
  * TODO: Document and add comments inside function.
- * 
+ *
  * @param {type} slideIndex
  * @param {type} element
  * @param {type} elementInstance
@@ -709,7 +709,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (slideIndex, el
 
 /**
  * TODO: Document and add comments inside function.
- * 
+ *
  * @param {type} slideIndex
  * @param {type} element
  * @param {type} elementInstance
@@ -726,6 +726,7 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
       element.solution = value;
     });
     htmlInstance.appendTo($solution);
+    $solution.find('.errors').hide();
     $solution.dialog({
       modal: true,
       draggable: false,
@@ -746,7 +747,18 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
               element.solution = '';
               $solutionButton.addClass('h5p-no-solution');
             }
-            htmlInstance.ckeditor.destroy();
+            if (htmlInstance.ckeditor !== undefined) {
+              htmlInstance.ckeditor.destroy();
+            }
+          }
+        },
+        {
+          text: "Cancel",
+          click: function () {
+            H5P.jQuery(this).dialog("close");
+            if (htmlInstance.ckeditor !== undefined) {
+              htmlInstance.ckeditor.destroy();
+            }
           }
         }
       ]
@@ -759,7 +771,7 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
 
 /**
  * TODO: Document and add comments inside function.
- * 
+ *
  * @param {type} slideIndex
  * @param {type} element
  * @param {type} elementInstance
@@ -768,7 +780,7 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
  */
 H5PEditor.CoursePresentation.prototype.initLibraryEditing = function (slideIndex, element, elementInstance, $elementContainer) {
   var that = this;
-  $elementContainer.click(function (event) {
+  $elementContainer.dblclick(function (event) {
     var $library = H5P.jQuery('<div title="Edit content"></div>');
     if (!that.passReadies) {
       that.readies = [];
@@ -802,7 +814,7 @@ H5PEditor.CoursePresentation.prototype.initLibraryEditing = function (slideIndex
 
 /**
  * TODO: Document and add comments inside function.
- * 
+ *
  * @param {type} $element
  * @param {type} elementParams
  * @returns {undefined}
