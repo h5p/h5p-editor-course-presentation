@@ -140,8 +140,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   // Create new presentation.
   this.cp = new H5P.CoursePresentation({
     slides: this.params
-  }, H5PEditor.contentId);
-  this.cp.editor = this;
+  }, H5PEditor.contentId, this);
   this.cp.attach(this.$editor);
   
   // Add drag and drop menu bar.
@@ -718,6 +717,8 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
     htmlInstance.appendTo($solution);
     $solution.dialog({
       modal: true,
+      draggable: false,
+      resizable: false,
       dialogClass: "h5p-dialog-no-close",
       appendTo: '.h5p-course-presentation',
       buttons: [
@@ -739,7 +740,7 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
         }
       ]
     });
-    
+
     return false;
   });
   $elementContainer.append($solutionButton);
@@ -770,6 +771,8 @@ H5PEditor.CoursePresentation.prototype.initLibraryEditing = function (slideIndex
     }
     $library.dialog({
       modal: true,
+      draggable: false,
+      resizable: false,
       width: '80%',
       dialogClass: "h5p-dialog-no-close",
       appendTo: '.h5p-course-presentation',
@@ -814,7 +817,7 @@ H5PEditor.CoursePresentation.prototype.makeElementDraggable = function ($element
 
 /**
  * Collect functions to execute once the tree is complete.
- * 
+ *
  * @param {function} ready
  * @returns {undefined}
  */
