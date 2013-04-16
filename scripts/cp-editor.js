@@ -269,7 +269,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   this.keywordsDNS = new H5P.DragNSort(this.cp.$keywords);
 
   this.keywordsDNS.startMovingCallback = function (event) {
-    that.keywordStartMoving(event);
+    return that.keywordStartMoving(event);
   };
 
   this.keywordsDNS.moveCallback = function (x, y) {
@@ -344,26 +344,26 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
  */
 H5PEditor.CoursePresentation.prototype.keywordStartMoving = function (event) {
   // Make sure we're moving the keywords that belongs to this slide.
-  that.keywordsDNS.$parent = that.keywordsDNS.$element.parent().parent();
-  if (!that.keywordsDNS.$parent.hasClass('h5p-current')) {
+  this.keywordsDNS.$parent = this.keywordsDNS.$element.parent().parent();
+  if (!this.keywordsDNS.$parent.hasClass('h5p-current')) {
     // Element is a sub keyword.
-    if (!that.keywordsDNS.$parent.parent().parent().hasClass('h5p-current')) {
+    if (!this.keywordsDNS.$parent.parent().parent().hasClass('h5p-current')) {
       return false;
     }
   }
   else {
-    delete that.keywordsDNS.$parent; // Remove since we're not a sub keyword.
+    delete this.keywordsDNS.$parent; // Remove since we're not a sub keyword.
   }
 
-  if (that.keywordsDNS.$element.hasClass('h5p-new-keyword')) {
+  if (this.keywordsDNS.$element.hasClass('h5p-new-keyword')) {
     // Adjust new keywords to mouse pos.
-    var height = that.keywordsDNS.$element.height() / 2;
-    that.keywordsDNS.dnd.adjust.x += height;
-    that.keywordsDNS.dnd.adjust.y += that.keywordsDNS.$element.offset().top - event.pageY + (height * 1.75);
-    that.keywordsDNS.$element.removeClass('h5p-new-keyword');
+    var height = this.keywordsDNS.$element.height() / 2;
+    this.keywordsDNS.dnd.adjust.x += height;
+    this.keywordsDNS.dnd.adjust.y += this.keywordsDNS.$element.offset().top - event.pageY + (height * 1.75);
+    this.keywordsDNS.$element.removeClass('h5p-new-keyword');
   }
 
-  that.keywordsDNS.dnd.scrollTop = that.cp.$keywords.scrollTop() - parseInt(that.cp.$keywords.css('marginTop'));
+  this.keywordsDNS.dnd.scrollTop = this.cp.$keywords.scrollTop() - parseInt(this.cp.$keywords.css('marginTop'));
   return true;
 };
 
@@ -376,22 +376,22 @@ H5PEditor.CoursePresentation.prototype.keywordStartMoving = function (event) {
  */
 H5PEditor.CoursePresentation.prototype.keywordMove = function (x, y) {
   // Check if sub keyword should change parent.
-  if (that.keywordsDNS.$parent === undefined) {
+  if (this.keywordsDNS.$parent === undefined) {
     return;
   }
 
-  var fontSize = parseInt(that.cp.$wrapper.css('fontSize'));
+  var fontSize = parseInt(this.cp.$wrapper.css('fontSize'));
 
   // Jump up
-  var $prev = that.keywordsDNS.$parent.prev();
-  if ($prev.length && y < $prev.offset().top + ($prev.height() + that.keywordsDNS.marginAdjust + parseInt($prev.css('paddingBottom')) - (fontSize/2))) {
-    return that.jumpKeyword($prev, 1);
+  var $prev = this.keywordsDNS.$parent.prev();
+  if ($prev.length && y < $prev.offset().top + ($prev.height() + this.keywordsDNS.marginAdjust + parseInt($prev.css('paddingBottom')) - (fontSize/2))) {
+    return this.jumpKeyword($prev, 1);
   }
 
   // Jump down
-  var $next = that.keywordsDNS.$parent.next();
-  if ($next.length && y + that.keywordsDNS.$element.height() > $next.offset().top + fontSize) {
-    return that.jumpKeyword($next, -1);
+  var $next = this.keywordsDNS.$parent.next();
+  if ($next.length && y + this.keywordsDNS.$element.height() > $next.offset().top + fontSize) {
+    return this.jumpKeyword($next, -1);
   }
 };
 
