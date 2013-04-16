@@ -701,10 +701,18 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
  * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.processElement = function (slideIndex, element, elementInstance, $elementContainer) {
+  var that = this;
+  
   if (elementInstance.showSolutions === undefined) {
     this.initSolutionEditing(slideIndex, element, elementInstance, $elementContainer);
   }
   this.initLibraryEditing(slideIndex, element, elementInstance, $elementContainer);
+  
+  // Allow moving of element
+  $elementContainer.mousedown(function (event) {
+    that.dnb.dnd.press(H5P.jQuery(this), event.pageX, event.pageY);
+    return false;
+  });
 };
 
 /**
@@ -769,6 +777,10 @@ H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideInde
 H5PEditor.CoursePresentation.prototype.initLibraryEditing = function (slideIndex, element, elementInstance, $elementContainer) {
   var that = this;
   $elementContainer.click(function (event) {
+    if (that.dnb.dnd.moving) {
+      return;
+    }
+    
     var $library = H5P.jQuery('<div title="Edit content"></div>');
     if (!that.passReadies) {
       that.readies = [];
@@ -796,33 +808,6 @@ H5PEditor.CoursePresentation.prototype.initLibraryEditing = function (slideIndex
         }
       ]
     });
-  });
-  // this.makeElementDraggable($elementContainer, element);
-};
-
-/**
- * TODO: Document and add comments inside function.
- * 
- * @param {type} $element
- * @param {type} elementParams
- * @returns {undefined}
- */
-H5PEditor.CoursePresentation.prototype.makeElementDraggable = function ($element, elementParams) {
-  $element.draggable({
-    // TODO: Make sure the parent is correct
-    containment: "parent",
-    stop: function (event, ui) {
-      var pos = $element.position();
-      elementParams.x = pos.left / $element.parent().width();
-      elementParams.y = pos.top / $element.parent().height();
-    }
-  })
-  .resizable({
-    containment: "parent",
-    stop: function (event, ui) {
-      elementParams.width = $element.width() / $element.parent().width();
-      elementParams.y = $element.height() / $element.parent().height();
-    }
   });
 };
 
