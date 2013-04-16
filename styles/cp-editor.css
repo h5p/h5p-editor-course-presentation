@@ -93,6 +93,25 @@
   border: 1px dashed #a0a0a0;
 }
 
+.h5p-course-presentation .h5p-element-remove {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  top: 0.25em;
+  right: 0.25em;
+  cursor: pointer;
+  padding: 0.05em;
+  background: #fff no-repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QQJDCwQx2DOtQAAARBJREFUKM91kE9Kw2AUxH+TGzQLqWbtBRqybEr3Wih4B//coRvBEwh6CUEo3YemS0kv4LqgIvEI4+L7klaob/V4b968mdF6MLoFTg1Pk7b54EjVaT403Al/JoYhsBBe1mmeHQFnwFKwAJ0lsp+BN1BhqNYHR7GvgCJgeJRt6jTPjCuh87i4MCBY2S4kvQPTsm12sh1eD/IM8RrZNmBA40DgedludwD9QTganSC9AOM42oCvynb71WGSPw4lAjMEnijsENJLCgb/kcS8bJu9pDrNM9sVCqYVTQMroBDsTa8HoyGwjMz9ovtqu5K69HyZADf7nN2DAUKvaZRVYF0n4G/gwXjWRXdYk59mZzPDvge3v046iYmbcYsaAAAAAElFTkSuQmCC);
+  background-size: 0.75em 0.75em;
+  background-position:  0.25em 0.25em;
+  opacity: 0.5;
+  filter: alpha(opacity = 50);
+}
+.h5p-course-presentation .h5p-element-remove:hover {
+  opacity: 0.9;
+  filter: alpha(opacity = 90);
+}
+
 .h5p-course-presentation .h5p-dialog-no-close .ui-dialog-titlebar-close {
   display: none;
 }
