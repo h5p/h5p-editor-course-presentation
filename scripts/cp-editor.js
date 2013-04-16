@@ -108,11 +108,11 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
  * @param {Object} params
  * @returns {unresolved}
  */
-H5PEditor.CoursePresentation.prototype.addElement = function (library, params) {
+H5PEditor.CoursePresentation.prototype.addElement = function (library) {
   var elParams = {
     action: {
       library: library,
-      params: params  
+      params: {}
     },
     x: 0,
     y: 0,
@@ -190,19 +190,28 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       id: 'text',
       title: H5PEditor.t('insertElement', {':type': 'text'}), 
       createElement: function () {
-        return that.addElement('H5P.Text 1.0', {
-          text: 'Hello text!'
-        });
+        return that.addElement('H5P.Text 1.0');
       }
     },
     {
       id: 'image',
       title: H5PEditor.t('insertElement', {':type': 'image'}),
       createElement: function () {
-        // TODO: Change src?
-        return that.addElement('H5P.Image 1.0', {
-          file: 'sample-image.png'
-        });
+        return that.addElement('H5P.Image 1.0');
+      }
+    },
+    {
+      id: 'audio',
+      title: H5PEditor.t('insertElement', {':type': 'audio'}),
+      createElement: function () {
+        return that.addElement('H5P.Audio 1.0');
+      }
+    },
+    {
+      id: 'video',
+      title: H5PEditor.t('insertElement', {':type': 'video'}),
+      createElement: function () {
+        return that.addElement('H5P.Video 1.0');
       }
     }
   ], this.cp.$current);
