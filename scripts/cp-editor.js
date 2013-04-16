@@ -183,6 +183,8 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
  * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
+  var that = this;
+  
   this.dnb = new H5P.DragNBar([
     {
       id: 'text',
