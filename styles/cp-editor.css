@@ -88,45 +88,9 @@
 .h5p-course-presentation .slideination {
   height: 9.09%;
 }
-.h5p-course-presentation .h5p-elements-bar {
-  height: 9.09%;
-  background: #f7f0f9;
-  overflow: hidden;
-}
-.h5p-course-presentation .h5p-elements-bar ul {
-  list-style: none;
-  float: right;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-.h5p-course-presentation .h5p-elements-bar ul:first-child {
-  float: left;
-}
-.h5p-course-presentation .h5p-elements-bar li {
-  float: left;
-  margin: 0;
-  padding: 0;
-  border-left: 1px solid #f7f0f9;
-  height: 100%;
-}
-.h5p-course-presentation .h5p-elements-bar ul:first-child li:first-child {
-  border-left: 0;
-}
-.h5p-course-presentation .h5p-elements-bar a {
-  height: 100%;
-  display: block;
-  padding: 10px;
-  color: #000;
-  background: #f0e7f3;
-}
-.h5p-course-presentation .h5p-elements-bar a:hover {
-  text-decoration: none;
-  background: #e7dcea;
-}
+
 .h5p-course-presentation .h5p-element {
-  border: 1px solid #999999;
-  margin: -1px 0 0 -1px;
+  border: 1px dashed #a0a0a0;
 }
 
 .h5p-course-presentation .h5p-dialog-no-close .ui-dialog-titlebar-close {
@@ -141,4 +105,42 @@
 .h5p-course-presentation .ui-dialog-buttonpane {
   border: none;
   margin-top: 0;
+}
+
+.h5p-dragnbar {
+  height: 9.09%;
+  background: #f7f0f9;
+  overflow: hidden;
+}
+.h5p-dragnbar-ul {
+  list-style: none;
+  float: right;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.h5p-dragnbar-li {
+  float: left;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid #f7f0f9;
+  height: 100%;
+}
+.h5p-dragnbar-a {
+  height: 100%;
+  display: block;
+  width: 1em;
+  padding: 0.625em;
+  color: #000;
+  background: #f0e7f3;
+}
+.h5p-dragnbar-a:hover {
+  text-decoration: none;
+  background: #e7dcea;
+}
+.h5p-dragnbar-left {
+  float: left;
+}
+.h5p-dragnbar-left > .h5p-dragnbar-li:first-child {
+  border-left: 0;
 }

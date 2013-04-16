@@ -23,6 +23,11 @@
       "minorVersion": 0
     },
     {
+      "machineName": "H5P.DragNBar",
+      "majorVersion": 1,
+      "minorVersion": 0
+    },
+    {
       "machineName": "jQuery.ui",
       "majorVersion": 1,
       "minorVersion": 10
