@@ -728,11 +728,10 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     stop: function () {
       element.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100) / that.cp.slideWidthRatio;
       element.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);
+      that.resizing = false;
     }
   }).children('.ui-resizable-handle').mousedown(function () {
     that.resizing = true;
-  }).mouseup(function () {
-    that.resizing = false;
   });
   
   
