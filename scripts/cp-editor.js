@@ -214,6 +214,13 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       createElement: function () {
         return that.addElement('H5P.Video 1.0');
       }
+    },
+    {
+      id: 'blanks',
+      title: H5PEditor.t('insertElement', {':type': 'blanks'}),
+      createElement: function () {
+        return that.addElement('H5P.Blanks 1.0');
+      }
     }
   ], this.cp.$current);
   
