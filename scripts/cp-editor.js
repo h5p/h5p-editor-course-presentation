@@ -178,6 +178,20 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   };
 };
 
+H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
+  var that = this;
+  
+  var id = library.split(' ')[0].split('.')[1].toLowerCase();
+  
+  return {
+    id: id,
+    title: H5PEditor.t('insertElement', {':type': id}), 
+    createElement: function () {
+      return that.addElement(library);
+    }
+  };
+};
+
 /**
  * Initialize the drag and drop menu bar.
  * 
@@ -186,43 +200,13 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   var that = this;
   
-  this.dnb = new H5P.DragNBar([
-    {
-      id: 'text',
-      title: H5PEditor.t('insertElement', {':type': 'text'}), 
-      createElement: function () {
-        return that.addElement('H5P.Text 1.0');
-      }
-    },
-    {
-      id: 'image',
-      title: H5PEditor.t('insertElement', {':type': 'image'}),
-      createElement: function () {
-        return that.addElement('H5P.Image 1.0');
-      }
-    },
-    {
-      id: 'audio',
-      title: H5PEditor.t('insertElement', {':type': 'audio'}),
-      createElement: function () {
-        return that.addElement('H5P.Audio 1.0');
-      }
-    },
-    {
-      id: 'video',
-      title: H5PEditor.t('insertElement', {':type': 'video'}),
-      createElement: function () {
-        return that.addElement('H5P.Video 1.0');
-      }
-    },
-    {
-      id: 'blanks',
-      title: H5PEditor.t('insertElement', {':type': 'blanks'}),
-      createElement: function () {
-        return that.addElement('H5P.Blanks 1.0');
-      }
-    }
-  ], this.cp.$current);
+  var buttons = [];
+  var libraries = this.field.field.fields[0].field.fields[0].options;
+  for (var i = 0; i < libraries.length; i++) {
+    buttons.push(that.addDNBButton(libraries[i]));
+  }
+  
+  this.dnb = new H5P.DragNBar(buttons, this.cp.$current);
   
   // Update params when the element is dropped.
   this.dnb.stopMovingCallback = function (x, y) {
