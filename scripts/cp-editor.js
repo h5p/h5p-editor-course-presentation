@@ -36,6 +36,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.parent = parent;
   this.field = field;
   this.params = params;
+  this.resizing = false;
 
   this.passReadies = true;
   parent.ready(function () {
@@ -711,9 +712,29 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
   
   // Allow moving of element
   $wrapper.mousedown(function (event) {
+    if (that.resizing) {
+      return; // Disable when resizing
+    }
     that.dnb.dnd.press(H5P.jQuery(this), event.pageX, event.pageY);
     return false;
   });
+  
+  // Allow resize
+  var minSize = this.cp.fontSize * 2;
+  $wrapper.resizable({
+    minWidth: minSize,
+    minHeight: minSize,
+    containment: 'parent',
+    stop: function () {
+      element.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100) / that.cp.slideWidthRatio;
+      element.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);
+    }
+  }).children('.ui-resizable-handle').mousedown(function () {
+    that.resizing = true;
+  }).mouseup(function () {
+    that.resizing = false;
+  });
+  
   
   // Remove button
   H5PEditor.$('<div class="h5p-element-remove" title="' + H5PEditor.t('removeElement') + '"></div>').appendTo($wrapper).click(function () {

@@ -84,6 +84,7 @@
 }
 .h5p-course-presentation .h5p-moving {
   position: absolute;
+  cursor: move;
 }
 .h5p-course-presentation .slideination {
   height: 9.09%;
@@ -124,6 +125,11 @@
 .h5p-course-presentation .ui-dialog-buttonpane {
   border: none;
   margin-top: 0;
+}
+
+.h5p-course-presentation .ui-resizable-se {
+  bottom: -5px;
+  right: -5px;
 }
 
 .h5p-dragnbar {
