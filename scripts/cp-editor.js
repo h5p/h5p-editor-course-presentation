@@ -698,7 +698,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     if (that.dnb.dnd.moving) {
       return; // Disable when moving
     }
-    that.editElement(element, $wrapper);
+    that.editElement(H5P.cloneObject(element, true), $wrapper);
   });
   
   // Allow moving of element
@@ -756,15 +756,14 @@ H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper
   }
 
   H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $library, that);
-
-  // TODO: Refactor this readies stuff. Libraries like cp shouldn't have to worry about such things.
+    
   if (!that.passReadies) {
     for (var i = 0; i < that.readies.length; i++) {
       that.readies[i]();
     }
     delete that.readies;
   }
-    
+
   $library.dialog({
     modal: true,
     draggable: false,
@@ -774,7 +773,13 @@ H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper
     appendTo: '.h5p-course-presentation',
     buttons: [
       {
-        text: "OK",
+        text: H5PEditor.t('cancel'),
+        click: function () {
+          $library.dialog('close').remove();
+        }
+      },
+      {
+        text: H5PEditor.t('updateElement'),
         click: function () {
           var index = $wrapper.index();
           var elements = that.params[that.cp.$current.index()].elements;
@@ -792,7 +797,7 @@ H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper
           elements.splice(index, 1);
           elements.push(element);
 
-          H5P.jQuery(this).dialog("close");
+          $library.dialog('close').remove();
         }
       }
     ]
@@ -829,3 +834,5 @@ H5PEditor.l10n.deleteKeyword = 'Remove this keyword';
 H5PEditor.l10n.removeKeywords = 'Are you sure you wish to remove the keywords widget? This action cannot be undone.';
 H5PEditor.l10n.removeElement = 'Remove this element';
 H5PEditor.l10n.confirmRemoveElement = 'Are you sure you wish to remove this element?';
+H5PEditor.l10n.cancel = 'Cancel';
+H5PEditor.l10n.updateElement = 'Update element';
