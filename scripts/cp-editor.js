@@ -756,7 +756,8 @@ H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper
   }
 
   H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $library, that);
-    
+
+  // TODO: Refactor this readies stuff. Libraries like cp shouldn't have to worry about such things.
   if (!that.passReadies) {
     for (var i = 0; i < that.readies.length; i++) {
       that.readies[i]();
