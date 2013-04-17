@@ -16,13 +16,13 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     params = [{
       elements: [{
           action: {
-            library: 'H5P.cpText 1.0',
+            library: 'H5P.Text 1.0',
             params: {
               text: 'New slide'
             }
           },
-          height: 60,
-          width: 200,
+          height: 20,
+          width: 30,
           x: 0,
           y: 0
       }],
@@ -468,13 +468,13 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
     slideParams = {
       elements: [{
           action: {
-            library: 'H5P.cpText 1.0',
+            library: 'H5P.Text 1.0',
             params: {
               text: 'New slide'
             }
           },
-          height: 60,
-          width: 200,
+          height: 20,
+          width: 30,
           x: 0,
           y: 0
       }],
