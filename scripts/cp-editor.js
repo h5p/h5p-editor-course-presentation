@@ -119,7 +119,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
     width: 30,
     height: 20
   };
-  
+
   this.params[this.cp.$current.index()].elements.push(elParams);
   return this.cp.addElement(elParams);
 };
@@ -692,30 +692,31 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
 };
 
 /**
- * TODO: Document and add comments inside function.
+ * TODO:
  * 
- * @param {type} slideIndex
  * @param {type} element
- * @param {type} elementInstance
- * @param {type} $elementContainer
+ * @param {type} $wrapper
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.processElement = function (slideIndex, element, elementInstance, $elementContainer) {
+H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrapper) {
   var that = this;
-  
-//  if (elementInstance.showSolutions === undefined) {
-//    this.initSolutionEditing(slideIndex, element, elementInstance, $elementContainer);
-//  }
-  this.initLibraryEditing(slideIndex, element, elementInstance, $elementContainer);
+
+  // Edit when double clicking
+  $wrapper.dblclick(function (event) {
+    if (that.dnb.dnd.moving) {
+      return; // Disable when moving
+    }
+    that.editElement(element, $wrapper);
+  });
   
   // Allow moving of element
-  $elementContainer.mousedown(function (event) {
+  $wrapper.mousedown(function (event) {
     that.dnb.dnd.press(H5P.jQuery(this), event.pageX, event.pageY);
     return false;
   });
   
   // Remove button
-  H5PEditor.$('<div class="h5p-element-remove" title="' + H5PEditor.t('removeElement') + '"></div>').appendTo($elementContainer).click(function () {
+  H5PEditor.$('<div class="h5p-element-remove" title="' + H5PEditor.t('removeElement') + '"></div>').appendTo($wrapper).click(function () {
     if (!confirm(H5PEditor.t('confirmRemoveElement'))) {
       return;
     }
@@ -728,102 +729,61 @@ H5PEditor.CoursePresentation.prototype.processElement = function (slideIndex, el
 };
 
 /**
- * TODO: Document and add comments inside function.
+ * TODO:
  * 
- * @param {type} slideIndex
  * @param {type} element
- * @param {type} elementInstance
- * @param {type} $elementContainer
+ * @param {type} $wrapper
  * @returns {undefined}
  */
-//H5PEditor.CoursePresentation.prototype.initSolutionEditing = function (slideIndex, element, elementInstance, $elementContainer) {
-//  var extraClass = element.solution ? '' : ' h5p-no-solution';
-//  var $solutionButton = H5P.jQuery('<a href="#" class="h5p-element-solution' + extraClass + '">?</a>')
-//  .click(function (event) {
-//    event.stopPropagation();
-//    var $solution = H5P.jQuery('<div title="Edit solution"></div>');
-//    var htmlInstance = new H5PEditor.Html($solution, {"type": "text", "widget": "html"}, element.solution, function (value) {
-//      element.solution = value;
-//    });
-//    htmlInstance.appendTo($solution);
-//    $solution.dialog({
-//      modal: true,
-//      draggable: false,
-//      resizable: false,
-//      dialogClass: "h5p-dialog-no-close",
-//      appendTo: '.h5p-course-presentation',
-//      buttons: [
-//        {
-//          text: "Save",
-//          click: function () {
-//            H5P.jQuery(this).dialog("close"); 
-//           var val = htmlInstance.validate();
-//            if (val !== false) {
-//              element.solution = val;
-//              $solutionButton.removeClass('h5p-no-solution');
-//            }
-//            else {
-//              element.solution = '';
-//              $solutionButton.addClass('h5p-no-solution');
-//            }
-//            htmlInstance.ckeditor.destroy();
-//          }
-//        }
-//      ]
-//    });
-//
-//    return false;
-//  });
-//  $elementContainer.append($solutionButton);
-//};
-
-/**
- * TODO: Document and add comments inside function.
- * 
- * @param {type} slideIndex
- * @param {type} element
- * @param {type} elementInstance
- * @param {type} $elementContainer
- * @returns {undefined}
- */
-H5PEditor.CoursePresentation.prototype.initLibraryEditing = function (slideIndex, element, elementInstance, $elementContainer) {
+H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper) {
   var that = this;
-  $elementContainer.dblclick(function (event) {
-    if (that.dnb.dnd.moving) {
-      return;
+    
+  var $library = H5P.jQuery('<div title="Edit content"></div>');
+    
+  if (!that.passReadies) {
+    that.readies = [];
+  }
+
+  H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $library, that);
+    
+  if (!that.passReadies) {
+    for (var i = 0; i < that.readies.length; i++) {
+      that.readies[i]();
     }
+    delete that.readies;
+  }
     
-    var $library = H5P.jQuery('<div title="Edit content"></div>');
-    
-    if (!that.passReadies) {
-      that.readies = [];
-    }
-    
-    H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $library, that);
-    
-    if (!that.passReadies) {
-      for (var i = 0; i < that.readies.length; i++) {
-        that.readies[i]();
-      }
-      delete that.readies;
-    }
-    
-    $library.dialog({
-      modal: true,
-      draggable: false,
-      resizable: false,
-      width: '80%',
-      dialogClass: "h5p-dialog-no-close",
-      appendTo: '.h5p-course-presentation',
-      buttons: [
-        {
-          text: "OK",
-          click: function () {
-            H5P.jQuery(this).dialog("close");
+  $library.dialog({
+    modal: true,
+    draggable: false,
+    resizable: false,
+    width: '80%',
+    dialogClass: "h5p-dialog-no-close",
+    appendTo: '.h5p-course-presentation',
+    buttons: [
+      {
+        text: "OK",
+        click: function () {
+          var index = $wrapper.index();
+          var elements = that.params[that.cp.$current.index()].elements;
+          
+          // Update visuals
+          $wrapper.remove();
+          that.cp.addElement(element);
+           
+          // Validate children (will remove tmp flags on files)
+          for (var i = 0; i < that.children.length; i++) {
+            that.children[i].validate();
           }
+            
+          // Update params
+          elements.splice(index, 1);
+          elements.push(element);
+
+          H5P.jQuery(this).dialog("close");
         }
-      ]
-    });
+      }
+    ]
   });
 };
 
