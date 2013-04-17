@@ -213,6 +213,9 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
     params.x = x;
     params.y = y;
+    if (that.dnb.newElement) {
+      that.dnb.dnd.$element.dblclick();
+    }
   };
   
   this.$bar = H5PEditor.$('<div class="h5p-dragnbar"></div>').insertBefore(this.cp.$presentationWrapper);
@@ -697,9 +700,6 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
 
   // Edit when double clicking
   $wrapper.dblclick(function (event) {
-    if (that.dnb.dnd.moving) {
-      return; // Disable when moving
-    }
     that.editElement(H5P.cloneObject(element, true), $wrapper);
   });
   
