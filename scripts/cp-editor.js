@@ -165,15 +165,17 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     return false;
   });
 
-  if (this.cp.$keywordsWrapper !== undefined) {
+  if (this.cp.keywordsWidth) {
     // Bind keyword interactions.
     this.initKeywordInteractions();
   }
 
   this.cp.resize = function (fullscreen) {
     // Reset drag and drop adjustments.
-    that.keywordsDNS.dnd.containerOffset = undefined;
-    that.keywordsDNS.marginAdjust === undefined;
+    if (that.keywordsDNS !== undefined) {
+      delete that.keywordsDNS.dnd.containerOffset;
+      delete that.keywordsDNS.marginAdjust;
+    }
     H5P.CoursePresentation.prototype.resize.apply(that.cp, [fullscreen]);
   };
 };
@@ -545,7 +547,7 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var $remove = this.cp.$current.add(this.cp.$currentSlideinationSlide).add(this.cp.$currentKeyword);
 
   // Confirm and change slide.
-  if (!confirm(H5PEditor.t('confirmDeleteSlide'))) { // TODO: Translate
+  if (!confirm(H5PEditor.t('confirmDeleteSlide'))) {
     return false;
   }
 
@@ -688,6 +690,7 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
 
   $button.parent().add(this.cp.$keywordsWrapper).remove();
   this.cp.keywordsWidth = 0;
+  this.cp.$slidesWrapper.removeClass('h5p-keyword-slides');
   for (var i = 0; i < this.params.length; i++) {
     if (this.params[i].keywords !== undefined) {
       delete this.params[i].keywords;
@@ -841,6 +844,7 @@ H5PEditor.l10n.insertElement = 'Click and drag to place :type';
 H5PEditor.l10n.newKeyword = 'New keyword';
 H5PEditor.l10n.deleteKeyword = 'Remove this keyword';
 H5PEditor.l10n.removeKeywords = 'Are you sure you wish to remove the keywords widget? This action cannot be undone.';
+H5PEditor.l10n.disableKeywords = 'Remove the keywords widget.';
 H5PEditor.l10n.removeElement = 'Remove this element';
 H5PEditor.l10n.confirmRemoveElement = 'Are you sure you wish to remove this element?';
 H5PEditor.l10n.cancel = 'Cancel';
