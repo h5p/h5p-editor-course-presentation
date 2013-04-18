@@ -5,13 +5,19 @@
   height: 81.82%;
 }
 
+.h5p-course-presentation .h5p-slidecontrols, .h5p-course-presentation .h5p-keywordcontrols {
+  font-size: 0.75em;
+  box-shadow: 0 0 0.5em #b0b0b0;
+  border: 1px solid #bebebe;
+  border-top: 0;
+  text-shadow: 0 0 1em #fff;
+}
+
 .h5p-course-presentation .h5p-slidecontrols {
   float: right;
-  font-size: 0.75em;
 }
 .h5p-course-presentation .h5p-keywordcontrols {
   float: left;
-  font-size: 0.75em;
 }
 .h5p-course-presentation .h5p-keywordcontrols-button, .h5p-course-presentation .h5p-slidecontrols-button {
   display: block;
@@ -19,10 +25,10 @@
   background: #e0f0e0 no-repeat 0.5833em 1.0833em;
   background-size: 0.667em 0.667em;
   padding: 0.5em;
-  color: #000;
-  border-left: 0.0625em solid #f0fff0;
+  color: #292929;
   width: 0.833em;
   height: 1.5em;
+  border-left: 1px solid #bebebe;
 }
 .h5p-course-presentation .h5p-keywordcontrols-button {
   background-color: #ffe6e6;
