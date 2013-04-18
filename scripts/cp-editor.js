@@ -744,6 +744,9 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
       return;
     }
     
+    if (that.dnb.dnd.$coordinates !== undefined) {
+      that.dnb.dnd.$coordinates.remove();
+    }
     var $element = H5PEditor.$(this).parent();
     
     that.params[that.cp.$current.index()].elements.splice($element.index(), 1);
