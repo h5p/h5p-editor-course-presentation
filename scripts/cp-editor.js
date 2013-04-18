@@ -12,7 +12,7 @@ var H5PEditor = H5PEditor || {};
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   var that = this;
   if (params === undefined) {
-    // TODO: Remove slide content, only here for testing.
+    // TODO: Remove slide content, only here for testing. oooor is it?;)
     params = [{
       elements: [{
           action: {
@@ -494,8 +494,15 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   }
 
   // Add keywords
-  H5P.jQuery(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).find('span').click(function () {
-    that.editKeyword(H5PEditor.$(this));
+  H5P.jQuery(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).find('span').click(function (event) {
+    if (!that.keywordsDNS.moving) {
+      // Convert keywords into text areas when clicking.
+      that.editKeyword(H5PEditor.$(this));
+      event.stopPropagation();
+    }
+  }).mousedown(function (event) {
+    that.keywordsDNS.press(H5PEditor.$(this).parent(), event.pageX, event.pageY);
+    return false;
   });
 
   // Add to and update slideination.
