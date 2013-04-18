@@ -759,11 +759,11 @@ H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper
   var that = this;
     
   var $library = H5P.jQuery('<div title="Edit content"></div>');
-    
+
   if (!that.passReadies) {
     that.readies = [];
   }
-
+  
   H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $library, that);
     
   if (!that.passReadies) {
