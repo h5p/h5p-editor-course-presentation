@@ -747,8 +747,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
  */
 H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper) {
   var that = this;
-    
-  var $library = H5P.jQuery('<div title="Edit content"></div>');
+  
+  var $library = H5P.jQuery('<div title="Edit ' + element.action.library.split('.')[1].split(' ')[0] + '"></div>');
 
   if (!that.passReadies) {
     that.readies = [];
