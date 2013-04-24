@@ -31,7 +31,7 @@
   border-left: 1px solid #bebebe;
 }
 .h5p-course-presentation .h5p-keywordcontrols-button {
-  background-color: #ffe6e6;
+  background-color: rgb(246, 222, 233);
 }
 .h5p-course-presentation .h5p-keywordcontrols-button:first-child, .h5p-course-presentation .h5p-slidecontrols-button:first-child {
   border-left: 0;
@@ -41,21 +41,24 @@
   background-color: #d0dfd0;
 }
 .h5p-course-presentation .h5p-keywordcontrols-button:hover {
-  background-color: #edd9d9;
+  background-color: #edd1de;
 }
 .h5p-course-presentation .h5p-clone-slide {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QQFBSMgIyZm4QAAADtJREFUGNNj/P//PwMMMDIyIjhQwMRAABBUwIJkrCQxJnxBV8DIwMAAM0EWJvj///8n2BQwIClgJNqRAIXMDxh1bmE1AAAAAElFTkSuQmCC);
 }
 
-.h5p-course-presentation .h5p-keywords-wrapper > ol {
+.h5p-course-presentation .h5p-keywords-ol {
   position: relative;
+}
+.h5p-course-presentation .h5p-placeholder {
+  list-style: none;
 }
 .h5p-course-presentation .h5p-keywords-wrapper textarea {
   resize: none;
   overflow: hidden;
   font-size: 1em;
   padding-right: 1.833em;
-  width: 81%;
+  width: 7.6em;
 }
 .h5p-course-presentation .h5p-keywords-wrapper span {
   cursor: default;
@@ -66,9 +69,9 @@
 .h5p-course-presentation .h5p-keywords-wrapper .h5p-current span:hover {
   color: #000;
 }
-.h5p-course-presentation .h5p-keywords-wrapper li li li textarea {
+.h5p-course-presentation .h5p-sub-keyword textarea {
   padding-right: 1.833em;
-  width: 79%;
+  width: 7.7em;
 }
 .h5p-course-presentation .h5p-empty-keyword > span {
   font-style: italic;
@@ -76,7 +79,7 @@
 .h5p-course-presentation .h5p-delete-keyword {
   position: absolute;
   margin: 0.667em;
-  right: 0.833em;
+  right: 0;
   width: 1em;
   height: 1em;
   background: no-repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QQJDCwQx2DOtQAAARBJREFUKM91kE9Kw2AUxH+TGzQLqWbtBRqybEr3Wih4B//coRvBEwh6CUEo3YemS0kv4LqgIvEI4+L7klaob/V4b968mdF6MLoFTg1Pk7b54EjVaT403Al/JoYhsBBe1mmeHQFnwFKwAJ0lsp+BN1BhqNYHR7GvgCJgeJRt6jTPjCuh87i4MCBY2S4kvQPTsm12sh1eD/IM8RrZNmBA40DgedludwD9QTganSC9AOM42oCvynb71WGSPw4lAjMEnijsENJLCgb/kcS8bJu9pDrNM9sVCqYVTQMroBDsTa8HoyGwjMz9ovtqu5K69HyZADf7nN2DAUKvaZRVYF0n4G/gwXjWRXdYk59mZzPDvge3v046iYmbcYsaAAAAAElFTkSuQmCC);
@@ -102,8 +105,8 @@
 
 .h5p-course-presentation .h5p-element-remove {
   position: absolute;
-  width: 1em;
-  height: 1em;
+  width: 0.9em;
+  height: 0.9em;
   top: 0.25em;
   right: 0.25em;
   cursor: pointer;
@@ -136,6 +139,15 @@
 .h5p-course-presentation .ui-resizable-se {
   bottom: -5px;
   right: -5px;
+}
+
+.h5p-course-presentation .h5p-keywords-tip {
+  width: 12.3em;
+  position: absolute;
+  top: 0;
+  padding: 1em;
+  color: #979797;
+  font-size: 0.875em;
 }
 
 .h5p-dragnbar {

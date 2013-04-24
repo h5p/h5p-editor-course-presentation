@@ -14,21 +14,8 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   if (params === undefined) {
     // TODO: Remove slide content, only here for testing. oooor is it?;)
     params = [{
-      elements: [{
-          action: {
-            library: 'H5P.Text 1.0',
-            params: {
-              text: 'New slide'
-            }
-          },
-          height: 20,
-          width: 30,
-          x: 0,
-          y: 0
-      }],
-      keywords: [{
-          main: 'New keyword'
-      }]
+      elements: [],
+      keywords: []
     }];
     setValue(field, params);
   }
@@ -253,6 +240,11 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
 H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   var that = this;
   
+  if (!this.cp.$currentKeyword.next().length && !this.cp.$currentKeyword.children().children().length) {
+    // No keywords, insert help text
+    this.$keywordsTip = H5PEditor.$('<div class="h5p-keywords-tip">' + H5PEditor.t('keywordsTip') + '</div>').appendTo(this.cp.$keywordsWrapper);
+  }
+  
   // Keywords removal button.
   H5PEditor.$('<div class="h5p-keywordcontrols"><a href="#" title="' + H5PEditor.t('disableKeywords') + '" class="h5p-keywordcontrols-button">x</a></div>').insertAfter(this.cp.$presentationWrapper).children().click(function () {
     that.removeKeywords(H5PEditor.$(this));
@@ -260,7 +252,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   });
   
   // Add our own menu to the drag and drop menu bar.
-  H5PEditor.$('<ul class="h5p-dragnbar-ul h5p-dragnbar-left"><li class="h5p-dragnbar-li"><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'main keyword'}) + '" class="h5p-dragnbar-a h5p-dragnbar-mainkeyword-button"></a></li><li class="h5p-dragnbar-li"><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'sub keyword'}) + '" class="h5p-dragnbar-a h5p-dragnbar-subkeyword-button"></a></li></ul>').prependTo(this.$bar);
+  that.$keywordsDNB = H5PEditor.$('<ul class="h5p-dragnbar-ul h5p-dragnbar-left"><li class="h5p-dragnbar-li"><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'main keyword'}) + '" class="h5p-dragnbar-a h5p-dragnbar-mainkeyword-button"></a></li><li class="h5p-dragnbar-li"><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'sub keyword'}) + '" class="h5p-dragnbar-a h5p-dragnbar-subkeyword-button"></a></li></ul>').prependTo(this.$bar);
 
   // We use this awesome library to make things easier.
   this.keywordsDNS = new H5P.DragNSort(this.cp.$keywords);
@@ -289,12 +281,17 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     that.keywordsDNS.press(H5PEditor.$(this).parent(), event.pageX, event.pageY);
     return false;
   };
-  var newKeyword = function ($li, newKeywordString, x, y) {
+  var newKeyword = function ($li, newKeywordString, classes, x, y) {
+    if (that.$keywordsTip !== undefined) {
+      that.$keywordsTip.remove();
+      delete that.$keywordsTip;
+    }
+    
     var $ol = $li.children('ol');
     if (!$ol.length) {
-      $ol = H5PEditor.$('<ol></ol>').appendTo($li);
+      $ol = H5PEditor.$('<ol class="h5p-keywords-ol"></ol>').appendTo($li);
     }
-    var $element = H5PEditor.$('<li class="h5p-new-keyword h5p-empty-keyword"><span>' + newKeywordString + '</span></li>').appendTo($ol).children('span').click(keywordClick).mousedown(keywordMousedown).end();
+    var $element = H5PEditor.$('<li class="h5p-keywords-li h5p-new-keyword h5p-empty-keyword ' + classes + '"><span>' + newKeywordString + '</span></li>').appendTo($ol).children('span').click(keywordClick).mousedown(keywordMousedown).end();
 
     that.keywordsDNS.press($element, x, y);
     return false;
@@ -311,7 +308,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     // Add to params
     that.params[that.cp.$current.index()].keywords.push({main: newKeywordString});
 
-    return newKeyword(that.cp.$keywords.children('.h5p-current'), newKeywordString, event.pageX, event.pageY);
+    return newKeyword(that.cp.$keywords.children('.h5p-current'), newKeywordString, 'h5p-main-keyword', event.pageX, event.pageY);
   }).next().mousedown(function (event) {
     // Create new sub keyword.
     var newKeywordString = H5PEditor.t('newKeyword');
@@ -329,7 +326,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       keywords.subs.push(newKeywordString);
     }
 
-    return newKeyword(that.cp.$keywords.children('.h5p-current').children().children(':last'), newKeywordString, event.pageX, event.pageY);
+    return newKeyword(that.cp.$keywords.children('.h5p-current').children().children(':last'), newKeywordString, 'h5p-sub-keyword', event.pageX, event.pageY);
   });
 };
 
@@ -422,7 +419,7 @@ H5PEditor.CoursePresentation.prototype.swapKeywords = function (direction) {
 H5PEditor.CoursePresentation.prototype.jumpKeyword = function ($target, direction) {
   var $ol = $target.children('ol');
   if (!$ol.length) {
-    $ol = H5PEditor.$('<ol></ol>').appendTo($target);
+    $ol = H5PEditor.$('<ol class="h5p-keywords-ol"></ol>').appendTo($target);
   }
 
   // Remove from params
@@ -469,23 +466,9 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   if (slideParams === undefined) {
     // Set new slide params
-    // TODO: Remove elements and keywords, only here for testing.
     slideParams = {
-      elements: [{
-          action: {
-            library: 'H5P.Text 1.0',
-            params: {
-              text: 'New slide'
-            }
-          },
-          height: 20,
-          width: 30,
-          x: 0,
-          y: 0
-      }],
-      keywords: [{
-          main: 'New keyword'
-      }]
+      elements: [],
+      keywords: []
     };
   }
 
@@ -688,6 +671,7 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
     return false;
   }
 
+  this.$keywordsDNB.remove();
   $button.parent().add(this.cp.$keywordsWrapper).remove();
   this.cp.keywordsWidth = 0;
   this.cp.$slidesWrapper.removeClass('h5p-keyword-slides');
@@ -779,6 +763,8 @@ H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper
     delete that.readies;
   }
 
+  $library.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
+
   $library.dialog({
     modal: true,
     draggable: false,
@@ -790,6 +776,8 @@ H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper
       {
         text: H5PEditor.t('cancel'),
         click: function () {
+          H5PEditor.removeChildren(that.children);
+          delete that.children;
           $library.dialog('close').remove();
         }
       },
@@ -812,6 +800,8 @@ H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper
           elements.splice(index, 1);
           elements.push(element);
 
+          H5PEditor.removeChildren(that.children);
+          delete that.children;
           $library.dialog('close').remove();
         }
       }
@@ -846,9 +836,10 @@ H5PEditor.l10n.newSlide = 'Add new slide';
 H5PEditor.l10n.insertElement = 'Click and drag to place :type';
 H5PEditor.l10n.newKeyword = 'New keyword';
 H5PEditor.l10n.deleteKeyword = 'Remove this keyword';
-H5PEditor.l10n.removeKeywords = 'Are you sure you wish to remove the keywords widget? This action cannot be undone.';
-H5PEditor.l10n.disableKeywords = 'Remove the keywords widget.';
+H5PEditor.l10n.removeKeywords = 'Are you sure you wish to remove the keywords? This action cannot be undone.';
+H5PEditor.l10n.disableKeywords = 'Remove keywords';
 H5PEditor.l10n.removeElement = 'Remove this element';
 H5PEditor.l10n.confirmRemoveElement = 'Are you sure you wish to remove this element?';
 H5PEditor.l10n.cancel = 'Cancel';
 H5PEditor.l10n.updateElement = 'Update element';
+H5PEditor.l10n.keywordsTip = 'Drag in keywords using the two buttons above.';
