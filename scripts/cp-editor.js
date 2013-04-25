@@ -271,9 +271,8 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
 
   // Keyword events
   var keywordClick = function (event) {
-    if (!that.keywordsDNS.moving) {
-      // Convert keywords into text areas when clicking.
-      that.editKeyword(H5PEditor.$(this));
+    // Convert keywords into text areas when clicking.
+    if (!that.keywordsDNS.moving && that.editKeyword(H5PEditor.$(this)) !== false) {
       event.stopPropagation();
     }
   };
@@ -479,10 +478,11 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   }
 
   // Add keywords
-  H5P.jQuery(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).find('span').click(function (event) {
-    if (!that.keywordsDNS.moving) {
-      // Convert keywords into text areas when clicking.
-      that.editKeyword(H5PEditor.$(this));
+  H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function () {
+    that.cp.keywordClick(H5PEditor.$(this));
+  }).find('span').click(function (event) {
+    // Convert keywords into text areas when clicking.
+    if (!that.keywordsDNS.moving && that.editKeyword(H5PEditor.$(this)) !== false) {
       event.stopPropagation();
     }
   }).mousedown(function (event) {
@@ -599,7 +599,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   var main = $ancestor.hasClass('h5p-current');
 
   if (!main && !$ancestor.parent().parent().hasClass('h5p-current')) {
-    return;
+    return false;
   }
 
   var $delete = H5PEditor.$('<a href="#" class="h5p-delete-keyword" title="' + H5PEditor.t('deleteKeyword') + '"></a>');
