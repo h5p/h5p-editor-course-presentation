@@ -34,7 +34,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 
 /**
  * Finds localization fields and updates value as they change.
- * 
+ *
  * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.setLocalization = function () {
@@ -91,7 +91,7 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
 
 /**
  * Add an element to the current slide and params.
- * 
+ *
  * @param {String} library
  * @param {Object} params
  * @returns {unresolved}
@@ -130,7 +130,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     slides: this.params
   }, H5PEditor.contentId, this);
   this.cp.attach(this.$editor);
-  
+
   // Add drag and drop menu bar.
   that.initializeDNB();
 
@@ -169,12 +169,12 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
 H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
   var that = this;
-  
+
   var id = library.split(' ')[0].split('.')[1].toLowerCase();
-  
+
   return {
     id: id,
-    title: H5PEditor.t('insertElement', {':type': id}), 
+    title: H5PEditor.t('insertElement', {':type': id}),
     createElement: function () {
       return that.addElement(library);
     }
@@ -183,20 +183,20 @@ H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
 
 /**
  * Initialize the drag and drop menu bar.
- * 
+ *
  * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   var that = this;
-  
+
   var buttons = [];
   var libraries = this.field.field.fields[0].field.fields[0].options;
   for (var i = 0; i < libraries.length; i++) {
     buttons.push(that.addDNBButton(libraries[i]));
   }
-  
+
   this.dnb = new H5P.DragNBar(buttons, this.cp.$current);
-  
+
   // Update params when the element is dropped.
   this.dnb.stopMovingCallback = function (x, y) {
     var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
@@ -206,7 +206,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       that.dnb.dnd.$element.dblclick();
     }
   };
-  
+
   this.$bar = H5PEditor.$('<div class="h5p-dragnbar"></div>').insertBefore(this.cp.$presentationWrapper);
   this.dnb.attach(this.$bar);
 };
@@ -239,18 +239,18 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
  */
 H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   var that = this;
-  
+
   if (!this.cp.$currentKeyword.next().length && !this.cp.$currentKeyword.children().children().length) {
     // No keywords, insert help text
     this.$keywordsTip = H5PEditor.$('<div class="h5p-keywords-tip">' + H5PEditor.t('keywordsTip') + '</div>').appendTo(this.cp.$keywordsWrapper);
   }
-  
+
   // Keywords removal button.
   H5PEditor.$('<div class="h5p-keywordcontrols"><a href="#" title="' + H5PEditor.t('disableKeywords') + '" class="h5p-keywordcontrols-button">x</a></div>').insertAfter(this.cp.$presentationWrapper).children().click(function () {
     that.removeKeywords(H5PEditor.$(this));
     return false;
   });
-  
+
   // Add our own menu to the drag and drop menu bar.
   that.$keywordsDNB = H5PEditor.$('<ul class="h5p-dragnbar-ul h5p-dragnbar-left"><li class="h5p-dragnbar-li"><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'main keyword'}) + '" class="h5p-dragnbar-a h5p-dragnbar-mainkeyword-button"></a></li><li class="h5p-dragnbar-li"><a href="#" title="' + H5PEditor.t('insertElement', {':type': 'sub keyword'}) + '" class="h5p-dragnbar-a h5p-dragnbar-subkeyword-button"></a></li></ul>').prependTo(this.$bar);
 
@@ -285,7 +285,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       that.$keywordsTip.remove();
       delete that.$keywordsTip;
     }
-    
+
     var $ol = $li.children('ol');
     if (!$ol.length) {
       $ol = H5PEditor.$('<ol class="h5p-keywords-ol"></ol>').appendTo($li);
@@ -362,7 +362,7 @@ H5PEditor.CoursePresentation.prototype.keywordStartMoving = function (event) {
 
 /**
  * Keyword move handler.
- * 
+ *
  * @param {int} x
  * @param {int} y
  * @returns {undefined}
@@ -478,17 +478,19 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   }
 
   // Add keywords
-  H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function () {
-    that.cp.keywordClick(H5PEditor.$(this));
-  }).find('span').click(function (event) {
-    // Convert keywords into text areas when clicking.
-    if (!that.keywordsDNS.moving && that.editKeyword(H5PEditor.$(this)) !== false) {
-      event.stopPropagation();
-    }
-  }).mousedown(function (event) {
-    that.keywordsDNS.press(H5PEditor.$(this).parent(), event.pageX, event.pageY);
-    return false;
-  });
+  if (slideParams.keywords !== undefined) {
+    H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function () {
+      that.cp.keywordClick(H5PEditor.$(this));
+    }).find('span').click(function (event) {
+      // Convert keywords into text areas when clicking.
+      if (!that.keywordsDNS.moving && that.editKeyword(H5PEditor.$(this)) !== false) {
+        event.stopPropagation();
+      }
+    }).mousedown(function (event) {
+      that.keywordsDNS.press(H5PEditor.$(this).parent(), event.pageX, event.pageY);
+      return false;
+    });
+  }
 
   // Add to and update slideination.
   var $slideinationSlide = H5P.jQuery(H5P.CoursePresentation.createSlideinationSlide()).insertAfter(this.cp.$currentSlideinationSlide).children('a').click(function () {
@@ -684,7 +686,7 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
 
 /**
  * TODO:
- * 
+ *
  * @param {type} element
  * @param {type} $wrapper
  * @returns {undefined}
@@ -696,7 +698,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
   $wrapper.dblclick(function (event) {
     that.editElement(H5P.cloneObject(element, true), $wrapper);
   });
-  
+
   // Allow moving of element
   $wrapper.mousedown(function (event) {
     if (that.resizing) {
@@ -705,7 +707,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     that.dnb.dnd.press(H5P.jQuery(this), event.pageX, event.pageY);
     return false;
   });
-  
+
   // Allow resize
   var minSize = this.cp.fontSize * 2;
   $wrapper.resizable({
@@ -720,19 +722,19 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
   }).children('.ui-resizable-handle').mousedown(function () {
     that.resizing = true;
   });
-  
-  
+
+
   // Remove button
   H5PEditor.$('<div class="h5p-element-remove" title="' + H5PEditor.t('removeElement') + '"></div>').appendTo($wrapper).click(function () {
     if (!confirm(H5PEditor.t('confirmRemoveElement'))) {
       return;
     }
-    
+
     if (that.dnb.dnd.$coordinates !== undefined) {
       that.dnb.dnd.$coordinates.remove();
     }
     var $element = H5PEditor.$(this).parent();
-    
+
     that.params[that.cp.$current.index()].elements.splice($element.index(), 1);
     $element.remove();
   });
@@ -740,22 +742,22 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
 
 /**
  * TODO:
- * 
+ *
  * @param {type} element
  * @param {type} $wrapper
  * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper) {
   var that = this;
-  
+
   var $library = H5P.jQuery('<div title="Edit ' + element.action.library.split('.')[1].split(' ')[0] + '"></div>');
 
   if (!that.passReadies) {
     that.readies = [];
   }
-  
+
   H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $library, that);
-    
+
   if (!that.passReadies) {
     for (var i = 0; i < that.readies.length; i++) {
       that.readies[i]();
@@ -786,16 +788,16 @@ H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper
         click: function () {
           var index = $wrapper.index();
           var elements = that.params[that.cp.$current.index()].elements;
-          
+
           // Update visuals
           $wrapper.remove();
           that.cp.addElement(element);
-           
+
           // Validate children (will remove tmp flags on files)
           for (var i = 0; i < that.children.length; i++) {
             that.children[i].validate();
           }
-            
+
           // Update params
           elements.splice(index, 1);
           elements.push(element);
