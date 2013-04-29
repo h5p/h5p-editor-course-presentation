@@ -12,7 +12,6 @@ var H5PEditor = H5PEditor || {};
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   var that = this;
   if (params === undefined) {
-    // TODO: Remove slide content, only here for testing. oooor is it?;)
     params = [{
       elements: [],
       keywords: []
@@ -24,6 +23,8 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.field = field;
   this.params = params;
   this.resizing = false;
+  this.$forms = [];
+  this.children = [];
 
   this.passReadies = true;
   parent.ready(function () {
@@ -93,7 +94,6 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
  * Add an element to the current slide and params.
  *
  * @param {String} library
- * @param {Object} params
  * @returns {unresolved}
  */
 H5PEditor.CoursePresentation.prototype.addElement = function (library) {
@@ -471,6 +471,9 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
     };
   }
 
+  var index = this.cp.$current.index() + 1;
+  this.children.splice(index, 0, []);
+
   // Add slide with elements
   var $slide = H5P.jQuery(H5P.CoursePresentation.createSlide(slideParams)).insertAfter(this.cp.$current);
   for (var i = 0; i < slideParams.elements.length; i++) {
@@ -497,14 +500,13 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
     that.cp.jumpToSlide(H5P.jQuery(this).text() - 1);
     return false;
   }).end();
-  var i = parseInt(this.cp.$currentSlideinationSlide.text());
-  that.updateSlideination($slideinationSlide, i);
+  that.updateSlideination($slideinationSlide, index);
 
   // Switch to the new slide.
   this.cp.nextSlide();
 
   // Update presentation params.
-  this.params.splice(i, 0, slideParams);
+  this.params.splice(index, 0, slideParams);
 };
 
 /**
@@ -550,6 +552,15 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 
   // Update presentation params.
   this.params.splice(index, 1);
+
+  // Remove element forms
+  var slideKids = this.children[index];
+  if (slideKids !== undefined) {
+    for (var i = 0; i < slideKids.length; i++) {
+      H5PEditor.removeChildren(slideKids[i]);
+    }
+    this.children.splice(index, 1);
+  }
 };
 
 /**
@@ -583,6 +594,7 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
 
   // Update params.
   this.params.splice(newIndex, 0, this.params.splice(index, 1)[0]);
+  this.children.splice(newIndex, 0, this.children.splice(index, 1)[0]);
 
   return true;
 };
@@ -685,18 +697,33 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
 };
 
 /**
- * TODO:
+ * Callback used by CP when a new element is added.
  *
- * @param {type} element
- * @param {type} $wrapper
+ * @param {Object} element
+ * @param {jQuery} $wrapper
+ * @param {int} index
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrapper) {
+H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrapper, index) {
   var that = this;
+  var elementIndex = $wrapper.index();
+
+  if (this.children[index] === undefined) {
+    this.children[index] = [];
+  }
+  var tmpChildren = this.children;
+
+  // Add form - needs to be done here so common fields work.
+  var $form = H5P.jQuery('<div title="Edit ' + element.action.library.split('.')[1].split(' ')[0] + '"></div>');
+  H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $form, this);
+  $form.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
+
+  tmpChildren[index][elementIndex] = this.children;
+  this.children = tmpChildren;
 
   // Edit when double clicking
-  $wrapper.dblclick(function (event) {
-    that.editElement(H5P.cloneObject(element, true), $wrapper);
+  $wrapper.dblclick(function () {
+    that.showElementForm($form, $wrapper, element);
   });
 
   // Allow moving of element
@@ -733,41 +760,31 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     if (that.dnb.dnd.$coordinates !== undefined) {
       that.dnb.dnd.$coordinates.remove();
     }
-    var $element = H5PEditor.$(this).parent();
 
-    that.params[that.cp.$current.index()].elements.splice($element.index(), 1);
-    $element.remove();
+    var slideIndex = that.cp.$current.index();
+    var elementIndex = $wrapper.index();
+
+    var slideKids = that.children[slideIndex];
+    H5PEditor.removeChildren(slideKids[elementIndex]);
+    slideKids.splice(elementIndex, 1);
+
+    that.params[slideIndex].elements.splice(elementIndex, 1);
+    $wrapper.remove();
   });
 };
 
 /**
- * TODO:
+ * Displays the given form in a popup.
  *
- * @param {type} element
- * @param {type} $wrapper
- * @returns {undefined}
+ * @param {jQuery} $form
+ * @returns {unresolved}
  */
-H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper) {
+H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapper, element) {
   var that = this;
 
-  var $library = H5P.jQuery('<div title="Edit ' + element.action.library.split('.')[1].split(' ')[0] + '"></div>');
+  console.log(this.children);
 
-  if (!that.passReadies) {
-    that.readies = [];
-  }
-
-  H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $library, that);
-
-  if (!that.passReadies) {
-    for (var i = 0; i < that.readies.length; i++) {
-      that.readies[i]();
-    }
-    delete that.readies;
-  }
-
-  $library.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
-
-  $library.dialog({
+  $form.dialog({
     modal: true,
     draggable: false,
     resizable: false,
@@ -776,35 +793,30 @@ H5PEditor.CoursePresentation.prototype.editElement = function (element, $wrapper
     appendTo: '.h5p-course-presentation',
     buttons: [
       {
-        text: H5PEditor.t('cancel'),
+        text: H5PEditor.t('done'),
         click: function () {
-          H5PEditor.removeChildren(that.children);
-          delete that.children;
-          $library.dialog('close').remove();
-        }
-      },
-      {
-        text: H5PEditor.t('updateElement'),
-        click: function () {
-          var index = $wrapper.index();
-          var elements = that.params[that.cp.$current.index()].elements;
-
-          // Update visuals
-          $wrapper.remove();
-          that.cp.addElement(element);
+          var elementIndex = $wrapper.index();
+          var slideIndex = that.cp.$current.index();
+          var slideKids = that.children[slideIndex];
+          var elementKids = slideKids[elementIndex];
+          var elements = that.params[slideIndex].elements;
 
           // Validate children (will remove tmp flags on files)
-          for (var i = 0; i < that.children.length; i++) {
-            that.children[i].validate();
+          for (var i = 0; i < elementKids.length; i++) {
+            elementKids[i].validate();
           }
 
           // Update params
-          elements.splice(index, 1);
+          elements.splice(elementIndex, 1);
           elements.push(element);
 
-          H5PEditor.removeChildren(that.children);
-          delete that.children;
-          $library.dialog('close').remove();
+          // Update visuals
+          that.cp.addElement(element, undefined, slideIndex);
+          $wrapper.remove();
+
+          H5PEditor.removeChildren(elementKids);
+          slideKids.splice(elementIndex, 1);
+          $form.dialog('close').remove();
         }
       }
     ]
@@ -843,5 +855,5 @@ H5PEditor.l10n.disableKeywords = 'Remove keywords';
 H5PEditor.l10n.removeElement = 'Remove this element';
 H5PEditor.l10n.confirmRemoveElement = 'Are you sure you wish to remove this element?';
 H5PEditor.l10n.cancel = 'Cancel';
-H5PEditor.l10n.updateElement = 'Update element';
+H5PEditor.l10n.done = 'Done';
 H5PEditor.l10n.keywordsTip = 'Drag in keywords using the two buttons above.';
