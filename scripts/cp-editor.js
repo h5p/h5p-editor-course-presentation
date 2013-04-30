@@ -97,6 +97,7 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
  * @returns {unresolved}
  */
 H5PEditor.CoursePresentation.prototype.addElement = function (library) {
+  var libraryName = library.split(' ')[0];
   var elParams = {
     action: {
       library: library,
@@ -104,8 +105,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
     },
     x: 0,
     y: 0,
-    width: 30,
-    height: 20
+    width: libraryName === 'H5P.Audio' ? 45 : 30,
+    height: libraryName === 'H5P.Audio' ? 15 : 20
   };
 
   this.params[this.cp.$current.index()].elements.push(elParams);
@@ -777,12 +778,12 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
  * Displays the given form in a popup.
  *
  * @param {jQuery} $form
- * @returns {unresolved}
+ * @param {jQuery} $wrapper
+ * @param {object} element Params
+ * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapper, element) {
   var that = this;
-
-  console.log(this.children);
 
   $form.dialog({
     modal: true,
