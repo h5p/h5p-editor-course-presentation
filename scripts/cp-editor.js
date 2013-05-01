@@ -688,6 +688,8 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
 
   this.$keywordsDNB.remove();
   $button.parent().add(this.cp.$keywordsWrapper).remove();
+  delete this.cp.$keywordsWrapper;
+  delete this.cp.$keywords;
   this.cp.keywordsWidth = 0;
   this.cp.$slidesWrapper.removeClass('h5p-keyword-slides');
   for (var i = 0; i < this.params.length; i++) {
