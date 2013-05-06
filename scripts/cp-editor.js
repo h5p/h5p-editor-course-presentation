@@ -467,9 +467,11 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   if (slideParams === undefined) {
     // Set new slide params
     slideParams = {
-      elements: [],
-      keywords: []
+      elements: []
     };
+    if (this.cp.$keywords !== undefined) {
+      slideParams.keywords = [];
+    }
   }
 
   var index = this.cp.$current.index() + 1;
@@ -628,7 +630,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   }).blur(function () {
     var keyword = $textarea.val();
 
-    if (H5PEditor.trim(keyword) === '') {
+    if (H5P.trim(keyword) === '') {
       $li.addClass('h5p-empty-keyword');
       keyword = H5PEditor.t('H5PEditor.CoursePresentation', 'newKeyword');
     }
@@ -690,11 +692,22 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
   $button.parent().add(this.cp.$keywordsWrapper).remove();
   delete this.cp.$keywordsWrapper;
   delete this.cp.$keywords;
+  var oldWidth = parseFloat(this.cp.keywordsWidth);
   this.cp.keywordsWidth = 0;
   this.cp.$slidesWrapper.removeClass('h5p-keyword-slides');
   for (var i = 0; i < this.params.length; i++) {
     if (this.params[i].keywords !== undefined) {
       delete this.params[i].keywords;
+    }
+    if (this.params[i].elements !== undefined) {
+      for (var j = 0; j < this.params[i].elements.length; j++) {
+        if (this.params[i].elements[j].x) {
+          this.params[i].elements[j].x = parseFloat(this.params[i].elements[j].x) + oldWidth;
+        }
+        if (this.params[i].elements[j].width) {
+          this.params[i].elements[j].width = parseFloat(this.params[i].elements[j].width) * (100 - oldWidth)/100;
+        }
+      }
     }
   }
 };
@@ -717,7 +730,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
   var tmpChildren = this.children;
 
   // Add form - needs to be done here so common fields work.
-  var $form = H5P.jQuery('<div title="Edit ' + element.action.library.split('.')[1].split(' ')[0] + '"></div>');
+  var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': element.action.library.split('.')[1].split(' ')[0]})
+  var $form = H5P.jQuery('<div title="' + popupTitle + '"></div>');
   H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $form, this);
   $form.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
 
@@ -861,6 +875,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "confirmRemoveElement": "Are you sure you wish to remove this element?",
     "cancel": "Cancel",
     "done": "Done",
-    "keywordsTip": "Drag in keywords using the two buttons above."
+    "keywordsTip": "Drag in keywords using the two buttons above.",
+    "popupTitle": "Edit :type"
   }
 }
