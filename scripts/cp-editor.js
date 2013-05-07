@@ -587,16 +587,25 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
 
   var index = this.cp.$current.index();
 
+  var keywordsEnabled = this.cp.$currentKeyword !== undefined;
+
   // Move slides and keywords.
   if (direction === -1) {
     this.cp.$current.insertBefore($element.removeClass('h5p-previous'));
-    this.cp.$currentKeyword.insertBefore(this.cp.$currentKeyword.prev());
+    if (keywordsEnabled) {
+      this.cp.$currentKeyword.insertBefore(this.cp.$currentKeyword.prev());
+    }
   }
   else {
     this.cp.$current.insertAfter($element.addClass('h5p-previous'));
-    this.cp.$currentKeyword.insertAfter(this.cp.$currentKeyword.next());
+    if (keywordsEnabled) {
+      this.cp.$currentKeyword.insertAfter(this.cp.$currentKeyword.next());
+    }
   }
-  this.cp.scrollToKeywords();
+
+  if (keywordsEnabled) {
+    this.cp.scrollToKeywords();
+  }
 
   // Update slideination
   var newIndex = index + direction;

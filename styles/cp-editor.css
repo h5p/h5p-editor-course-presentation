@@ -248,3 +248,7 @@
 .h5p-dragnbar-li-ul .h5p-dragnbar-a {
   height: 1em;
 }
+
+.h5p-course-presentation .h5p-multichoice > .h5p-show-solution, .h5p-course-presentation .h5p-element .h5p-hidden-solution-btn {
+  display: block;
+}
