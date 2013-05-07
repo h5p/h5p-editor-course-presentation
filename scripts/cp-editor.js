@@ -208,6 +208,13 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     }
   };
 
+  // Edit element when it is dropped.
+  this.dnb.dnd.releaseCallback = function () {
+    if (that.dnb.newElement) {
+      that.dnb.dnd.$element.dblclick();
+    }
+  };
+
   this.$bar = H5PEditor.$('<div class="h5p-dragnbar"></div>').insertBefore(this.cp.$presentationWrapper);
   this.dnb.attach(this.$bar);
 };
@@ -878,4 +885,4 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "keywordsTip": "Drag in keywords using the two buttons above.",
     "popupTitle": "Edit :type"
   }
-}
+};
