@@ -835,8 +835,14 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
           var elements = that.params[slideIndex].elements;
 
           // Validate children (will remove tmp flags on files)
+          var valid = true;
           for (var i = 0; i < elementKids.length; i++) {
-            elementKids[i].validate();
+            if (elementKids[i].validate() === false) {
+              valid = false;
+            }
+          }
+          if (!valid) {
+            return false;
           }
 
           // Update params
