@@ -105,8 +105,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
     },
     x: 0,
     y: 0,
-    width: libraryName === 'H5P.Audio' ? 45 : 30,
-    height: libraryName === 'H5P.Audio' ? 15 : 20
+    width: libraryName === 'H5P.Audio' ? 45 : 40,
+    height: libraryName === 'H5P.Audio' ? 15 : 40
   };
 
   this.params[this.cp.$current.index()].elements.push(elParams);
