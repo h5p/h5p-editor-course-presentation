@@ -746,10 +746,29 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
   var tmpChildren = this.children;
 
   // Add form - needs to be done here so common fields work.
-  var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': element.action.library.split('.')[1].split(' ')[0]})
+  var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': element.action.library.split('.')[1].split(' ')[0]});
   var $form = H5P.jQuery('<div title="' + popupTitle + '"></div>');
   H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $form, this);
   $form.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
+
+  // Set correct aspect ratio on new images.
+  var library = this.children[0];
+  var libraryChange = function () {
+    if (library.children[0].field.type === 'image') {
+      library.children[0].changes.push(function (params) {
+        if (params.width !== undefined && params.height !== undefined) {
+          element.height = element.width * (params.width / params.height) * 1.7781753130590339892665474060823 * that.cp.slideWidthRatio;
+          console.log(element.width, element.height);
+        }
+      });
+    }
+  };
+  if (library.children === undefined) {
+    library.changes.push(libraryChange);
+  }
+  else {
+    libraryChange();
+  }
 
   tmpChildren[index][elementIndex] = this.children;
   this.children = tmpChildren;
@@ -834,7 +853,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
           var elementKids = slideKids[elementIndex];
           var elements = that.params[slideIndex].elements;
 
-          // Validate children (will remove tmp flags on files)
+          // Validate children
           var valid = true;
           for (var i = 0; i < elementKids.length; i++) {
             if (elementKids[i].validate() === false) {
