@@ -710,6 +710,7 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
   delete this.cp.$keywords;
   var oldWidth = parseFloat(this.cp.keywordsWidth);
   this.cp.keywordsWidth = 0;
+  this.cp.slideWidthRatio = 1;
   this.cp.$slidesWrapper.removeClass('h5p-keyword-slides');
   for (var i = 0; i < this.params.length; i++) {
     if (this.params[i].keywords !== undefined) {
@@ -717,7 +718,7 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
     }
     if (this.params[i].elements !== undefined) {
       for (var j = 0; j < this.params[i].elements.length; j++) {
-        if (this.params[i].elements[j].x !== undefined) {
+        if (this.params[i].elements[j].x) {
           this.params[i].elements[j].x = parseFloat(this.params[i].elements[j].x) + oldWidth;
         }
         if (this.params[i].elements[j].width) {
@@ -757,8 +758,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     if (library.children[0].field.type === 'image') {
       library.children[0].changes.push(function (params) {
         if (params.width !== undefined && params.height !== undefined) {
-          element.height = element.width * (params.width / params.height) * 1.7781753130590339892665474060823 * that.cp.slideWidthRatio;
-          console.log(element.width, element.height);
+          element.height = element.width * (params.height / params.width) * that.cp.slideRatio * that.cp.slideWidthRatio;
         }
       });
     }
