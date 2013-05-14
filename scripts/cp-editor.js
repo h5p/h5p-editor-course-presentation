@@ -718,7 +718,7 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
     }
     if (this.params[i].elements !== undefined) {
       for (var j = 0; j < this.params[i].elements.length; j++) {
-        if (this.params[i].elements[j].x) {
+        if (this.params[i].elements[j].x !== undefined) {
           this.params[i].elements[j].x = parseFloat(this.params[i].elements[j].x) + oldWidth;
         }
         if (this.params[i].elements[j].width) {
