@@ -757,6 +757,10 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
   var libraryChange = function () {
     if (library.children[0].field.type === 'image') {
       library.children[0].changes.push(function (params) {
+        if (params === undefined) {
+          return;
+        }
+        
         if (params.width !== undefined && params.height !== undefined) {
           element.height = element.width * (params.height / params.width) * that.cp.slideRatio * that.cp.slideWidthRatio;
         }
