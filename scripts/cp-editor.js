@@ -746,11 +746,44 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
   }
   var tmpChildren = this.children;
 
+  console.log('TJALL');
+  
   // Add form - needs to be done here so common fields work.
-  var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': element.action.library.split('.')[1].split(' ')[0]});
-  var $form = H5P.jQuery('<div title="' + popupTitle + '"></div>');
-  H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $form, this);
-  $form.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
+  var machineName = H5P.libraryFromString(element.action.library).machineName;
+  
+  //var createForm = (machineName !== 'H5P.ContinuousText') || (machineName === 'H5P.ContinuousText' && that.ctForm === undefined); 
+  
+  // Need to set the value for CT:
+  if(machineName === 'H5P.ContinuousText') {
+    //H5P.this.children
+    console.log('???',that.field.field.fields[2]);
+    element.action.params.text = that.field.field.fields[2].text;
+    //element.action.params.index = 123;
+    //console.log(element);
+    
+    element.container = $wrapper;
+  }
+  
+  var $form = undefined;
+  
+  if (machineName !== 'H5P.ContinuousText' || (machineName === 'H5P.ContinuousText' && that.ct == undefined)) {
+    var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': machineName.split('.')[1]});
+    $form = H5P.jQuery('<div title="' + popupTitle + '"></div>');
+    
+    H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $form, this);
+    $form.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
+    
+    if(machineName === 'H5P.ContinuousText') {
+      console.error('Creating first CT FORM');
+      that.ct = {form: $form, children: that.children};
+    }
+  }
+  else if (machineName === 'H5P.ContinuousText' && that.ct) {
+    console.error('Reusing CT FORM');
+    $form = that.ct.form;
+    that.children = that.ct.children;
+    console.log('>> FORM:',$form);
+  }
 
   // Set correct aspect ratio on new images.
   var library = this.children[0];
@@ -840,6 +873,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
 H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapper, element) {
   var that = this;
 
+  //console.log(that);
+  
   $form.dialog({
     modal: true,
     draggable: false,
@@ -847,10 +882,25 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
     width: '80%',
     dialogClass: "h5p-dialog-no-close",
     appendTo: '.h5p-course-presentation',
+    open: function(event, ui){
+      
+      console.log('--OPEN DIALOG--');
+      // If Continuous Text, scroll to desired position:
+      var slideIndex = that.cp.$current.index();
+      //console.log('DIALOG OPEN:',that.children[slideIndex][0].children[0].ckeditor);
+      var editor = that.children[slideIndex][0][0].children[0].ckeditor;
+      
+      editor.focus();
+      var range = editor.createRange();
+      range.moveToElementEditEnd( range.root );
+      editor.getSelection().selectRanges( [ range ] );
+    },
     buttons: [
       {
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
         click: function () {
+          
+          console.log("CLICK");
           var elementIndex = $wrapper.index();
           var slideIndex = that.cp.$current.index();
           var slideKids = that.children[slideIndex];
@@ -867,21 +917,66 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
           if (!valid) {
             return false;
           }
+          
+          //console.log(elements);
+          
+          // Need to do reflow, to populate all other CT's
+          // and to get this CT's content after editing
+          
+          var isCT = H5P.libraryFromString(element.action.library).machineName === 'H5P.ContinuousText'; 
+          if(isCT) {
+            
+            // Build an array of all CT elements on all slides
+            // ordered by the slide order
+            /*var ctElements = [];
+            H5P.jQuery.each(that.params, function(slideIdx, slide){
+              ctElements = ctElements.concat(slide.elements.filter(function(element){return element.action.library.split('.')[1].split(' ')[0] === 'ContinuousText';}));
+              
+              // Append to current slide:
+              if(slideIdx == slideIndex) {
+                ctElements.push(element);                
+              }
+            });*/
 
-          // Update params
-          elements.splice(elementIndex, 1);
-          elements.push(element);
+            // Save complete text!
+            that.field.field.fields[2].text = element.action.params.text;
+            
+            console.log('that.field.field.fields[2].text:'+that.field.field.fields[2].text);
+            
+            // Run reflow for all elements:
+            // that.reflowCT(ctElements);
+            H5P.ContinuousText.reflow(that.field.field.fields[2].text, that.params);
+          }
+          
+          if(isCT) {
+            $form.dialog('close');
+          }
+          else {
+            // Update params
+            elements.splice(elementIndex, 1);
+            elements.push(element);
 
-          // Update visuals
-          that.cp.addElement(element, undefined, slideIndex);
-          $wrapper.remove();
+            // Update visuals
+            that.cp.addElement(element, undefined, slideIndex);
+            $wrapper.remove();
 
-          H5PEditor.removeChildren(elementKids);
-          slideKids.splice(elementIndex, 1);
-          $form.dialog('close').remove();
+            H5PEditor.removeChildren(elementKids);
+            slideKids.splice(elementIndex, 1);
+            $form.dialog('close').remove();
+          }
         }
       }
     ]
+  });
+};
+
+/**
+ * 
+ */
+H5PEditor.CoursePresentation.prototype.reflowCT = function(elements) {
+  H5P.jQuery.each(elements, function(idx, element){
+    console.log('!!!!!!!!',element.action.params.index);
+    element.action.params.text = idx+': reflowCT';
   });
 };
 
