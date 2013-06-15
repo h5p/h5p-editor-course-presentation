@@ -10,12 +10,14 @@ var H5PEditor = H5PEditor || {};
  * @returns {H5PEditor.Text}
  */
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
+  
   var that = this;
   if (params === undefined) {
     params = [{
       elements: [],
       keywords: []
     }];
+    
     setValue(field, params);
   }
 
@@ -767,8 +769,6 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
   }
   var tmpChildren = this.children;
   
-  
-  
   // Add form - needs to be done here so common fields work.
   var machineName = H5P.libraryFromString(element.action.library).machineName;
   var isCT = (machineName === 'H5P.ContinuousText');
@@ -786,7 +786,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
       // This is the first CT element added. Need to make a reference to
       // the form an element. The form will be in use for all CT-instances.
       // The element is needed to get the edited value.
-      element.action.params.text = that.field.field.fields[2].text;
+      // The first slide contains the Full CT:
+      element.action.params.text = that.params[0].ct;
       that.ct = {form: $form, children: that.children, element: element, counter: 1, lastIndex: 0, wrappers:[]};
     }
   }
@@ -804,8 +805,6 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     element.index = that.ct.lastIndex;
     that.ct.wrappers[that.ct.lastIndex] = $wrapper;
   }
-  
-  console.log('NUMBER OF CTs: '+that.ct.counter, 'INDEX:' + that.ct.lastIndex);
 
   // Set correct aspect ratio on new images.
   var library = this.children[0];
@@ -893,7 +892,6 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
       H5PEditor.removeChildren(slideKids[elementIndex]);      
     }
     
-    
     slideKids.splice(elementIndex, 1);
 
     that.params[slideIndex].elements.splice(elementIndex, 1);
@@ -924,19 +922,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
     width: '80%',
     dialogClass: "h5p-dialog-no-close",
     appendTo: '.h5p-course-presentation',
-   /* open: function(event, ui){
-      
-      console.log('--OPEN DIALOG--');
-      // If Continuous Text, scroll to desired position:
-      var slideIndex = that.cp.$current.index();
-      //console.log('DIALOG OPEN:',that.children[slideIndex][0].children[0].ckeditor);
-      var editor = that.children[slideIndex][0][0].children[0].ckeditor;
-      
-      editor.focus();
-      var range = editor.createRange();
-      range.moveToElementEditEnd( range.root );
-      editor.getSelection().selectRanges( [ range ] );
-    },*/
     buttons: [
       {
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
@@ -963,7 +948,8 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
           // and to get this CT's content after editing
           if(H5P.libraryFromString(element.action.library).machineName === 'H5P.ContinuousText') {
             // Get value from form:
-            that.field.field.fields[2].text = that.ct.element.action.params.text;//elementKids[0].children[0].value;
+            that.field.field.fields[2].text = that.ct.element.action.params.text;
+            that.params[0].ct = that.ct.element.action.params.text;
             // Run reflow for all elements:
             H5P.ContinuousText.Engine.run(that);
             $form.dialog('close');
