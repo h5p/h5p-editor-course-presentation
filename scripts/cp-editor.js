@@ -199,38 +199,28 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current);
 
-    var doDblClick = function() {
-      var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
-      var machineName = H5P.libraryFromString(params.action.library).machineName;
-      return that.dnb.newElement && (machineName !== 'H5P.ContinuousText' || machineName === 'H5P.ContinuousText' && that.ct.counter == 1);
-    };
-
     // Update params when the element is dropped.
     that.dnb.stopMovingCallback = function (x, y) {
       var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
       params.x = x;
       params.y = y;
-      if (doDblClick()) {
-        that.dnb.dnd.$element.dblclick();
-      }
-
-      /*if (that.dnb.newElement) {
-        that.dnb.dnd.$element.dblclick();
-      }*/
     };
 
     // Edit element when it is dropped.
     that.dnb.dnd.releaseCallback = function () {
       var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
-      if (doDblClick()) {
-        that.dnb.dnd.$element.dblclick();
+
+      if (that.dnb.newElement) {
+        if (H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
+          H5P.ContinuousText.Engine.run(that);
+          if (that.ct.counter === 1) {
+            that.dnb.dnd.$element.dblclick();
+          }
+        }
+        else {
+          that.dnb.dnd.$element.dblclick();
+        }
       }
-      else if (that.dnb.newElement && H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
-        H5P.ContinuousText.Engine.run(that);
-      }
-      /*if (that.dnb.newElement) {
-        that.dnb.dnd.$element.dblclick();
-      }*/
     };
 
     that.dnb.attach(that.$bar);
@@ -782,25 +772,32 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $form, this);
     $form.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
 
-    if(isCT) {
+    if (isCT) {
       // This is the first CT element added. Need to make a reference to
       // the form an element. The form will be in use for all CT-instances.
       // The element is needed to get the edited value.
       // The first slide contains the Full CT:
       element.action.params.text = that.params[0].ct;
-      that.ct = {form: $form, children: that.children, element: element, counter: 1, lastIndex: 0, wrappers:[]};
+      that.ct = {
+        form: $form,
+        children: that.children,
+        element: element,
+        counter: 1,
+        lastIndex: 0,
+        wrappers: []
+      };
     }
   }
-  else if (isCT && that.ct) {
+  else {
     $form = that.ct.form;
     that.children = that.ct.children;
 
     // Increment counter
-    that.ct.counter = that.ct.counter+1;
-    that.ct.lastIndex = that.ct.lastIndex+1
+    that.ct.counter = that.ct.counter + 1;
+    that.ct.lastIndex = that.ct.lastIndex + 1;
   }
 
-  if(isCT) {
+  if (isCT) {
     // Index is needed to later find the correct wrapper:
     element.index = that.ct.lastIndex;
     that.ct.wrappers[that.ct.lastIndex] = $wrapper;
@@ -860,14 +857,20 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
       element.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);
       that.resizing = false;
     },
-    start: function (event,ui) {
-      elementSize = {width:ui.size.width, height:ui.size.height};
+    start: function (event, ui) {
+      elementSize = {
+        width: ui.size.width,
+        height: ui.size.height
+      };
     },
-    resize: function (event,ui) {
+    resize: function (event, ui) {
       // If CT, do reflow:
-      if(isCT && (Math.abs(ui.size.width-elementSize.width) > 20 || Math.abs(ui.size.height-elementSize.height) > 20)) {
+      if (isCT && (Math.abs(ui.size.width - elementSize.width) > 20 || Math.abs(ui.size.height - elementSize.height) > 20)) {
         H5P.ContinuousText.Engine.run(that);
-        elementSize = {width:ui.size.width, height:ui.size.height};
+        elementSize = {
+          width: ui.size.width,
+          height: ui.size.height
+        };
       }
     }
   }).children('.ui-resizable-handle').mousedown(function () {
@@ -891,7 +894,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
 
     var slideKids = that.children[slideIndex];
 
-    if(!isCT) {
+    if (!isCT) {
       H5PEditor.removeChildren(slideKids[elementIndex]);
     }
 
@@ -900,8 +903,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     that.params[slideIndex].elements.splice(elementIndex, 1);
     $wrapper.remove();
 
-    if(isCT) {
-      that.ct.counter = that.ct.counter-1;
+    if (isCT) {
+      that.ct.counter = that.ct.counter - 1;
       H5P.ContinuousText.Engine.run(that);
     }
   });
@@ -949,7 +952,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
 
           // Need to do reflow, to populate all other CT's
           // and to get this CT's content after editing
-          if(H5P.libraryFromString(element.action.library).machineName === 'H5P.ContinuousText') {
+          if (H5P.libraryFromString(element.action.library).machineName === 'H5P.ContinuousText') {
             // Get value from form:
             that.field.field.fields[2].text = that.ct.element.action.params.text;
             that.params[0].ct = that.ct.element.action.params.text;
