@@ -159,11 +159,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     return false;
   });
 
-  if (this.cp.keywordsWidth) {
-    // Bind keyword interactions.
-    this.initKeywordInteractions();
-  }
-
   this.cp.resize = function (fullscreen) {
     // Reset drag and drop adjustments.
     if (that.keywordsDNS !== undefined) {
@@ -176,14 +171,13 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
 H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
   var that = this;
-
-  var id = library.split(' ')[0].split('.')[1].toLowerCase();
+  var id = library.name.split('.')[1].toLowerCase();
 
   return {
     id: id,
-    title: H5PEditor.t('H5PEditor.CoursePresentation', 'insertElement', {':type': id}),
+    title: H5PEditor.t('H5PEditor.CoursePresentation', 'insertElement', {':type': library.title.toLowerCase()}),
     createElement: function () {
-      return that.addElement(library);
+      return that.addElement(library.uberName);
     }
   };
 };
@@ -196,13 +190,14 @@ H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
 H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   var that = this;
 
-  var buttons = [];
-  var libraries = this.field.field.fields[0].field.fields[0].options;
-  for (var i = 0; i < libraries.length; i++) {
-    buttons.push(that.addDNBButton(libraries[i]));
-  }
+  this.$bar = H5PEditor.$('<div class="h5p-dragnbar">' + H5PEditor.t('H5PEditor.CoursePresentation', 'loading') + '</div>').insertBefore(this.cp.$presentationWrapper);
+  H5PEditor.$.post(H5PEditor.ajaxPath + 'libraries', {libraries: this.field.field.fields[0].field.fields[0].options}, function (libraries) {
+    var buttons = [];
+    for (var i = 0; i < libraries.length; i++) {
+      buttons.push(that.addDNBButton(libraries[i]));
+    }
 
-  this.dnb = new H5P.DragNBar(buttons, this.cp.$current);
+    that.dnb = new H5P.DragNBar(buttons, that.cp.$current);
 
   var doDblClick = function() {
     var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
@@ -238,8 +233,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     }*/
   };
 
-  this.$bar = H5PEditor.$('<div class="h5p-dragnbar"></div>').insertBefore(this.cp.$presentationWrapper);
-  this.dnb.attach(this.$bar);
+    if (that.cp.keywordsWidth) {
+      // Bind keyword interactions.
+      that.initKeywordInteractions();
+    }
+  });
 };
 
 /**
@@ -814,7 +812,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
         if (params === undefined) {
           return;
         }
-        
+
         if (params.width !== undefined && params.height !== undefined) {
           element.height = element.width * (params.height / params.width) * that.cp.slideRatio * that.cp.slideWidthRatio;
         }
@@ -841,7 +839,9 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     if (that.resizing) {
       return; // Disable when resizing
     }
-    that.dnb.dnd.press(H5P.jQuery(this), event.pageX, event.pageY);
+    if (that.dnb !== undefined) {
+      that.dnb.dnd.press(H5P.jQuery(this), event.pageX, event.pageY);
+    }
     return false;
   });
 
@@ -879,8 +879,9 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
       return;
     }
 
-    if (that.dnb.dnd.$coordinates !== undefined) {
+    if (that.dnb !== undefined && that.dnb.dnd.$coordinates !== undefined) {
       that.dnb.dnd.$coordinates.remove();
+      delete that.dnb.dnd.$coordinates;
     }
 
     var slideIndex = that.cp.$current.index();
@@ -1009,6 +1010,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "cancel": "Cancel",
     "done": "Done",
     "keywordsTip": "Drag in keywords using the two buttons above.",
-    "popupTitle": "Edit :type"
+    "popupTitle": "Edit :type",
+    "loading": "Loading..."
   }
 };
