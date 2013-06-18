@@ -10,14 +10,14 @@ var H5PEditor = H5PEditor || {};
  * @returns {H5PEditor.Text}
  */
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
-  
+
   var that = this;
   if (params === undefined) {
     params = [{
       elements: [],
       keywords: []
     }];
-    
+
     setValue(field, params);
   }
 
@@ -199,39 +199,41 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current);
 
-  var doDblClick = function() {
-    var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
-    var machineName = H5P.libraryFromString(params.action.library).machineName;
-    return that.dnb.newElement && (machineName !== 'H5P.ContinuousText' || machineName === 'H5P.ContinuousText' && that.ct.counter == 1);
-  };
-    
-  // Update params when the element is dropped.
-  this.dnb.stopMovingCallback = function (x, y) {
-    var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
-    params.x = x;
-    params.y = y;
-    if (doDblClick()) {
-      that.dnb.dnd.$element.dblclick();
-    }
-    
-    /*if (that.dnb.newElement) {
-      that.dnb.dnd.$element.dblclick();
-    }*/
-  };
+    var doDblClick = function() {
+      var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
+      var machineName = H5P.libraryFromString(params.action.library).machineName;
+      return that.dnb.newElement && (machineName !== 'H5P.ContinuousText' || machineName === 'H5P.ContinuousText' && that.ct.counter == 1);
+    };
 
-  // Edit element when it is dropped.
-  this.dnb.dnd.releaseCallback = function () {
-    var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];    
-    if (doDblClick()) {
-      that.dnb.dnd.$element.dblclick();
-    }
-    else if (that.dnb.newElement && H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
-      H5P.ContinuousText.Engine.run(that);
-    }
-    /*if (that.dnb.newElement) {
-      that.dnb.dnd.$element.dblclick();
-    }*/
-  };
+    // Update params when the element is dropped.
+    that.dnb.stopMovingCallback = function (x, y) {
+      var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
+      params.x = x;
+      params.y = y;
+      if (doDblClick()) {
+        that.dnb.dnd.$element.dblclick();
+      }
+
+      /*if (that.dnb.newElement) {
+        that.dnb.dnd.$element.dblclick();
+      }*/
+    };
+
+    // Edit element when it is dropped.
+    that.dnb.dnd.releaseCallback = function () {
+      var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
+      if (doDblClick()) {
+        that.dnb.dnd.$element.dblclick();
+      }
+      else if (that.dnb.newElement && H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
+        H5P.ContinuousText.Engine.run(that);
+      }
+      /*if (that.dnb.newElement) {
+        that.dnb.dnd.$element.dblclick();
+      }*/
+    };
+
+    that.dnb.attach(that.$bar);
 
     if (that.cp.keywordsWidth) {
       // Bind keyword interactions.
@@ -761,25 +763,25 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
 H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrapper, index) {
   var that = this;
   var elementIndex = $wrapper.index();
-  
+
   if (this.children[index] === undefined) {
     this.children[index] = [];
   }
   var tmpChildren = this.children;
-  
+
   // Add form - needs to be done here so common fields work.
   var machineName = H5P.libraryFromString(element.action.library).machineName;
   var isCT = (machineName === 'H5P.ContinuousText');
-  
+
   var $form = undefined;
-  
+
   if (!isCT || that.ct === undefined) {
     var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': machineName.split('.')[1]});
     $form = H5P.jQuery('<div title="' + popupTitle + '"></div>');
-    
+
     H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $form, this);
     $form.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
-    
+
     if(isCT) {
       // This is the first CT element added. Need to make a reference to
       // the form an element. The form will be in use for all CT-instances.
@@ -792,12 +794,12 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
   else if (isCT && that.ct) {
     $form = that.ct.form;
     that.children = that.ct.children;
-    
+
     // Increment counter
     that.ct.counter = that.ct.counter+1;
     that.ct.lastIndex = that.ct.lastIndex+1
   }
-  
+
   if(isCT) {
     // Index is needed to later find the correct wrapper:
     element.index = that.ct.lastIndex;
@@ -846,7 +848,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
   });
 
   var elementSize = {};
-  
+
   // Allow resize
   var minSize = this.cp.fontSize * 2;
   $wrapper.resizable({
@@ -855,7 +857,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     containment: 'parent',
     stop: function () {
       element.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100) / that.cp.slideWidthRatio;
-      element.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);    
+      element.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);
       that.resizing = false;
     },
     start: function (event,ui) {
@@ -888,16 +890,16 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     var elementIndex = $wrapper.index();
 
     var slideKids = that.children[slideIndex];
-    
+
     if(!isCT) {
-      H5PEditor.removeChildren(slideKids[elementIndex]);      
+      H5PEditor.removeChildren(slideKids[elementIndex]);
     }
-    
+
     slideKids.splice(elementIndex, 1);
 
     that.params[slideIndex].elements.splice(elementIndex, 1);
     $wrapper.remove();
-    
+
     if(isCT) {
       that.ct.counter = that.ct.counter-1;
       H5P.ContinuousText.Engine.run(that);
@@ -927,7 +929,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
       {
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
         click: function () {
-          
+
           var elementIndex = $wrapper.index();
           var slideIndex = that.cp.$current.index();
           var slideKids = that.children[slideIndex];
@@ -944,7 +946,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
           if (!valid) {
             return false;
           }
-          
+
           // Need to do reflow, to populate all other CT's
           // and to get this CT's content after editing
           if(H5P.libraryFromString(element.action.library).machineName === 'H5P.ContinuousText') {
