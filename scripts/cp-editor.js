@@ -32,7 +32,6 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   parent.ready(function () {
     that.setLocalization();
     that.passReadies = false;
-    H5P.ContinuousText.Engine.run(that);
   });
 };
 
@@ -150,6 +149,11 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     return false;
   }).next().click(function () {
     that.addSlide(H5P.cloneObject(that.params[that.cp.$current.index()],true));
+    var slideParams = that.params[that.cp.$current.index()];
+    if (slideParams.ct !== undefined) {
+      // Make sure we don't replicate the whole continuous text.
+      delete slideParams.ct;
+    }
     H5P.ContinuousText.Engine.run(that);
     return false;
   }).next().click(function () {
@@ -571,6 +575,11 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   // Update slideination numbering.
   this.updateSlideination(this.cp.$currentSlideinationSlide, index + move);
 
+  // Preserve the whole continuous text.
+  if (this.params[index].ct !== undefined) {
+    this.params[index + 1].ct = this.params[index].ct;
+  }
+
   // Update presentation params.
   this.params.splice(index, 1);
 
@@ -767,22 +776,20 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
 
   var $form = undefined;
 
-  if (!isCT || that.ct === undefined) {
+  if (!isCT || this.ct === undefined) {
     var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': machineName.split('.')[1]});
     $form = H5P.jQuery('<div title="' + popupTitle + '"></div>');
 
-    H5PEditor.processSemanticsChunk(that.field.field.fields[0].field.fields, element, $form, this);
+    H5PEditor.processSemanticsChunk(this.field.field.fields[0].field.fields, element, $form, this);
     $form.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
 
     if (isCT) {
-      // This is the first CT element added. Need to make a reference to
-      // the form an element. The form will be in use for all CT-instances.
-      // The element is needed to get the edited value.
-      // The first slide contains the Full CT:
-      element.action.params.text = that.params[0].ct;
-      that.ct = {
+      // The complete text value is stored in the first slide:
+      element.action.params.text = this.params[0].ct;
+      // This is the first CT element added. Need to make a reference to the form so it can be used for all CT-instances.
+      this.ct = {
         form: $form,
-        children: that.children,
+        children: this.children,
         element: element,
         counter: 1,
         lastIndex: 0,
@@ -791,40 +798,42 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     }
   }
   else {
-    $form = that.ct.form;
-    that.children = that.ct.children;
+    $form = this.ct.form;
 
     // Increment counter
-    that.ct.counter = that.ct.counter + 1;
-    that.ct.lastIndex = that.ct.lastIndex + 1;
+    this.ct.counter = this.ct.counter + 1;
+    this.ct.lastIndex = this.ct.lastIndex + 1;
   }
 
   if (isCT) {
+    this.children = [];
     // Index is needed to later find the correct wrapper:
-    element.index = that.ct.lastIndex;
-    that.ct.wrappers[that.ct.lastIndex] = $wrapper;
+    element.index = this.ct.lastIndex;
+    this.ct.wrappers[this.ct.lastIndex] = $wrapper;
   }
 
   // Set correct aspect ratio on new images.
-  var library = this.children[0];
-  var libraryChange = function () {
-    if (library.children[0].field.type === 'image') {
-      library.children[0].changes.push(function (params) {
-        if (params === undefined) {
-          return;
-        }
+  if (this.children[0] !== undefined) {
+    var library = this.children[0];
+    var libraryChange = function () {
+      if (library.children[0].field.type === 'image') {
+        library.children[0].changes.push(function (params) {
+          if (params === undefined) {
+            return;
+          }
 
-        if (params.width !== undefined && params.height !== undefined) {
-          element.height = element.width * (params.height / params.width) * that.cp.slideRatio * that.cp.slideWidthRatio;
-        }
-      });
+          if (params.width !== undefined && params.height !== undefined) {
+            element.height = element.width * (params.height / params.width) * that.cp.slideRatio * that.cp.slideWidthRatio;
+          }
+        });
+      }
+    };
+    if (library.children === undefined) {
+      library.changes.push(libraryChange);
     }
-  };
-  if (library.children === undefined) {
-    library.changes.push(libraryChange);
-  }
-  else {
-    libraryChange();
+    else {
+      libraryChange();
+    }
   }
 
   tmpChildren[index][elementIndex] = this.children;
