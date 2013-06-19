@@ -941,11 +941,11 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
       {
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
         click: function () {
-
+          var isCT = (H5P.libraryFromString(element.action.library).machineName === 'H5P.ContinuousText');
           var elementIndex = $wrapper.index();
           var slideIndex = that.cp.$current.index();
           var slideKids = that.children[slideIndex];
-          var elementKids = slideKids[elementIndex];
+          var elementKids = isCT ? that.ct.children : slideKids[elementIndex];
           var elements = that.params[slideIndex].elements;
 
           // Validate children
@@ -961,7 +961,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
 
           // Need to do reflow, to populate all other CT's
           // and to get this CT's content after editing
-          if (H5P.libraryFromString(element.action.library).machineName === 'H5P.ContinuousText') {
+          if (isCT) {
             // Get value from form:
             that.params[0].ct = that.ct.element.action.params.text;
             // Run reflow for all elements:
