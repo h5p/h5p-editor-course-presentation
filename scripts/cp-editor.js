@@ -25,8 +25,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.field = field;
   this.params = params;
   this.resizing = false;
-  this.$forms = [];
-  this.children = [];
+  this.elements = [];
 
   this.passReadies = true;
   parent.ready(function () {
@@ -497,7 +496,7 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   }
 
   var index = this.cp.$current.index() + 1;
-  this.children.splice(index, 0, []);
+  this.elements.splice(index, 0, []);
 
   // Add slide with elements
   var $slide = H5P.jQuery(H5P.CoursePresentation.createSlide(slideParams)).insertAfter(this.cp.$current);
@@ -584,12 +583,12 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   this.params.splice(index, 1);
 
   // Remove element forms
-  var slideKids = this.children[index];
+  var slideKids = this.elements[index];
   if (slideKids !== undefined) {
     for (var i = 0; i < slideKids.length; i++) {
-      H5PEditor.removeChildren(slideKids[i]);
+      H5PEditor.removeChildren(slideKids[i].children);
     }
-    this.children.splice(index, 1);
+    this.elements.splice(index, 1);
   }
 
   H5P.ContinuousText.Engine.run(this);
@@ -635,7 +634,7 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
 
   // Update params.
   this.params.splice(newIndex, 0, this.params.splice(index, 1)[0]);
-  this.children.splice(newIndex, 0, this.children.splice(index, 1)[0]);
+  this.elements.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
 
   H5P.ContinuousText.Engine.run(this);
 
@@ -754,94 +753,111 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
 };
 
 /**
- * Callback used by CP when a new element is added.
+ * Generate element form.
  *
- * @param {Object} element
- * @param {jQuery} $wrapper
- * @param {int} index
- * @returns {undefined}
+ * @param {Object} elementParams
+ * @param {String} machineName
+ * @param {Boolean} isContinuousText
+ * @returns {Object}
  */
-H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrapper, index) {
+H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, machineName, isContinuousText) {
   var that = this;
-  var elementIndex = $wrapper.index();
 
-  if (this.children[index] === undefined) {
-    this.children[index] = [];
-  }
-  var tmpChildren = this.children;
+  if (isContinuousText && this.ct !== undefined) {
+    // ContinuousText uses the form of the first CT element.
+    this.ct.counter++;
+    this.ct.lastIndex++;
 
-  // Add form - needs to be done here so common fields work.
-  var machineName = H5P.libraryFromString(element.action.library).machineName;
-  var isCT = (machineName === 'H5P.ContinuousText');
-
-  var $form = undefined;
-
-  if (!isCT || this.ct === undefined) {
-    var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': machineName.split('.')[1]});
-    $form = H5P.jQuery('<div title="' + popupTitle + '"></div>');
-
-    H5PEditor.processSemanticsChunk(this.field.field.fields[0].field.fields, element, $form, this);
-    $form.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
-
-    if (isCT) {
-      // The complete text value is stored in the first slide:
-      element.action.params.text = this.params[0].ct;
-      // This is the first CT element added. Need to make a reference to the form so it can be used for all CT-instances.
-      this.ct = {
-        form: $form,
-        children: this.children,
-        element: element,
-        counter: 1,
-        lastIndex: 0,
-        wrappers: []
-      };
-    }
-  }
-  else {
-    $form = this.ct.form;
-
-    // Increment counter
-    this.ct.counter = this.ct.counter + 1;
-    this.ct.lastIndex = this.ct.lastIndex + 1;
+    return {
+      '$form': this.ct.form
+    };
   }
 
-  if (isCT) {
-    this.children = [];
-    // Index is needed to later find the correct wrapper:
-    element.index = this.ct.lastIndex;
-    this.ct.wrappers[this.ct.lastIndex] = $wrapper;
+  var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': machineName.split('.')[1]});
+  var element = {
+    '$form': H5P.jQuery('<div title="' + popupTitle + '"></div>')
+  };
+
+  H5PEditor.processSemanticsChunk(this.field.field.fields[0].field.fields, elementParams, element.$form, this);
+  element.children = this.children;
+
+  // Hide library selector
+  element.$form.children('.library:first').children('label, select').hide().next().css('margin-top', '0');
+
+  // Continuous text specific code
+  if (isContinuousText) {
+    // The complete text value is stored in the first slide:
+    elementParams.action.params.text = this.params[0].ct;
+
+    // TODO: Clean up and remove unused stuff.
+    this.ct = {
+      form: element.$form,
+      children: element.children,
+      element: elementParams,
+      counter: 1,
+      lastIndex: 0,
+      wrappers: []
+    };
   }
 
   // Set correct aspect ratio on new images.
-  if (this.children[0] !== undefined) {
-    var library = this.children[0];
-    var libraryChange = function () {
-      if (library.children[0].field.type === 'image') {
-        library.children[0].changes.push(function (params) {
-          if (params === undefined) {
-            return;
-          }
+  var library = element.children[0];
+  var libraryChange = function () {
+    if (library.children[0].field.type === 'image') {
+      library.children[0].changes.push(function (params) {
+        if (params === undefined) {
+          return;
+        }
 
-          if (params.width !== undefined && params.height !== undefined) {
-            element.height = element.width * (params.height / params.width) * that.cp.slideRatio * that.cp.slideWidthRatio;
-          }
-        });
-      }
-    };
-    if (library.children === undefined) {
-      library.changes.push(libraryChange);
+        if (params.width !== undefined && params.height !== undefined) {
+          elementParams.height = elementParams.width * (params.height / params.width) * that.cp.slideRatio * that.cp.slideWidthRatio;
+        }
+      });
     }
-    else {
-      libraryChange();
-    }
+  };
+  if (library.children === undefined) {
+    library.changes.push(libraryChange);
+  }
+  else {
+    libraryChange();
   }
 
-  tmpChildren[index][elementIndex] = this.children;
-  this.children = tmpChildren;
+  return element;
+};
+
+/**
+ * Callback used by CP when a new element is added.
+ *
+ * @param {Object} elementParams
+ * @param {jQuery} $wrapper
+ * @param {Number} slideIndex
+ * @returns {undefined}
+ */
+H5PEditor.CoursePresentation.prototype.processElement = function (elementParams, $wrapper, slideIndex) {
+  var that = this;
+  var elementIndex = $wrapper.index();
+  var machineName = H5P.libraryFromString(elementParams.action.library).machineName;
+  var isContinuousText = (machineName === 'H5P.ContinuousText');
+
+  if (this.elements[slideIndex] === undefined) {
+    this.elements[slideIndex] = [];
+  }
+
+  if (this.elements[slideIndex][elementIndex] === undefined) {
+    this.elements[slideIndex][elementIndex] = this.generateForm(elementParams, machineName, isContinuousText);
+  }
+  var element = this.elements[slideIndex][elementIndex];
+
+  if (isContinuousText) {
+    element.children = [];
+    // Index is needed to later find the correct wrapper:
+    elementParams.index = this.ct.lastIndex;
+    this.ct.wrappers[this.ct.lastIndex] = $wrapper;
+  }
 
   // Edit when double clicking
   $wrapper.dblclick(function () {
-    that.showElementForm($form, $wrapper, element);
+    that.showElementForm(element, $wrapper, elementParams);
   });
 
   // Allow moving of element
@@ -864,8 +880,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     minHeight: minSize,
     containment: 'parent',
     stop: function () {
-      element.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100) / that.cp.slideWidthRatio;
-      element.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);
+      elementParams.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100) / that.cp.slideWidthRatio;
+      elementParams.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);
       that.resizing = false;
     },
     start: function (event, ui) {
@@ -876,7 +892,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     },
     resize: function (event, ui) {
       // If CT, do reflow:
-      if (isCT && (Math.abs(ui.size.width - elementSize.width) > 20 || Math.abs(ui.size.height - elementSize.height) > 20)) {
+      if (isContinuousText && (Math.abs(ui.size.width - elementSize.width) > 20 || Math.abs(ui.size.height - elementSize.height) > 20)) {
         H5P.ContinuousText.Engine.run(that);
         elementSize = {
           width: ui.size.width,
@@ -888,35 +904,43 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
     that.resizing = true;
   });
 
-
   // Remove button
   H5PEditor.$('<div class="h5p-element-remove" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeElement') + '"></div>').appendTo($wrapper).click(function () {
-    if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
-      return;
-    }
-
-    if (that.dnb !== undefined && that.dnb.dnd.$coordinates !== undefined) {
-      that.dnb.dnd.$coordinates.remove();
-      delete that.dnb.dnd.$coordinates;
-    }
-
-    var slideIndex = that.cp.$current.index();
-    var elementIndex = $wrapper.index();
-    var slideKids = that.children[slideIndex];
-
-    if (!isCT) {
-      H5PEditor.removeChildren(slideKids[elementIndex]);
-    }
-
-    slideKids.splice(elementIndex, 1);
-    that.params[slideIndex].elements.splice(elementIndex, 1);
-    $wrapper.remove();
-
-    if (isCT) {
-      that.ct.counter = that.ct.counter - 1;
-      H5P.ContinuousText.Engine.run(that);
+    if (confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
+      that.removeElement(element, $wrapper, isContinuousText);
     }
   });
+};
+
+/**
+ * Removes element from slide.
+ *
+ * @param {Object} element
+ * @param {jQuery} $wrapper
+ * @param {Boolean} isContinuousText
+ * @returns {undefined}
+ */
+H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapper, isContinuousText) {
+  var slideIndex = this.cp.$current.index();
+  var elementIndex = $wrapper.index();
+
+  if (this.dnb !== undefined && this.dnb.dnd.$coordinates !== undefined) {
+    this.dnb.dnd.$coordinates.remove();
+    delete this.dnb.dnd.$coordinates;
+  }
+
+  if (element.children.length) {
+    H5PEditor.removeChildren(element.children);
+  }
+
+  this.elements[slideIndex].splice(elementIndex, 1);
+  this.params[slideIndex].elements.splice(elementIndex, 1);
+  $wrapper.remove();
+
+  if (isContinuousText) {
+    this.ct.counter--;
+    H5P.ContinuousText.Engine.run(this);
+  }
 };
 
 /**
@@ -927,10 +951,10 @@ H5PEditor.CoursePresentation.prototype.processElement = function (element, $wrap
  * @param {object} element Params
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapper, element) {
+H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wrapper, elementParams) {
   var that = this;
 
-  $form.dialog({
+  element.$form.dialog({
     modal: true,
     draggable: false,
     resizable: false,
@@ -941,12 +965,8 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
       {
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
         click: function () {
-          var isCT = (H5P.libraryFromString(element.action.library).machineName === 'H5P.ContinuousText');
-          var elementIndex = $wrapper.index();
-          var slideIndex = that.cp.$current.index();
-          var slideKids = that.children[slideIndex];
-          var elementKids = isCT ? that.ct.children : slideKids[elementIndex];
-          var elements = that.params[slideIndex].elements;
+          var isContinuousText = (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText');
+          var elementKids = isContinuousText ? that.ct.children : element.children;
 
           // Validate children
           var valid = true;
@@ -961,26 +981,31 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function ($form, $wrapp
 
           // Need to do reflow, to populate all other CT's
           // and to get this CT's content after editing
-          if (isCT) {
+          if (isContinuousText) {
             // Get value from form:
             that.params[0].ct = that.ct.element.action.params.text;
             // Run reflow for all elements:
             H5P.ContinuousText.Engine.run(that);
-            $form.dialog('close');
           }
           else {
+            var elementIndex = $wrapper.index();
+            var slideIndex = that.cp.$current.index();
+            var elementsParams = that.params[slideIndex].elements;
+            var elements = that.elements[slideIndex];
+
             // Update params
+            elementsParams.splice(elementIndex, 1);
+            elementsParams.push(elementParams);
+
+            // Update elements
             elements.splice(elementIndex, 1);
             elements.push(element);
 
             // Update visuals
-            that.cp.addElement(element, undefined, slideIndex);
             $wrapper.remove();
-
-            H5PEditor.removeChildren(elementKids);
-            slideKids.splice(elementIndex, 1);
-            $form.dialog('close').remove();
+            that.cp.addElement(elementParams, undefined, slideIndex);
           }
+          element.$form.dialog('close');
         }
       }
     ]
