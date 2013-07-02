@@ -170,6 +170,12 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   };
 };
 
+/**
+ * Create DNB button object
+ *
+ * @param {String} library
+ * @returns {H5PEditor.CoursePresentation.prototype.addDNBButton.Anonym$4}
+ */
 H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
   var that = this;
   var id = library.name.split('.')[1].toLowerCase();
