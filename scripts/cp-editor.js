@@ -137,7 +137,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   that.initializeDNB();
 
   // Add and bind slide controls.
-  H5PEditor.$('<div class="h5p-slidecontrols"><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button">&lt;</a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button">&gt;</a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button">&times;</a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button"></a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button">+</a></div>').insertAfter(this.cp.$presentationWrapper).children('a:first').click(function () {
+  H5PEditor.$('<div class="h5p-slidecontrols"><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button">&lt;</a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button">&gt;</a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button">&times;</a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button"></a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button">+</a></div>').insertAfter(this.cp.$boxWrapper).children('a:first').click(function () {
     that.sortSlide(that.cp.$current.prev(), -1); // Left
     return false;
   }).next().click(function () {
@@ -170,12 +170,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   };
 };
 
-/**
- * Create DNB button object
- *
- * @param {String} library
- * @returns {H5PEditor.CoursePresentation.prototype.addDNBButton.Anonym$4}
- */
 H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
   var that = this;
   var id = library.name.split('.')[1].toLowerCase();
@@ -197,7 +191,7 @@ H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
 H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   var that = this;
 
-  this.$bar = H5PEditor.$('<div class="h5p-dragnbar">' + H5PEditor.t('H5PEditor.CoursePresentation', 'loading') + '</div>').insertBefore(this.cp.$presentationWrapper);
+  this.$bar = H5PEditor.$('<div class="h5p-dragnbar">' + H5PEditor.t('H5PEditor.CoursePresentation', 'loading') + '</div>').insertBefore(this.cp.$boxWrapper);
   H5PEditor.$.post(H5PEditor.ajaxPath + 'libraries', {libraries: this.field.field.fields[0].field.fields[0].options}, function (libraries) {
     var buttons = [];
     for (var i = 0; i < libraries.length; i++) {
@@ -274,7 +268,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   }
 
   // Keywords removal button.
-  H5PEditor.$('<div class="h5p-keywordcontrols"><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'disableKeywords') + '" class="h5p-keywordcontrols-button">x</a></div>').insertAfter(this.cp.$presentationWrapper).children().click(function () {
+  H5PEditor.$('<div class="h5p-keywordcontrols"><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'disableKeywords') + '" class="h5p-keywordcontrols-button">x</a></div>').insertAfter(this.cp.$boxWrapper).children().click(function () {
     that.removeKeywords(H5PEditor.$(this));
     return false;
   });
