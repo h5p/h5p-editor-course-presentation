@@ -839,7 +839,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
  * @param {Number} slideIndex
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.processElement = function (elementParams, $wrapper, slideIndex) {
+H5PEditor.CoursePresentation.prototype.processElement = function (elementParams, $wrapper, slideIndex, elementInstance) {
   var that = this;
   var elementIndex = $wrapper.index();
   var machineName = H5P.libraryFromString(elementParams.action.library).machineName;
@@ -860,7 +860,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     elementParams.index = this.ct.lastIndex;
     this.ct.wrappers[this.ct.lastIndex] = $wrapper;
   }
-
+  
   // Edit when double clicking
   $wrapper.dblclick(function () {
     that.showElementForm(element, $wrapper, elementParams);
@@ -916,6 +916,10 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
       that.removeElement(element, $wrapper, isContinuousText);
     }
   });
+  
+  if(elementInstance.onAdd) {
+    elementInstance.onAdd(elementParams, slideIndex);
+  }
 };
 
 /**
@@ -929,7 +933,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
 H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapper, isContinuousText) {
   var slideIndex = this.cp.$current.index();
   var elementIndex = $wrapper.index();
-
+  var elementInstance = this.cp.elements[slideIndex][elementIndex];
+  
   if (this.dnb !== undefined && this.dnb.dnd.$coordinates !== undefined) {
     this.dnb.dnd.$coordinates.remove();
     delete this.dnb.dnd.$coordinates;
@@ -938,10 +943,14 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
   if (element.children.length) {
     H5PEditor.removeChildren(element.children);
   }
-
+  
   this.elements[slideIndex].splice(elementIndex, 1);
   this.params[slideIndex].elements.splice(elementIndex, 1);
   $wrapper.remove();
+  
+  if(elementInstance.onDelete) {
+    elementInstance.onDelete(this.params,slideIndex,elementIndex);
+  }
 
   if (isContinuousText) {
     this.ct.counter--;
@@ -1009,6 +1018,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
             // Update visuals
             $wrapper.remove();
+
             that.cp.addElement(elementParams, undefined, slideIndex);
           }
           element.$form.dialog('close');
