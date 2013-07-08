@@ -63,6 +63,12 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
           that.cp.$slideination.children('.h5p-scroll-left').attr('title', value);
         });
         break;
+        
+      case 'goHome':
+        field.change(function (value) {
+          that.cp.$slideination.children('.h5p-go-home').attr('title', value);
+        });
+        break;
 
       case 'jumpToSlide':
         field.change(function (value) {
