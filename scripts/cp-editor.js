@@ -584,6 +584,9 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   if (this.params[index].ct !== undefined) {
     this.params[index + 1].ct = this.params[index].ct;
   }
+  
+  // ExportableTextArea needs to know about the deletion:
+  H5P.ExportableTextArea.CPInterface.onDeleteSlide(index);
 
   // Update presentation params.
   this.params.splice(index, 1);
@@ -637,6 +640,9 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   // Update slideination
   var newIndex = index + direction;
   this.cp.jumpSlideination(newIndex);
+  
+  // Need to inform exportable text area about the change:
+  H5P.ExportableTextArea.CPInterface.changeSlideIndex(direction > 0 ? index : index-1, direction > 0 ? index+1 : index);
 
   // Update params.
   this.params.splice(newIndex, 0, this.params.splice(index, 1)[0]);
@@ -933,6 +939,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
 H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapper, isContinuousText) {
   var slideIndex = this.cp.$current.index();
   var elementIndex = $wrapper.index();
+  
   var elementInstance = this.cp.elements[slideIndex][elementIndex];
   
   if (this.dnb !== undefined && this.dnb.dnd.$coordinates !== undefined) {
@@ -1007,6 +1014,10 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
             var slideIndex = that.cp.$current.index();
             var elementsParams = that.params[slideIndex].elements;
             var elements = that.elements[slideIndex];
+            var elementInstances = that.cp.elements[slideIndex];
+
+            // Remove instance of lib:
+            elementInstances.splice(elementIndex, 1);
 
             // Update params
             elementsParams.splice(elementIndex, 1);
