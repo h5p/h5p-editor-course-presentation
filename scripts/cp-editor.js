@@ -25,6 +25,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.field = field;
   this.params = params;
   this.resizing = false;
+  // Elements holds a mix of forms and params, not element instances
   this.elements = [];
 
   this.passReadies = true;
@@ -63,7 +64,7 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
           that.cp.$slideination.children('.h5p-scroll-left').attr('title', value);
         });
         break;
-        
+
       case 'goHome':
         field.change(function (value) {
           that.cp.$slideination.children('.h5p-go-home').attr('title', value);
@@ -503,6 +504,7 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   var index = this.cp.$current.index() + 1;
   this.elements.splice(index, 0, []);
+  this.cp.elementInstances.splice(index, 0, []);
 
   // Add slide with elements
   var $slide = H5P.jQuery(H5P.CoursePresentation.createSlide(slideParams)).insertAfter(this.cp.$current);
@@ -584,7 +586,7 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   if (this.params[index].ct !== undefined) {
     this.params[index + 1].ct = this.params[index].ct;
   }
-  
+
   // ExportableTextArea needs to know about the deletion:
   H5P.ExportableTextArea.CPInterface.onDeleteSlide(index);
 
@@ -599,6 +601,9 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
     }
     this.elements.splice(index, 1);
   }
+
+  // Update the list of element instances
+  this.cp.elementInstances.splice(index, 1);
 
   H5P.ContinuousText.Engine.run(this);
 };
@@ -640,13 +645,14 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   // Update slideination
   var newIndex = index + direction;
   this.cp.jumpSlideination(newIndex);
-  
+
   // Need to inform exportable text area about the change:
   H5P.ExportableTextArea.CPInterface.changeSlideIndex(direction > 0 ? index : index-1, direction > 0 ? index+1 : index);
 
   // Update params.
   this.params.splice(newIndex, 0, this.params.splice(index, 1)[0]);
   this.elements.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
+  this.cp.elementInstances.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
 
   H5P.ContinuousText.Engine.run(this);
 
@@ -866,7 +872,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     elementParams.index = this.ct.lastIndex;
     this.ct.wrappers[this.ct.lastIndex] = $wrapper;
   }
-  
+
   // Edit when double clicking
   $wrapper.dblclick(function () {
     that.showElementForm(element, $wrapper, elementParams);
@@ -922,7 +928,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
       that.removeElement(element, $wrapper, isContinuousText);
     }
   });
-  
+
   if(elementInstance.onAdd) {
     elementInstance.onAdd(elementParams, slideIndex);
   }
@@ -939,9 +945,9 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
 H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapper, isContinuousText) {
   var slideIndex = this.cp.$current.index();
   var elementIndex = $wrapper.index();
-  
-  var elementInstance = this.cp.elements[slideIndex][elementIndex];
-  
+
+  var elementInstance = this.cp.elementInstances[slideIndex][elementIndex];
+
   if (this.dnb !== undefined && this.dnb.dnd.$coordinates !== undefined) {
     this.dnb.dnd.$coordinates.remove();
     delete this.dnb.dnd.$coordinates;
@@ -950,11 +956,12 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
   if (element.children.length) {
     H5PEditor.removeChildren(element.children);
   }
-  
+
   this.elements[slideIndex].splice(elementIndex, 1);
+  this.cp.elementInstances[slideIndex].splice(elementIndex, 1);
   this.params[slideIndex].elements.splice(elementIndex, 1);
+
   $wrapper.remove();
-  
   if(elementInstance.onDelete) {
     elementInstance.onDelete(this.params,slideIndex,elementIndex);
   }
@@ -1014,7 +1021,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
             var slideIndex = that.cp.$current.index();
             var elementsParams = that.params[slideIndex].elements;
             var elements = that.elements[slideIndex];
-            var elementInstances = that.cp.elements[slideIndex];
+            var elementInstances = that.cp.elementInstances[slideIndex];
 
             // Remove instance of lib:
             elementInstances.splice(elementIndex, 1);
