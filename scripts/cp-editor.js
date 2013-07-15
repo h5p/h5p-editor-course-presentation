@@ -94,7 +94,7 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
           that.cp.$slideination.children('.h5p-next').attr('title', value);
         });
         break;
-   }
+    }
   }
 };
 
