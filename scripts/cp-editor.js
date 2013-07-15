@@ -106,15 +106,34 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
  */
 H5PEditor.CoursePresentation.prototype.addElement = function (library) {
   var libraryName = library.split(' ')[0];
+  var h = 40, w = 40, params = {};
+  switch (libraryName) {
+    case 'H5P.Audio':
+      h = 15, w = 45;
+      break;
+    case 'H5P.DragQuestion':
+      h = 50, w = 50;
+      params = {
+        question: {
+          settings: {
+            size: {
+              width: Math.round(this.cp.$current.width() / 2),
+              height: Math.round(this.cp.$current.height() / 2)
+            }
+          }
+        }
+      }
+      break;
+  }
   var elParams = {
     action: {
       library: library,
-      params: {}
+      params: params
     },
     x: 0,
     y: 0,
-    width: libraryName === 'H5P.Audio' ? 45 : 40,
-    height: libraryName === 'H5P.Audio' ? 15 : 40
+    width: w,
+    height: h
   };
 
   this.params[this.cp.$current.index()].elements.push(elParams);
@@ -795,7 +814,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
   var element = {
     '$form': H5P.jQuery('<div title="' + popupTitle + '"></div>')
   };
-
   H5PEditor.processSemanticsChunk(this.field.field.fields[0].field.fields, elementParams, element.$form, this);
   element.children = this.children;
 
@@ -982,6 +1000,10 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
  */
 H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wrapper, elementParams) {
   var that = this;
+
+  if (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.DragQuestion') {
+    element.$form.find('.dimensions').hide();
+  }
 
   element.$form.dialog({
     modal: true,
