@@ -1011,10 +1011,6 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
  */
 H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wrapper, elementParams) {
   var that = this;
-  
-  if (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.DragQuestion') {
-    this.manipulateDragQuestion(element);
-  }
 
   element.$form.dialog({
     modal: true,
@@ -1057,6 +1053,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       }
     ]
   });
+  if (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.DragQuestion') {
+    this.manipulateDragQuestion(element);
+  }
 };
 
 H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, element, elementParams) {
@@ -1083,12 +1082,17 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   this.cp.addElement(elementParams, undefined, slideIndex);
 }
 
-// TODO: Remove this function, it is only useful for people with a beta7 version or older of the core
+
 H5PEditor.CoursePresentation.prototype.manipulateDragQuestion = function(element) {
+  // TODO: Remove this when H5P supports semantics overriding
   element.$form.find('.dimensions').hide();
 
   // Clear the setSize function of the dimensions object in DragQuestion
+  // TODO: Remove this function, it is only useful for people with a beta7 version or older of the core
   element.children[0].children[2].children[0].children[1].setSize = function () {};
+
+  // call setActive on the second step so that any changes to params takes effect
+  element.children[0].children[2].children[1].setActive();
 }
 
 /**
