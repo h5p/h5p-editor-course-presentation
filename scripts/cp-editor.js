@@ -1004,6 +1004,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
   if (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.DragQuestion') {
     element.$form.find('.dimensions').hide();
   }
+  if (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.DragQuestion') {
+    this.manipulateDragQuestion(element);
+  }
 
   element.$form.dialog({
     modal: true,
@@ -1067,6 +1070,12 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     ]
   });
 };
+
+// TODO: Remove this function, it is only useful for people with a beta7 version or older of the core
+H5PEditor.CoursePresentation.prototype.manipulateDragQuestion = function(element) {
+  // Clear the setSize function of the dimensions object in DragQuestion
+  element.children[0].children[2].children[0].children[1].setSize = function () {};
+}
 
 /**
  * Collect functions to execute once the tree is complete.
