@@ -117,8 +117,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
         question: {
           settings: {
             size: {
-              width: Math.round(this.cp.$current.width() / 2),
-              height: Math.round(this.cp.$current.height() / 2)
+              width: Math.round(this.cp.$current.width() * h / 100),
+              height: Math.round(this.cp.$current.height() *h / 100)
             }
           }
         }
@@ -874,6 +874,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   var elementIndex = $wrapper.index();
   var machineName = H5P.libraryFromString(elementParams.action.library).machineName;
   var isContinuousText = (machineName === 'H5P.ContinuousText');
+  var isDragQuestion = (machineName === 'H5P.DragQuestion');
 
   if (this.elements[slideIndex] === undefined) {
     this.elements[slideIndex] = [];
@@ -919,6 +920,9 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
       elementParams.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100) / that.cp.slideWidthRatio;
       elementParams.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);
       that.resizing = false;
+      if (isDragQuestion) {
+        that.updateDragQuestion($wrapper, element, elementParams);
+      }
     },
     start: function (event, ui) {
       elementSize = {
@@ -951,6 +955,13 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     elementInstance.onAdd(elementParams, slideIndex);
   }
 };
+
+H5PEditor.CoursePresentation.prototype.updateDragQuestion = function($wrapper, element, elementParams) {
+  var size = elementParams.action.params.question.settings.size;
+  size.width = Math.round(this.cp.$current.width() * elementParams.width / 100);
+  size.height = Math.round(this.cp.$current.height() * elementParams.height / 100);
+  this.redrawElement($wrapper, element, elementParams);
+}
 
 /**
  * Removes element from slide.
@@ -1042,27 +1053,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
             H5P.ContinuousText.Engine.run(that);
           }
           else {
-            var elementIndex = $wrapper.index();
-            var slideIndex = that.cp.$current.index();
-            var elementsParams = that.params[slideIndex].elements;
-            var elements = that.elements[slideIndex];
-            var elementInstances = that.cp.elementInstances[slideIndex];
-
-            // Remove instance of lib:
-            elementInstances.splice(elementIndex, 1);
-
-            // Update params
-            elementsParams.splice(elementIndex, 1);
-            elementsParams.push(elementParams);
-
-            // Update elements
-            elements.splice(elementIndex, 1);
-            elements.push(element);
-
-            // Update visuals
-            $wrapper.remove();
-
-            that.cp.addElement(elementParams, undefined, slideIndex);
+            that.redrawElement($wrapper, element, elementParams);
           }
           element.$form.dialog('close');
         }
@@ -1070,6 +1061,30 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     ]
   });
 };
+
+H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, element, elementParams) {
+  var elementIndex = $wrapper.index();
+  var slideIndex = this.cp.$current.index();
+  var elementsParams = this.params[slideIndex].elements;
+  var elements = this.elements[slideIndex];
+  var elementInstances = this.cp.elementInstances[slideIndex];
+
+  // Remove instance of lib:
+  elementInstances.splice(elementIndex, 1);
+
+  // Update params
+  elementsParams.splice(elementIndex, 1);
+  elementsParams.push(elementParams);
+
+  // Update elements
+  elements.splice(elementIndex, 1);
+  elements.push(element);
+
+  // Update visuals
+  $wrapper.remove();
+
+  this.cp.addElement(elementParams, undefined, slideIndex);
+}
 
 // TODO: Remove this function, it is only useful for people with a beta7 version or older of the core
 H5PEditor.CoursePresentation.prototype.manipulateDragQuestion = function(element) {
