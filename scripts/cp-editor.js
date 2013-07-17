@@ -151,7 +151,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
   this.$item = H5PEditor.$(this.createHtml()).appendTo($wrapper);
   this.$editor = this.$item.children('.editor');
-  this.$errors = this.$item.children('.errors');
+  this.$errors = this.$item.children('.h5p-errors');
 
   // Create new presentation.
   this.cp = new H5P.CoursePresentation({
