@@ -247,6 +247,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         else {
           that.dnb.dnd.$element.dblclick();
         }
+        that.dnb.newElement = false;
       }
     };
 
