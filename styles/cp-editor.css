@@ -258,3 +258,6 @@
 .h5p-course-presentation .h5p-multichoice > .h5p-show-solution, .h5p-course-presentation .h5p-element .h5p-hidden-solution-btn {
   display: block;
 }
+.ui-dialog .ui-dialog-buttonset .h5p-remove {
+  background: #e6c9c9;
+}

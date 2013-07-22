@@ -1023,6 +1023,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     buttons: [
       {
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
+        class: 'h5p-remove',
         click: function () {
           var isContinuousText = (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText');
           element.$form.dialog('close');
