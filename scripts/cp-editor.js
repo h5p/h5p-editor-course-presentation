@@ -823,9 +823,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
 
   // Continuous text specific code
   if (isContinuousText) {
-    // The complete text value is stored in the first slide:
-    elementParams.action.params.text = this.params[0].ct;
-
     // TODO: Clean up and remove unused stuff.
     this.ct = {
       form: element.$form,
@@ -1013,6 +1010,13 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
 H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wrapper, elementParams) {
   var that = this;
 
+  var isContinuousText = (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText');
+  if (isContinuousText) {
+    // Make sure form uses the right text. There ought to be a better way of
+    // doing this.
+    that.ct.form.find('.text .ckeditor').first().html(that.params[0].ct);
+  }
+
   element.$form.dialog({
     modal: true,
     draggable: false,
@@ -1025,7 +1029,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
         class: 'h5p-remove',
         click: function () {
-          var isContinuousText = (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText');
           element.$form.dialog('close');
           that.removeElement(element, $wrapper, isContinuousText);
         }
@@ -1033,7 +1036,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       {
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
         click: function () {
-          var isContinuousText = (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText');
           var elementKids = isContinuousText ? that.ct.children : element.children;
 
           // Validate children
