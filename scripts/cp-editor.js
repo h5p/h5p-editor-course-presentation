@@ -229,7 +229,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     // Update params when the element is dropped.
     that.dnb.stopMovingCallback = function (x, y) {
       var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
-      params.x = x;
+      params.x = x * that.cp.slideWidthRatio;
       params.y = y;
     };
 
@@ -781,9 +781,11 @@ H5PEditor.CoursePresentation.prototype.removeKeywords = function ($button) {
       for (var j = 0; j < this.params[i].elements.length; j++) {
         if (this.params[i].elements[j].x !== undefined) {
           this.params[i].elements[j].x = parseFloat(this.params[i].elements[j].x) + oldWidth;
+          this.elements[i][j].$wrapper.css('left', this.params[i].elements[j].x + '%');
         }
         if (this.params[i].elements[j].width) {
           this.params[i].elements[j].width = parseFloat(this.params[i].elements[j].width) * (100 - oldWidth)/100;
+          this.elements[i][j].$wrapper.css('width', this.params[i].elements[j].width + '%');
         }
       }
     }
@@ -882,6 +884,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     this.elements[slideIndex][elementIndex] = this.generateForm(elementParams, machineName, isContinuousText);
   }
   var element = this.elements[slideIndex][elementIndex];
+  element.$wrapper = $wrapper;
 
   if (isContinuousText) {
     element.children = [];
@@ -915,7 +918,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     minHeight: minSize,
     containment: 'parent',
     stop: function () {
-      elementParams.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100) / that.cp.slideWidthRatio;
+      elementParams.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100);
       elementParams.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);
       that.resizing = false;
       if (isDragQuestion) {
