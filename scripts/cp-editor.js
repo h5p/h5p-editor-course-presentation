@@ -962,7 +962,7 @@ H5PEditor.CoursePresentation.prototype.updateDragQuestion = function($wrapper, e
   size.width = Math.round(this.cp.$current.width() * elementParams.width / 100);
   size.height = Math.round(this.cp.$current.height() * elementParams.height / 100);
   this.redrawElement($wrapper, element, elementParams);
-}
+};
 
 /**
  * Removes element from slide.
@@ -1089,7 +1089,7 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   $wrapper.remove();
 
   this.cp.addElement(elementParams, undefined, slideIndex);
-}
+};
 
 
 H5PEditor.CoursePresentation.prototype.manipulateDragQuestion = function(element) {
@@ -1102,7 +1102,7 @@ H5PEditor.CoursePresentation.prototype.manipulateDragQuestion = function(element
 
   // call setActive on the second step so that any changes to params takes effect
   element.children[0].children[2].children[1].setActive();
-}
+};
 
 /**
  * Collect functions to execute once the tree is complete.
