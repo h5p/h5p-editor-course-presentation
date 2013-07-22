@@ -1022,6 +1022,14 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     appendTo: '.h5p-course-presentation',
     buttons: [
       {
+        text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
+        click: function () {
+          var isContinuousText = (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText');
+          element.$form.dialog('close');
+          that.removeElement(element, $wrapper, isContinuousText);
+        }
+      },
+      {
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
         click: function () {
           var isContinuousText = (H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText');
@@ -1131,6 +1139,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "confirmRemoveElement": "Are you sure you wish to remove this element?",
     "cancel": "Cancel",
     "done": "Done",
+    "remove": "Remove",
     "keywordsTip": "Drag in keywords using the two buttons above.",
     "popupTitle": "Edit :type",
     "loading": "Loading..."
