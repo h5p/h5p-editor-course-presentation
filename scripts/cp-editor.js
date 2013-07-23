@@ -911,6 +911,21 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
 
   var elementSize = {};
 
+  var ctReflowRunning = false;
+  var startCTReflowLoop = function () {
+    ctReflowRunning = true;
+    // Note: Not using setInterval because the reflow may be so slow it will
+    // creep across timer boundaries. Better to force a 250ms wait inbetween.
+    setTimeout(function reflowLoop() {
+      H5P.ContinuousText.Engine.run(that);
+
+      // Keep reflowing until stopped.
+      if (ctReflowRunning) {
+        setTimeout(reflowLoop, 250);
+      }
+    }, 250);
+  };
+
   // Allow resize
   var minSize = this.cp.fontSize * 2;
   $wrapper.resizable({
@@ -924,22 +939,19 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
       if (isDragQuestion) {
         that.updateDragQuestion($wrapper, element, elementParams);
       }
+      if (isContinuousText) {
+        ctReflowRunning = false;
+      }
     },
     start: function (event, ui) {
+      if (isContinuousText) {
+        startCTReflowLoop();
+      }
+
       elementSize = {
         width: ui.size.width,
         height: ui.size.height
       };
-    },
-    resize: function (event, ui) {
-      // If CT, do reflow:
-      if (isContinuousText && (Math.abs(ui.size.width - elementSize.width) > 20 || Math.abs(ui.size.height - elementSize.height) > 20)) {
-        H5P.ContinuousText.Engine.run(that);
-        elementSize = {
-          width: ui.size.width,
-          height: ui.size.height
-        };
-      }
     }
   }).children('.ui-resizable-handle').mousedown(function () {
     that.resizing = true;
