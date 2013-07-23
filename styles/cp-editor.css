@@ -261,3 +261,6 @@
 .ui-dialog .ui-dialog-buttonset .h5p-remove {
   background: #e6c9c9;
 }
+.h5p-course-presentation .ui-widget {
+  font-size: 1em;
+}
