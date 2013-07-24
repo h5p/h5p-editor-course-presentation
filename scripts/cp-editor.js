@@ -1044,6 +1044,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
         class: 'h5p-remove',
         click: function () {
+          if (H5PEditor.Html) {
+            H5PEditor.Html.removeWysiwyg();
+          }
           element.$form.dialog('close');
           that.removeElement(element, $wrapper, isContinuousText);
         }
