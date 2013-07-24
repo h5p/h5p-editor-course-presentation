@@ -258,9 +258,12 @@
 .h5p-course-presentation .h5p-multichoice > .h5p-show-solution, .h5p-course-presentation .h5p-element .h5p-hidden-solution-btn {
   display: block;
 }
-.ui-dialog .ui-dialog-buttonset .h5p-remove {
-  background: #e6c9c9;
-}
 .h5p-course-presentation .ui-widget {
   font-size: 1em;
+}
+.h5peditor .ui-dialog .ui-dialog-buttonset .h5p-remove {
+  background: #e6c9c9;
+}
+.h5peditor .ui-dialog .ui-dialog-buttonpane button {
+  float: none;
 }
