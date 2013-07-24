@@ -1075,6 +1075,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
           else {
             that.redrawElement($wrapper, element, elementParams);
           }
+          if (H5PEditor.Html) {
+            H5PEditor.Html.removeWysiwyg();
+          }
           element.$form.dialog('close');
         }
       }
