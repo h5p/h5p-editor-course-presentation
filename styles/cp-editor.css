@@ -1,8 +1,9 @@
+.h5p-course-presentation {
+  margin-top: 5.5%;
+}
+
 .h5p-course-presentation .h5p-wrapper {
   height: 440px;
-}
-.h5p-course-presentation .h5p-box-wrapper {
-  height: 81.82%;
 }
 
 .h5p-course-presentation .h5p-slidecontrols, .h5p-course-presentation .h5p-keywordcontrols {
@@ -149,7 +150,10 @@
 
 .h5p-dragnbar {
   height: 9.09%;
-  background: #f7f0f9;
+  background: transparent;
+  position: absolute;
+  top: -10%;
+  width: 100%;
 }
 .h5p-dragnbar-ul {
   list-style: none;
