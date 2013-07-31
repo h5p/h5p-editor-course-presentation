@@ -27,6 +27,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.resizing = false;
   // Elements holds a mix of forms and params, not element instances
   this.elements = [];
+  this.slideRatio = 1.9753;
 
   this.passReadies = true;
   parent.ready(function () {
@@ -846,7 +847,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
         }
 
         if (params.width !== undefined && params.height !== undefined) {
-          elementParams.height = elementParams.width * (params.height / params.width) * that.cp.slideRatio * that.cp.slideWidthRatio;
+          elementParams.height = elementParams.width * (params.height / params.width) * that.slideRatio * that.cp.slideWidthRatio;
         }
       });
     }
