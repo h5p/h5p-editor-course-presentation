@@ -932,6 +932,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   $wrapper.resizable({
     minWidth: minSize,
     minHeight: minSize,
+    grid: [10, 10],
     containment: 'parent',
     stop: function () {
       elementParams.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100);
@@ -956,6 +957,17 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     }
   }).children('.ui-resizable-handle').mousedown(function () {
     that.resizing = true;
+  });
+
+  // Override resizing snap to grid with Ctrl
+  H5P.$body.keydown(function (event) {
+    if (event.keyCode === 17) {
+      $wrapper.resizable('option', 'grid', false);
+    }
+  }).keyup(function (event) {
+    if (event.keyCode === 17) {
+      $wrapper.resizable('option', 'grid', [10, 10]);
+    }
   });
 
   // Remove button
@@ -1123,10 +1135,10 @@ H5PEditor.CoursePresentation.prototype.manipulateDragQuestion = function(element
 
   // Clear the setSize function of the dimensions object in DragQuestion
   // TODO: Remove this function, it is only useful for people with a beta7 version or older of the core
-  element.children[0].children[2].children[0].children[1].setSize = function () {};
+  element.children[0].children[3].children[0].children[1].setSize = function () {};
 
   // call setActive on the second step so that any changes to params takes effect
-  element.children[0].children[2].children[1].setActive();
+  element.children[0].children[3].children[1].setActive();
 };
 
 /**
