@@ -970,13 +970,6 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     }
   });
 
-  // Remove button
-  H5PEditor.$('<div class="h5p-element-remove" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeElement') + '"></div>').appendTo($wrapper).click(function () {
-    if (confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
-      that.removeElement(element, $wrapper, isContinuousText);
-    }
-  });
-
   if(elementInstance.onAdd) {
     elementInstance.onAdd(elementParams, slideIndex);
   }
