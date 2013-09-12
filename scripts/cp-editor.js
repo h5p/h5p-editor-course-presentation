@@ -859,6 +859,10 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
     libraryChange();
   }
 
+  if (elementParams.action.library.split(' ')[0] !== 'H5P.Text') {
+    element.$form.children('.field.boolean:last').hide();
+  }
+
   return element;
 };
 
@@ -927,48 +931,50 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     }, 250);
   };
 
-  // Allow resize
-  var minSize = this.cp.fontSize * 2;
-  $wrapper.resizable({
-    minWidth: minSize,
-    minHeight: minSize,
-    grid: [10, 10],
-    containment: 'parent',
-    stop: function () {
-      elementParams.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100);
-      elementParams.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);
-      that.resizing = false;
-      if (isDragQuestion) {
-        that.updateDragQuestion($wrapper, element, elementParams);
-      }
-      if (isContinuousText) {
-        ctReflowRunning = false;
-      }
-    },
-    start: function (event, ui) {
-      if (isContinuousText) {
-        startCTReflowLoop();
-      }
+  if (elementParams.displayAsButton === undefined || !elementParams.displayAsButton) {
+    // Allow resize
+    var minSize = this.cp.fontSize * 2;
+    $wrapper.resizable({
+      minWidth: minSize,
+      minHeight: minSize,
+      grid: [10, 10],
+      containment: 'parent',
+      stop: function () {
+        elementParams.width = ($wrapper.width() + 2) / (that.cp.$current.innerWidth() / 100);
+        elementParams.height = ($wrapper.height() + 2) / (that.cp.$current.innerHeight() / 100);
+        that.resizing = false;
+        if (isDragQuestion) {
+          that.updateDragQuestion($wrapper, element, elementParams);
+        }
+        if (isContinuousText) {
+          ctReflowRunning = false;
+        }
+      },
+      start: function (event, ui) {
+        if (isContinuousText) {
+          startCTReflowLoop();
+        }
 
-      elementSize = {
-        width: ui.size.width,
-        height: ui.size.height
-      };
-    }
-  }).children('.ui-resizable-handle').mousedown(function () {
-    that.resizing = true;
-  });
+        elementSize = {
+          width: ui.size.width,
+          height: ui.size.height
+        };
+      }
+    }).children('.ui-resizable-handle').mousedown(function () {
+      that.resizing = true;
+    });
 
-  // Override resizing snap to grid with Ctrl
-  H5P.$body.keydown(function (event) {
-    if (event.keyCode === 17) {
-      $wrapper.resizable('option', 'grid', false);
-    }
-  }).keyup(function (event) {
-    if (event.keyCode === 17) {
-      $wrapper.resizable('option', 'grid', [10, 10]);
-    }
-  });
+    // Override resizing snap to grid with Ctrl
+    H5P.$body.keydown(function (event) {
+      if (event.keyCode === 17) {
+        $wrapper.resizable('option', 'grid', false);
+      }
+    }).keyup(function (event) {
+      if (event.keyCode === 17) {
+        $wrapper.resizable('option', 'grid', [10, 10]);
+      }
+    });
+  }
 
   if(elementInstance.onAdd) {
     elementInstance.onAdd(elementParams, slideIndex);
