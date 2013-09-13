@@ -1044,6 +1044,14 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     that.ct.form.find('.text .ckeditor').first().html(that.params[0].ct);
   }
 
+  // Remove coordinates input fields.
+  if (this.dnb !== undefined && this.dnb.dnd.$coordinates !== undefined) {
+    setTimeout(function () {
+      that.dnb.dnd.$coordinates.remove();
+      delete that.dnb.dnd.$coordinates;
+    }, 1);
+  }
+
   element.$form.dialog({
     modal: true,
     draggable: false,
