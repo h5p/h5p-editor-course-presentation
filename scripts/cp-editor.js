@@ -845,7 +845,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
         if (params === undefined) {
           return;
         }
-
+        
         if (params.width !== undefined && params.height !== undefined) {
           elementParams.height = elementParams.width * (params.height / params.width) * that.slideRatio * that.cp.slideWidthRatio;
         }
