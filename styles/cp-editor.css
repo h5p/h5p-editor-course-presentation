@@ -1,11 +1,11 @@
 /* IcoMoon font licensed under the GNU General Public License: http://www.gnu.org/licenses/gpl.html */
 @font-face {
   font-family: 'h5p';
-  src:url('../fonts/h5p.eot');
-  src:url('../fonts/h5p.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/h5p.woff') format('woff'),
-    url('../fonts/h5p.ttf') format('truetype'),
-    url('../fonts/h5p.svg#icomoon') format('svg');
+  src:url('../fonts/H5P.eot');
+  src:url('../fonts/H5P.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/H5P.woff') format('woff'),
+    url('../fonts/H5P.ttf') format('truetype'),
+    url('../fonts/H5P.svg#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -103,7 +103,7 @@
 }
 
 .h5p-course-presentation .h5p-keywordcontrols-button:after {
-  font-family: FontAwesome;
+  font-family: H5PFontAwesome;
   content: "\f057";
   margin-left: 0.4em;
   color: #c33f62; 
@@ -128,7 +128,7 @@
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-clone:before {
-  font-family: FontAwesome;
+  font-family: H5PFontAwesome;
   content: "\f0c5";
   margin-left: 0.1em;
   color: #494949; 
@@ -152,14 +152,14 @@
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-delete:before {
-  font-family: FontAwesome;
+  font-family: H5PFontAwesome;
   content: "\f014";
   color: #494949; 
   font-size: 1.1em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-add:before {
-  font-family: FontAwesome;
+  font-family: H5PFontAwesome;
   content: "\f055";
   color: #494949; 
   font-size: 1.1em;
@@ -209,7 +209,7 @@
 }
 
 .h5p-course-presentation .h5p-delete-keyword:after {
-  font-family: FontAwesome;
+  font-family: H5PFontAwesome;
   content: "\f057";
   color: #ccc;
 }
@@ -387,35 +387,35 @@
 }
 
 .h5p-dragnbar-table-button:before {
-  font-family: FontAwesome;
+  font-family: H5PFontAwesome;
   content: "\f0ce";
   color: #494949;
   font-size: 1.1em;
 }
 
 .h5p-dragnbar-image-button:before {
-  font-family: FontAwesome;
+  font-family: H5PFontAwesome;
   content: "\f03e";
   color: #494949;
   font-size: 1.1em; 
 }
 
 .h5p-dragnbar-audio-button:before {
-  font-family: FontAwesome;
+  font-family: H5PFontAwesome;
   content: "\f028";
   color: #494949;
   font-size: 1.1em;
 }
 
 .h5p-dragnbar-video-button:before {
-  font-family: FontAwesome;
+  font-family: H5PFontAwesome;
   content: "\f008";
   color: #494949;
   font-size: 1em;
 }
 
 .h5p-dragnbar-more-button:before {
-  font-family: FontAwesome;
+  font-family: H5PFontAwesome;
   content: "\e997";
   color: #494949;
   font-size: 1.5em;
