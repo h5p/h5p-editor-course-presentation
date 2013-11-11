@@ -696,7 +696,8 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   if (!main && !$ancestor.parent().parent().hasClass('h5p-current')) {
     return false;
   }
-
+  
+  var slideIndex = that.cp.$current.index();
   var $delete = H5PEditor.$('<a href="#" class="h5p-delete-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'deleteKeyword') + '"></a>');
   var $textarea = H5PEditor.$('<textarea>' + ($li.hasClass('h5p-empty-keyword') ? '' : $span.text()) + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
     if (event.keyCode === 13) {
@@ -721,7 +722,6 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     $textarea.add($delete).remove();
 
     // Update params
-    var slideIndex = that.cp.$current.index();
     if (main) {
       that.params[slideIndex].keywords[$li.index()].main = keyword;
     }
@@ -734,7 +734,6 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 
   $delete.insertBefore($textarea).mousedown(function () {
     // Remove keyword
-    var slideIndex = that.cp.$current.index();
     if (main) {
       that.params[slideIndex].keywords.splice($li.index(), 1);
       $li.add($textarea).remove();
