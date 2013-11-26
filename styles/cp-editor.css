@@ -234,8 +234,6 @@
 
 .h5p-course-presentation .h5p-element {
   border: 1px dashed #a0a0a0;
-}
-.h5p-course-presentation .h5p-element.summary-content {
   overflow: hidden;
 }
 
