@@ -234,7 +234,7 @@
 
 .h5p-course-presentation .h5p-element {
   border: 1px dashed #a0a0a0;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .h5p-course-presentation .h5p-element-remove {
