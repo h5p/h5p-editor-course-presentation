@@ -932,7 +932,10 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
 
   if (elementParams.displayAsButton === undefined || !elementParams.displayAsButton) {
     // Allow resize
-    var minSize = this.cp.fontSize * 2;
+    // Calculate minimum height - one line of text + padding:
+    var fontSize = parseInt($wrapper.css('font-size'));
+    var padding = $wrapper.outerHeight() - $wrapper.innerHeight();
+    var minSize = fontSize + padding;
     $wrapper.resizable({
       minWidth: minSize,
       minHeight: minSize,
