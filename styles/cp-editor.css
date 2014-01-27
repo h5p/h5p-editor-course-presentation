@@ -31,14 +31,14 @@
 
 .h5p-course-presentation .h5p-slidecontrols {
   float: right;
-  border-radius: 0.5em;    
+  border-radius: 0.5em;
   margin: 0.15em;
   border: 1px solid #d9d9d9;
   }
 
 .h5p-course-presentation .h5p-keywordcontrols {
   float: left;
-  border-radius: 0.5em;    
+  border-radius: 0.5em;
   margin: 0.15em;
   border: 1px solid #d9d9d9;
   width: auto;
@@ -53,7 +53,7 @@
   line-height: 1.5em;
   padding: 0.25em 0.5em;
   height: 1.5em;
-  
+
   background: rgb(240,240,240); /* Old browsers */
   background: -moz-linear-gradient(top,  rgba(240,240,240,1) 1%, rgba(204,204,204,1) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(240,240,240,1)), color-stop(100%,rgba(204,204,204,1))); /* Chrome,Safari4+ */
@@ -64,7 +64,7 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button, .h5p-course-presentation .h5p-slidecontrols-button:hover {  
+.h5p-course-presentation .h5p-keywordcontrols-button, .h5p-course-presentation .h5p-slidecontrols-button:hover {
   background: rgb(204,204,204); /* Old browsers */
   background: -moz-linear-gradient(top,  rgba(204,204,204,1) 12%, rgba(240,240,240,1) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(12%,rgba(204,204,204,1)), color-stop(100%,rgba(240,240,240,1))); /* Chrome,Safari4+ */
@@ -80,7 +80,7 @@
   line-height: 1.5em;
   padding: 0.25em 0.5em;
   height: 1.5em;
-  
+
   background: rgb(240,240,240); /* Old browsers */
   background: -moz-linear-gradient(top,  rgba(240,240,240,1) 1%, rgba(204,204,204,1) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(240,240,240,1)), color-stop(100%,rgba(204,204,204,1))); /* Chrome,Safari4+ */
@@ -88,10 +88,10 @@
   background: -o-linear-gradient(top,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* Opera 11.10+ */
   background: -ms-linear-gradient(top,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* IE10+ */
   background: linear-gradient(to bottom,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */  
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button:hover {  
+.h5p-course-presentation .h5p-keywordcontrols-button:hover {
   background: rgb(204,204,204); /* Old browsers */
   background: -moz-linear-gradient(top,  rgba(204,204,204,1) 12%, rgba(240,240,240,1) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(12%,rgba(204,204,204,1)), color-stop(100%,rgba(240,240,240,1))); /* Chrome,Safari4+ */
@@ -106,7 +106,7 @@
   font-family: H5PFontAwesome;
   content: "\f057";
   margin-left: 0.4em;
-  color: #c33f62; 
+  color: #c33f62;
 }
 
 .h5p-course-presentation .h5p-keywordcontrols-button:first-child, .h5p-course-presentation .h5p-slidecontrols-button:first-child {
@@ -131,37 +131,37 @@
   font-family: H5PFontAwesome;
   content: "\f0c5";
   margin-left: 0.1em;
-  color: #494949; 
+  color: #494949;
   margin-left: -0.1em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-sort-left:before {
   font-family: h5p;
   content: "\e987";
-  color: #494949; 
-  font-size: 1.4em;  
+  color: #494949;
+  font-size: 1.4em;
   margin-left: -0.1em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-sort-right:before {
   font-family: h5p;
   content: "\e988";
-  color: #494949; 
-  font-size: 1.4em;  
+  color: #494949;
+  font-size: 1.4em;
   margin-left: -0.1em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-delete:before {
   font-family: H5PFontAwesome;
   content: "\f014";
-  color: #494949; 
+  color: #494949;
   font-size: 1.1em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-add:before {
   font-family: H5PFontAwesome;
   content: "\f055";
-  color: #494949; 
+  color: #494949;
   font-size: 1.1em;
   margin-left: 0;
 }
@@ -201,7 +201,7 @@
 }
 .h5p-course-presentation .h5p-delete-keyword {
   position: absolute;
-  right: -0.7em; 
+  right: -0.7em;
   top: 50%;
   width: 1em;
   height: 1em;
@@ -216,7 +216,7 @@
 
 .h5p-course-presentation .h5p-delete-keyword:hover:after {
   color: #c33f62;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .h5p-course-presentation .h5p-delete-keyword:hover {
@@ -395,7 +395,7 @@
   font-family: H5PFontAwesome;
   content: "\f03e";
   color: #494949;
-  font-size: 1.1em; 
+  font-size: 1.1em;
 }
 
 .h5p-dragnbar-audio-button:before {
@@ -430,34 +430,34 @@
   font-family: h5p;
   content: "\e994";
   color: #494949;
-  font-size: 1.2em;  
+  font-size: 1.2em;
 }
 
 .h5p-dragnbar-multichoice-button:before {
   font-family: h5p;
   content: "\e993";
   color: #494949;
-  font-size: 1.2em;    
+  font-size: 1.2em;
 }
 .h5p-dragnbar-summary-button:before {
   font-family: h5p;
   content: "\e992";
   color: #494949;
-  font-size: 1.2em;    
+  font-size: 1.2em;
 }
 
 .h5p-dragnbar-continuoustext-button:before {
   font-family: h5p;
   content: "\e996";
   color: #494949;
-  font-size: 1.2em;    
+  font-size: 1.2em;
 }
 
 .h5p-dragnbar-exportabletextarea-button:before {
   font-family: h5p;
   content: "\e995";
   color: #494949;
-  font-size: 1.3em;  
+  font-size: 1.3em;
 }
 
 .h5p-dragnbar-li-ul {
