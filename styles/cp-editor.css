@@ -291,12 +291,16 @@
   top: -7%;
   width: 100%;
 }
-.h5p-dragnbar-ul {
+
+.h5p-dragnbar .h5p-dragnbar-ul {
   list-style: none;
-  float: right;
   margin: 0;
   padding: 0;
   height: 100%;
+}
+
+.h5p-dragnbar-ul {
+  float: right;
 }
 
 .h5p-dragnbar-li {
