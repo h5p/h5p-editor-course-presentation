@@ -673,7 +673,7 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   // Update params.
   this.params.splice(newIndex, 0, this.params.splice(index, 1)[0]);
   this.elements.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
-  this.cp.elementInstances.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
+  this.cp.elementInstances.splice(newIndex, 0, this.cp.elementInstances.splice(index, 1)[0]);
 
   H5P.ContinuousText.Engine.run(this);
 
