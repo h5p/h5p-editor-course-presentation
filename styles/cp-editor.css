@@ -15,7 +15,7 @@
 }
 
 .h5p-course-presentation {
-  margin-top: 5.5%;
+  margin-top: 4%;
 }
 
 .h5p-course-presentation .h5p-wrapper {
@@ -289,7 +289,11 @@
   background: transparent;
   position: absolute;
   top: -7%;
+  left: 0;
   width: 100%;
+  margin-top: 0.5em;
+  padding: 0 0.5em;
+  box-sizing: border-box;
 }
 
 .h5p-dragnbar .h5p-dragnbar-ul {
