@@ -48,6 +48,11 @@
       "minorVersion": 0
     },
     {
+      "machineName": "H5P.Link",
+      "majorVersion": 1,
+      "minorVersion": 0
+    },
+    {
       "machineName": "H5P.ContinuousText",
       "majorVersion": 1,
       "minorVersion": 0
