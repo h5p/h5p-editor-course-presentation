@@ -400,6 +400,13 @@
   font-size: 1.1em;
 }
 
+.h5p-dragnbar-link-button:before {
+  font-family: H5PFontAwesome;
+  content: "\f0c1";
+  color: #494949;
+  font-size: 1.1em;
+}
+
 .h5p-dragnbar-image-button:before {
   font-family: H5PFontAwesome4;
   content: "\f03e";
@@ -423,9 +430,9 @@
 
 .h5p-dragnbar-more-button:before {
   font-family: H5PFontAwesome4;
-  content: "\e997";
+  content: "\f067";
   color: #494949;
-  font-size: 1.5em;
+  font-size: 1em;
 }
 
 .h5p-dragnbar-dragquestion-button:before {
@@ -470,6 +477,8 @@
 }
 
 .h5p-dragnbar-li-ul {
+  padding: 0;
+  list-style: none;
   position: absolute;
   top: 1.7em;
   right: 0;
