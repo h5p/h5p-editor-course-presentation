@@ -400,7 +400,7 @@
 }
 
 .h5p-dragnbar-link-button:before {
-  font-family: H5PFontAwesome;
+  font-family: H5PFontAwesome4;
   content: "\f0c1";
   color: #494949;
   font-size: 1.1em;
