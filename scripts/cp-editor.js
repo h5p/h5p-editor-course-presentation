@@ -159,7 +159,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     slides: this.params
   }, H5PEditor.contentId, this);
   this.cp.attach(this.$editor);
-  this.cp.resize(false);
+  if (this.cp.$wrapper.is(':visible')) {
+    this.cp.resize(false);
+  }
 
   // Add drag and drop menu bar.
   that.initializeDNB();
