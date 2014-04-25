@@ -160,7 +160,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   }, H5PEditor.contentId, this);
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
-    this.cp.resize(false);
+    this.cp.$.trigger('resize');
   }
 
   // Add drag and drop menu bar.
@@ -189,15 +189,14 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     that.addSlide();
     return false;
   });
-
-  this.cp.resize = function (fullscreen) {
+  
+  this.cp.$.on('resize', function () {
     // Reset drag and drop adjustments.
     if (that.keywordsDNS !== undefined) {
       delete that.keywordsDNS.dnd.containerOffset;
       delete that.keywordsDNS.marginAdjust;
     }
-    H5P.CoursePresentation.prototype.resize.apply(that.cp, [fullscreen]);
-  };
+  });
 };
 
 H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
