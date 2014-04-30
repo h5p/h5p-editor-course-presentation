@@ -159,7 +159,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     slides: this.params
   }, H5PEditor.contentId, this);
   this.cp.attach(this.$editor);
-  this.cp.$.trigger('resize');
+  if (this.cp.$wrapper.is(':visible')) {
+    this.cp.$.trigger('resize');
+  }
 
   // Add drag and drop menu bar.
   that.initializeDNB();
@@ -187,15 +189,14 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     that.addSlide();
     return false;
   });
-
-  this.cp.resize = function (fullscreen) {
+  
+  this.cp.$.on('resize', function () {
     // Reset drag and drop adjustments.
     if (that.keywordsDNS !== undefined) {
       delete that.keywordsDNS.dnd.containerOffset;
       delete that.keywordsDNS.marginAdjust;
     }
-    H5P.CoursePresentation.prototype.resize.apply(that.cp, [fullscreen]);
-  };
+  });
 };
 
 H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
@@ -1136,6 +1137,12 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   $wrapper.remove();
 
   this.cp.addElement(elementParams, undefined, slideIndex);
+  
+  // Resize element.
+  var instance = elementInstances[elementInstances.length - 1];
+  if ((instance.preventResize === undefined || instance.preventResize === false) && instance.$ !== undefined) {
+    instance.$.trigger('resize');
+  }
 };
 
 
