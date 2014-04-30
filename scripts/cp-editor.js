@@ -1138,6 +1138,12 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   $wrapper.remove();
 
   this.cp.addElement(elementParams, undefined, slideIndex);
+  
+  // Resize element.
+  var instance = elementInstances[elementInstances.length - 1];
+  if ((instance.preventResize === undefined || instance.preventResize === false) && instance.resize !== undefined) {
+    instance.resize();
+  }
 };
 
 
