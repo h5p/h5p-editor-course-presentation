@@ -1,6 +1,6 @@
 /* IcoMoon font licensed under the GNU General Public License: http://www.gnu.org/licenses/gpl.html */
 @font-face {
-  font-family: 'h5p';
+  font-family: H5PCoursePresentation;
   src:url('../fonts/H5P.eot');
   src:url('../fonts/H5P.eot?#iefix') format('embedded-opentype'),
     url('../fonts/H5P.woff') format('woff'),
@@ -136,7 +136,7 @@
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-sort-left:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e987";
   color: #494949;
   font-size: 1.4em;
@@ -144,7 +144,7 @@
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-sort-right:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e988";
   color: #494949;
   font-size: 1.4em;
@@ -372,21 +372,21 @@
 }
 
 .h5p-dragnbar-mainkeyword-button:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e998";
   color: #494949;
   font-size: 1.5em;
 }
 
 .h5p-dragnbar-subkeyword-button:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e999";
   color: #494949;
   font-size: 1.5em;
 }
 
 .h5p-dragnbar-text-button:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e997";
   color: #494949;
   font-size: 1.6em;
@@ -435,41 +435,41 @@
 }
 
 .h5p-dragnbar-dragquestion-button:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e991";
   color: #494949;
   font-size: 1.2em;
 }
 
 .h5p-dragnbar-blanks-button:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e994";
   color: #494949;
   font-size: 1.2em;
 }
 
 .h5p-dragnbar-multichoice-button:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e993";
   color: #494949;
   font-size: 1.2em;
 }
 .h5p-dragnbar-summary-button:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e992";
   color: #494949;
   font-size: 1.2em;
 }
 
 .h5p-dragnbar-continuoustext-button:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e996";
   color: #494949;
   font-size: 1.2em;
 }
 
 .h5p-dragnbar-exportabletextarea-button:before {
-  font-family: h5p;
+  font-family: H5PCoursePresentation;
   content: "\e995";
   color: #494949;
   font-size: 1.3em;
