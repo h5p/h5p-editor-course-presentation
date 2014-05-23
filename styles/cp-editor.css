@@ -103,7 +103,7 @@
 }
 
 .h5p-course-presentation .h5p-keywordcontrols-button:after {
-  font-family: H5PFontAwesome;
+  font-family: 'H5PFontAwesome4';
   content: "\f057";
   margin-left: 0.4em;
   color: #c33f62;
@@ -128,7 +128,7 @@
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-clone:before {
-  font-family: H5PFontAwesome;
+  font-family: 'H5PFontAwesome4';
   content: "\f0c5";
   margin-left: 0.1em;
   color: #494949;
@@ -152,14 +152,14 @@
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-delete:before {
-  font-family: H5PFontAwesome;
+  font-family: 'H5PFontAwesome4';
   content: "\f014";
   color: #494949;
   font-size: 1.1em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-add:before {
-  font-family: H5PFontAwesome;
+  font-family: 'H5PFontAwesome4';
   content: "\f055";
   color: #494949;
   font-size: 1.1em;
@@ -209,7 +209,7 @@
 }
 
 .h5p-course-presentation .h5p-delete-keyword:after {
-  font-family: H5PFontAwesome;
+  font-family: 'H5PFontAwesome4';
   content: "\f057";
   color: #ccc;
 }
@@ -371,107 +371,79 @@
   border-top-right-radius: 0.5em;
 }
 
+.h5p-dragnbar-mainkeyword-button:before,
+.h5p-dragnbar-subkeyword-button:before,
+.h5p-dragnbar-text-button:before,
+.h5p-dragnbar-dragquestion-button:before,
+.h5p-dragnbar-blanks-button:before,
+.h5p-dragnbar-multichoice-button:before,
+.h5p-dragnbar-summary-button:before,
+.h5p-dragnbar-continuoustext-button:before,
+.h5p-dragnbar-exportabletextarea-button:before {
+  font-family: H5PCoursePresentation;
+  color: #494949;
+  font-size: 1.2em;
+}
 .h5p-dragnbar-mainkeyword-button:before {
-  font-family: H5PCoursePresentation;
   content: "\e998";
-  color: #494949;
   font-size: 1.5em;
 }
-
 .h5p-dragnbar-subkeyword-button:before {
-  font-family: H5PCoursePresentation;
   content: "\e999";
-  color: #494949;
   font-size: 1.5em;
 }
-
 .h5p-dragnbar-text-button:before {
-  font-family: H5PCoursePresentation;
   content: "\e997";
-  color: #494949;
   font-size: 1.6em;
 }
 
-.h5p-dragnbar-table-button:before {
-  font-family: H5PFontAwesome;
-  content: "\f0ce";
-  color: #494949;
-  font-size: 1.1em;
-}
-
-.h5p-dragnbar-link-button:before {
-  font-family: H5PFontAwesome;
-  content: "\f0c1";
-  color: #494949;
-  font-size: 1.1em;
-}
-
-.h5p-dragnbar-image-button:before {
-  font-family: H5PFontAwesome;
-  content: "\f03e";
-  color: #494949;
-  font-size: 1.1em;
-}
-
-.h5p-dragnbar-audio-button:before {
-  font-family: H5PFontAwesome;
-  content: "\f028";
-  color: #494949;
-  font-size: 1.1em;
-}
-
-.h5p-dragnbar-video-button:before {
-  font-family: H5PFontAwesome;
-  content: "\f008";
-  color: #494949;
-  font-size: 1em;
-}
-
+.h5p-dragnbar-table-button:before,
+.h5p-dragnbar-link-button:before,
+.h5p-dragnbar-image-button:before,
+.h5p-dragnbar-audio-button:before,
+.h5p-dragnbar-video-button:before,
 .h5p-dragnbar-more-button:before {
-  font-family: H5PFontAwesome;
-  content: "\f067";
+  font-family: 'H5PFontAwesome4';
   color: #494949;
+  font-size: 1.1em;
+}
+.h5p-dragnbar-table-button:before {
+  content: "\f0ce";
+}
+.h5p-dragnbar-link-button:before {
+  content: "\f0c1";
+}
+.h5p-dragnbar-image-button:before {
+  content: "\f03e";
+}
+.h5p-dragnbar-audio-button:before {
+  content: "\f028";
+}
+.h5p-dragnbar-video-button:before {
+  content: "\f008";
+}
+.h5p-dragnbar-more-button:before {
+  content: "\f067";
   font-size: 1em;
 }
 
 .h5p-dragnbar-dragquestion-button:before {
-  font-family: H5PCoursePresentation;
   content: "\e991";
-  color: #494949;
-  font-size: 1.2em;
 }
-
 .h5p-dragnbar-blanks-button:before {
-  font-family: H5PCoursePresentation;
   content: "\e994";
-  color: #494949;
-  font-size: 1.2em;
 }
-
 .h5p-dragnbar-multichoice-button:before {
-  font-family: H5PCoursePresentation;
   content: "\e993";
-  color: #494949;
-  font-size: 1.2em;
 }
 .h5p-dragnbar-summary-button:before {
-  font-family: H5PCoursePresentation;
   content: "\e992";
-  color: #494949;
-  font-size: 1.2em;
 }
-
 .h5p-dragnbar-continuoustext-button:before {
-  font-family: H5PCoursePresentation;
   content: "\e996";
-  color: #494949;
-  font-size: 1.2em;
 }
-
 .h5p-dragnbar-exportabletextarea-button:before {
-  font-family: H5PCoursePresentation;
   content: "\e995";
-  color: #494949;
   font-size: 1.3em;
 }
 
