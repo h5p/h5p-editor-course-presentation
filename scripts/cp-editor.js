@@ -123,7 +123,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
             }
           }
         }
-      }
+      };
       break;
   }
   var elParams = {
@@ -138,7 +138,9 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
   };
 
   this.params[this.cp.$current.index()].elements.push(elParams);
-  return this.cp.addElement(elParams);
+  var slideIndex = this.cp.$current.index();
+  var instance = this.cp.addElement(elParams, this.cp.$current, slideIndex);
+  return this.cp.attachElement(elParams, instance, this.cp.$current, slideIndex);
 };
 
 /**
@@ -531,9 +533,7 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   // Add slide with elements
   var $slide = H5P.jQuery(H5P.CoursePresentation.createSlide(slideParams)).insertAfter(this.cp.$current);
-  for (var i = 0; i < slideParams.elements.length; i++) {
-    this.cp.addElement(slideParams.elements[i], $slide);
-  }
+  this.cp.addElements(slideParams, $slide, $slide.index());
 
   // Add keywords
   if (slideParams.keywords !== undefined) {
@@ -1136,7 +1136,8 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   // Update visuals
   $wrapper.remove();
 
-  this.cp.addElement(elementParams, undefined, slideIndex);
+  var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
+  this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
   
   // Resize element.
   var instance = elementInstances[elementInstances.length - 1];
