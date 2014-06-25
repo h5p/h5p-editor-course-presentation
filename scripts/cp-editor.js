@@ -1066,6 +1066,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
         class: 'h5p-remove',
         click: function () {
+          if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
+            return;
+          }
           if (H5PEditor.Html) {
             H5PEditor.Html.removeWysiwyg();
           }
@@ -1075,6 +1078,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       },
       {
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
+        class: 'h5p-done',
         click: function () {
           var elementKids = isContinuousText ? that.ct.children : element.children;
 
