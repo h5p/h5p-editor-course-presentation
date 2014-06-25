@@ -477,9 +477,28 @@
 .h5p-course-presentation .ui-widget {
   font-size: 1em;
 }
-.h5peditor .ui-dialog .ui-dialog-buttonset .h5p-remove {
-  background: #e6c9c9;
+.h5peditor .ui-dialog button {
+  background: #eaeaea;
+  border: 0.125em solid #eaeaea;
+  color: #696969;
+  border-radius: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
-.h5peditor .ui-dialog .ui-dialog-buttonpane button {
-  float: none;
+.h5peditor .ui-dialog .ui-button-text {
+  height: 1em;
+}
+.h5peditor .ui-dialog button.h5p-done {
+  background: #2666a6;
+  border-color: #2666a6;
+  color: #fff;
+}
+.h5peditor .ui-dialog button:hover {
+  background: transparent;
+}
+.h5peditor .ui-dialog button:focus {
+  box-shadow: 0 0 0.25em 0.125em #53a0ff;
+  outline: none;
+}
+.h5peditor .ui-dialog button.h5p-done:hover {
+  color: #2666a6;
 }
