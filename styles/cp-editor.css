@@ -478,27 +478,28 @@
   font-size: 1em;
 }
 .h5peditor .ui-dialog button {
-  background: #eaeaea;
-  border: 0.125em solid #eaeaea;
-  color: #696969;
+  background: #e2e2e2;
+  border: none;
+  color: #646464;
   border-radius: 0;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  padding: 0.2em 1.2em;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 .h5peditor .ui-dialog .ui-button-text {
   height: 1em;
 }
 .h5peditor .ui-dialog button.h5p-done {
-  background: #2666a6;
-  border-color: #2666a6;
   color: #fff;
+  background: rgba(38,102,166,1);
 }
 .h5peditor .ui-dialog button:hover {
-  background: transparent;
+  background: #ededed;
 }
 .h5peditor .ui-dialog button:focus {
   box-shadow: 0 0 0.25em 0.125em #53a0ff;
   outline: none;
 }
 .h5peditor .ui-dialog button.h5p-done:hover {
-  color: #2666a6;
+  color: rgba(255,255,255,1);
+  background: rgba(30,83,145,1);
 }
