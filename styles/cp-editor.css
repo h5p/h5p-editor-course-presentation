@@ -478,9 +478,9 @@
   font-size: 1em;
 }
 .h5peditor .ui-dialog button {
-  background: rgba(234,234,234,1);
+  background: #e2e2e2;
   border: none;
-  color: #696969;
+  color: #646464;
   border-radius: 0;
   padding: 0.2em 1.2em;
   transition: background 0.15s ease, color 0.15s ease;
@@ -493,7 +493,7 @@
   background: rgba(38,102,166,1);
 }
 .h5peditor .ui-dialog button:hover {
-  background: rgba(219,219,219,1);
+  background: #ededed;
 }
 .h5peditor .ui-dialog button:focus {
   box-shadow: 0 0 0.25em 0.125em #53a0ff;
