@@ -371,17 +371,11 @@
   border-top-right-radius: 0.5em;
 }
 
-.h5p-dragnbar-mainkeyword-button:before,
-.h5p-dragnbar-subkeyword-button:before,
-.h5p-dragnbar-text-button:before,
-.h5p-dragnbar-dragquestion-button:before,
-.h5p-dragnbar-blanks-button:before,
-.h5p-dragnbar-multichoice-button:before,
-.h5p-dragnbar-summary-button:before,
-.h5p-dragnbar-continuoustext-button:before,
-.h5p-dragnbar-exportabletextarea-button:before {
+.h5p-dragnbar-a {
   font-family: H5PCoursePresentation;
   color: #494949;
+}
+.h5p-dragnbar-a:before {
   font-size: 1.2em;
 }
 .h5p-dragnbar-mainkeyword-button:before {
