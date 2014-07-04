@@ -396,7 +396,8 @@
 .h5p-dragnbar-image-button:before,
 .h5p-dragnbar-audio-button:before,
 .h5p-dragnbar-video-button:before,
-.h5p-dragnbar-more-button:before {
+.h5p-dragnbar-more-button:before,
+.h5p-dragnbar-interactivevideo-button:before {
   font-family: 'H5PFontAwesome4';
   color: #494949;
   font-size: 1.1em;
@@ -419,6 +420,9 @@
 .h5p-dragnbar-more-button:before {
   content: "\f067";
   font-size: 1em;
+}
+.h5p-dragnbar-interactivevideo-button:before {
+  content: "\f03d";
 }
 
 .h5p-dragnbar-dragquestion-button:before {
