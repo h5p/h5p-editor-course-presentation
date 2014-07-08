@@ -953,6 +953,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
         if (isContinuousText) {
           ctReflowRunning = false;
         }
+        elementInstance.$.trigger('resize');
       },
       start: function (event, ui) {
         if (isContinuousText) {
