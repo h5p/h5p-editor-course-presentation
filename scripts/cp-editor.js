@@ -262,6 +262,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       // Bind keyword interactions.
       that.initKeywordInteractions();
     }
+    
+    // Add existing items to DNB
+    that.cp.$wrapper.find('.h5p-element').each(function () {
+      that.dnb.add(H5PEditor.$(this));
+    });
   });
 };
 
@@ -904,16 +909,15 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     that.showElementForm(element, $wrapper, elementParams);
   });
 
-  // Allow moving of element
   $wrapper.mousedown(function (event) {
     if (that.resizing) {
-      return; // Disable when resizing
+      return false; // Disables moving while resizing
     }
-    if (that.dnb !== undefined) {
-      that.dnb.dnd.press(H5P.jQuery(this), event.pageX, event.pageY);
-    }
-    return false;
   });
+
+  if (that.dnb !== undefined) {
+    that.dnb.add($wrapper);
+  }
 
   var elementSize = {};
 
@@ -1006,11 +1010,6 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
 
   var elementInstance = this.cp.elementInstances[slideIndex][elementIndex];
 
-  if (this.dnb !== undefined && this.dnb.dnd.$coordinates !== undefined) {
-    this.dnb.dnd.$coordinates.remove();
-    delete this.dnb.dnd.$coordinates;
-  }
-
   if (element.children.length) {
     H5PEditor.removeChildren(element.children);
   }
@@ -1047,13 +1046,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     // doing this.
     that.ct.form.find('.text .ckeditor').first().html(that.params[0].ct);
   }
-
-  // Remove coordinates input fields.
-  if (this.dnb !== undefined && this.dnb.dnd.$coordinates !== undefined) {
-    setTimeout(function () {
-      that.dnb.dnd.$coordinates.remove();
-      delete that.dnb.dnd.$coordinates;
-    }, 1);
+  
+  if (that.dnb !== undefined) {
+    that.dnb.blur();
   }
 
   element.$form.dialog({
@@ -1141,13 +1136,19 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   $wrapper.remove();
 
   var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
-  this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
+  var $element = this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
   
   // Resize element.
   var instance = elementInstances[elementInstances.length - 1];
   if ((instance.preventResize === undefined || instance.preventResize === false) && instance.$ !== undefined) {
     instance.$.trigger('resize');
   }
+  
+  var that = this;
+  setTimeout(function () {
+    // Put focus back on element
+    that.dnb.focus($element);
+  }, 1);
 };
 
 
