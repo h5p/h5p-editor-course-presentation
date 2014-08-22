@@ -96,6 +96,11 @@
       "machineName": "H5P.ExportableTextArea",
       "majorVersion": 1,
       "minorVersion": 0
+    },
+    {
+      "machineName": "H5P.CoursePresentation",
+      "majorVersion": 1,
+      "minorVersion": 0
     }
   ]
 }
