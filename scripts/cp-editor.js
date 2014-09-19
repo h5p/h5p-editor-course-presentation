@@ -226,7 +226,9 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   H5PEditor.$.post(H5PEditor.ajaxPath + 'libraries', {libraries: this.field.field.fields[0].field.fields[0].options}, function (libraries) {
     var buttons = [];
     for (var i = 0; i < libraries.length; i++) {
-      buttons.push(that.addDNBButton(libraries[i]));
+      if (libraries[i].restricted !== true) {
+        buttons.push(that.addDNBButton(libraries[i]));
+      }
     }
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current);
