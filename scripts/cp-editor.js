@@ -10,8 +10,8 @@ var H5PEditor = H5PEditor || {};
  * @returns {H5PEditor.Text}
  */
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
-
   var that = this;
+
   if (params === undefined) {
     params = [{
       elements: [],
@@ -110,10 +110,12 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
   var h = 40, w = 40, params = {};
   switch (libraryName) {
     case 'H5P.Audio':
-      h = 15, w = 45;
+      h = 15;
+      w = 45;
       break;
     case 'H5P.DragQuestion':
-      h = 50, w = 50;
+      h = 50;
+      w = 50;
       params = {
         question: {
           settings: {
@@ -191,7 +193,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     that.addSlide();
     return false;
   });
-  
+
   this.cp.$.on('resize', function () {
     // Reset drag and drop adjustments.
     if (that.keywordsDNS !== undefined) {
@@ -264,10 +266,10 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       // Bind keyword interactions.
       that.initKeywordInteractions();
     }
-    
+
     // Add existing items to DNB
     that.cp.$wrapper.find('.h5p-element').each(function () {
-      that.dnb.add(H5PEditor.$(this));
+      that.addToDragNBar(H5PEditor.$(this));
     });
   });
 };
@@ -705,7 +707,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   if (!main && !$ancestor.parent().parent().hasClass('h5p-current')) {
     return false;
   }
-  
+
   var slideIndex = that.cp.$current.index();
   var $delete = H5PEditor.$('<a href="#" class="h5p-delete-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'deleteKeyword') + '"></a>');
   var $textarea = H5PEditor.$('<textarea>' + ($li.hasClass('h5p-empty-keyword') ? '' : $span.text()) + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
@@ -853,7 +855,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
         if (params === undefined) {
           return;
         }
-        
+
         if (params.width !== undefined && params.height !== undefined) {
           elementParams.height = elementParams.width * (params.height / params.width) * that.slideRatio * that.cp.slideWidthRatio;
         }
@@ -911,15 +913,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     that.showElementForm(element, $wrapper, elementParams);
   });
 
-  $wrapper.mousedown(function (event) {
-    if (that.resizing) {
-      return false; // Disables moving while resizing
-    }
-  });
-
-  if (that.dnb !== undefined) {
-    that.dnb.add($wrapper);
-  }
+  // Make it possible to move the element around
+  this.addToDragNBar($wrapper);
 
   var elementSize = {};
 
@@ -971,7 +966,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
           height: ui.size.height
         };
       }
-    }).children('.ui-resizable-handle').mousedown(function () {
+    }).children('.ui-resizable-handle').mousedown(function (event) {
       that.resizing = true;
     });
 
@@ -987,9 +982,31 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     });
   }
 
-  if(elementInstance.onAdd) {
+  if (elementInstance.onAdd) {
     elementInstance.onAdd(elementParams, slideIndex);
   }
+};
+
+/**
+ * Make sure element can be moved and stop moving while resizing.
+ *
+  * @param {jQuery} $element wrapper
+  * @returns {undefined}
+ */
+H5PEditor.CoursePresentation.prototype.addToDragNBar = function($element) {
+  var self = this;
+
+  if (self.dnb === undefined) {
+    return;
+  }
+
+  $element.mousedown(function (event) {
+    if (self.resizing) {
+      return false; // Disables moving while resizing
+    }
+  });
+
+  self.dnb.add($element);
 };
 
 H5PEditor.CoursePresentation.prototype.updateDragQuestion = function($wrapper, element, elementParams) {
@@ -1049,7 +1066,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     // doing this.
     that.ct.form.find('.text .ckeditor').first().html(that.params[0].ct);
   }
-  
+
   if (that.dnb !== undefined) {
     that.dnb.blur();
   }
@@ -1142,13 +1159,13 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
 
   var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
   var $element = this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
-  
+
   // Resize element.
-  var instance = elementInstances[elementInstances.length - 1];
+  instance = elementInstances[elementInstances.length - 1];
   if ((instance.preventResize === undefined || instance.preventResize === false) && instance.$ !== undefined) {
     instance.$.trigger('resize');
   }
-  
+
   var that = this;
   setTimeout(function () {
     // Put focus back on element
