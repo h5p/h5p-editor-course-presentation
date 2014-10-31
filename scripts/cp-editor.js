@@ -161,6 +161,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     slides: this.params
   }, H5PEditor.contentId, this);
   this.cp.attach(this.$editor);
+  if (this.cp.$wrapper.is(':visible')) {
+    this.cp.resize(false);
+  }
 
   // Add drag and drop menu bar.
   that.initializeDNB();
@@ -673,7 +676,7 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   // Update params.
   this.params.splice(newIndex, 0, this.params.splice(index, 1)[0]);
   this.elements.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
-  this.cp.elementInstances.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
+  this.cp.elementInstances.splice(newIndex, 0, this.cp.elementInstances.splice(index, 1)[0]);
 
   H5P.ContinuousText.Engine.run(this);
 
@@ -1143,7 +1146,7 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   
   // Resize element.
   var instance = elementInstances[elementInstances.length - 1];
-  if (instance.resize !== undefined) {
+  if ((instance.preventResize === undefined || instance.preventResize === false) && instance.resize !== undefined) {
     instance.resize();
   }
 };
