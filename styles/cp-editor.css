@@ -34,7 +34,7 @@
   border-radius: 0.5em;
   margin: 0.15em;
   border: 1px solid #d9d9d9;
-  }
+}
 
 .h5p-course-presentation .h5p-keywordcontrols {
   float: left;
@@ -235,6 +235,9 @@
 .h5p-course-presentation .h5p-element {
   border: 1px dashed #a0a0a0;
   overflow: hidden !important;
+}
+.h5p-course-presentation .h5p-element:focus {
+  outline: none;
 }
 
 .h5p-course-presentation .h5p-element-remove {
