@@ -10,8 +10,8 @@ var H5PEditor = H5PEditor || {};
  * @returns {H5PEditor.Text}
  */
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
-
   var that = this;
+
   if (params === undefined) {
     params = [{
       elements: [],
@@ -110,10 +110,12 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
   var h = 40, w = 40, params = {};
   switch (libraryName) {
     case 'H5P.Audio':
-      h = 15, w = 45;
+      h = 15;
+      w = 45;
       break;
     case 'H5P.DragQuestion':
-      h = 50, w = 50;
+      h = 50;
+      w = 50;
       params = {
         question: {
           settings: {
@@ -161,6 +163,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     slides: this.params
   }, H5PEditor.contentId, this);
   this.cp.attach(this.$editor);
+  if (this.cp.$wrapper.is(':visible')) {
+    this.cp.$.trigger('resize');
+  }
 
   // Add drag and drop menu bar.
   that.initializeDNB();
@@ -189,14 +194,13 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     return false;
   });
 
-  this.cp.resize = function (fullscreen) {
+  this.cp.$.on('resize', function () {
     // Reset drag and drop adjustments.
     if (that.keywordsDNS !== undefined) {
       delete that.keywordsDNS.dnd.containerOffset;
       delete that.keywordsDNS.marginAdjust;
     }
-    H5P.CoursePresentation.prototype.resize.apply(that.cp, [fullscreen]);
-  };
+  });
 };
 
 H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
@@ -224,7 +228,9 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   H5PEditor.$.post(H5PEditor.ajaxPath + 'libraries', {libraries: this.field.field.fields[0].field.fields[0].options}, function (libraries) {
     var buttons = [];
     for (var i = 0; i < libraries.length; i++) {
-      buttons.push(that.addDNBButton(libraries[i]));
+      if (libraries[i].restricted !== true) {
+        buttons.push(that.addDNBButton(libraries[i]));
+      }
     }
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current);
@@ -260,6 +266,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       // Bind keyword interactions.
       that.initKeywordInteractions();
     }
+
+    // Add existing items to DNB
+    that.cp.$wrapper.find('.h5p-element').each(function () {
+      that.addToDragNBar(H5PEditor.$(this));
+    });
   });
 };
 
@@ -673,7 +684,7 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   // Update params.
   this.params.splice(newIndex, 0, this.params.splice(index, 1)[0]);
   this.elements.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
-  this.cp.elementInstances.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
+  this.cp.elementInstances.splice(newIndex, 0, this.cp.elementInstances.splice(index, 1)[0]);
 
   H5P.ContinuousText.Engine.run(this);
 
@@ -696,7 +707,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   if (!main && !$ancestor.parent().parent().hasClass('h5p-current')) {
     return false;
   }
-  
+
   var slideIndex = that.cp.$current.index();
   var $delete = H5PEditor.$('<a href="#" class="h5p-delete-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'deleteKeyword') + '"></a>');
   var $textarea = H5PEditor.$('<textarea>' + ($li.hasClass('h5p-empty-keyword') ? '' : $span.text()) + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
@@ -844,7 +855,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
         if (params === undefined) {
           return;
         }
-        
+
         if (params.width !== undefined && params.height !== undefined) {
           elementParams.height = elementParams.width * (params.height / params.width) * that.slideRatio * that.cp.slideWidthRatio;
         }
@@ -902,16 +913,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     that.showElementForm(element, $wrapper, elementParams);
   });
 
-  // Allow moving of element
-  $wrapper.mousedown(function (event) {
-    if (that.resizing) {
-      return; // Disable when resizing
-    }
-    if (that.dnb !== undefined) {
-      that.dnb.dnd.press(H5P.jQuery(this), event.pageX, event.pageY);
-    }
-    return false;
-  });
+  // Make it possible to move the element around
+  this.addToDragNBar($wrapper);
 
   var elementSize = {};
 
@@ -951,6 +954,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
         if (isContinuousText) {
           ctReflowRunning = false;
         }
+        elementInstance.$.trigger('resize');
       },
       start: function (event, ui) {
         if (isContinuousText) {
@@ -962,7 +966,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
           height: ui.size.height
         };
       }
-    }).children('.ui-resizable-handle').mousedown(function () {
+    }).children('.ui-resizable-handle').mousedown(function (event) {
       that.resizing = true;
     });
 
@@ -978,9 +982,31 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     });
   }
 
-  if(elementInstance.onAdd) {
+  if (elementInstance.onAdd) {
     elementInstance.onAdd(elementParams, slideIndex);
   }
+};
+
+/**
+ * Make sure element can be moved and stop moving while resizing.
+ *
+  * @param {jQuery} $element wrapper
+  * @returns {undefined}
+ */
+H5PEditor.CoursePresentation.prototype.addToDragNBar = function($element) {
+  var self = this;
+
+  if (self.dnb === undefined) {
+    return;
+  }
+
+  $element.mousedown(function (event) {
+    if (self.resizing) {
+      return false; // Disables moving while resizing
+    }
+  });
+
+  self.dnb.add($element);
 };
 
 H5PEditor.CoursePresentation.prototype.updateDragQuestion = function($wrapper, element, elementParams) {
@@ -1003,11 +1029,6 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
   var elementIndex = $wrapper.index();
 
   var elementInstance = this.cp.elementInstances[slideIndex][elementIndex];
-
-  if (this.dnb !== undefined && this.dnb.dnd.$coordinates !== undefined) {
-    this.dnb.dnd.$coordinates.remove();
-    delete this.dnb.dnd.$coordinates;
-  }
 
   if (element.children.length) {
     H5PEditor.removeChildren(element.children);
@@ -1046,12 +1067,8 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     that.ct.form.find('.text .ckeditor').first().html(that.params[0].ct);
   }
 
-  // Remove coordinates input fields.
-  if (this.dnb !== undefined && this.dnb.dnd.$coordinates !== undefined) {
-    setTimeout(function () {
-      that.dnb.dnd.$coordinates.remove();
-      delete that.dnb.dnd.$coordinates;
-    }, 1);
+  if (that.dnb !== undefined) {
+    that.dnb.blur();
   }
 
   element.$form.dialog({
@@ -1059,6 +1076,8 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     draggable: false,
     resizable: false,
     width: '80%',
+    maxHeight: H5P.jQuery('.h5p-coursepresentation-editor').innerHeight(),
+    position: {my: 'top', at: 'top', of: '.h5p-coursepresentation-editor'},
     dialogClass: "h5p-dialog-no-close",
     appendTo: '.h5p-course-presentation',
     buttons: [
@@ -1139,13 +1158,19 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   $wrapper.remove();
 
   var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
-  this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
-  
+  var $element = this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
+
   // Resize element.
-  var instance = elementInstances[elementInstances.length - 1];
-  if (instance.resize !== undefined) {
-    instance.resize();
+  instance = elementInstances[elementInstances.length - 1];
+  if ((instance.preventResize === undefined || instance.preventResize === false) && instance.$ !== undefined) {
+    instance.$.trigger('resize');
   }
+
+  var that = this;
+  setTimeout(function () {
+    // Put focus back on element
+    that.dnb.focus($element);
+  }, 1);
 };
 
 
