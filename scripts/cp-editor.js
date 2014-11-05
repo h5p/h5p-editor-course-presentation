@@ -824,11 +824,20 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
     };
   }
 
+  var fields = this.field.field.fields[0].field.fields;
+
+  // Hide goToSlide for others than image and link
+  var machine = elementParams.action.library.split(' ')[0];
+  if (machine !== 'H5P.Image' && machine !== 'H5P.Link' ) {
+    // TODO: Use findField when it's put into core.
+    fields[11].widget = 'none';
+  }
+
   var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': machineName.split('.')[1]});
   var element = {
     '$form': H5P.jQuery('<div title="' + popupTitle + '"></div>')
   };
-  H5PEditor.processSemanticsChunk(this.field.field.fields[0].field.fields, elementParams, element.$form, this);
+  H5PEditor.processSemanticsChunk(fields, elementParams, element.$form, this);
   element.children = this.children;
 
   // Hide library selector
