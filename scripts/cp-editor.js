@@ -824,11 +824,22 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
     };
   }
 
+  // Clone fields to avoid permanent damange
+  var elementFields = H5P.jQuery.extend(true, [], this.field.field.fields[0].field.fields);
+  if (machineName === 'H5P.ContinuousText') {
+    for (var i = 0; i < elementFields.length; i++) {
+      if (elementFields[i].name === 'displayAsButton') {
+        elementFields[i].widget = 'none';
+        break;
+      }
+    }
+  }
+
   var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': machineName.split('.')[1]});
   var element = {
     '$form': H5P.jQuery('<div title="' + popupTitle + '"></div>')
   };
-  H5PEditor.processSemanticsChunk(this.field.field.fields[0].field.fields, elementParams, element.$form, this);
+  H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, this);
   element.children = this.children;
 
   // Hide library selector
@@ -867,10 +878,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, m
   }
   else {
     libraryChange();
-  }
-
-  if (elementParams.action.library.split(' ')[0] !== 'H5P.Text') {
-    element.$form.children('.field.boolean:last').hide();
   }
 
   return element;
