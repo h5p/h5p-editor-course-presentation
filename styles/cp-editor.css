@@ -466,6 +466,7 @@
 
 .h5p-dragnbar-keywords {
   width: 2em;
+  cursor: pointer;
 }
 .h5p-dragnbar-keywords:before {
   font-family: 'H5PFontAwesome4';

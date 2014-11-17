@@ -304,15 +304,17 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   var that = this;
 
   // Add our own menu to the drag and drop menu bar.
-  that.$keywordsDNB = H5PEditor.$('<ul class="h5p-dragnbar-ul h5p-dragnbar-left">\
-  <li class="h5p-dragnbar-li">\
-    <div title="TODO" class="h5p-dragnbar-a h5p-dragnbar-keywords" role="button" tabindex="1"></div>\
-    <div class="h5p-keywords-dropdown">\
-      <label class="h5p-keywords-enable"><input type="checkbox"/> Keywords list</label>\
-      <label class="h5p-keywords-hide"><input type="checkbox"/> Auto hide</label>\
-      <label class="h5p-keywords-opacity">Opacity <input type="text"/> %</label>\
-    </div>\
-  </li></ul>').prependTo(this.$bar);
+  that.$keywordsDNB = H5PEditor.$(
+    '<ul class="h5p-dragnbar-ul h5p-dragnbar-left">' +
+      '<li class="h5p-dragnbar-li">' +
+        '<div title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'keywordsMenu') + '" class="h5p-dragnbar-a h5p-dragnbar-keywords" role="button" tabindex="1"></div>' +
+        '<div class="h5p-keywords-dropdown">' +
+          '<label class="h5p-keywords-enable"><input type="checkbox"/> Keywords list</label>' +
+          '<label class="h5p-keywords-hide"><input type="checkbox"/> Auto hide</label>' +
+          '<label class="h5p-keywords-opacity">Opacity <input type="text"/> %</label>' +
+        '</div>' +
+      '</li>' +
+    '</ul>').prependTo(this.$bar);
 
   // We use this awesome library to make things easier.
   this.keywordsDNS = new H5P.DragNSort(this.cp.$keywords);
@@ -396,7 +398,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
 
   // Auto hide keywords list
   var $hideKeywords = this.$bar.find('.h5p-keywords-hide input').change(function () {
-    if ($enableKeywords.is(':checked')) {
+    if ($hideKeywords.is(':checked')) {
       that.params.keywordListAutoHide = true;
     }
     else {
@@ -1221,6 +1223,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "remove": "Remove",
     "keywordsTip": "Drag in keywords using the two buttons above.",
     "popupTitle": "Edit :type",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    'keywordsMenu': 'Left menu menu'
   }
 };
