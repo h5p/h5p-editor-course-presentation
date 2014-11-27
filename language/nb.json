@@ -16,6 +16,8 @@
     "done": "Ferdig",
     "remove": "Fjern",
     "keywordsTip": "Dra inn nøkkelord",
-    "popupTitle": "Rediger :type"
+    "popupTitle": "Rediger :type",
+    "loading": "Laster...",
+    "element": "Element"
   }
 }

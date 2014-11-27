@@ -396,6 +396,7 @@
 
 .h5p-dragnbar-table-button:before,
 .h5p-dragnbar-link-button:before,
+.h5p-dragnbar-gotoslide-button:before,
 .h5p-dragnbar-image-button:before,
 .h5p-dragnbar-audio-button:before,
 .h5p-dragnbar-video-button:before,
@@ -410,6 +411,9 @@
 }
 .h5p-dragnbar-link-button:before {
   content: "\f0c1";
+}
+.h5p-dragnbar-gotoslide-button:before {
+  content: "\f192";
 }
 .h5p-dragnbar-image-button:before {
   content: "\f03e";
@@ -478,13 +482,13 @@
 .h5p-course-presentation .ui-widget {
   font-size: 1em;
 }
-.h5peditor .ui-dialog button {  
+.h5peditor .ui-dialog button {
   font-size: 0.75em;
   padding: 0.2em 1.2em;
   box-shadow: none;
   border: 1px solid #ccc;
   border-radius: 0.25em;
-  color: #333;    
+  color: #333;
   cursor: pointer;
   background: #f2f2f2;
   background: -webkit-linear-gradient(top,#fff 0,#f2f2f2 100%);
