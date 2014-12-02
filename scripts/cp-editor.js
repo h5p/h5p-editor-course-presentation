@@ -858,6 +858,14 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
 
   // Get semantics for the elements field
   var elementFields = H5PEditor.$.extend(true, [], H5PEditor.CoursePresentation.findField('elements', self.field.field.fields).field.fields);
+  if (type === 'H5P.ContinuousText') {
+    for (var i = 0; i < elementFields.length; i++) {
+      if (elementFields[i].name === 'displayAsButton') {
+        elementFields[i].widget = 'none';
+        break;
+      }
+    }
+  }
 
   // Manipulate semantics into only using a given set of fields
   if (type === 'goToSlide') {
@@ -876,7 +884,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     self.hideFields(elementFields, hideFields);
   }
 
-  // Create element form wrapper
+  var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': type.split('.')[1]});
   var element = {
     '$form': H5P.jQuery('<div/>')
   };
