@@ -557,10 +557,17 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
       slideParams.keywords = [];
     }
   }
+  if (slideParams.ct !== undefined) {
+    delete slideParams.ct;
+  }
 
   var index = this.cp.$current.index() + 1;
   this.elements.splice(index, 0, []);
   this.cp.elementInstances.splice(index, 0, []);
+  this.cp.elementsAttached.splice(index, 0, []);
+
+  // Add to presentation params.
+  this.params.splice(index, 0, slideParams);
 
   // Add slide with elements
   var $slide = H5P.jQuery(H5P.CoursePresentation.createSlide(slideParams)).insertAfter(this.cp.$current);
@@ -590,9 +597,6 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   // Switch to the new slide.
   this.cp.nextSlide();
-
-  // Update presentation params.
-  this.params.splice(index, 0, slideParams);
 };
 
 /**
@@ -651,6 +655,10 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var slideKids = this.elements[index];
   if (slideKids !== undefined) {
     for (var i = 0; i < slideKids.length; i++) {
+      if (this.cp.elementInstances[index][i] instanceof H5P.ContinuousText && this.getCTs(false, true).length !== 1) {
+        // We are not the only CT left, preserve form
+        continue;
+      }
       H5PEditor.removeChildren(slideKids[i].children);
     }
     this.elements.splice(index, 1);
@@ -658,6 +666,7 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 
   // Update the list of element instances
   this.cp.elementInstances.splice(index, 1);
+  this.cp.elementsAttached.splice(index, 1);
 
   H5P.ContinuousText.Engine.run(this);
 };
@@ -707,6 +716,7 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   this.params.splice(newIndex, 0, this.params.splice(index, 1)[0]);
   this.elements.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
   this.cp.elementInstances.splice(newIndex, 0, this.cp.elementInstances.splice(index, 1)[0]);
+  this.cp.elementsAttached.splice(newIndex, 0, this.cp.elementsAttached.splice(index, 1)[0]);
 
   H5P.ContinuousText.Engine.run(this);
 
