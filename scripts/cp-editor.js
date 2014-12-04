@@ -310,6 +310,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
         '<div title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'keywordsMenu') + '" class="h5p-dragnbar-a h5p-dragnbar-keywords" role="button" tabindex="1"></div>' +
         '<div class="h5p-keywords-dropdown">' +
           '<label class="h5p-keywords-enable"><input type="checkbox"/> Keywords list</label>' +
+          '<label class="h5p-keywords-always"><input type="checkbox"/> Always show</label>' +
           '<label class="h5p-keywords-hide"><input type="checkbox"/> Auto hide</label>' +
           '<label class="h5p-keywords-opacity">Opacity <input type="text"/> %</label>' +
         '</div>' +
@@ -383,31 +384,30 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
 
   // Enable keywords list
   var $enableKeywords = this.$bar.find('.h5p-keywords-enable input').change(function () {
-    if ($enableKeywords.is(':checked')) {
+    that.params.keywordListEnabled = $enableKeywords.is(':checked');
+    if (that.params.keywordListEnabled) {
       that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).show();
-      that.params.keywordListEnabled = true;
     }
     else {
       that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).hide();
-      that.params.keywordsEnabled = false;
     }
   });
 
-  // Set default
-  $enableKeywords.attr('checked', that.params.keywordListEnabled === undefined || that.params.keywordListEnabled === true);
+  // Always show keywords list
+  var $alwaysKeywords = this.$bar.find('.h5p-keywords-always input').change(function () {
+    that.params.keywordListAlwaysShow = $alwaysKeywords.is(':checked');
+    if (that.params.keywordListAlwaysShow) {
+      that.cp.$keywordsButton.hide();
+    }
+    else {
+      that.cp.$keywordsButton.show();
+    }
+  });
 
   // Auto hide keywords list
   var $hideKeywords = this.$bar.find('.h5p-keywords-hide input').change(function () {
-    if ($hideKeywords.is(':checked')) {
-      that.params.keywordListAutoHide = true;
-    }
-    else {
-      that.params.keywordListAutoHide = false;
-    }
+    that.params.keywordListAutoHide = $hideKeywords.is(':checked');
   });
-
-  // Set default
-  $hideKeywords.attr('checked', that.params.keywordListAutoHide === true);
 
   // Opacity for keywords list
   var $opacityKeywords = this.$bar.find('.h5p-keywords-opacity input').change(function () {
@@ -425,8 +425,17 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     that.cp.setKeywordsOpacity(opacity);
   });
 
-  // Set default
-  $opacityKeywords.val(that.params.keywordListOpacity === undefined ? 90 : that.params.keywordListOpacity);
+  // Set defaults
+  that.params.keywordListEnabled = that.params.keywordListEnabled || true;
+  that.params.keywordListAlwaysShow = that.params.keywordListAlwaysShow || false;
+  that.params.keywordListAutoHide = that.params.keywordListAutoHide || false;
+  that.params.keywordListOpacity = that.params.keywordListOpacity || 90;
+
+  // Update HTML
+  $enableKeywords.attr('checked', that.params.keywordListEnabled);
+  $alwaysKeywords.attr('checked', that.params.keywordListAlwaysShow);
+  $hideKeywords.attr('checked', that.params.keywordListAutoHide);
+  $opacityKeywords.val(that.params.keywordListOpacity);
 };
 
 /**
