@@ -259,6 +259,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current);
 
+
     // Update params when the element is dropped.
     that.dnb.stopMovingCallback = function (x, y) {
       var params = that.params[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
@@ -285,6 +286,22 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     };
 
     that.dnb.attach(that.$bar);
+
+    //If clicked outside of more button, collapse it.
+    var moreButton = that.$bar.find('.h5p-dragnbar-more-button');
+    var moreButtonIsClicked = false;
+
+    moreButton.click(function() {
+      moreButtonIsClicked = !moreButtonIsClicked;
+    });
+
+    that.$editor.click(function () {
+      if (moreButtonIsClicked) {
+        moreButton.click();
+        moreButtonIsClicked = false;
+      }
+    });
+
 
     if (that.cp.keywordsWidth) {
       // Bind keyword interactions.
