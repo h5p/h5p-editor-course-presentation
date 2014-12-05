@@ -378,8 +378,29 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
 
   // Make keywords drop down menu come alive
   var $dropdown = this.$bar.find('.h5p-keywords-dropdown');
+  var preventClose = false;
+  var closeDropdown = function () {
+    if (preventClose) {
+      preventClose = false;
+    }
+    else {
+      $dropdown.removeClass('h5p-open');
+      that.cp.$container.off('click', closeDropdown);
+    }
+  };
+
+  // Open dropdown when clicking the dropdown button
   this.$bar.find('.h5p-dragnbar-keywords').click(function () {
-    $dropdown.toggleClass('h5p-open');
+    if (!$dropdown.hasClass('h5p-open')) {
+      that.cp.$container.on('click', closeDropdown);
+      $dropdown.addClass('h5p-open');
+      preventClose = true;
+    }
+  });
+
+  // Prevent closing when clicking on the dropdown dialog it self
+  $dropdown.click(function () {
+    preventClose = true;
   });
 
   // Enable keywords list
