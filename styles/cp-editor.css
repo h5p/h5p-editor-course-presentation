@@ -351,7 +351,7 @@
 }
 
 .h5p-dragnbar-a {
-  height: 100%;
+  line-height: 1em;
   display: block;
   width: 1.4em;
   padding: 0.3em;
@@ -404,6 +404,7 @@
   font-family: 'H5PFontAwesome4';
   color: #494949;
   font-size: 1.1em;
+  vertical-align: top;
 }
 .h5p-dragnbar-table-button:before {
   content: "\f0ce";
@@ -479,7 +480,7 @@
 
 .h5p-dragnbar-li-ul .h5p-dragnbar-li {
   float: none;
-  height: 2.25em;
+  height: 2em;
   border-left: 0;
   border-bottom: 1px solid #f7f0f9;
 }
