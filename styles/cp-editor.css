@@ -350,6 +350,11 @@
   border-top-right-radius: 0.5em;
 }
 
+.h5p-dragnbar-li:last-child {
+  border-right: 0;
+  border-top-right-radius: 0.5em;
+}
+
 .h5p-dragnbar-a {
   line-height: 1em;
   display: block;
@@ -473,19 +478,33 @@
   position: absolute;
   top: 1.7em;
   right: 0;
-  background: #f7f0f9;
   z-index: 2;
   display: none;
+  /* Remove the whitespace between more button and dropdown menu */
+  margin-top: -0.06em;
 }
 
 .h5p-dragnbar-li-ul .h5p-dragnbar-li {
   float: none;
   height: 2em;
   border-left: 0;
+  /* Borders around the drop down buttons */
+  border-left: 1px solid #f7f0f9;
   border-bottom: 1px solid #f7f0f9;
+  border-right: 1px solid #f7f0f9;
+  /* Remove the whitespace between buttons in the dropdown menu */
+  margin-top: -0.04em;
 }
+/* Remove top-left rounding of corner for drop down buttons */
+.h5p-dragnbar-li-ul .h5p-dragnbar-li:first-child {
+  border-top-left-radius: 0em;
+}
+
+/* Change the rounding of the last drop down button to be rounded downwards */
 .h5p-dragnbar-li-ul .h5p-dragnbar-li:last-child {
-  border-bottom: 0;
+  border-top-right-radius: 0em;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
 }
 .h5p-dragnbar-li-ul .h5p-dragnbar-a {
   height: 1em;
