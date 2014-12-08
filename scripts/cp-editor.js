@@ -353,9 +353,23 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     if (!$ol.length) {
       $ol = H5PEditor.$('<ol class="h5p-keywords-ol"></ol>').prependTo($li);
     }
-    var $element = H5PEditor.$('<li class="h5p-keywords-li h5p-new-keyword h5p-empty-keyword ' + classes + '"><span>' + newKeywordString + '</span></li>').appendTo($ol).children('span').click(keywordClick).mousedown(keywordMousedown).end();
+    var $element = H5PEditor.$('<li class="h5p-keywords-li h5p-new-keyword h5p-empty-keyword ' + classes + '"><span>' + newKeywordString + '</span></li>').appendTo($ol);
+    var $label = $element.children('span').click(keywordClick).mousedown(keywordMousedown);
 
     that.keywordsDNS.press($element, x, y);
+
+    // Edit once element is dropped.
+    var edit = function () {
+      H5P.$body.off('mouseup', edit).off('mouseleave', edit);
+
+      // Use timeout to edit on next tick. (when moving and sorting has finished)
+      setTimeout(function () {
+        that.keywordsDNS.moving = false;
+        $label.trigger('click');
+      }, 0);
+    };
+    H5P.$body.on('mouseup', edit).on('mouseleave', edit);
+
     return false;
   };
 
@@ -378,8 +392,29 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
 
   // Make keywords drop down menu come alive
   var $dropdown = this.$bar.find('.h5p-keywords-dropdown');
+  var preventClose = false;
+  var closeDropdown = function () {
+    if (preventClose) {
+      preventClose = false;
+    }
+    else {
+      $dropdown.removeClass('h5p-open');
+      that.cp.$container.off('click', closeDropdown);
+    }
+  };
+
+  // Open dropdown when clicking the dropdown button
   this.$bar.find('.h5p-dragnbar-keywords').click(function () {
-    $dropdown.toggleClass('h5p-open');
+    if (!$dropdown.hasClass('h5p-open')) {
+      that.cp.$container.on('click', closeDropdown);
+      $dropdown.addClass('h5p-open');
+      preventClose = true;
+    }
+  });
+
+  // Prevent closing when clicking on the dropdown dialog it self
+  $dropdown.click(function () {
+    preventClose = true;
   });
 
   // Enable keywords list
