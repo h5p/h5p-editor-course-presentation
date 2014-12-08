@@ -376,6 +376,7 @@
 
 .h5p-dragnbar-table-button:before,
 .h5p-dragnbar-link-button:before,
+.h5p-dragnbar-gotoslide-button:before,
 .h5p-dragnbar-image-button:before,
 .h5p-dragnbar-audio-button:before,
 .h5p-dragnbar-video-button:before,
@@ -390,6 +391,9 @@
 }
 .h5p-dragnbar-link-button:before {
   content: "\f0c1";
+}
+.h5p-dragnbar-gotoslide-button:before {
+  content: "\f192";
 }
 .h5p-dragnbar-image-button:before {
   content: "\f03e";
