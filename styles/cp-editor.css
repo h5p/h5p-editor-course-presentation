@@ -432,6 +432,7 @@
 }
 .h5p-dragnbar-interactivevideo-button:before {
   content: "\f03d";
+  vertical-align: middle;
 }
 /* H5P specific icons */
 .h5p-dragnbar-dragquestion-button:before {
@@ -452,16 +453,15 @@
 .h5p-dragnbar-exportabletextarea-button:before {
   content: "\e995";
   font-size: 1.3em;
+  vertical-align: middle;
 }
 .h5p-dragnbar-markthewords-button:before {
   content: "\e601";
-  font-size: 1.5em;
-  vertical-align: middle;
+  font-size: 1.4em;
 }
 .h5p-dragnbar-dragtext-button:before {
   content: "\e600";
-  font-size: 1.5em;
-  vertical-align: middle;
+  font-size: 1.4em;
 }
 .h5p-dragnbar-gotoslide-button:before {
   content: "\e602";
