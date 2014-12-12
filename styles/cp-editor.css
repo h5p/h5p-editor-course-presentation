@@ -458,6 +458,7 @@
 .h5p-dragnbar-markthewords-button:before {
   content: "\e601";
   font-size: 1.4em;
+  vertical-align: middle;
 }
 .h5p-dragnbar-dragtext-button:before {
   content: "\e600";
