@@ -260,6 +260,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current);
 
+
     // Update params when the element is dropped.
     that.dnb.stopMovingCallback = function (x, y) {
       var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
