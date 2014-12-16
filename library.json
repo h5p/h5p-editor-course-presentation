@@ -1,8 +1,8 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 1,
-  "patchVersion": 17,
+  "minorVersion": 2,
+  "patchVersion": 0,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Amendor AS",
@@ -104,7 +104,7 @@
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 3
     },
     {
       "machineName": "H5P.CoursePresentation",
