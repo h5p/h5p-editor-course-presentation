@@ -642,8 +642,14 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
     delete slideParams.ct;
   }
 
-  this.params.slides.push(slideParams);
   var index = this.cp.$current.index() + 1;
+  if (index >= this.params.slides.length) {
+    this.params.slides.push(slideParams);
+  }
+  else {
+    this.params.slides.splice(index, 0, slideParams);
+  }
+  
   this.elements.splice(index, 0, []);
   this.cp.elementInstances.splice(index, 0, []);
   this.cp.elementsAttached.splice(index, 0, []);
