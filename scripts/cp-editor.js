@@ -1430,13 +1430,13 @@ H5PEditor.CoursePresentation.prototype.getCTs = function (firstOnly, maxTwo) {
   var self = this;
 
   var CTs = [];
+
   for (var i = 0; i < self.elements.length; i++) {
     var slideElements = self.elements[i];
 
     for (var j = 0; j < slideElements.length; j++) {
       var element = slideElements[j];
       var params = self.params.slides[i].elements[j];
-
       if (params.action !== undefined && params.action.library.split(' ')[0] === 'H5P.ContinuousText') {
         CTs.push({
           element: element,
