@@ -1262,14 +1262,14 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
   }
 
   // Completely remove element from CP
+  if (elementInstance.onDelete) {
+    elementInstance.onDelete(this.params, slideIndex, elementIndex);
+  }
   this.elements[slideIndex].splice(elementIndex, 1);
   this.cp.elementInstances[slideIndex].splice(elementIndex, 1);
   this.params.slides[slideIndex].elements.splice(elementIndex, 1);
 
   $wrapper.remove();
-  if (elementInstance.onDelete) {
-    elementInstance.onDelete(this.params, slideIndex, elementIndex);
-  }
 
   if (isContinuousText) {
     H5P.ContinuousText.Engine.run(this);
