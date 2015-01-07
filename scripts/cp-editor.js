@@ -455,6 +455,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     that.params.keywordListAlwaysShow = $alwaysKeywords.is(':checked');
     if (that.params.keywordListAlwaysShow) {
       that.cp.$keywordsButton.hide();
+      that.cp.showKeywords();
     }
     else {
       that.cp.$keywordsButton.show();
