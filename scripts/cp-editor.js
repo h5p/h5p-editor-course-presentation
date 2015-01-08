@@ -190,7 +190,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     return false;
   }).next().click(function () {
     that.addSlide(H5P.cloneObject(that.params.slides[that.cp.$current.index()],true));
-    
+
     var slideParams = that.params.slides[that.cp.$current.index()];
     if (slideParams.ct !== undefined) {
       // Make sure we don't replicate the whole continuous text.
@@ -455,6 +455,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     that.params.keywordListAlwaysShow = $alwaysKeywords.is(':checked');
     if (that.params.keywordListAlwaysShow) {
       that.cp.$keywordsButton.hide();
+      that.cp.showKeywords();
     }
     else {
       that.cp.$keywordsButton.show();
@@ -649,7 +650,7 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   else {
     this.params.slides.splice(index, 0, slideParams);
   }
-  
+
   this.elements.splice(index, 0, []);
   this.cp.elementInstances.splice(index, 0, []);
   this.cp.elementsAttached.splice(index, 0, []);
@@ -906,25 +907,17 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   // Get semantics for the elements field
   var slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
   var elementFields = H5PEditor.$.extend(true, [], H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields);
-  if (type === 'H5P.ContinuousText') {
-    for (var i = 0; i < elementFields.length; i++) {
-      if (elementFields[i].name === 'displayAsButton') {
-        elementFields[i].widget = 'none';
-        break;
-      }
-    }
-  }
 
   // Manipulate semantics into only using a given set of fields
   if (type === 'goToSlide') {
     // Hide all others
-    self.showFields(elementFields, ['goToSlide']);
+    self.showFields(elementFields, ['title', 'goToSlide', 'invisible']);
   }
   else {
-    var hideFields = ['goToSlide'];
+    var hideFields = ['title', 'goToSlide', 'invisible'];
 
-    if (type !== 'H5P.Text') {
-      // Only text can be displayed as a button
+    if (type === 'H5P.ContinuousText') {
+      // Continuous Text or Go To Slide cannot be displayed as a button
       hideFields.push('displayAsButton');
     }
 
