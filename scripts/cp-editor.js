@@ -955,20 +955,11 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
 
           if (params.width !== undefined && params.height !== undefined) {
             elementParams.height = params.height / (self.cp.$current.innerHeight() / 100);
-            if (elementParams.height < 5) {
-              // Avoid to small images, will be implossible to edit
-              elementParams.height = 5;
-            }
-            else if (elementParams.height > 100) {
-              // Avoid to big images
+            if (elementParams.height > 100) {
+              // Avoid too big images
               elementParams.height = 100;
             }
-
             elementParams.width = (elementParams.height * (params.width / params.height)) / self.slideRatio;
-            if (elementParams.width < 2.5) {
-              // Avoid to small images, will be implossible to edit
-              elementParams.width = 2.5;
-            }
           }
         });
       }
