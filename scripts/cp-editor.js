@@ -911,10 +911,10 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   // Manipulate semantics into only using a given set of fields
   if (type === 'goToSlide') {
     // Hide all others
-    self.showFields(elementFields, ['goToSlide']);
+    self.showFields(elementFields, ['title', 'goToSlide', 'invisible']);
   }
   else {
-    var hideFields = ['goToSlide'];
+    var hideFields = ['title', 'goToSlide', 'invisible'];
 
     if (type === 'H5P.ContinuousText') {
       // Continuous Text or Go To Slide cannot be displayed as a button
