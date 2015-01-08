@@ -954,7 +954,12 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
           }
 
           if (params.width !== undefined && params.height !== undefined) {
-            elementParams.height = elementParams.width * (params.height / params.width) * self.slideRatio * self.cp.slideWidthRatio;
+            elementParams.height = params.height / (self.cp.$current.innerHeight() / 100);
+            if (elementParams.height > 100) {
+              // Avoid too big images
+              elementParams.height = 100;
+            }
+            elementParams.width = (elementParams.height * (params.width / params.height)) / self.slideRatio;
           }
         });
       }
