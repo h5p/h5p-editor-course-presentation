@@ -449,8 +449,6 @@
 }
 .h5p-dragnbar-singlechoiceset-button:before {
   content: "\e603";
-  font-size: 1.5em;
-  vertical-align: middle;
 }
 
 .h5p-dragnbar-li-ul {
