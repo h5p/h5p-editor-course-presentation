@@ -1139,6 +1139,10 @@ H5PEditor.CoursePresentation.prototype.allowResize = function (type, $wrapper, e
     };
   }
 
+  H5P.jQuery('<div/>', {
+    'class': 'h5p-element-overlay',
+  }).appendTo($wrapper);
+
   // Calculate minimum size: font size + padding:
   var fontSize = parseInt($wrapper.css('font-size'));
   var padding = $wrapper.outerHeight() - $wrapper.innerHeight();
