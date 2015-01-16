@@ -443,7 +443,12 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   var $enableKeywords = this.$bar.find('.h5p-keywords-enable input').change(function () {
     that.params.keywordListEnabled = $enableKeywords.is(':checked');
     if (that.params.keywordListEnabled) {
-      that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).show();
+      if (that.params.keywordListAlwaysShow) {
+        that.cp.$keywordsWrapper.show().add(that.cp.$keywordsButton).addClass('h5p-open');
+      }
+      else {
+        that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).show();
+      }
     }
     else {
       that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).hide();
@@ -458,7 +463,9 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       that.cp.showKeywords();
     }
     else {
-      that.cp.$keywordsButton.show();
+      if (that.params.keywordListEnabled) {
+        that.cp.$keywordsButton.show();
+      }
     }
   });
 
@@ -483,11 +490,24 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     that.cp.setKeywordsOpacity(opacity);
   });
 
-  // Set defaults
-  that.params.keywordListEnabled = that.params.keywordListEnabled || true;
-  that.params.keywordListAlwaysShow = that.params.keywordListAlwaysShow || false;
-  that.params.keywordListAutoHide = that.params.keywordListAutoHide || false;
-  that.params.keywordListOpacity = that.params.keywordListOpacity || 90;
+  /**
+   * Help set default values if undefined.
+   *
+   * @private
+   * @param {String} option
+   * @param {*} defaultValue
+   */
+  var checkDefault = function (option, defaultValue) {
+    if (that.params[option] === undefined) {
+      that.params[option] = defaultValue;
+    }
+  };
+
+  // Set defaults if undefined
+  checkDefault('keywordListEnabled', true);
+  checkDefault('keywordListAlwaysShow', false);
+  checkDefault('keywordListAutoHide', false);
+  checkDefault('keywordListOpacity', 90);
 
   // Update HTML
   $enableKeywords.attr('checked', that.params.keywordListEnabled);
