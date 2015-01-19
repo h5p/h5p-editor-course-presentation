@@ -462,10 +462,8 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       that.cp.$keywordsButton.hide();
       that.cp.showKeywords();
     }
-    else {
-      if (that.params.keywordListEnabled) {
-        that.cp.$keywordsButton.show();
-      }
+    else if (that.params.keywordListEnabled) {
+      that.cp.$keywordsButton.show();
     }
   });
 
