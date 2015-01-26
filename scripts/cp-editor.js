@@ -110,8 +110,8 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
  */
 H5PEditor.CoursePresentation.prototype.addElement = function (library) {
   var elementParams = {
-    x: 0,
-    y: 0,
+    x: 30,
+    y: 30,
     width: 40,
     height: 40
   };
