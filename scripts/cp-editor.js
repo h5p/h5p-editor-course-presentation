@@ -47,7 +47,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 H5PEditor.CoursePresentation.prototype.setLocalization = function () {
   var that = this;
 
-  var fields = H5PEditor.findField('l10n', this.parent).children;
+/*  var fields = H5PEditor.findField('l10n', this.parent).children;
   for (var i = 0; i < fields.length; i++) {
     var field = fields[i];
     switch (field.field.name) {
@@ -99,7 +99,7 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
         });
         break;
     }
-  }
+  }*/
 };
 
 /**
@@ -246,20 +246,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       }
     }
 
-    // Add go to slide button
-    var goToSlide = H5PEditor.CoursePresentation.findField('goToSlide', elementFields);
-    if (goToSlide) {
-      buttons.splice(5, 0, {
-        id: 'gotoslide',
-        title: H5PEditor.t('H5PEditor.CoursePresentation', 'insertElement', {':type': goToSlide.label}),
-        createElement: function () {
-          return that.addElement('GoToSlide');
-        }
-      });
-    }
-
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current);
-
 
     // Update params when the element is dropped.
     that.dnb.stopMovingCallback = function (x, y) {
@@ -693,11 +680,19 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   }
 
   // Add to and update slideination.
-  var $slideinationSlide = H5P.jQuery(H5P.CoursePresentation.createSlideinationSlide()).insertAfter(this.cp.$currentSlideinationSlide).children('a').click(function () {
+/*  var $slideinationSlide = H5P.jQuery(H5P.CoursePresentation.createSlideinationSlide()).insertAfter(this.cp.$currentSlideinationSlide).children('a').click(function () {
     that.cp.jumpToSlide(H5P.jQuery(this).text() - 1);
     return false;
   }).end();
-  that.updateSlideination($slideinationSlide, index);
+  that.updateSlideination($slideinationSlide, index);*/
+
+  console.log("adding slide");
+  console.log(slideParams);
+
+  // Re-initialize progressbar.
+  this.cp.initProgressbar();
+  this.cp.updateProgressBar();
+  this.cp.updateFooter();
 
   // Switch to the new slide.
   this.cp.nextSlide();
@@ -711,11 +706,11 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
  * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.updateSlideination = function ($slideinationSlide, index) {
-  while ($slideinationSlide.length) {
+/*  while ($slideinationSlide.length) {
     index += 1;
     $slideinationSlide.children().text(index);
     $slideinationSlide = $slideinationSlide.next();
-  }
+  }*/
 };
 
 /**
@@ -725,7 +720,7 @@ H5PEditor.CoursePresentation.prototype.updateSlideination = function ($slideinat
  */
 H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var index = this.cp.$current.index();
-  var $remove = this.cp.$current.add(this.cp.$currentSlideinationSlide).add(this.cp.$currentKeyword);
+  var $remove = this.cp.$current.add(this.cp.$currentKeyword);
 
   // Confirm and change slide.
   if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmDeleteSlide'))) {
@@ -742,7 +737,7 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   $remove.remove();
 
   // Update slideination numbering.
-  this.updateSlideination(this.cp.$currentSlideinationSlide, index + move);
+  //this.updateSlideination(this.cp.$currentSlideinationSlide, index + move);
 
   // Preserve the whole continuous text.
   if (this.params.ct !== undefined && this.params.slides[index + 1] !== undefined) {
@@ -811,7 +806,7 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
 
   // Update slideination
   var newIndex = index + direction;
-  this.cp.jumpSlideination(newIndex);
+  //this.cp.jumpSlideination(newIndex);
 
   // Need to inform exportable text area about the change:
   H5P.ExportableTextArea.CPInterface.changeSlideIndex(direction > 0 ? index : index-1, direction > 0 ? index+1 : index);
