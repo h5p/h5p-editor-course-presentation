@@ -44,63 +44,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
  *
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.setLocalization = function () {
-  var that = this;
-
-/*  var fields = H5PEditor.findField('l10n', this.parent).children;
-  for (var i = 0; i < fields.length; i++) {
-    var field = fields[i];
-    switch (field.field.name) {
-      case 'prev':
-        field.change(function (value) {
-          that.cp.$slideination.children('.h5p-previous').text(value);
-        });
-        break;
-
-      case 'prevSlide':
-        field.change(function (value) {
-          that.cp.$slideination.children('.h5p-previous').attr('title', value);
-        });
-        break;
-
-      case 'scrollLeft':
-        field.change(function (value) {
-          that.cp.$slideination.children('.h5p-scroll-left').attr('title', value);
-        });
-        break;
-
-      case 'goHome':
-        field.change(function (value) {
-          that.cp.$slideination.children('.h5p-go-home').attr('title', value);
-        });
-        break;
-
-      case 'jumpToSlide':
-        field.change(function (value) {
-          that.cp.$slideinationSlides.children('li').children('a').attr('title', value);
-        });
-        break;
-
-      case 'scrollRight':
-        field.change(function (value) {
-          that.cp.$slideination.children('.h5p-scroll-right').attr('title', value);
-        });
-        break;
-
-      case 'next':
-        field.change(function (value) {
-          that.cp.$slideination.children('.h5p-next').text(value);
-        });
-        break;
-
-      case 'nextSlide':
-        field.change(function (value) {
-          that.cp.$slideination.children('.h5p-next').attr('title', value);
-        });
-        break;
-    }
-  }*/
-};
+H5PEditor.CoursePresentation.prototype.setLocalization = function () {};
 
 /**
  * Add an element to the current slide and params.
@@ -679,16 +623,6 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
     });
   }
 
-  // Add to and update slideination.
-/*  var $slideinationSlide = H5P.jQuery(H5P.CoursePresentation.createSlideinationSlide()).insertAfter(this.cp.$currentSlideinationSlide).children('a').click(function () {
-    that.cp.jumpToSlide(H5P.jQuery(this).text() - 1);
-    return false;
-  }).end();
-  that.updateSlideination($slideinationSlide, index);*/
-
-  console.log("adding slide");
-  console.log(slideParams);
-
   // Re-initialize progressbar.
   this.cp.initProgressbar();
   this.cp.updateProgressBar();
@@ -696,21 +630,6 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   // Switch to the new slide.
   this.cp.nextSlide();
-};
-
-/**
- * Update slideination numbering.
- *
- * @param {H5P.jQuery} $slideinationSlide
- * @param {int} index
- * @returns {undefined}
- */
-H5PEditor.CoursePresentation.prototype.updateSlideination = function ($slideinationSlide, index) {
-/*  while ($slideinationSlide.length) {
-    index += 1;
-    $slideinationSlide.children().text(index);
-    $slideinationSlide = $slideinationSlide.next();
-  }*/
 };
 
 /**
@@ -735,9 +654,6 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 
   // Remove visuals.
   $remove.remove();
-
-  // Update slideination numbering.
-  //this.updateSlideination(this.cp.$currentSlideinationSlide, index + move);
 
   // Preserve the whole continuous text.
   if (this.params.ct !== undefined && this.params.slides[index + 1] !== undefined) {
@@ -766,6 +682,11 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   // Update the list of element instances
   this.cp.elementInstances.splice(index, 1);
   this.cp.elementsAttached.splice(index, 1);
+
+  // Update progressbar and footer
+  this.cp.initProgressbar();
+  this.cp.updateProgressBar(index + move);
+  this.cp.updateFooter(index + move);
 
   H5P.ContinuousText.Engine.run(this);
 };
@@ -804,9 +725,9 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
     this.cp.scrollToKeywords();
   }
 
-  // Update slideination
+  // Jump to sorted slide number
   var newIndex = index + direction;
-  //this.cp.jumpSlideination(newIndex);
+  this.cp.jumpToSlide(newIndex);
 
   // Need to inform exportable text area about the change:
   H5P.ExportableTextArea.CPInterface.changeSlideIndex(direction > 0 ? index : index-1, direction > 0 ? index+1 : index);
