@@ -110,8 +110,8 @@ H5PEditor.CoursePresentation.prototype.setLocalization = function () {
  */
 H5PEditor.CoursePresentation.prototype.addElement = function (library) {
   var elementParams = {
-    x: 0,
-    y: 0,
+    x: 30,
+    y: 30,
     width: 40,
     height: 40
   };
@@ -127,8 +127,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
     var libraryName = library.split(' ')[0];
     switch (libraryName) {
       case 'H5P.Audio':
-        elementParams.width = 45;
-        elementParams.height = 15;
+        elementParams.width = (20/this.cp.$current.width())*100;
+        elementParams.height = (20/this.cp.$current.height())*100;
         break;
 
       case 'H5P.DragQuestion':
@@ -443,7 +443,12 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   var $enableKeywords = this.$bar.find('.h5p-keywords-enable input').change(function () {
     that.params.keywordListEnabled = $enableKeywords.is(':checked');
     if (that.params.keywordListEnabled) {
-      that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).show();
+      if (that.params.keywordListAlwaysShow) {
+        that.cp.$keywordsWrapper.show().add(that.cp.$keywordsButton).addClass('h5p-open');
+      }
+      else {
+        that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).show();
+      }
     }
     else {
       that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).hide();
@@ -457,7 +462,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       that.cp.$keywordsButton.hide();
       that.cp.showKeywords();
     }
-    else {
+    else if (that.params.keywordListEnabled) {
       that.cp.$keywordsButton.show();
     }
   });
@@ -483,11 +488,24 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     that.cp.setKeywordsOpacity(opacity);
   });
 
-  // Set defaults
-  that.params.keywordListEnabled = that.params.keywordListEnabled || true;
-  that.params.keywordListAlwaysShow = that.params.keywordListAlwaysShow || false;
-  that.params.keywordListAutoHide = that.params.keywordListAutoHide || false;
-  that.params.keywordListOpacity = that.params.keywordListOpacity || 90;
+  /**
+   * Help set default values if undefined.
+   *
+   * @private
+   * @param {String} option
+   * @param {*} defaultValue
+   */
+  var checkDefault = function (option, defaultValue) {
+    if (that.params[option] === undefined) {
+      that.params[option] = defaultValue;
+    }
+  };
+
+  // Set defaults if undefined
+  checkDefault('keywordListEnabled', true);
+  checkDefault('keywordListAlwaysShow', false);
+  checkDefault('keywordListAutoHide', false);
+  checkDefault('keywordListOpacity', 90);
 
   // Update HTML
   $enableKeywords.attr('checked', that.params.keywordListEnabled);
@@ -916,7 +934,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   else {
     var hideFields = ['title', 'goToSlide', 'invisible'];
 
-    if (type === 'H5P.ContinuousText') {
+    if (type === 'H5P.ContinuousText' || type === 'H5P.Audio') {
       // Continuous Text or Go To Slide cannot be displayed as a button
       hideFields.push('displayAsButton');
     }
