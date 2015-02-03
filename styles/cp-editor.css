@@ -447,10 +447,8 @@
 .h5p-dragnbar-gotoslide-button:before {
   content: "\e602";
 }
-.h5p-dragnbar-singlechoice-button:before {
+.h5p-dragnbar-singlechoiceset-button:before {
   content: "\e603";
-  font-size: 1.5em;
-  vertical-align: middle;
 }
 
 .h5p-dragnbar-li-ul {
