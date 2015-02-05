@@ -1450,7 +1450,7 @@ H5PEditor.CoursePresentation.prototype.getCTs = function (firstOnly, maxTwo) {
   for (var i = 0; i < self.elements.length; i++) {
     var slideElements = self.elements[i];
 
-    for (var j = 0; j < slideElements.length; j++) {
+    for (var j = 0; slideElements !== undefined && j < slideElements.length; j++) {
       var element = slideElements[j];
       var params = self.params.slides[i].elements[j];
       if (params.action !== undefined && params.action.library.split(' ')[0] === 'H5P.ContinuousText') {
