@@ -624,9 +624,9 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   }
 
   // Re-initialize progressbar.
-  this.cp.initProgressbar();
-  this.cp.updateProgressBar();
-  this.cp.updateFooter();
+  this.cp.navigationLine.initProgressbar();
+  this.cp.navigationLine.updateProgressBar();
+  this.cp.navigationLine.updateFooter();
 
   // Switch to the new slide.
   this.cp.nextSlide();
@@ -684,9 +684,9 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   this.cp.elementsAttached.splice(index, 1);
 
   // Update progressbar and footer
-  this.cp.initProgressbar();
-  this.cp.updateProgressBar(index + move);
-  this.cp.updateFooter(index + move);
+  this.cp.navigationLine.initProgressbar();
+  this.cp.navigationLine.updateProgressBar(index + move);
+  this.cp.navigationLine.updateFooter(index + move);
 
   H5P.ContinuousText.Engine.run(this);
 };
