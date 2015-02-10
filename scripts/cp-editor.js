@@ -44,7 +44,9 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
  *
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.setLocalization = function () {};
+H5PEditor.CoursePresentation.prototype.setLocalization = function () {
+
+};
 
 /**
  * Add an element to the current slide and params.
@@ -123,9 +125,17 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   that.initializeDNB();
 
   // Add and bind slide controls.
-  H5PEditor.$('<div class="h5p-slidecontrols"><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a></div>').insertAfter(this.cp.$boxWrapper).children('a:first').click(function () {
-    that.sortSlide(that.cp.$current.prev(), -1); // Left
-    return false;
+  H5PEditor.$(
+    '<div class="h5p-slidecontrols">' +
+      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>' +
+      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>' +
+      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>' +
+      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a></div>')
+    .insertAfter(this.cp.$wrapper)
+    .children('a:first')
+    .click(function () {
+      that.sortSlide(that.cp.$current.prev(), -1); // Left
+      return false;
   }).next().click(function () {
     that.sortSlide(that.cp.$current.next(), 1); // Right
     return false;
