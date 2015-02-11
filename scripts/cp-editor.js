@@ -633,10 +633,8 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 };
 
 H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
-  debugger;
   var that = this;
   // Update slides with solutions.
-  console.log(this.cp.slides);
   var hasSolutionArray = [];
   this.cp.slides.forEach(function (instanceArray, slideNumber) {
     var isTaskWithSolution = false;
