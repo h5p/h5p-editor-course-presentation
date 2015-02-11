@@ -34,18 +34,8 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 
   this.passReadies = true;
   parent.ready(function () {
-    that.setLocalization();
     that.passReadies = false;
   });
-};
-
-/**
- * Finds localization fields and updates value as they change.
- *
- * @returns {undefined}
- */
-H5PEditor.CoursePresentation.prototype.setLocalization = function () {
-
 };
 
 /**
@@ -96,6 +86,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
   this.params.slides[this.cp.$current.index()].elements.push(elementParams);
   var slideIndex = this.cp.$current.index();
   var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
+
   return this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
 };
 
@@ -129,16 +120,17 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     '<div class="h5p-slidecontrols">' +
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>' +
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>' +
-      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a><a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>' +
-      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a></div>')
-    .insertAfter(this.cp.$wrapper)
+      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>' +
+      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>' +
+      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a></div>'
+  ).insertAfter(this.cp.$wrapper)
     .children('a:first')
     .click(function () {
       that.sortSlide(that.cp.$current.prev(), -1); // Left
       return false;
-  }).next().click(function () {
-    that.sortSlide(that.cp.$current.next(), 1); // Right
-    return false;
+    }).next().click(function () {
+      that.sortSlide(that.cp.$current.next(), 1); // Right
+      return false;
   }).next().click(function () {
     that.removeSlide();
     return false;
@@ -620,8 +612,9 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   // Add keywords
   if (slideParams.keywords !== undefined) {
-    H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function () {
+    H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function (event) {
       that.cp.keywordClick(H5PEditor.$(this));
+      event.preventDefault();
     }).find('span').click(function (event) {
       // Convert keywords into text areas when clicking.
       if (!that.keywordsDNS.moving && that.editKeyword(H5PEditor.$(this)) !== false) {
@@ -633,13 +626,40 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
     });
   }
 
-  // Re-initialize progressbar.
-  this.cp.navigationLine.initProgressbar();
-  this.cp.navigationLine.updateProgressBar();
-  this.cp.navigationLine.updateFooter();
+  this.updateNavigationLine(index);
 
   // Switch to the new slide.
   this.cp.nextSlide();
+};
+
+H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
+  debugger;
+  var that = this;
+  // Update slides with solutions.
+  console.log(this.cp.slides);
+  var hasSolutionArray = [];
+  this.cp.slides.forEach(function (instanceArray, slideNumber) {
+    var isTaskWithSolution = false;
+
+    if (that.cp.elementInstances[slideNumber] !== undefined && that.cp.elementInstances[slideNumber].length) {
+      that.cp.elementInstances[slideNumber].forEach(function (elementInstance) {
+        if (that.cp.checkForSolutions(elementInstance)) {
+          isTaskWithSolution = true;
+        }
+      })
+    }
+
+    if (isTaskWithSolution) {
+      hasSolutionArray.push([[isTaskWithSolution]]);
+    } else {
+      hasSolutionArray.push([]);
+    }
+  });
+
+  // Update progressbar and footer
+  this.cp.navigationLine.initProgressbar(hasSolutionArray);
+  this.cp.navigationLine.updateProgressBar(index);
+  this.cp.navigationLine.updateFooter(index);
 };
 
 /**
@@ -693,12 +713,11 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   this.cp.elementInstances.splice(index, 1);
   this.cp.elementsAttached.splice(index, 1);
 
-  // Update progressbar and footer
-  this.cp.navigationLine.initProgressbar();
-  this.cp.navigationLine.updateProgressBar(index + move);
-  this.cp.navigationLine.updateFooter(index + move);
+  this.updateNavigationLine(index + move);
 
   H5P.ContinuousText.Engine.run(this);
+
+
 };
 
 /**
@@ -747,6 +766,8 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   this.elements.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
   this.cp.elementInstances.splice(newIndex, 0, this.cp.elementInstances.splice(index, 1)[0]);
   this.cp.elementsAttached.splice(newIndex, 0, this.cp.elementsAttached.splice(index, 1)[0]);
+
+  this.updateNavigationLine(newIndex);
 
   H5P.ContinuousText.Engine.run(this);
 
