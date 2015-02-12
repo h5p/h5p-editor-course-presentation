@@ -378,6 +378,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     if (that.params.keywordListEnabled) {
       if (that.params.keywordListAlwaysShow) {
         that.cp.$keywordsWrapper.show().add(that.cp.$keywordsButton).addClass('h5p-open');
+        that.cp.$keywordsButton.hide();
       }
       else {
         that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).show();
@@ -391,12 +392,20 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   // Always show keywords list
   var $alwaysKeywords = this.$bar.find('.h5p-keywords-always input').change(function () {
     that.params.keywordListAlwaysShow = $alwaysKeywords.is(':checked');
+    if (!that.params.keywordListEnabled) {
+      that.cp.hideKeywords();
+      that.cp.$keywordsButton.hide();
+      return;
+    } else if (!that.params.keywordListAlwaysShow) {
+      that.cp.$keywordsButton.show();
+    }
     if (that.params.keywordListAlwaysShow) {
       that.cp.$keywordsButton.hide();
       that.cp.showKeywords();
     }
     else if (that.params.keywordListEnabled) {
       that.cp.$keywordsButton.show();
+      that.cp.showKeywords();
     }
   });
 
