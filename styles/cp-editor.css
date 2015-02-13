@@ -17,9 +17,10 @@
 }
 
 .h5p-course-presentation .h5p-slidecontrols {
-  float: right;
+  position: absolute;
+  right: 0.25em;
+  margin-top: -1.9em;
   border-radius: 0.5em;
-  margin: 0.15em;
   border: 1px solid #d9d9d9;
 }
 
