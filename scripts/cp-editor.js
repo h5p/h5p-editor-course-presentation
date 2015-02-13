@@ -708,7 +708,7 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 
   // Preserve the whole continuous text.
   if (this.params.ct !== undefined && this.params.slides[index + 1] !== undefined) {
-    this.params[index + 1].ct = this.params.ct;
+    this.params.slides[index + 1].ct = this.params.ct;
   }
 
   // ExportableTextArea needs to know about the deletion:
