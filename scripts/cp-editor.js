@@ -11,8 +11,8 @@ var H5PEditor = H5PEditor || {};
  */
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   var that = this;
-  this.$ = H5PEditor.$(this);
-
+  H5P.EventDispatcher.call(this);
+  
   if (params === undefined) {
     params = {
       slides: [{
@@ -37,6 +37,9 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     that.passReadies = false;
   });
 };
+
+H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
+H5PEditor.CoursePresentation.prototype.constructor = H5PEditor.CoursePresentation;
 
 /**
  * Add an element to the current slide and params.
@@ -109,7 +112,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   }, H5PEditor.contentId, this);
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
-    this.cp.$.trigger('resize');
+    this.cp.trigger('resize');
   }
 
   // Add drag and drop menu bar.
@@ -149,7 +152,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     return false;
   });
 
-  this.cp.$.on('resize', function () {
+  this.cp.on('resize', function () {
     // Reset drag and drop adjustments.
     if (that.keywordsDNS !== undefined) {
       delete that.keywordsDNS.dnd.containerOffset;
@@ -225,7 +228,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     that.initKeywordInteractions();
 
     // Trigger event
-    that.$.triggerHandler('librariesReady');
+    that.trigger('librariesReady');
   });
 };
 
@@ -1025,7 +1028,7 @@ H5PEditor.CoursePresentation.prototype.findLibraryTitle = function (library, nex
 
   if (self.libraries === undefined) {
     // Must wait until library titles are loaded
-    self.$.one('librariesReady', find);
+    self.once('librariesReady', find);
   }
   else {
     find();
@@ -1141,7 +1144,7 @@ H5PEditor.CoursePresentation.prototype.allowResize = function (type, $wrapper, e
       }
 
       // Trigger element resize
-      elementInstance.$.trigger('resize');
+      H5P.trigger(elementInstance, 'resize');
     }
   }).children('.ui-resizable-handle').mousedown(function (event) {
     // Flag that we're resizing to avoid moving the element
@@ -1181,7 +1184,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function($element) {
   };
 
   if (self.dnb === undefined) {
-    self.$.one('librariesReady', add);
+    self.once('librariesReady', add);
   }
   else {
     add();
@@ -1355,7 +1358,7 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   // Resize element.
   instance = elementInstances[elementInstances.length - 1];
   if ((instance.preventResize === undefined || instance.preventResize === false) && instance.$ !== undefined) {
-    instance.$.trigger('resize');
+    H5P.trigger(instance, 'resize');
   }
 
   var that = this;
