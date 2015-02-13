@@ -194,6 +194,17 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         buttons.push(that.addDNBButton(libraries[i]));
       }
     }
+    // Add go to slide button
+    var goToSlide = H5PEditor.CoursePresentation.findField('goToSlide', elementFields);
+    if (goToSlide) {
+      buttons.splice(5, 0, {
+        id: 'gotoslide',
+        title: H5PEditor.t('H5PEditor.CoursePresentation', 'insertElement', {':type': goToSlide.label}),
+        createElement: function () {
+          return that.addElement('GoToSlide');
+        }
+      });
+    }
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current);
 
