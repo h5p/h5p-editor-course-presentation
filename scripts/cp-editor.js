@@ -929,11 +929,25 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
           }
 
           if (params.width !== undefined && params.height !== undefined) {
-            elementParams.height = params.height / (self.cp.$current.innerHeight() / 100);
-            if (elementParams.height > 100) {
-              // Avoid too big images
-              elementParams.height = 100;
+            // Avoid to small images, will not work with jQuery UI's resize
+            var minSize = parseInt(element.$wrapper.css('font-size')) +
+                          element.$wrapper.outerHeight() -
+                          element.$wrapper.innerHeight();
+            // Use same minSize as jQuery UI's resize
+            if (params.width < minSize) {
+              params.width = minSize;
             }
+            if (params.height < minSize) {
+              params.height = minSize;
+            }
+
+            // Reduce height for tiny images, stretched pixels looks horrible
+            var suggestedHeight = params.height / (self.cp.$current.innerHeight() / 100);
+            if (suggestedHeight < elementParams.height) {
+              elementParams.height = suggestedHeight;
+            }
+
+            // Calculate new width
             elementParams.width = (elementParams.height * (params.width / params.height)) / self.slideRatio;
           }
         });
