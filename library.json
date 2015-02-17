@@ -125,6 +125,16 @@
       "machineName": "H5P.DragText",
       "majorVersion": 1,
       "minorVersion": 2
+    },
+    {
+      "machineName": "H5P.TwitterUserFeed",
+      "majorVersion": 1,
+      "minorVersion": 0
+    },
+    {
+      "machineName": "H5P.AppearIn",
+      "majorVersion": 1,
+      "minorVersion": 0
     }
   ]
 }
