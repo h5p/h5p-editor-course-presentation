@@ -186,7 +186,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   var slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
   var elementFields = H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields;
   var action = H5PEditor.CoursePresentation.findField('action', elementFields);
-  H5PEditor.$.post(H5PEditor.ajaxPath + 'libraries', {libraries: action.options}, function (libraries) {
+  H5PEditor.LibraryListCache.getLibraries(action.options, function (libraries) {
     that.libraries = libraries;
     var buttons = [];
     for (var i = 0; i < libraries.length; i++) {
