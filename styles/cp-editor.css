@@ -11,16 +11,16 @@
 }
 
 .h5p-course-presentation .h5p-slidecontrols, .h5p-course-presentation .h5p-keywordcontrols {
-  font-size: 0.75em;
   border: 1px solid #bebebe;
   border-top: 0;
   text-shadow: 0 0 1em #fff;
 }
 
 .h5p-course-presentation .h5p-slidecontrols {
-  float: right;
+  position: absolute;
+  right: 0.25em;
+  margin-top: -1.9em;
   border-radius: 0.5em;
-  margin: 0.15em;
   border: 1px solid #d9d9d9;
 }
 
@@ -246,6 +246,13 @@
   opacity: 0.9;
   filter: alpha(opacity = 90);
 }
+.h5p-course-presentation .h5p-element-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
 
 .h5p-course-presentation .h5p-dialog-no-close .ui-dialog-titlebar-close {
   display: none;
@@ -385,6 +392,8 @@
 .h5p-dragnbar-audio-button:before,
 .h5p-dragnbar-video-button:before,
 .h5p-dragnbar-more-button:before,
+.h5p-dragnbar-appearin-button:before,
+.h5p-dragnbar-twitteruserfeed-button:before,
 .h5p-dragnbar-interactivevideo-button:before {
   font-family: 'H5PFontAwesome4';
   color: #494949;
@@ -405,6 +414,12 @@
 }
 .h5p-dragnbar-video-button:before {
   content: "\f008";
+}
+.h5p-dragnbar-twitteruserfeed-button:before {
+  content: "\f099";
+}
+.h5p-dragnbar-appearin-button:before {
+  content: "\f086";
 }
 .h5p-dragnbar-more-button:before {
   content: "\f067";
@@ -438,7 +453,6 @@
 .h5p-dragnbar-markthewords-button:before {
   content: "\e601";
   font-size: 1.4em;
-  vertical-align: middle;
 }
 .h5p-dragnbar-dragtext-button:before {
   content: "\e600";
