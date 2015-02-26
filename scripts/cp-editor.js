@@ -12,7 +12,7 @@ var H5PEditor = H5PEditor || {};
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   var that = this;
   H5P.EventDispatcher.call(this);
-  
+
   if (params === undefined) {
     params = {
       slides: [{
@@ -126,7 +126,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>' +
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>' +
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a></div>'
-  ).insertAfter(this.cp.$wrapper)
+  ).appendTo(this.cp.$wrapper)
     .children('a:first')
     .click(function () {
       that.sortSlide(that.cp.$current.prev(), -1); // Left

@@ -19,9 +19,10 @@
 .h5p-course-presentation .h5p-slidecontrols {
   position: absolute;
   right: 0.25em;
-  margin-top: -1.9em;
   border-radius: 0.5em;
   border: 1px solid #d9d9d9;
+  bottom: -0.025em;
+  font-size: 0.75em;
 }
 
 .h5p-course-presentation .h5p-keywordcontrols {
@@ -36,11 +37,10 @@
   display: block;
   float: left;
   color: #292929;
-  width: 0.833em;
   border-left: 1px solid #bebebe;
-  line-height: 1.5em;
-  padding: 0.25em 0.5em;
-  height: 1.5em;
+  line-height: 1.6em;
+  padding: 0.05em 0.5em;
+  height: 1.6em;
 
   background: rgb(240,240,240); /* Old browsers */
   background: -moz-linear-gradient(top,  rgba(240,240,240,1) 1%, rgba(204,204,204,1) 100%); /* FF3.6+ */
