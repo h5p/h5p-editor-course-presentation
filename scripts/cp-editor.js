@@ -61,7 +61,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
   else {
     elementParams.action = {
       library: library,
-      params: {}
+      params: {},
+      uuid: H5P.createUUID()
     };
     var libraryName = library.split(' ')[0];
     switch (libraryName) {
@@ -109,7 +110,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   // Create new presentation.
   this.cp = new H5P.CoursePresentation({
     presentation: this.params
-  }, H5PEditor.contentId, this);
+  }, H5PEditor.contentId, {cpEditor: this});
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
     this.cp.trigger('resize');
