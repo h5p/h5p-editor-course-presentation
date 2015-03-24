@@ -1338,9 +1338,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
               valid = false;
             }
           }
-          if (!valid) {
-            return false;
-          }
 
           if (isContinuousText) {
             // Store complete CT on slide 0
