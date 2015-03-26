@@ -62,7 +62,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
     elementParams.action = {
       library: library,
       params: {},
-      uuid: H5P.createUUID()
+      subContentId: H5P.createUUID()
     };
     var libraryName = library.split(' ')[0];
     switch (libraryName) {
