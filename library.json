@@ -1,14 +1,14 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 3,
+  "minorVersion": 4,
   "patchVersion": 0,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel AS",
   "coreApi": {
     "majorVersion": 1,
-    "minorVersion": 4
+    "minorVersion": 5
   },
   "preloadedJs": [
     {
@@ -79,52 +79,52 @@
     {
       "machineName": "H5P.Blanks",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 3
     },
     {
       "machineName": "H5P.SingleChoiceSet",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 2
     },
     {
       "machineName": "H5P.MultiChoice",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 3
     },
     {
       "machineName": "H5P.DragQuestion",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 3
     },
     {
       "machineName": "H5P.Summary",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 3
     },
     {
       "machineName": "H5P.ExportableTextArea",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 2
     },
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 4
+      "minorVersion": 5
     },
     {
       "machineName": "H5P.CoursePresentation",
       "majorVersion": 1,
-      "minorVersion": 3
+      "minorVersion": 4
     },
     {
       "machineName": "H5P.MarkTheWords",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 3
     },
     {
       "machineName": "H5P.DragText",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 3
     },
     {
       "machineName": "H5P.TwitterUserFeed",

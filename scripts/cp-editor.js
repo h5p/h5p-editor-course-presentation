@@ -12,7 +12,7 @@ var H5PEditor = H5PEditor || {};
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   var that = this;
   H5P.EventDispatcher.call(this);
-  
+
   if (params === undefined) {
     params = {
       slides: [{
@@ -61,7 +61,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
   else {
     elementParams.action = {
       library: library,
-      params: {}
+      params: {},
+      subContentId: H5P.createUUID()
     };
     var libraryName = library.split(' ')[0];
     switch (libraryName) {
@@ -109,7 +110,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   // Create new presentation.
   this.cp = new H5P.CoursePresentation({
     presentation: this.params
-  }, H5PEditor.contentId, this);
+  }, H5PEditor.contentId, {cpEditor: this});
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
     this.cp.trigger('resize');
@@ -126,7 +127,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>' +
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>' +
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a></div>'
-  ).insertAfter(this.cp.$wrapper)
+  ).appendTo(this.cp.$wrapper)
     .children('a:first')
     .click(function () {
       that.sortSlide(that.cp.$current.prev(), -1); // Left
@@ -1337,9 +1338,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
             if (element.children[i].validate() === false) {
               valid = false;
             }
-          }
-          if (!valid) {
-            return false;
           }
 
           if (isContinuousText) {
