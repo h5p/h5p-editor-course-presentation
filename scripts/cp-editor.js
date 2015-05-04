@@ -36,6 +36,12 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   parent.ready(function () {
     that.passReadies = false;
   });
+
+  // Make sure each slide has keywords array defined.
+  // This won't always be the case for old presentations
+  this.params.slides.forEach(function (slide) {
+    slide.keywords = slide.keywords || [];
+  });
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
