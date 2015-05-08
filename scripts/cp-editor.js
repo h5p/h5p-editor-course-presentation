@@ -979,6 +979,22 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     }
   }
 
+  if (typeof library.change === 'function' && library.change instanceof Function) {
+    library.change(function () {
+      // Find the first ckeditor or texteditor field that is not hidden.
+      // h5p-editor dialog is copyright dialog
+      // h5p-dialog-box is IVs video choose dialog
+      H5P.jQuery('.ckeditor, .h5peditor-text', library.$myField)
+        .not('.h5p-editor-dialog .ckeditor, ' +
+        '.h5p-editor-dialog .h5peditor-text, ' +
+        '.h5p-dialog-box .ckeditor, ' +
+        '.h5p-dialog-box .h5peditor-text', library.$myField)
+        .eq(0)
+        .focus();
+    });
+  }
+
+
   return element;
 };
 
