@@ -979,7 +979,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     }
   }
 
-  if (typeof library.change === 'function' && library.change instanceof Function) {
+  if (library.change && (library.change instanceof Function || typeof library.change === 'function')) {
     library.change(function () {
       // Find the first ckeditor or texteditor field that is not hidden.
       // h5p-editor dialog is copyright dialog
@@ -993,7 +993,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
         .focus();
     });
   }
-
 
   return element;
 };
