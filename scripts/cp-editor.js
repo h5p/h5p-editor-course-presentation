@@ -36,6 +36,12 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   parent.ready(function () {
     that.passReadies = false;
   });
+
+  // Make sure each slide has keywords array defined.
+  // This won't always be the case for old presentations
+  this.params.slides.forEach(function (slide) {
+    slide.keywords = slide.keywords || [];
+  });
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
@@ -971,6 +977,21 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     else {
       libraryChange();
     }
+  }
+
+  if (library.change && (library.change instanceof Function || typeof library.change === 'function')) {
+    library.change(function () {
+      // Find the first ckeditor or texteditor field that is not hidden.
+      // h5p-editor dialog is copyright dialog
+      // h5p-dialog-box is IVs video choose dialog
+      H5P.jQuery('.ckeditor, .h5peditor-text', library.$myField)
+        .not('.h5p-editor-dialog .ckeditor, ' +
+        '.h5p-editor-dialog .h5peditor-text, ' +
+        '.h5p-dialog-box .ckeditor, ' +
+        '.h5p-dialog-box .h5peditor-text', library.$myField)
+        .eq(0)
+        .focus();
+    });
   }
 
   return element;
