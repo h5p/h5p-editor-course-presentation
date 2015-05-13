@@ -93,10 +93,20 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
         break;
     }
   }
-  this.params.slides[this.cp.$current.index()].elements.push(elementParams);
-  var slideIndex = this.cp.$current.index();
-  var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
 
+  var slideIndex = this.cp.$current.index();
+  var slideParams = this.params.slides[slideIndex];
+
+  if (slideParams.elements === undefined) {
+    // No previous elements
+    slideParams.elements = [elementParams];
+  }
+  else {
+    // Add as last element
+    slideParams.elements.push(elementParams);
+  }
+
+  var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
   return this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
 };
 
