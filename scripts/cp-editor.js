@@ -93,10 +93,20 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
         break;
     }
   }
-  this.params.slides[this.cp.$current.index()].elements.push(elementParams);
-  var slideIndex = this.cp.$current.index();
-  var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
 
+  var slideIndex = this.cp.$current.index();
+  var slideParams = this.params.slides[slideIndex];
+
+  if (slideParams.elements === undefined) {
+    // No previous elements
+    slideParams.elements = [elementParams];
+  }
+  else {
+    // Add as last element
+    slideParams.elements.push(elementParams);
+  }
+
+  var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
   return this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
 };
 
@@ -979,6 +989,21 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     }
   }
 
+  if (library.change && (library.change instanceof Function || typeof library.change === 'function')) {
+    library.change(function () {
+      // Find the first ckeditor or texteditor field that is not hidden.
+      // h5p-editor dialog is copyright dialog
+      // h5p-dialog-box is IVs video choose dialog
+      H5P.jQuery('.ckeditor, .h5peditor-text', library.$myField)
+        .not('.h5p-editor-dialog .ckeditor, ' +
+        '.h5p-editor-dialog .h5peditor-text, ' +
+        '.h5p-dialog-box .ckeditor, ' +
+        '.h5p-dialog-box .h5peditor-text', library.$myField)
+        .eq(0)
+        .focus();
+    });
+  }
+
   return element;
 };
 
@@ -1399,7 +1424,7 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
 
   // Resize element.
   instance = elementInstances[elementInstances.length - 1];
-  if ((instance.preventResize === undefined || instance.preventResize === false) && instance.$ !== undefined) {
+  if ((instance.preventResize === undefined || instance.preventResize === false) && instance.$ !== undefined && !elementParams.displayAsButton) {
     H5P.trigger(instance, 'resize');
   }
 
