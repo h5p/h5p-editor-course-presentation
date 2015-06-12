@@ -1424,7 +1424,7 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
 
   // Resize element.
   instance = elementInstances[elementInstances.length - 1];
-  if ((instance.preventResize === undefined || instance.preventResize === false) && instance.$ !== undefined) {
+  if ((instance.preventResize === undefined || instance.preventResize === false) && instance.$ !== undefined && !elementParams.displayAsButton) {
     H5P.trigger(instance, 'resize');
   }
 
