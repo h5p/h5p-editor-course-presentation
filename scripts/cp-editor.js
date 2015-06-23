@@ -1179,6 +1179,7 @@ H5PEditor.CoursePresentation.prototype.allowResize = function (type, $wrapper, e
   var fontSize = parseInt($wrapper.css('font-size'));
   var padding = $wrapper.outerHeight() - $wrapper.innerHeight();
   var minSize = fontSize + padding;
+  var keepAspectRatio = (type === 'H5P.Image');
 
   // Use jQuery UI's resizeable
   var grid = [10, 10];
@@ -1187,6 +1188,7 @@ H5PEditor.CoursePresentation.prototype.allowResize = function (type, $wrapper, e
     minHeight: minSize,
     grid: grid,
     containment: 'parent',
+    aspectRatio: keepAspectRatio,
     start: function (event, ui) {
       // Resizing has started
 
