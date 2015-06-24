@@ -106,6 +106,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
     slideParams.elements.push(elementParams);
   }
 
+  this.cp.$boxWrapper.add(this.cp.$boxWrapper.find('.h5p-presentation-wrapper:first')).css('overflow', 'visible');
+
   var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
   return this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
 };
@@ -237,6 +239,8 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
 
       if (that.dnb.newElement) {
+        that.cp.$boxWrapper.add(that.cp.$boxWrapper.find('.h5p-presentation-wrapper:first')).css('overflow', '');
+
         if (params.action !== undefined && H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
           H5P.ContinuousText.Engine.run(that);
           if (that.getCTs(false, true).length === 1) {
@@ -246,7 +250,6 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         else {
           that.dnb.dnd.$element.dblclick();
         }
-        that.dnb.newElement = false;
       }
     };
 
