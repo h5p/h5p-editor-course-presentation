@@ -80,16 +80,6 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
       case 'H5P.DragQuestion':
         elementParams.width = 50;
         elementParams.height = 50;
-        elementParams.action.params = {
-          question: {
-            settings: {
-              size: {
-                width: Math.round(this.cp.$current.width() * elementParams.width / 100),
-                height: Math.round(this.cp.$current.height() * elementParams.height / 100)
-              }
-            }
-          }
-        };
         break;
     }
   }
@@ -1208,11 +1198,7 @@ H5PEditor.CoursePresentation.prototype.allowResize = function (type, $wrapper, e
       elementParams.width = ($wrapper.width() + 2) / (self.cp.$current.innerWidth() / 100);
       elementParams.height = ($wrapper.height() + 2) / (self.cp.$current.innerHeight() / 100);
 
-      if (type === 'H5P.DragQuestion') {
-        // Update drag question size to avoid scaling
-        self.updateDragQuestionSize($wrapper, element, elementParams);
-      }
-      else if (type === 'H5P.ContinuousText') {
+      if (type === 'H5P.ContinuousText') {
         // Stop reflow loop and run one last reflow
         clearTimeout(reflowLoop);
         H5P.ContinuousText.Engine.run(self);
@@ -1264,16 +1250,6 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function($element) {
   else {
     add();
   }
-};
-
-/**
- * Updates drag question size to avoid resizing.
- */
-H5PEditor.CoursePresentation.prototype.updateDragQuestionSize = function($wrapper, element, elementParams) {
-  var size = elementParams.action.params.question.settings.size;
-  size.width = Math.round(this.cp.$current.width() * elementParams.width / 100);
-  size.height = Math.round(this.cp.$current.height() * elementParams.height / 100);
-  this.redrawElement($wrapper, element, elementParams);
 };
 
 /**
@@ -1395,9 +1371,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       }
     ]
   });
-  if (elementParams.action !== undefined && H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.DragQuestion') {
-    this.manipulateDragQuestion(element);
-  }
 };
 
 /**
@@ -1438,21 +1411,6 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
     // Put focus back on element
     that.dnb.focus($element);
   }, 1);
-};
-
-/**
- *
- */
-H5PEditor.CoursePresentation.prototype.manipulateDragQuestion = function(element) {
-  // TODO: Remove this when H5P supports semantics overriding
-  element.$form.find('.dimensions').hide();
-
-  // Clear the setSize function of the dimensions object in DragQuestion
-  // TODO: Remove this function, it is only useful for people with a beta7 version or older of the core
-  element.children[4].children[3].children[0].children[1].setSize = function () {};
-
-  // call setActive on the second step so that any changes to params takes effect
-  element.children[4].children[3].children[1].setActive();
 };
 
 /**
