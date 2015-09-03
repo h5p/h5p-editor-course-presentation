@@ -215,7 +215,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       });
     }
 
-    that.dnb = new H5P.DragNBar(buttons, that.cp.$current);
+    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, true);
 
     // Update params when the element is dropped.
     that.dnb.stopMovingCallback = function (x, y) {
@@ -224,9 +224,17 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       params.y = y;
     };
 
+    // Update params when the element is moved instead, to prevent timing issues.
+    that.dnb.dnd.moveCallback = function (x, y) {
+      var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
+      params.x = x;
+      params.y = y;
+    };
+
     // Edit element when it is dropped.
     that.dnb.dnd.releaseCallback = function () {
       var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
+      var element = that.elements[that.cp.$current.index()][that.dnb.dnd.$element.index()];
 
       if (that.dnb.newElement) {
         that.cp.$boxWrapper.add(that.cp.$boxWrapper.find('.h5p-presentation-wrapper:first')).css('overflow', '');
@@ -234,11 +242,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         if (params.action !== undefined && H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
           H5P.ContinuousText.Engine.run(that);
           if (that.getCTs(false, true).length === 1) {
-            that.dnb.dnd.$element.dblclick();
+            that.showElementForm(element, that.dnb.dnd.$element, params);
           }
         }
         else {
-          that.dnb.dnd.$element.dblclick();
+          that.showElementForm(element, that.dnb.dnd.$element, params);
         }
       }
     };
@@ -1313,7 +1321,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
   }
 
   if (that.dnb !== undefined) {
-    that.dnb.blur();
+    that.dnb.blurAll();
   }
 
   element.$form.dialog({
