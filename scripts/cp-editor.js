@@ -80,16 +80,6 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
       case 'H5P.DragQuestion':
         elementParams.width = 50;
         elementParams.height = 50;
-        elementParams.action.params = {
-          question: {
-            settings: {
-              size: {
-                width: Math.round(this.cp.$current.width() * elementParams.width / 100),
-                height: Math.round(this.cp.$current.height() * elementParams.height / 100)
-              }
-            }
-          }
-        };
         break;
     }
   }
@@ -105,6 +95,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library) {
     // Add as last element
     slideParams.elements.push(elementParams);
   }
+
+  this.cp.$boxWrapper.add(this.cp.$boxWrapper.find('.h5p-presentation-wrapper:first')).css('overflow', 'visible');
 
   var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
   return this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
@@ -237,6 +229,8 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
 
       if (that.dnb.newElement) {
+        that.cp.$boxWrapper.add(that.cp.$boxWrapper.find('.h5p-presentation-wrapper:first')).css('overflow', '');
+
         if (params.action !== undefined && H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
           H5P.ContinuousText.Engine.run(that);
           if (that.getCTs(false, true).length === 1) {
@@ -246,7 +240,6 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         else {
           that.dnb.dnd.$element.dblclick();
         }
-        that.dnb.newElement = false;
       }
     };
 
@@ -345,7 +338,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     that.keywordsDNS.press($element, x, y);
 
     // Edit once element is dropped.
-    var edit = function () {
+    var edit = function () {
       H5P.$body.off('mouseup', edit).off('mouseleave', edit);
 
       // Use timeout to edit on next tick. (when moving and sorting has finished)
@@ -468,7 +461,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
    * @param {String} option
    * @param {*} defaultValue
    */
-  var checkDefault = function (option, defaultValue) {
+  var checkDefault = function (option, defaultValue) {
     if (that.params[option] === undefined) {
       that.params[option] = defaultValue;
     }
@@ -1051,7 +1044,7 @@ H5PEditor.CoursePresentation.prototype.showFields = function (elementFields, fie
 /**
  * Find the title for the given element type.
  *
- * @param {String} type Element type
+ * @param {String} type Element type
  * @param {Function} next Called when we've found the title
  */
 H5PEditor.CoursePresentation.prototype.findElementTitle = function (type, next) {
@@ -1076,7 +1069,7 @@ H5PEditor.CoursePresentation.prototype.findElementTitle = function (type, next) 
 /**
 * Find the title for the given library.
 *
-* @param {String} type Library name
+* @param {String} type Library name
 * @param {Function} next Called when we've found the title
 */
 H5PEditor.CoursePresentation.prototype.findLibraryTitle = function (library, next) {
@@ -1179,6 +1172,7 @@ H5PEditor.CoursePresentation.prototype.allowResize = function (type, $wrapper, e
   var fontSize = parseInt($wrapper.css('font-size'));
   var padding = $wrapper.outerHeight() - $wrapper.innerHeight();
   var minSize = fontSize + padding;
+  var keepAspectRatio = (type === 'H5P.Image');
 
   // Use jQuery UI's resizeable
   var grid = [10, 10];
@@ -1187,6 +1181,7 @@ H5PEditor.CoursePresentation.prototype.allowResize = function (type, $wrapper, e
     minHeight: minSize,
     grid: grid,
     containment: 'parent',
+    aspectRatio: keepAspectRatio,
     start: function (event, ui) {
       // Resizing has started
 
@@ -1203,11 +1198,7 @@ H5PEditor.CoursePresentation.prototype.allowResize = function (type, $wrapper, e
       elementParams.width = ($wrapper.width() + 2) / (self.cp.$current.innerWidth() / 100);
       elementParams.height = ($wrapper.height() + 2) / (self.cp.$current.innerHeight() / 100);
 
-      if (type === 'H5P.DragQuestion') {
-        // Update drag question size to avoid scaling
-        self.updateDragQuestionSize($wrapper, element, elementParams);
-      }
-      else if (type === 'H5P.ContinuousText') {
+      if (type === 'H5P.ContinuousText') {
         // Stop reflow loop and run one last reflow
         clearTimeout(reflowLoop);
         H5P.ContinuousText.Engine.run(self);
@@ -1259,16 +1250,6 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function($element) {
   else {
     add();
   }
-};
-
-/**
- * Updates drag question size to avoid resizing.
- */
-H5PEditor.CoursePresentation.prototype.updateDragQuestionSize = function($wrapper, element, elementParams) {
-  var size = elementParams.action.params.question.settings.size;
-  size.width = Math.round(this.cp.$current.width() * elementParams.width / 100);
-  size.height = Math.round(this.cp.$current.height() * elementParams.height / 100);
-  this.redrawElement($wrapper, element, elementParams);
 };
 
 /**
@@ -1390,9 +1371,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       }
     ]
   });
-  if (elementParams.action !== undefined && H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.DragQuestion') {
-    this.manipulateDragQuestion(element);
-  }
 };
 
 /**
@@ -1433,21 +1411,6 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
     // Put focus back on element
     that.dnb.focus($element);
   }, 1);
-};
-
-/**
- *
- */
-H5PEditor.CoursePresentation.prototype.manipulateDragQuestion = function(element) {
-  // TODO: Remove this when H5P supports semantics overriding
-  element.$form.find('.dimensions').hide();
-
-  // Clear the setSize function of the dimensions object in DragQuestion
-  // TODO: Remove this function, it is only useful for people with a beta7 version or older of the core
-  element.children[4].children[3].children[0].children[1].setSize = function () {};
-
-  // call setActive on the second step so that any changes to params takes effect
-  element.children[4].children[3].children[1].setActive();
 };
 
 /**
