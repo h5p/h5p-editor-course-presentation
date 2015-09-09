@@ -2,6 +2,10 @@
   background: #fff;
 }
 
+.h5peditor-form .field.coursepresentation {
+  position: relative;
+}
+
 .h5p-course-presentation {
   margin-top: 4%;
 }

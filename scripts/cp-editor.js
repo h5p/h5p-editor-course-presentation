@@ -226,7 +226,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         if (elementParams.displayAsButton) {
           options.disableResize = true;
         }
-        if (elementParams.action.library.split(' ')[0] === 'H5P.Image') {
+        if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.Image') {
           options.lock = true;
         }
 
@@ -249,7 +249,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       var elementParams = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
 
       // Check for continuous text
-      if (elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
+      if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
         reflowLoop = setTimeout(reflow, reflowInterval);
       }
     });
@@ -264,7 +264,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       elementParams.height = (that.dnb.$element.height() + 2) / (that.cp.$current.innerHeight() / 100);
 
       // Stop reflow loop and run one last reflow
-      if (elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
+      if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
         clearTimeout(reflowLoop);
         H5P.ContinuousText.Engine.run(that);
       }
@@ -287,9 +287,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       params.x = x;
       params.y = y;
 
-      var offset = that.dnb.$element.offset();
-      var position = that.dnb.$element.position();
-      that.dnb.updateCoordinates(offset.left, offset.top, position.left, position.top);
+      that.dnb.focus(that.dnb.dnd.$element);
     };
 
     // Edit element when it is dropped.
@@ -1205,7 +1203,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
       options.disableResize = true;
     }
 
-    if (elementParams.action.library.split(' ')[0] === 'H5P.Image') {
+    if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.Image') {
       options.lock = true;
     }
 
