@@ -405,7 +405,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     that.keywordsDNS.press($element, x, y);
 
     // Edit once element is dropped.
-    var edit = function () {
+    var edit = function () {
       H5P.$body.off('mouseup', edit).off('mouseleave', edit);
 
       // Use timeout to edit on next tick. (when moving and sorting has finished)
@@ -528,7 +528,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
    * @param {String} option
    * @param {*} defaultValue
    */
-  var checkDefault = function (option, defaultValue) {
+  var checkDefault = function (option, defaultValue) {
     if (that.params[option] === undefined) {
       that.params[option] = defaultValue;
     }
@@ -1111,7 +1111,7 @@ H5PEditor.CoursePresentation.prototype.showFields = function (elementFields, fie
 /**
  * Find the title for the given element type.
  *
- * @param {String} type Element type
+ * @param {String} type Element type
  * @param {Function} next Called when we've found the title
  */
 H5PEditor.CoursePresentation.prototype.findElementTitle = function (type, next) {
@@ -1136,7 +1136,7 @@ H5PEditor.CoursePresentation.prototype.findElementTitle = function (type, next) 
 /**
 * Find the title for the given library.
 *
-* @param {String} type Library name
+* @param {String} type Library name
 * @param {Function} next Called when we've found the title
 */
 H5PEditor.CoursePresentation.prototype.findLibraryTitle = function (library, next) {
