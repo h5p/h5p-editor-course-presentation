@@ -223,8 +223,9 @@
 .h5p-course-presentation .h5p-element {
   border: 1px dashed #a0a0a0;
 }
-.h5p-course-presentation .h5p-element:focus {
-  outline: none;
+.h5p-course-presentation .h5p-element:focus,
+.h5p-course-presentation .h5p-element.focused {
+  border: 1px solid transparent;
 }
 
 .h5p-course-presentation .h5p-element-remove {
@@ -255,16 +256,6 @@
 
 .h5p-coursepresentation-editor .h5p-course-presentation .h5p-element {
   overflow: visible;
-}
-
-.h5p-coursepresentation-editor .h5p-element .h5p-element-inner {
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0;
 }
 
 .h5p-course-presentation .h5p-dialog-no-close .ui-dialog-titlebar-close {

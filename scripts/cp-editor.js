@@ -1,3 +1,4 @@
+/*global H5P*/
 var H5PEditor = H5PEditor || {};
 
 /**
@@ -27,7 +28,6 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.parent = parent;
   this.field = field;
   this.params = params;
-  this.resizing = false;
   // Elements holds a mix of forms and params, not element instances
   this.elements = [];
   this.slideRatio = 1.9753;
@@ -216,6 +216,63 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     }
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, true);
+    that.dnb.dnr.snap = 10;
+
+    // Register all attached elements with dnb
+    that.elements.forEach(function (slide, slideIndex) {
+      slide.forEach(function (element, elementIndex) {
+        var elementParams = that.params.slides[slideIndex].elements[elementIndex];
+        var options = {};
+        if (elementParams.displayAsButton) {
+          options.disableResize = true;
+        }
+        if (elementParams.action.library.split(' ')[0] === 'H5P.Image') {
+          options.lock = true;
+        }
+
+        // Register option for locking dimensions if image
+        that.addToDragNBar(element, elementParams, options);
+      });
+    });
+
+    var reflowLoop;
+    var reflowInterval = 250;
+    var reflow = function () {
+      H5P.ContinuousText.Engine.run(that);
+      reflowLoop = setTimeout(reflow, reflowInterval);
+    };
+
+
+
+    // Resizing listener
+    that.dnb.dnr.on('startResizing', function (eventData) {
+      var elementParams = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
+
+      // Check for continuous text
+      if (elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
+        reflowLoop = setTimeout(reflow, reflowInterval);
+      }
+    });
+
+    // Resizing has stopped
+    that.dnb.dnr.on('stoppedResizing', function (eventData) {
+      var elementParams = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
+
+
+      // Store new element position
+      elementParams.width = (that.dnb.$element.width() + 2) / (that.cp.$current.innerWidth() / 100);
+      elementParams.height = (that.dnb.$element.height() + 2) / (that.cp.$current.innerHeight() / 100);
+
+      // Stop reflow loop and run one last reflow
+      if (elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
+        clearTimeout(reflowLoop);
+        H5P.ContinuousText.Engine.run(that);
+      }
+
+      // Trigger element resize
+      var elementInstance = that.cp.elementInstances[that.cp.$current.index()][that.dnb.$element.index()];
+      H5P.trigger(elementInstance, 'resize');
+    });
 
     // Update params when the element is dropped.
     that.dnb.stopMovingCallback = function (x, y) {
@@ -229,6 +286,10 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
       params.x = x;
       params.y = y;
+
+      var offset = that.dnb.$element.offset();
+      var position = that.dnb.$element.position();
+      that.dnb.updateCoordinates(offset.left, offset.top, position.left, position.top);
     };
 
     // Edit element when it is dropped.
@@ -685,7 +746,7 @@ H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
         if (that.cp.checkForSolutions(elementInstance)) {
           isTaskWithSolution = true;
         }
-      })
+      });
     }
 
     if (isTaskWithSolution) {
@@ -1138,18 +1199,28 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   var element = this.elements[slideIndex][elementIndex];
   element.$wrapper = $wrapper;
 
+  if (that.dnb) {
+    var options = {};
+    if (elementParams.displayAsButton) {
+      options.disableResize = true;
+    }
+
+    if (elementParams.action.library.split(' ')[0] === 'H5P.Image') {
+      options.lock = true;
+    }
+
+    that.addToDragNBar(element, elementParams, options);
+  }
+
+
   // Open form dialog when double clicking element
   $wrapper.dblclick(function () {
     that.showElementForm(element, $wrapper, elementParams);
   });
 
-  // Make it possible to move the element around
-  this.addToDragNBar($wrapper);
-
-  if (elementParams.displayAsButton === undefined || !elementParams.displayAsButton) {
-    // Make it possible to resize the element if it isn't a button
-    this.allowResize(type, $wrapper, elementParams, element, elementInstance);
-  }
+  H5P.jQuery('<div/>', {
+    'class': 'h5p-element-overlay'
+  }).appendTo($wrapper);
 
   if (elementInstance.onAdd) {
     // Some sort of callback event thing
@@ -1158,106 +1229,33 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
 };
 
 /**
- * Enables resizing of the given element
- */
-H5PEditor.CoursePresentation.prototype.allowResize = function (type, $wrapper, elementParams, element, elementInstance) {
-  var self = this;
-
-  if (type === 'H5P.ContinuousText') {
-    var reflowLoop;
-    var reflowInterval = 250;
-    var reflow = function () {
-      H5P.ContinuousText.Engine.run(self);
-      reflowLoop = setTimeout(reflow, reflowInterval);
-    };
-  }
-
-  H5P.jQuery('<div/>', {
-    'class': 'h5p-element-overlay',
-  }).appendTo($wrapper);
-
-  // Calculate minimum size: font size + padding:
-  var fontSize = parseInt($wrapper.css('font-size'));
-  var padding = $wrapper.outerHeight() - $wrapper.innerHeight();
-  var minSize = fontSize + padding;
-  var keepAspectRatio = (type === 'H5P.Image');
-
-  // Use jQuery UI's resizeable
-  var grid = [10, 10];
-  $wrapper.resizable({
-    minWidth: minSize,
-    minHeight: minSize,
-    grid: grid,
-    containment: 'parent',
-    aspectRatio: keepAspectRatio,
-    start: function (event, ui) {
-      // Resizing has started
-
-      if (type === 'H5P.ContinuousText') {
-        // Start reflowing the continuous text
-        reflowLoop = setTimeout(reflow, reflowInterval);
-      }
-    },
-    stop: function () {
-      // Resizing has stopped
-      self.resizing = false;
-
-      // Store new element position
-      elementParams.width = ($wrapper.width() + 2) / (self.cp.$current.innerWidth() / 100);
-      elementParams.height = ($wrapper.height() + 2) / (self.cp.$current.innerHeight() / 100);
-
-      if (type === 'H5P.ContinuousText') {
-        // Stop reflow loop and run one last reflow
-        clearTimeout(reflowLoop);
-        H5P.ContinuousText.Engine.run(self);
-      }
-
-      // Trigger element resize
-      H5P.trigger(elementInstance, 'resize');
-    }
-  }).children('.ui-resizable-handle').mousedown(function (event) {
-    // Flag that we're resizing to avoid moving the element
-    self.resizing = true;
-  });
-
-  // Override resizing snap to grid with Ctrl
-  H5P.$body.keydown(function (event) {
-    if (event.keyCode === 17) {
-      $wrapper.resizable('option', 'grid', false);
-    }
-  }).keyup(function (event) {
-    if (event.keyCode === 17) {
-      $wrapper.resizable('option', 'grid', grid);
-    }
-  });
-};
-
-/**
  * Make sure element can be moved and stop moving while resizing.
  *
-  * @param {jQuery} $element wrapper
-  * @returns {undefined}
+ * @param {Object} element
+ * @param {Object} elementParams
+ * @param {Object} options
+ * @returns {H5P.DragNBarElement}
  */
-H5PEditor.CoursePresentation.prototype.addToDragNBar = function($element) {
+H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, elementParams, options) {
   var self = this;
 
-  /** @private */
-  var add = function () {
-    $element.mousedown(function (event) {
-      if (self.resizing) {
-        return false; // Disables moving while resizing
-      }
-    });
+  var dnbElement = self.dnb.add(element.$wrapper, options);
+  dnbElement.contextMenu.on('contextMenuEdit', function () {
+    self.showElementForm(element, element.$wrapper, elementParams);
+  });
 
-    self.dnb.add($element);
-  };
+  dnbElement.contextMenu.on('contextMenuRemove', function () {
+    if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
+      return;
+    }
+    if (H5PEditor.Html) {
+      H5PEditor.Html.removeWysiwyg();
+    }
+    self.removeElement(element, element.$wrapper, (elementParams.action !== undefined && H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText'));
+    dnbElement.blur();
+  });
 
-  if (self.dnb === undefined) {
-    self.once('librariesReady', add);
-  }
-  else {
-    add();
-  }
+  return dnbElement;
 };
 
 /**
@@ -1320,10 +1318,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     }
   }
 
-  if (that.dnb !== undefined) {
-    that.dnb.blurAll();
-  }
-
   element.$form.dialog({
     modal: true,
     draggable: false,
@@ -1379,6 +1373,12 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       }
     ]
   });
+
+  if (that.dnb !== undefined) {
+    setTimeout(function () {
+      that.dnb.blurAll();
+    }, 0);
+  }
 };
 
 /**
