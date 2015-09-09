@@ -287,7 +287,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       params.x = x;
       params.y = y;
 
-      that.dnb.focus(that.dnb.dnd.$element);
+      that.dnb.updateCoordinates();
     };
 
     // Edit element when it is dropped.
