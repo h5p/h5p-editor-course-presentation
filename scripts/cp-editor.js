@@ -258,10 +258,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     that.dnb.dnr.on('stoppedResizing', function (eventData) {
       var elementParams = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
 
-
       // Store new element position
       elementParams.width = (that.dnb.$element.width() + 2) / (that.cp.$current.innerWidth() / 100);
       elementParams.height = (that.dnb.$element.height() + 2) / (that.cp.$current.innerHeight() / 100);
+      elementParams.y = ((parseFloat(that.dnb.$element.css('top')) / that.cp.$current.innerHeight()) * 100);
+      elementParams.x = ((parseFloat(that.dnb.$element.css('left')) / that.cp.$current.innerWidth()) * 100);
 
       // Stop reflow loop and run one last reflow
       if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
