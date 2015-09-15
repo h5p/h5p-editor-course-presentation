@@ -44,7 +44,7 @@ ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
         $element.addClass('disabled');
       }
       var $input = $element.find('input').on('change', function () {
-        if (confirm('Warning! This action cannot be undone.')) {
+        if (confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'activeSurfaceWarning'))) {
           checked = $input.is(':checked');
           setValue(field, checked);
           $input.attr('disabled', true);

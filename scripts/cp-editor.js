@@ -1564,6 +1564,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "popupTitle": "Edit :type",
     "loading": "Loading...",
     'keywordsMenu': 'Left menu menu',
-    "element": "Element"
+    "element": "Element",
+    "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone."
   }
 };
