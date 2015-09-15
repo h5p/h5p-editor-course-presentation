@@ -12,6 +12,9 @@
   },
   "preloadedJs": [
     {
+      "path": "scripts/disposable-boolean.js"
+    },
+    {
       "path": "scripts/cp-editor.js"
     }
   ],

@@ -35,6 +35,26 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.passReadies = true;
   parent.ready(function () {
     that.passReadies = false;
+
+    // Active surface mode
+    var activeSurfaceCheckbox = H5PEditor.findField('override/activeSurface', parent);
+    activeSurfaceCheckbox.on('checked', function () {
+      // Make note of current height
+      var oldHeight = parseFloat(window.getComputedStyle(that.cp.$current[0]).height);
+
+      // Enable adjustments
+      that.cp.$container.addClass('h5p-active-surface');
+
+      // Remove navigation
+      that.cp.$progressbar.remove();
+
+      // Find change in %
+      var newHeight = parseFloat(window.getComputedStyle(that.cp.$current[0]).height);
+      var change = (newHeight - oldHeight) / newHeight;
+
+      // Update elements
+      that.updateElementSizes(1 - change);
+    });
   });
 
   // Make sure each slide has keywords array defined.
@@ -46,6 +66,35 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
 H5PEditor.CoursePresentation.prototype.constructor = H5PEditor.CoursePresentation;
+
+/**
+ * Will change the size of all elements using the given ratio.
+ *
+ * @param {number} heightRatio
+ */
+H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRatio) {
+  var $slides = this.cp.$slidesWrapper.children();
+
+  // Go through all slides
+  for (var i = 0; i < this.params.slides.length; i++) {
+    var slide = this.params.slides[i];
+    var $slideElements = $slides.eq(i).children();
+
+    for (var j = 0; j < slide.elements.length; j++) {
+      var element = slide.elements[j];
+
+      // Update params
+      element.height *= heightRatio;
+      element.y *= heightRatio;
+
+      // Update visuals if possible
+      $slideElements.eq(j).css({
+        height: element.height + '%',
+        top: element.y + '%'
+      });
+    }
+  }
+};
 
 /**
  * Add an element to the current slide and params.
@@ -116,9 +165,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.$errors = this.$item.children('.h5p-errors');
 
   // Create new presentation.
-  this.cp = new H5P.CoursePresentation({
-    presentation: this.params
-  }, H5PEditor.contentId, {cpEditor: this});
+  this.cp = new H5P.CoursePresentation(this.parent.params, H5PEditor.contentId, {cpEditor: this});
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
     this.cp.trigger('resize');
@@ -160,6 +207,14 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     that.addSlide();
     return false;
   });
+
+  if (this.cp.activeSurface) {
+    // Enable adjustments
+    this.cp.$container.addClass('h5p-active-surface');
+
+    // Remove navigation
+    this.cp.$progressbar.remove();
+  }
 
   this.cp.on('resize', function () {
     // Reset drag and drop adjustments.
@@ -1510,6 +1565,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "popupTitle": "Edit :type",
     "loading": "Loading...",
     'keywordsMenu': 'Left menu menu',
-    "element": "Element"
+    "element": "Element",
+    "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone."
   }
 };
