@@ -17,7 +17,8 @@ ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
     // Inherit event support
     EventDispatcher.call(self);
 
-    var $element, checked = (params !== undefined && params);
+    var $element;
+    var checked = (params !== undefined && params);
     setValue(field, checked);
 
     // Expose field props
@@ -71,6 +72,8 @@ ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
 
     /**
      * Checks to see if this fields value is valid.
+     *
+     * @returns {boolean}
      */
     self.validate = function () {
       return true; // Always valid
