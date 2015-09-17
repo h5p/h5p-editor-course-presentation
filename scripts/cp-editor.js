@@ -68,6 +68,12 @@ H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.proto
 H5PEditor.CoursePresentation.prototype.constructor = H5PEditor.CoursePresentation;
 
 /**
+ * Must be changed if the semantics for the elements changes.
+ * @type {string}
+ */
+H5PEditor.CoursePresentation.clipboardKey = 'H5PEditor.CoursePresentation';
+
+/**
  * Will change the size of all elements using the given ratio.
  *
  * @param {number} heightRatio
@@ -99,37 +105,47 @@ H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRati
 /**
  * Add an element to the current slide and params.
  *
- * @param {String} library
- * @returns {unresolved}
+ * @param {string|object} library Content type or parameters
+ * @param {object} [action] parameters
+ * @returns {object}
  */
-H5PEditor.CoursePresentation.prototype.addElement = function (library) {
-  var elementParams = {
-    x: 30,
-    y: 30,
-    width: 40,
-    height: 40
-  };
-
-  if (library === 'GoToSlide') {
-    elementParams.goToSlide = 1;
+H5PEditor.CoursePresentation.prototype.addElement = function (library, action) {
+  var elementParams;
+  if (!(library instanceof String || typeof library === 'string')) {
+    elementParams = library;
   }
-  else {
-    elementParams.action = {
-      library: library,
-      params: {},
-      subContentId: H5P.createUUID()
-    };
-    var libraryName = library.split(' ')[0];
-    switch (libraryName) {
-      case 'H5P.Audio':
-        elementParams.width = (20/this.cp.$current.width())*100;
-        elementParams.height = (20/this.cp.$current.height())*100;
-        break;
 
-      case 'H5P.DragQuestion':
-        elementParams.width = 50;
-        elementParams.height = 50;
-        break;
+  if (!elementParams) {
+    // Create default start parameters
+    elementParams = {
+      x: 30,
+      y: 30,
+      width: 40,
+      height: 40
+    };
+
+    if (library === 'GoToSlide') {
+      elementParams.goToSlide = 1;
+    }
+    else {
+      elementParams.action = (action ? action : {
+        library: library,
+        params: {}
+      });
+      elementParams.action.subContentId = H5P.createUUID();
+
+      var libraryName = library.split(' ')[0];
+      switch (libraryName) {
+        case 'H5P.Audio':
+          elementParams.width = (20/this.cp.$current.width())*100;
+          elementParams.height = (20/this.cp.$current.height())*100;
+          break;
+
+        case 'H5P.DragQuestion':
+          elementParams.width = 50;
+          elementParams.height = 50;
+          break;
+      }
     }
   }
 
@@ -364,6 +380,41 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         }
       }
     };
+
+    /**
+     * @private
+     * @param {string} lib uber name
+     * @returns {boolean}
+     */
+    var supported = function (lib) {
+      for (var i = 0; i < libraries.length; i++) {
+        if (libraries[i].restricted !== true && libraries[i].uberName === lib) {
+          return true; // Library is supported and allowed
+        }
+      }
+
+      return false;
+    };
+
+    that.dnb.on('paste', function (event) {
+      var pasted = event.data;
+      if (pasted.from === H5PEditor.CoursePresentation.clipboardKey) {
+        // Pasted content comes from the same version of CP
+
+        if (!pasted.generic) {
+          // Non generic part, must be content like gotoslide or similar
+          that.addElement(pasted.specific);
+        }
+        else if (supported(pasted.generic.library)) {
+          // Has generic part and the generic libray is supported
+          that.addElement(pasted.specific);
+        }
+      }
+      else if (pasted.generic && supported(pasted.generic.library)) {
+        // Supported library from another content type
+        that.addElement(pasted.generic.library, pasted.generic);
+      }
+    });
 
     that.dnb.attach(that.$bar);
 
@@ -1292,7 +1343,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
 H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, elementParams, options) {
   var self = this;
 
-  var dnbElement = self.dnb.add(element.$wrapper, options);
+  var clipboardData = H5P.DragNBar.clipboardify(H5PEditor.CoursePresentation.clipboardKey, elementParams, 'action');
+  var dnbElement = self.dnb.add(element.$wrapper, clipboardData, options);
   dnbElement.contextMenu.on('contextMenuEdit', function () {
     self.showElementForm(element, element.$wrapper, elementParams);
   });
