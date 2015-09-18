@@ -106,10 +106,12 @@ H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRati
  * Add an element to the current slide and params.
  *
  * @param {string|object} library Content type or parameters
+ * @param {number} width custom size
+ * @param {number} height custom size
  * @param {object} [action] parameters
  * @returns {object}
  */
-H5PEditor.CoursePresentation.prototype.addElement = function (library, action) {
+H5PEditor.CoursePresentation.prototype.addElement = function (library, width, height, action) {
   var elementParams;
   if (!(library instanceof String || typeof library === 'string')) {
     elementParams = library;
@@ -146,6 +148,12 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, action) {
           elementParams.height = 50;
           break;
       }
+    }
+
+    if (width && height) {
+      // Use specified size
+      elementParams.width = width;
+      elementParams.height = height * this.slideRatio;
     }
   }
 
@@ -403,16 +411,16 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
         if (!pasted.generic) {
           // Non generic part, must be content like gotoslide or similar
-          that.addElement(pasted.specific);
+          that.addElement(pasted.specific, pasted.width, pasted.height);
         }
         else if (supported(pasted.generic.library)) {
           // Has generic part and the generic libray is supported
-          that.addElement(pasted.specific);
+          that.addElement(pasted.specific, pasted.width, pasted.height);
         }
       }
       else if (pasted.generic && supported(pasted.generic.library)) {
         // Supported library from another content type
-        that.addElement(pasted.generic.library, pasted.generic);
+        that.addElement(pasted.generic.library, pasted.width, pasted.height, pasted.generic);
       }
     });
 
