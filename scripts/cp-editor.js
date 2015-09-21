@@ -106,12 +106,11 @@ H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRati
  * Add an element to the current slide and params.
  *
  * @param {string|object} library Content type or parameters
- * @param {number} width custom size
- * @param {number} height custom size
- * @param {object} [action] parameters
+ * @param {object} [options] Override the default options
  * @returns {object}
  */
-H5PEditor.CoursePresentation.prototype.addElement = function (library, width, height, action) {
+H5PEditor.CoursePresentation.prototype.addElement = function (library, options) {
+  options = options || {};
   var elementParams;
   if (!(library instanceof String || typeof library === 'string')) {
     elementParams = library;
@@ -130,7 +129,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, width, he
       elementParams.goToSlide = 1;
     }
     else {
-      elementParams.action = (action ? action : {
+      elementParams.action = (options.action ? options.action : {
         library: library,
         params: {}
       });
@@ -150,10 +149,13 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, width, he
       }
     }
 
-    if (width && height) {
+    if (options.width && options.height) {
       // Use specified size
-      elementParams.width = width;
-      elementParams.height = height * this.slideRatio;
+      elementParams.width = options.width;
+      elementParams.height = options.height * this.slideRatio;
+    }
+    if (options.displayAsButton) {
+      elementParams.displayAsButton = true;
     }
   }
 
@@ -165,6 +167,16 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, width, he
     slideParams.elements = [elementParams];
   }
   else {
+    // Make sure we don't overlap another element
+    var pToPx = parseFloat(window.getComputedStyle(this.dnb.$container[0]).width) / 100;
+    var pos = {
+      x: elementParams.x * pToPx,
+      y: (elementParams.y * pToPx) / this.slideRatio
+    };
+    this.dnb.avoidOverlapping(pos);
+    elementParams.x = pos.x / pToPx;
+    elementParams.y = (pos.y / pToPx) * this.slideRatio;
+
     // Add as last element
     slideParams.elements.push(elementParams);
   }
@@ -406,21 +418,40 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     that.dnb.on('paste', function (event) {
       var pasted = event.data;
+      var options = {
+        width: pasted.width,
+        height: pasted.height
+      };
+
       if (pasted.from === H5PEditor.CoursePresentation.clipboardKey) {
         // Pasted content comes from the same version of CP
 
         if (!pasted.generic) {
           // Non generic part, must be content like gotoslide or similar
-          that.addElement(pasted.specific, pasted.width, pasted.height);
+          that.dnb.focus(that.addElement(pasted.specific, options));
         }
         else if (supported(pasted.generic.library)) {
           // Has generic part and the generic libray is supported
-          that.addElement(pasted.specific, pasted.width, pasted.height);
+          that.dnb.focus(that.addElement(pasted.specific, options));
+        }
+        else {
+          alert(H5PEditor.t('H5P.DragNBar', 'unableToPaste'));
         }
       }
-      else if (pasted.generic && supported(pasted.generic.library)) {
-        // Supported library from another content type
-        that.addElement(pasted.generic.library, pasted.width, pasted.height, pasted.generic);
+      else if (pasted.generic) {
+        if (supported(pasted.generic.library)) {
+          // Supported library from another content type)
+
+          if (pasted.specific.displayType === 'button') {
+            // Make sure buttons from IV  still are buttons.
+            options.displayAsButton = true;
+          }
+          options.action = pasted.generic;
+          that.dnb.focus(that.addElement(pasted.generic.library, options));
+        }
+        else {
+          alert(H5PEditor.t('H5P.DragNBar', 'unableToPaste'));
+        }
       }
     });
 
