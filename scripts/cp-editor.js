@@ -349,10 +349,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     that.dnb.dnr.on('stoppedResizing', function (eventData) {
       var elementParams = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
 
-
       // Store new element position
       elementParams.width = (that.dnb.$element.width() + 2) / (that.cp.$current.innerWidth() / 100);
       elementParams.height = (that.dnb.$element.height() + 2) / (that.cp.$current.innerHeight() / 100);
+      elementParams.y = ((parseFloat(that.dnb.$element.css('top')) / that.cp.$current.innerHeight()) * 100);
+      elementParams.x = ((parseFloat(that.dnb.$element.css('left')) / that.cp.$current.innerWidth()) * 100);
 
       // Stop reflow loop and run one last reflow
       if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
@@ -943,7 +944,9 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var slideKids = this.elements[index];
   if (slideKids !== undefined) {
     for (var i = 0; i < slideKids.length; i++) {
-      if (this.cp.elementInstances[index][i] instanceof H5P.ContinuousText && this.getCTs(false, true).length !== 1) {
+      if (this.cp.elementInstances[index][i].libraryInfo &&
+          this.cp.elementInstances[index][i].libraryInfo.machineName === 'H5P.ContinuousText' &&
+          this.getCTs(false, true).length !== 1) {
         // We are not the only CT left, preserve form
         continue;
       }
