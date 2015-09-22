@@ -799,7 +799,9 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var slideKids = this.elements[index];
   if (slideKids !== undefined) {
     for (var i = 0; i < slideKids.length; i++) {
-      if (this.cp.elementInstances[index][i] instanceof H5P.ContinuousText && this.getCTs(false, true).length !== 1) {
+      if (this.cp.elementInstances[index][i].libraryInfo &&
+          this.cp.elementInstances[index][i].libraryInfo.machineName === 'H5P.ContinuousText' &&
+          this.getCTs(false, true).length !== 1) {
         // We are not the only CT left, preserve form
         continue;
       }
