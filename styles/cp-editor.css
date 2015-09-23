@@ -232,6 +232,16 @@
   border: 1px solid transparent;
 }
 
+.h5p-course-presentation .h5p-element:focus,
+.h5p-course-presentation .h5p-element.focused {
+  outline: 0;
+}
+
+.h5p-course-presentation .h5p-element:focus .h5p-element-outer,
+.h5p-course-presentation .h5p-element.focused .h5p-element-outer {
+  outline: 1px solid #0099ff;
+}
+
 .h5p-course-presentation .h5p-element-remove {
   position: absolute;
   width: 1em;
