@@ -350,8 +350,8 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       var elementParams = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
 
       // Store new element position
-      elementParams.width = (that.dnb.$element.width() + 2) / (that.cp.$current.innerWidth() / 100);
-      elementParams.height = (that.dnb.$element.height() + 2) / (that.cp.$current.innerHeight() / 100);
+      elementParams.width = that.dnb.$element.width() / (that.cp.$current.innerWidth() / 100);
+      elementParams.height = that.dnb.$element.height() / (that.cp.$current.innerHeight() / 100);
       elementParams.y = ((parseFloat(that.dnb.$element.css('top')) / that.cp.$current.innerHeight()) * 100);
       elementParams.x = ((parseFloat(that.dnb.$element.css('left')) / that.cp.$current.innerWidth()) * 100);
 
