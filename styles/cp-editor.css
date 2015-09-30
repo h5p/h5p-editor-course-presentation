@@ -655,7 +655,7 @@
   transform: none;
 }
 
-.h5p-coursepresentation-editor .h5p-course-presentation a:focus {
+.h5p-coursepresentation-editor .h5p-course-presentation a.h5p-element-button:focus {
   -webkit-box-shadow: 0.15em 0.25em 0.25em 0 #191919;
   -moz-box-shadow: 0.15em 0.25em 0.25em 0 #191919;
   box-shadow: 0.15em 0.25em 0.25em 0 #191919;
