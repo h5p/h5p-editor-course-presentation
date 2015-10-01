@@ -1362,6 +1362,11 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
             // Split up text and place into CT elements
             H5P.ContinuousText.Engine.run(that);
+
+            setTimeout(function () {
+              // Put focus back on ct element
+              that.dnb.focus($wrapper);
+            }, 1);
           }
           else {
             that.redrawElement($wrapper, element, elementParams);
