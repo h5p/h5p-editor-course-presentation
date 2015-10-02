@@ -215,7 +215,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       });
     }
 
-    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, true);
+    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper});
     that.dnb.dnr.snap = 10;
 
     // Register all attached elements with dnb
@@ -1267,20 +1267,13 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
 
   if (isContinuousText) {
     var CTs = this.getCTs(false, true);
-    if (CTs.length > 1) {
+    if (CTs.length) {
       // Prevent removing form while there are still some CT elements left
       removeForm = false;
 
-      if (this.ct.element === element) {
-        // Make sure params connected to form doesnt get removed.
-        var source = CTs[element === CTs[0].element ? 1 : 0];
-        source.params = this.ct.params; // Keep params
-        this.ct = source; // Change master CT
+      if (element === CTs[0].element && CTs.length === 2) {
+        CTs[1].params.action.params = CTs[0].params.action.params;
       }
-    }
-    else {
-      delete this.params.ct;
-      delete this.ct;
     }
   }
 
@@ -1343,6 +1336,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
           }
           element.$form.dialog('close');
           that.removeElement(element, $wrapper, isContinuousText);
+          that.dnb.blurAll();
         }
       },
       {
@@ -1363,6 +1357,11 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
             // Split up text and place into CT elements
             H5P.ContinuousText.Engine.run(that);
+
+            setTimeout(function () {
+              // Put focus back on ct element
+              that.dnb.focus($wrapper);
+            }, 1);
           }
           else {
             that.redrawElement($wrapper, element, elementParams);
