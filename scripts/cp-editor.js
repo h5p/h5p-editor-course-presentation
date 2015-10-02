@@ -301,7 +301,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
         if (params.action !== undefined && H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
           H5P.ContinuousText.Engine.run(that);
-          if (that.getCTs(false, true).length === 1) {
+          if (!that.params.ct) {
             that.showElementForm(element, that.dnb.dnd.$element, params);
           }
         }
@@ -770,9 +770,18 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var index = this.cp.$current.index();
   var $remove = this.cp.$current.add(this.cp.$currentKeyword);
 
-  // Confirm and change slide.
+  // Confirm
   if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmDeleteSlide'))) {
     return false;
+  }
+
+  // Remove elements from slide
+  var slideKids = this.elements[index];
+  if (slideKids !== undefined) {
+    for (var i = 0; i < slideKids.length; i++) {
+      this.removeElement(slideKids[i], slideKids[i].$wrapper, this.cp.elementInstances[index][i].libraryInfo && this.cp.elementInstances[index][i].libraryInfo.machineName === 'H5P.ContinuousText');
+    }
+    this.elements.splice(index, 1);
   }
 
   // Change slide
@@ -781,34 +790,14 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
     return false; // No next or previous slide
   }
 
-  // Remove visuals.
-  $remove.remove();
-
-  // Preserve the whole continuous text.
-  if (this.params.ct !== undefined && this.params.slides[index + 1] !== undefined) {
-    this.params.slides[index + 1].ct = this.params.ct;
-  }
-
   // ExportableTextArea needs to know about the deletion:
   H5P.ExportableTextArea.CPInterface.onDeleteSlide(index);
 
+  // Remove visuals.
+  $remove.remove();
+
   // Update presentation params.
   this.params.slides.splice(index, 1);
-
-  // Remove element forms
-  var slideKids = this.elements[index];
-  if (slideKids !== undefined) {
-    for (var i = 0; i < slideKids.length; i++) {
-      if (this.cp.elementInstances[index][i].libraryInfo &&
-          this.cp.elementInstances[index][i].libraryInfo.machineName === 'H5P.ContinuousText' &&
-          this.getCTs(false, true).length !== 1) {
-        // We are not the only CT left, preserve form
-        continue;
-      }
-      H5PEditor.removeChildren(slideKids[i].children);
-    }
-    this.elements.splice(index, 1);
-  }
 
   // Update the list of element instances
   this.cp.elementInstances.splice(index, 1);
@@ -817,8 +806,6 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   this.updateNavigationLine(index + move);
 
   H5P.ContinuousText.Engine.run(this);
-
-
 };
 
 /**
@@ -959,15 +946,12 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, type) {
   var self = this;
 
-  if (type === 'H5P.ContinuousText') {
-    var ct = self.getCTs(true);
-    if (ct) {
-      // Continuous Text shares a single form across all elements
-      return {
-        '$form': ct.element.$form,
-        children: ct.element.children
-      };
-    }
+  if (type === 'H5P.ContinuousText' && self.ct) {
+    // Continuous Text shares a single form across all elements
+    return {
+      '$form': self.ct.element.$form,
+      children: self.ct.element.children
+    };
   }
 
   // Get semantics for the elements field
@@ -1213,7 +1197,6 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     that.addToDragNBar(element, elementParams, options);
   }
 
-
   // Open form dialog when double clicking element
   $wrapper.dblclick(function () {
     that.showElementForm(element, $wrapper, elementParams);
@@ -1222,6 +1205,14 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   H5P.jQuery('<div/>', {
     'class': 'h5p-element-overlay'
   }).appendTo($wrapper);
+
+  if (type === 'H5P.ContinuousText' && that.ct === undefined) {
+    // Keep track of first CT element!
+    that.ct = {
+      element: element,
+      params: elementParams
+    };
+  }
 
   if (elementInstance.onAdd) {
     // Some sort of callback event thing
@@ -1274,9 +1265,23 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
   var elementInstance = this.cp.elementInstances[slideIndex][elementIndex];
   var removeForm = (element.children.length ? true : false);
 
-  if (isContinuousText && this.getCTs(true)) {
-    // Prevent removing form while there are still some CT elements left
-    removeForm = false;
+  if (isContinuousText) {
+    var CTs = this.getCTs(false, true);
+    if (CTs.length > 1) {
+      // Prevent removing form while there are still some CT elements left
+      removeForm = false;
+
+      if (this.ct.element === element) {
+        // Make sure params connected to form doesnt get removed.
+        var source = CTs[element === CTs[0].element ? 1 : 0];
+        source.params = this.ct.params; // Keep params
+        this.ct = source; // Change master CT
+      }
+    }
+    else {
+      delete this.params.ct;
+      delete this.ct;
+    }
   }
 
   if (removeForm) {
@@ -1310,13 +1315,10 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
   var that = this;
 
   var isContinuousText = (elementParams.action !== undefined && H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText');
-  if (isContinuousText) {
-    var ct = that.getCTs(true);
-    if (ct) {
-      // Make sure form uses the right text.
-      ct.element.$form.find('.text .ckeditor').first().html(that.params.ct);
-      ct.params.action.params.text = that.params.ct;
-    }
+  if (isContinuousText && that.ct) {
+    // Make sure form uses the right text.
+    that.ct.element.$form.find('.text .ckeditor').first().html(that.params.ct);
+    that.ct.params.action.params.text = that.params.ct;
   }
 
   element.$form.dialog({
@@ -1357,7 +1359,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
           if (isContinuousText) {
             // Store complete CT on slide 0
-            that.params.ct = ct.params.action.params.text;
+            that.params.ct = that.ct.params.action.params.text;
 
             // Split up text and place into CT elements
             H5P.ContinuousText.Engine.run(that);
@@ -1436,6 +1438,9 @@ H5PEditor.CoursePresentation.prototype.getCTs = function (firstOnly, maxTwo) {
 
   for (var i = 0; i < self.elements.length; i++) {
     var slideElements = self.elements[i];
+    if (!self.params.slides[i].elements) {
+      continue;
+    }
 
     for (var j = 0; slideElements !== undefined && j < slideElements.length; j++) {
       var element = slideElements[j];
