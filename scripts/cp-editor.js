@@ -270,7 +270,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       });
     }
 
-    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, true);
+    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper});
     that.dnb.dnr.snap = 10;
 
     // Register all attached elements with dnb
@@ -1398,6 +1398,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
           }
           element.$form.dialog('close');
           that.removeElement(element, $wrapper, isContinuousText);
+          that.dnb.blurAll();
         }
       },
       {

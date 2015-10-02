@@ -232,6 +232,16 @@
   border: 1px solid transparent;
 }
 
+.h5p-course-presentation .h5p-element:focus,
+.h5p-course-presentation .h5p-element.focused {
+  outline: 0;
+}
+
+.h5p-course-presentation .h5p-element:focus .h5p-element-outer,
+.h5p-course-presentation .h5p-element.focused .h5p-element-outer {
+  outline: 1px solid #0099ff;
+}
+
 .h5p-course-presentation .h5p-element-remove {
   position: absolute;
   width: 1em;
@@ -579,6 +589,7 @@
 }
 .h5p-course-presentation .ui-widget {
   font-size: 1em;
+  font-family: 'Open Sans', sans-serif, Arial;
 }
 .h5peditor .ui-dialog button {
   font-size: 0.75em;
@@ -641,4 +652,29 @@
 .h5peditor .field.disabled,
 .h5peditor .field.disabled .h5peditor-field-description {
   color: #9b9b9b;
+}
+
+.h5p-coursepresentation-editor .h5p-element.h5p-element-button-wrapper.focused {
+  outline: 1px solid #0099ff;
+  outline-offset: -1px;
+}
+
+.h5p-coursepresentation-editor .h5p-element.h5p-element-button-wrapper .h5p-element-button {
+  transition: none;
+}
+
+.h5p-coursepresentation-editor .h5p-element.h5p-element-button-wrapper .h5p-element-button:hover {
+  -webkit-transform: none;
+  transform: none;
+}
+
+.h5p-coursepresentation-editor .h5p-course-presentation a.h5p-element-button:focus {
+  -webkit-box-shadow: 0.15em 0.25em 0.25em 0 #191919;
+  -moz-box-shadow: 0.15em 0.25em 0.25em 0 #191919;
+  box-shadow: 0.15em 0.25em 0.25em 0 #191919;
+}
+
+.h5p-coursepresentation-editor .h5p-course-presentation .h5p-element.h5p-element-button-wrapper:focus,
+.h5p-coursepresentation-editor .h5p-course-presentation .h5p-element.h5p-element-button-wrapper.focused {
+  border: 0;
 }
