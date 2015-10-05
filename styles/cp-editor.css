@@ -412,7 +412,8 @@
 .h5p-dragnbar-more-button:before,
 .h5p-dragnbar-appearin-button:before,
 .h5p-dragnbar-twitteruserfeed-button:before,
-.h5p-dragnbar-interactivevideo-button:before {
+.h5p-dragnbar-interactivevideo-button:before,
+.h5p-dragnbar-graphcake-button:before {
   font-family: 'H5PFontAwesome4';
   color: #494949;
   font-size: 1.1em;
@@ -446,6 +447,9 @@
 .h5p-dragnbar-interactivevideo-button:before {
   content: "\f03d";
   vertical-align: middle;
+}
+.h5p-dragnbar-graphcake-button:before {
+  content: "\f200";
 }
 /* H5P specific icons */
 .h5p-dragnbar-dragquestion-button:before {

@@ -133,6 +133,11 @@
       "machineName": "H5P.AppearIn",
       "majorVersion": 1,
       "minorVersion": 0
+    },
+    {
+      "machineName": "H5P.GraphCake",
+      "majorVersion": 1,
+      "minorVersion": 1
     }
   ]
 }
