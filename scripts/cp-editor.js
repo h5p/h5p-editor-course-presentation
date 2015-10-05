@@ -326,7 +326,18 @@ H5PEditor.CoursePresentation.prototype.createHtml = function () {
  * Validate the current field.
  */
 H5PEditor.CoursePresentation.prototype.validate = function () {
-  return true;
+  // Validate all form elements
+  var valid = true;
+  for (var i = 0; i < this.elements.length; i++) {
+    for (var j = 0; j < this.elements[i].length; j++) {
+      for (var k = 0; k < this.elements[i][j].children.length; k++) {
+        if (this.elements[i][j].children[k].validate() === false && valid) {
+          valid = false;
+        }
+      }
+    }
+  }
+  return valid;
 };
 
 /**
