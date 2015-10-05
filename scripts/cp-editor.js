@@ -338,8 +338,15 @@ H5PEditor.CoursePresentation.prototype.validate = function () {
           valid = false;
         }
       }
+
+      // Make sure Continuous Text is stored if the dialog was never closed.
+      var elementParams = this.params.slides[i].elements[j];
+      if (!this.params.ct && elementParams.action !== undefined && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
+        this.params.ct = elementParams.action.params.text;
+      }
     }
   }
+  H5P.ContinuousText.Engine.run(this);
   return valid;
 };
 
@@ -699,9 +706,6 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
       slideParams.keywords = [];
     }
   }
-  if (slideParams.ct !== undefined) {
-    delete slideParams.ct;
-  }
 
   var index = this.cp.$current.index() + 1;
   if (index >= this.params.slides.length) {
@@ -789,8 +793,8 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
     for (var i = 0; i < slideKids.length; i++) {
       this.removeElement(slideKids[i], slideKids[i].$wrapper, this.cp.elementInstances[index][i].libraryInfo && this.cp.elementInstances[index][i].libraryInfo.machineName === 'H5P.ContinuousText');
     }
-    this.elements.splice(index, 1);
   }
+  this.elements.splice(index, 1);
 
   // Change slide
   var move = this.cp.previousSlide() ? -1 : (this.cp.nextSlide(true) ? 0 : undefined);
@@ -1449,7 +1453,7 @@ H5PEditor.CoursePresentation.prototype.getCTs = function (firstOnly, maxTwo) {
 
   for (var i = 0; i < self.elements.length; i++) {
     var slideElements = self.elements[i];
-    if (!self.params.slides[i].elements) {
+    if (!self.params.slides[i] || !self.params.slides[i].elements) {
       continue;
     }
 
