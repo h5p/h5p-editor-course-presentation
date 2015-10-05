@@ -329,6 +329,9 @@ H5PEditor.CoursePresentation.prototype.validate = function () {
   // Validate all form elements
   var valid = true;
   for (var i = 0; i < this.elements.length; i++) {
+    if (!this.elements[i]) {
+      continue;
+    }
     for (var j = 0; j < this.elements[i].length; j++) {
       for (var k = 0; k < this.elements[i][j].children.length; k++) {
         if (this.elements[i][j].children[k].validate() === false && valid) {
