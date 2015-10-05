@@ -148,12 +148,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     return false;
   }).next().click(function () {
     that.addSlide(H5P.cloneObject(that.params.slides[that.cp.$current.index()],true));
-
-    var slideParams = that.params.slides[that.cp.$current.index()];
-    if (slideParams.ct !== undefined) {
-      // Make sure we don't replicate the whole continuous text.
-      delete slideParams.ct;
-    }
     H5P.ContinuousText.Engine.run(that);
     return false;
   }).next().click(function () {
@@ -1267,13 +1261,17 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
 
   if (isContinuousText) {
     var CTs = this.getCTs(false, true);
-    if (CTs.length) {
+    if (CTs.length === 2) {
       // Prevent removing form while there are still some CT elements left
       removeForm = false;
 
       if (element === CTs[0].element && CTs.length === 2) {
         CTs[1].params.action.params = CTs[0].params.action.params;
       }
+    }
+    else {
+      delete this.params.ct;
+      delete this.ct;
     }
   }
 
