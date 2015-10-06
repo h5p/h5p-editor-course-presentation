@@ -296,7 +296,12 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         if (params.action !== undefined && H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
           H5P.ContinuousText.Engine.run(that);
           if (!that.params.ct) {
-            that.showElementForm(element, that.dnb.dnd.$element, params);
+            // No CT text but there could be elements
+            var CTs = that.getCTs(false, true);
+            if (CTs.length === 1) {
+              // First element, open form
+              that.showElementForm(element, that.dnb.dnd.$element, params);
+            }
           }
         }
         else {
