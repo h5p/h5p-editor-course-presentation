@@ -595,6 +595,9 @@
   font-size: 1em;
   font-family: 'Open Sans', sans-serif, Arial;
 }
+.h5peditor .ui-dialog .ui-dialog-content {
+  position: static;
+}
 .h5peditor .ui-dialog button {
   font-size: 0.75em;
   padding: 0.2em 1.2em;

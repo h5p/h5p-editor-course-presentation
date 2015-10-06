@@ -195,12 +195,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     return false;
   }).next().click(function () {
     that.addSlide(H5P.cloneObject(that.params.slides[that.cp.$current.index()],true));
-
-    var slideParams = that.params.slides[that.cp.$current.index()];
-    if (slideParams.ct !== undefined) {
-      // Make sure we don't replicate the whole continuous text.
-      delete slideParams.ct;
-    }
     H5P.ContinuousText.Engine.run(that);
     return false;
   }).next().click(function () {
@@ -389,7 +383,28 @@ H5PEditor.CoursePresentation.prototype.createHtml = function () {
  * Validate the current field.
  */
 H5PEditor.CoursePresentation.prototype.validate = function () {
-  return true;
+  // Validate all form elements
+  var valid = true;
+  for (var i = 0; i < this.elements.length; i++) {
+    if (!this.elements[i]) {
+      continue;
+    }
+    for (var j = 0; j < this.elements[i].length; j++) {
+      for (var k = 0; k < this.elements[i][j].children.length; k++) {
+        if (this.elements[i][j].children[k].validate() === false && valid) {
+          valid = false;
+        }
+      }
+
+      // Make sure Continuous Text is stored if the dialog was never closed.
+      var elementParams = this.params.slides[i].elements[j];
+      if (!this.params.ct && elementParams.action !== undefined && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
+        this.params.ct = elementParams.action.params.text;
+      }
+    }
+  }
+  H5P.ContinuousText.Engine.run(this);
+  return valid;
 };
 
 /**
@@ -748,9 +763,6 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
       slideParams.keywords = [];
     }
   }
-  if (slideParams.ct !== undefined) {
-    delete slideParams.ct;
-  }
 
   var index = this.cp.$current.index() + 1;
   if (index >= this.params.slides.length) {
@@ -838,8 +850,8 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
     for (var i = 0; i < slideKids.length; i++) {
       this.removeElement(slideKids[i], slideKids[i].$wrapper, this.cp.elementInstances[index][i].libraryInfo && this.cp.elementInstances[index][i].libraryInfo.machineName === 'H5P.ContinuousText');
     }
-    this.elements.splice(index, 1);
   }
+  this.elements.splice(index, 1);
 
   // Change slide
   var move = this.cp.previousSlide() ? -1 : (this.cp.nextSlide(true) ? 0 : undefined);
@@ -1326,15 +1338,12 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
 
   if (isContinuousText) {
     var CTs = this.getCTs(false, true);
-    if (CTs.length > 1) {
+    if (CTs.length === 2) {
       // Prevent removing form while there are still some CT elements left
       removeForm = false;
 
-      if (this.ct.element === element) {
-        // Make sure params connected to form doesnt get removed.
-        var source = CTs[element === CTs[0].element ? 1 : 0];
-        source.params = this.ct.params; // Keep params
-        this.ct = source; // Change master CT
+      if (element === CTs[0].element && CTs.length === 2) {
+        CTs[1].params.action.params = CTs[0].params.action.params;
       }
     }
     else {
@@ -1423,6 +1432,11 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
             // Split up text and place into CT elements
             H5P.ContinuousText.Engine.run(that);
+
+            setTimeout(function () {
+              // Put focus back on ct element
+              that.dnb.focus($wrapper);
+            }, 1);
           }
           else {
             that.redrawElement($wrapper, element, elementParams);
@@ -1503,7 +1517,7 @@ H5PEditor.CoursePresentation.prototype.getCTs = function (firstOnly, maxTwo) {
 
   for (var i = 0; i < self.elements.length; i++) {
     var slideElements = self.elements[i];
-    if (!self.params.slides[i].elements) {
+    if (!self.params.slides[i] || !self.params.slides[i].elements) {
       continue;
     }
 
