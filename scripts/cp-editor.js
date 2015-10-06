@@ -333,24 +333,34 @@ H5PEditor.CoursePresentation.prototype.createHtml = function () {
 H5PEditor.CoursePresentation.prototype.validate = function () {
   // Validate all form elements
   var valid = true;
+  var firstCT = true;
   for (var i = 0; i < this.elements.length; i++) {
     if (!this.elements[i]) {
       continue;
     }
     for (var j = 0; j < this.elements[i].length; j++) {
+      // We must make sure form values are stored if the dialog was never closed
+      var elementParams = this.params.slides[i].elements[j];
+      var isCT = (elementParams.action !== undefined && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText');
+      if (isCT && !firstCT) {
+        continue; // Only need to process the first CT
+      }
+
+      // Validate element form
       for (var k = 0; k < this.elements[i][j].children.length; k++) {
         if (this.elements[i][j].children[k].validate() === false && valid) {
           valid = false;
         }
       }
 
-      // Make sure Continuous Text is stored if the dialog was never closed.
-      var elementParams = this.params.slides[i].elements[j];
-      if (!this.params.ct && elementParams.action !== undefined && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
+      if (isCT) {
+        // Store complete text in CT param
         this.params.ct = elementParams.action.params.text;
+        firstCT = false;
       }
     }
   }
+  // Distribute CT text across elements
   H5P.ContinuousText.Engine.run(this);
   return valid;
 };
