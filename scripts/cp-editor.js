@@ -1409,6 +1409,23 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, element
     dnbElement.blur();
   });
 
+  dnbElement.contextMenu.on('contextMenuBringToFront', function () {
+    // Old index
+    var oldZ = element.$wrapper.index();
+
+    // Update visuals
+    element.$wrapper.appendTo(self.cp.$current);
+
+    // Find slide params
+    var slide = self.params.slides[self.cp.$current.index()].elements;
+
+    // Remove from old pos
+    slide.splice(oldZ, 1);
+
+    // Add to top
+    slide.push(elementParams);
+  });
+
   return dnbElement;
 };
 
