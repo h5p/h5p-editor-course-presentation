@@ -354,8 +354,10 @@ H5PEditor.CoursePresentation.prototype.validate = function () {
       }
 
       if (isCT) {
-        // Store complete text in CT param
-        this.params.ct = elementParams.action.params.text;
+        if (!this.params.ct) {
+          // Store complete text in CT param
+          this.params.ct = elementParams.action.params.text;
+        }
         firstCT = false;
       }
     }
