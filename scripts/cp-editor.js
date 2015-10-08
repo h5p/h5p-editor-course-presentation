@@ -390,7 +390,12 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         if (params.action !== undefined && H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
           H5P.ContinuousText.Engine.run(that);
           if (!that.params.ct) {
-            that.showElementForm(element, that.dnb.dnd.$element, params);
+            // No CT text but there could be elements
+            var CTs = that.getCTs(false, true);
+            if (CTs.length === 1) {
+              // First element, open form
+              that.showElementForm(element, that.dnb.dnd.$element, params);
+            }
           }
         }
         else {
@@ -476,24 +481,36 @@ H5PEditor.CoursePresentation.prototype.createHtml = function () {
 H5PEditor.CoursePresentation.prototype.validate = function () {
   // Validate all form elements
   var valid = true;
+  var firstCT = true;
   for (var i = 0; i < this.elements.length; i++) {
     if (!this.elements[i]) {
       continue;
     }
     for (var j = 0; j < this.elements[i].length; j++) {
+      // We must make sure form values are stored if the dialog was never closed
+      var elementParams = this.params.slides[i].elements[j];
+      var isCT = (elementParams.action !== undefined && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText');
+      if (isCT && !firstCT) {
+        continue; // Only need to process the first CT
+      }
+
+      // Validate element form
       for (var k = 0; k < this.elements[i][j].children.length; k++) {
         if (this.elements[i][j].children[k].validate() === false && valid) {
           valid = false;
         }
       }
 
-      // Make sure Continuous Text is stored if the dialog was never closed.
-      var elementParams = this.params.slides[i].elements[j];
-      if (!this.params.ct && elementParams.action !== undefined && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText') {
-        this.params.ct = elementParams.action.params.text;
+      if (isCT) {
+        if (!this.params.ct) {
+          // Store complete text in CT param
+          this.params.ct = elementParams.action.params.text;
+        }
+        firstCT = false;
       }
     }
   }
+  // Distribute CT text across elements
   H5P.ContinuousText.Engine.run(this);
   return valid;
 };
