@@ -311,8 +311,9 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         if (elementParams.displayAsButton) {
           options.disableResize = true;
         }
+
         if (elementParams.action && (elementParams.action.library.split(' ')[0] === 'H5P.Image' ||
-                                     (elementParams.action.library.split(' ')[0] === 'H5P.GraphCake' &&
+                                     (elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
                                       elementParams.action.params.graphMode === 'pieChart'))) {
           options.lock = true;
         }
@@ -1350,7 +1351,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     }
 
     if (elementParams.action && (elementParams.action.library.split(' ')[0] === 'H5P.Image' ||
-                                 (elementParams.action.library.split(' ')[0] === 'H5P.GraphCake' &&
+                                 (elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
                                   elementParams.action.params.graphMode === 'pieChart'))) {
       options.lock = true;
     }
@@ -1576,7 +1577,7 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   var elements = this.elements[slideIndex];
   var elementInstances = this.cp.elementInstances[slideIndex];
 
-  if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.GraphCake' &&
+  if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
       elementParams.action.params.graphMode === 'pieChart') {
     elementParams.width = elementParams.height / this.slideRatio;
   }

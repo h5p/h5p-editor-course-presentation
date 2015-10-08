@@ -135,9 +135,9 @@
       "minorVersion": 0
     },
     {
-      "machineName": "H5P.GraphCake",
+      "machineName": "H5P.Chart",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 0
     }
   ]
 }
