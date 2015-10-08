@@ -57,7 +57,7 @@
     {
       "machineName": "H5P.ContinuousText",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 2
     },
     {
       "machineName": "H5P.Table",
@@ -107,7 +107,7 @@
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 8
+      "minorVersion": 7
     },
     {
       "machineName": "H5P.CoursePresentation",
@@ -135,9 +135,9 @@
       "minorVersion": 0
     },
     {
-      "machineName": "H5P.GraphCake",
+      "machineName": "H5P.Chart",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 0
     }
   ]
 }
