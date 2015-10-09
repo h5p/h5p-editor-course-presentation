@@ -12,6 +12,9 @@
   },
   "preloadedJs": [
     {
+      "path": "scripts/disposable-boolean.js"
+    },
+    {
       "path": "scripts/cp-editor.js"
     }
   ],
@@ -29,7 +32,7 @@
     {
       "machineName": "H5P.DragNSort",
       "majorVersion": 1,
-      "minorVersion": 0
+      "minorVersion": 1
     },
     {
       "machineName": "H5P.DragNBar",
@@ -44,7 +47,7 @@
     {
       "machineName": "H5P.AdvancedText",
       "majorVersion": 1,
-      "minorVersion": 0
+      "minorVersion": 1
     },
     {
       "machineName": "H5P.Link",
@@ -54,12 +57,12 @@
     {
       "machineName": "H5P.ContinuousText",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 2
     },
     {
       "machineName": "H5P.Table",
       "majorVersion": 1,
-      "minorVersion": 0
+      "minorVersion": 1
     },
     {
       "machineName": "H5P.Video",
@@ -69,32 +72,32 @@
     {
       "machineName": "H5P.Audio",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 2
     },
     {
       "machineName": "H5P.Blanks",
       "majorVersion": 1,
-      "minorVersion": 3
+      "minorVersion": 4
     },
     {
       "machineName": "H5P.SingleChoiceSet",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 3
     },
     {
       "machineName": "H5P.MultiChoice",
       "majorVersion": 1,
-      "minorVersion": 3
+      "minorVersion": 4
     },
     {
       "machineName": "H5P.DragQuestion",
       "majorVersion": 1,
-      "minorVersion": 4
+      "minorVersion": 5
     },
     {
       "machineName": "H5P.Summary",
       "majorVersion": 1,
-      "minorVersion": 3
+      "minorVersion": 4
     },
     {
       "machineName": "H5P.ExportableTextArea",
@@ -104,7 +107,7 @@
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 8
+      "minorVersion": 7
     },
     {
       "machineName": "H5P.CoursePresentation",
@@ -114,12 +117,12 @@
     {
       "machineName": "H5P.MarkTheWords",
       "majorVersion": 1,
-      "minorVersion": 3
+      "minorVersion": 4
     },
     {
       "machineName": "H5P.DragText",
       "majorVersion": 1,
-      "minorVersion": 3
+      "minorVersion": 4
     },
     {
       "machineName": "H5P.TwitterUserFeed",
@@ -128,6 +131,11 @@
     },
     {
       "machineName": "H5P.AppearIn",
+      "majorVersion": 1,
+      "minorVersion": 0
+    },
+    {
+      "machineName": "H5P.Chart",
       "majorVersion": 1,
       "minorVersion": 0
     }
