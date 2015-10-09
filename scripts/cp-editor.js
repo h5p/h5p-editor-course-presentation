@@ -231,12 +231,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     return false;
   }).next().click(function () {
     that.addSlide(H5P.cloneObject(that.params.slides[that.cp.$current.index()],true));
-
-    var slideParams = that.params.slides[that.cp.$current.index()];
-    if (slideParams.ct !== undefined) {
-      // Make sure we don't replicate the whole continuous text.
-      delete slideParams.ct;
-    }
     H5P.ContinuousText.Engine.run(that);
     return false;
   }).next().click(function () {
@@ -306,7 +300,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       });
     }
 
-    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, true);
+    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper});
     that.dnb.dnr.snap = 10;
 
     // Register all attached elements with dnb
@@ -317,7 +311,10 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         if (elementParams.displayAsButton) {
           options.disableResize = true;
         }
-        if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.Image') {
+
+        if (elementParams.action && (elementParams.action.library.split(' ')[0] === 'H5P.Image' ||
+                                     (elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
+                                      elementParams.action.params.graphMode === 'pieChart'))) {
           options.lock = true;
         }
 
@@ -392,8 +389,13 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
         if (params.action !== undefined && H5P.libraryFromString(params.action.library).machineName === 'H5P.ContinuousText') {
           H5P.ContinuousText.Engine.run(that);
-          if (that.getCTs(false, true).length === 1) {
-            that.showElementForm(element, that.dnb.dnd.$element, params);
+          if (!that.params.ct) {
+            // No CT text but there could be elements
+            var CTs = that.getCTs(false, true);
+            if (CTs.length === 1) {
+              // First element, open form
+              that.showElementForm(element, that.dnb.dnd.$element, params);
+            }
           }
         }
         else {
@@ -477,7 +479,40 @@ H5PEditor.CoursePresentation.prototype.createHtml = function () {
  * Validate the current field.
  */
 H5PEditor.CoursePresentation.prototype.validate = function () {
-  return true;
+  // Validate all form elements
+  var valid = true;
+  var firstCT = true;
+  for (var i = 0; i < this.elements.length; i++) {
+    if (!this.elements[i]) {
+      continue;
+    }
+    for (var j = 0; j < this.elements[i].length; j++) {
+      // We must make sure form values are stored if the dialog was never closed
+      var elementParams = this.params.slides[i].elements[j];
+      var isCT = (elementParams.action !== undefined && elementParams.action.library.split(' ')[0] === 'H5P.ContinuousText');
+      if (isCT && !firstCT) {
+        continue; // Only need to process the first CT
+      }
+
+      // Validate element form
+      for (var k = 0; k < this.elements[i][j].children.length; k++) {
+        if (this.elements[i][j].children[k].validate() === false && valid) {
+          valid = false;
+        }
+      }
+
+      if (isCT) {
+        if (!this.params.ct) {
+          // Store complete text in CT param
+          this.params.ct = elementParams.action.params.text;
+        }
+        firstCT = false;
+      }
+    }
+  }
+  // Distribute CT text across elements
+  H5P.ContinuousText.Engine.run(this);
+  return valid;
 };
 
 /**
@@ -836,9 +871,6 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
       slideParams.keywords = [];
     }
   }
-  if (slideParams.ct !== undefined) {
-    delete slideParams.ct;
-  }
 
   var index = this.cp.$current.index() + 1;
   if (index >= this.params.slides.length) {
@@ -915,10 +947,19 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var index = this.cp.$current.index();
   var $remove = this.cp.$current.add(this.cp.$currentKeyword);
 
-  // Confirm and change slide.
+  // Confirm
   if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmDeleteSlide'))) {
     return false;
   }
+
+  // Remove elements from slide
+  var slideKids = this.elements[index];
+  if (slideKids !== undefined) {
+    for (var i = 0; i < slideKids.length; i++) {
+      this.removeElement(slideKids[i], slideKids[i].$wrapper, this.cp.elementInstances[index][i].libraryInfo && this.cp.elementInstances[index][i].libraryInfo.machineName === 'H5P.ContinuousText');
+    }
+  }
+  this.elements.splice(index, 1);
 
   // Change slide
   var move = this.cp.previousSlide() ? -1 : (this.cp.nextSlide(true) ? 0 : undefined);
@@ -926,34 +967,14 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
     return false; // No next or previous slide
   }
 
-  // Remove visuals.
-  $remove.remove();
-
-  // Preserve the whole continuous text.
-  if (this.params.ct !== undefined && this.params.slides[index + 1] !== undefined) {
-    this.params.slides[index + 1].ct = this.params.ct;
-  }
-
   // ExportableTextArea needs to know about the deletion:
   H5P.ExportableTextArea.CPInterface.onDeleteSlide(index);
 
+  // Remove visuals.
+  $remove.remove();
+
   // Update presentation params.
   this.params.slides.splice(index, 1);
-
-  // Remove element forms
-  var slideKids = this.elements[index];
-  if (slideKids !== undefined) {
-    for (var i = 0; i < slideKids.length; i++) {
-      if (this.cp.elementInstances[index][i].libraryInfo &&
-          this.cp.elementInstances[index][i].libraryInfo.machineName === 'H5P.ContinuousText' &&
-          this.getCTs(false, true).length !== 1) {
-        // We are not the only CT left, preserve form
-        continue;
-      }
-      H5PEditor.removeChildren(slideKids[i].children);
-    }
-    this.elements.splice(index, 1);
-  }
 
   // Update the list of element instances
   this.cp.elementInstances.splice(index, 1);
@@ -962,8 +983,6 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   this.updateNavigationLine(index + move);
 
   H5P.ContinuousText.Engine.run(this);
-
-
 };
 
 /**
@@ -1104,15 +1123,12 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, type) {
   var self = this;
 
-  if (type === 'H5P.ContinuousText') {
-    var ct = self.getCTs(true);
-    if (ct) {
-      // Continuous Text shares a single form across all elements
-      return {
-        '$form': ct.element.$form,
-        children: ct.element.children
-      };
-    }
+  if (type === 'H5P.ContinuousText' && self.ct) {
+    // Continuous Text shares a single form across all elements
+    return {
+      '$form': self.ct.element.$form,
+      children: self.ct.element.children
+    };
   }
 
   // Get semantics for the elements field
@@ -1351,13 +1367,14 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
       options.disableResize = true;
     }
 
-    if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.Image') {
+    if (elementParams.action && (elementParams.action.library.split(' ')[0] === 'H5P.Image' ||
+                                 (elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
+                                  elementParams.action.params.graphMode === 'pieChart'))) {
       options.lock = true;
     }
 
     that.addToDragNBar(element, elementParams, options);
   }
-
 
   // Open form dialog when double clicking element
   $wrapper.dblclick(function () {
@@ -1367,6 +1384,14 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   H5P.jQuery('<div/>', {
     'class': 'h5p-element-overlay'
   }).appendTo($wrapper);
+
+  if (type === 'H5P.ContinuousText' && that.ct === undefined) {
+    // Keep track of first CT element!
+    that.ct = {
+      element: element,
+      params: elementParams
+    };
+  }
 
   if (elementInstance.onAdd) {
     // Some sort of callback event thing
@@ -1402,6 +1427,23 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, element
     dnbElement.blur();
   });
 
+  dnbElement.contextMenu.on('contextMenuBringToFront', function () {
+    // Old index
+    var oldZ = element.$wrapper.index();
+
+    // Update visuals
+    element.$wrapper.appendTo(self.cp.$current);
+
+    // Find slide params
+    var slide = self.params.slides[self.cp.$current.index()].elements;
+
+    // Remove from old pos
+    slide.splice(oldZ, 1);
+
+    // Add to top
+    slide.push(elementParams);
+  });
+
   return dnbElement;
 };
 
@@ -1420,9 +1462,20 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
   var elementInstance = this.cp.elementInstances[slideIndex][elementIndex];
   var removeForm = (element.children.length ? true : false);
 
-  if (isContinuousText && this.getCTs(true)) {
-    // Prevent removing form while there are still some CT elements left
-    removeForm = false;
+  if (isContinuousText) {
+    var CTs = this.getCTs(false, true);
+    if (CTs.length === 2) {
+      // Prevent removing form while there are still some CT elements left
+      removeForm = false;
+
+      if (element === CTs[0].element && CTs.length === 2) {
+        CTs[1].params.action.params = CTs[0].params.action.params;
+      }
+    }
+    else {
+      delete this.params.ct;
+      delete this.ct;
+    }
   }
 
   if (removeForm) {
@@ -1456,13 +1509,10 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
   var that = this;
 
   var isContinuousText = (elementParams.action !== undefined && H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText');
-  if (isContinuousText) {
-    var ct = that.getCTs(true);
-    if (ct) {
-      // Make sure form uses the right text.
-      ct.element.$form.find('.text .ckeditor').first().html(that.params.ct);
-      ct.params.action.params.text = that.params.ct;
-    }
+  if (isContinuousText && that.ct) {
+    // Make sure form uses the right text.
+    that.ct.element.$form.find('.text .ckeditor').first().html(that.params.ct);
+    that.ct.params.action.params.text = that.params.ct;
   }
 
   element.$form.dialog({
@@ -1487,6 +1537,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
           }
           element.$form.dialog('close');
           that.removeElement(element, $wrapper, isContinuousText);
+          that.dnb.blurAll();
         }
       },
       {
@@ -1503,10 +1554,15 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
           if (isContinuousText) {
             // Store complete CT on slide 0
-            that.params.ct = ct.params.action.params.text;
+            that.params.ct = that.ct.params.action.params.text;
 
             // Split up text and place into CT elements
             H5P.ContinuousText.Engine.run(that);
+
+            setTimeout(function () {
+              // Put focus back on ct element
+              that.dnb.focus($wrapper);
+            }, 1);
           }
           else {
             that.redrawElement($wrapper, element, elementParams);
@@ -1537,6 +1593,11 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   var elementsParams = this.params.slides[slideIndex].elements;
   var elements = this.elements[slideIndex];
   var elementInstances = this.cp.elementInstances[slideIndex];
+
+  if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
+      elementParams.action.params.graphMode === 'pieChart') {
+    elementParams.width = elementParams.height / this.slideRatio;
+  }
 
   // Remove instance of lib:
   elementInstances.splice(elementIndex, 1);
@@ -1582,6 +1643,9 @@ H5PEditor.CoursePresentation.prototype.getCTs = function (firstOnly, maxTwo) {
 
   for (var i = 0; i < self.elements.length; i++) {
     var slideElements = self.elements[i];
+    if (!self.params.slides[i] || !self.params.slides[i].elements) {
+      continue;
+    }
 
     for (var j = 0; slideElements !== undefined && j < slideElements.length; j++) {
       var element = slideElements[j];
