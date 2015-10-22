@@ -276,6 +276,7 @@
   display: none;
 }
 
+
 .h5p-course-presentation .ui-widget-header {
   background: none;
   border: none;
@@ -284,6 +285,24 @@
 .h5p-course-presentation .ui-dialog-buttonpane {
   border: none;
   margin-top: 0;
+  padding: 0.25em 0.5em;
+}
+.h5p-course-presentation .ui-dialog {
+  border-radius: 0;
+  padding: 0;
+}
+.h5p-course-presentation .ui-dialog-titlebar {
+  padding: 0.5em 0.75em;
+  border-bottom: 1px solid #eee;
+  border-radius: 0;
+}
+.h5p-course-presentation .ui-dialog-content {
+  padding: 0 0.75em 0.75em;
+}
+.h5p-course-presentation .ui-dialog-content > .field.library {
+  padding: 0;
+  border: 0;
+  margin: 0;
 }
 
 .h5p-course-presentation .ui-resizable-se {
