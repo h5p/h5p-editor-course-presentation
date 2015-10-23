@@ -1431,17 +1431,24 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, element
     // Old index
     var oldZ = element.$wrapper.index();
 
+    // Current slide index
+    var slideIndex = self.cp.$current.index();
+
     // Update visuals
     element.$wrapper.appendTo(self.cp.$current);
 
     // Find slide params
-    var slide = self.params.slides[self.cp.$current.index()].elements;
+    var slide = self.params.slides[slideIndex].elements;
 
     // Remove from old pos
     slide.splice(oldZ, 1);
 
     // Add to top
     slide.push(elementParams);
+
+    // Re-order elements in the same fashion
+    self.elements[slideIndex].splice(oldZ, 1);
+    self.elements[slideIndex].push(element);
   });
 
   return dnbElement;
