@@ -246,7 +246,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     this.cp.$progressbar.remove();
   }
 
-  this.cp.on('resize', function () {
+  H5P.$window.on('resize', function () {
+    that.cp.trigger('resize');
+
     // Reset drag and drop adjustments.
     if (that.keywordsDNS !== undefined) {
       delete that.keywordsDNS.dnd.containerOffset;
