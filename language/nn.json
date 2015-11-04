@@ -18,6 +18,7 @@
     "keywordsTip": "Dra inn nøkkelord",
     "popupTitle": "Rediger :type",
     "loading": "Laster...",
-    "element": "Element"
+    "element": "Element",
+    "activeSurfaceWarning": "Er du sikker på at du vil aktivera aktivoverflatemodus? Denne handlinga kan ikkje angrast."
   }
 }
