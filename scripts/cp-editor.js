@@ -246,7 +246,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     this.cp.$progressbar.remove();
   }
 
-  this.cp.on('resize', function () {
+  H5P.$window.on('resize', function () {
+    that.cp.trigger('resize');
+
     // Reset drag and drop adjustments.
     if (that.keywordsDNS !== undefined) {
       delete that.keywordsDNS.dnd.containerOffset;
@@ -1416,17 +1418,24 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, element
     // Old index
     var oldZ = element.$wrapper.index();
 
+    // Current slide index
+    var slideIndex = self.cp.$current.index();
+
     // Update visuals
     element.$wrapper.appendTo(self.cp.$current);
 
     // Find slide params
-    var slide = self.params.slides[self.cp.$current.index()].elements;
+    var slide = self.params.slides[slideIndex].elements;
 
     // Remove from old pos
     slide.splice(oldZ, 1);
 
     // Add to top
     slide.push(elementParams);
+
+    // Re-order elements in the same fashion
+    self.elements[slideIndex].splice(oldZ, 1);
+    self.elements[slideIndex].push(element);
   });
 
   return dnbElement;
