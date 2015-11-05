@@ -138,8 +138,9 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
       var libraryName = library.split(' ')[0];
       switch (libraryName) {
         case 'H5P.Audio':
-          elementParams.width = (20/this.cp.$current.width())*100;
-          elementParams.height = (20/this.cp.$current.height())*100;
+          elementParams.width = 2.577632696;
+          elementParams.height = 5.091753604;
+          elementParams.action.params.fitToWrapper = true;
           break;
 
         case 'H5P.DragQuestion':
