@@ -505,6 +505,9 @@
 .h5p-dragnbar-singlechoiceset-button:before {
   content: "\e603";
 }
+.h5p-dragnbar-dialogcards-button:before {
+  content: "\e900";
+}
 
 .h5p-dragnbar-li-ul {
   padding: 0;
