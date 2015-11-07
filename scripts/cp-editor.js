@@ -1533,6 +1533,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
           element.$form.dialog('close');
           that.removeElement(element, $wrapper, isContinuousText);
           that.dnb.blurAll();
+          that.dnb.preventPaste = false;
         }
       },
       {
@@ -1567,12 +1568,14 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
             H5PEditor.Html.removeWysiwyg();
           }
           element.$form.dialog('close');
+          that.dnb.preventPaste = false;
         }
       }
     ]
   });
 
   if (that.dnb !== undefined) {
+    that.dnb.preventPaste = true;
     setTimeout(function () {
       that.dnb.blurAll();
     }, 0);
