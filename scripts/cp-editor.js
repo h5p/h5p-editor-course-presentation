@@ -318,9 +318,8 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           options.disableResize = true;
         }
 
-        if (elementParams.action && (elementParams.action.library.split(' ')[0] === 'H5P.Image' ||
-                                     (elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
-                                      elementParams.action.params.graphMode === 'pieChart'))) {
+        var type = (elementParams.action ? elementParams.action.library.split(' ')[0] : null);
+        if (type === 'H5P.Image' || (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart')) {
           options.lock = true;
         }
 
@@ -1369,9 +1368,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
       options.disableResize = true;
     }
 
-    if (elementParams.action && (elementParams.action.library.split(' ')[0] === 'H5P.Image' ||
-                                 (elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
-                                  elementParams.action.params.graphMode === 'pieChart'))) {
+    if (type === 'H5P.Image' || (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart')) {
       options.lock = true;
     }
 
