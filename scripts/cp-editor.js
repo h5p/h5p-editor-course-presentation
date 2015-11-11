@@ -150,13 +150,16 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
       }
     }
 
-    if (options.width && options.height) {
+    if (options.width && options.height && !options.displayAsButton) {
       // Use specified size
       elementParams.width = options.width;
       elementParams.height = options.height * this.slideRatio;
     }
     if (options.displayAsButton) {
       elementParams.displayAsButton = true;
+    }
+    if (options.pasted) {
+      elementParams.pasted = true;
     }
   }
 
@@ -426,7 +429,8 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       var pasted = event.data;
       var options = {
         width: pasted.width,
-        height: pasted.height
+        height: pasted.height,
+        pasted: true
       };
 
       if (pasted.from === H5PEditor.CoursePresentation.clipboardKey) {
@@ -1179,32 +1183,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     var libraryChange = function () {
       if (library.children[0].field.type === 'image') {
         library.children[0].changes.push(function (params) {
-          if (params === undefined) {
-            return;
-          }
-
-          if (params.width !== undefined && params.height !== undefined) {
-            // Avoid to small images, will not work with jQuery UI's resize
-            var minSize = parseInt(element.$wrapper.css('font-size')) +
-                          element.$wrapper.outerHeight() -
-                          element.$wrapper.innerHeight();
-            // Use same minSize as jQuery UI's resize
-            if (params.width < minSize) {
-              params.width = minSize;
-            }
-            if (params.height < minSize) {
-              params.height = minSize;
-            }
-
-            // Reduce height for tiny images, stretched pixels looks horrible
-            var suggestedHeight = params.height / (self.cp.$current.innerHeight() / 100);
-            if (suggestedHeight < elementParams.height) {
-              elementParams.height = suggestedHeight;
-            }
-
-            // Calculate new width
-            elementParams.width = (elementParams.height * (params.width / params.height)) / self.slideRatio;
-          }
+          self.setImageSize(element, elementParams, params);
         });
       }
     };
@@ -1217,6 +1196,41 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   }
 
   return element;
+};
+
+/**
+ * Help set size for new images and keep aspect ratio.
+ *
+ * @param {object} element
+ * @param {object} elementParams
+ * @param {object} fileParams
+ */
+H5PEditor.CoursePresentation.prototype.setImageSize = function (element, elementParams, fileParams) {
+  if (fileParams === undefined || fileParams.width === undefined || fileParams.height === undefined) {
+    return;
+  }
+
+  // Avoid to small images
+  var minSize = parseInt(element.$wrapper.css('font-size')) +
+                element.$wrapper.outerHeight() -
+                element.$wrapper.innerHeight();
+
+  // Use minSize
+  if (fileParams.width < minSize) {
+    fileParams.width = minSize;
+  }
+  if (fileParams.height < minSize) {
+    fileParams.height = minSize;
+  }
+
+  // Reduce height for tiny images, stretched pixels looks horrible
+  var suggestedHeight = fileParams.height / (this.cp.$current.innerHeight() / 100);
+  if (suggestedHeight < elementParams.height) {
+    elementParams.height = suggestedHeight;
+  }
+
+  // Calculate new width
+  elementParams.width = (elementParams.height * (fileParams.width / fileParams.height)) / this.slideRatio;
 };
 
 /**
@@ -1379,6 +1393,13 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
       element: element,
       params: elementParams
     };
+  }
+
+  if (elementParams.pasted) {
+    if (type === 'H5P.Image') {
+      that.setImageSize(element, elementParams, elementParams.action.params.file);
+    }
+    delete elementParams.pasted;
   }
 
   if (elementInstance.onAdd) {
