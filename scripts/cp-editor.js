@@ -158,9 +158,9 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
     if (options.displayAsButton) {
       elementParams.displayAsButton = true;
     }
-    if (options.pasted) {
-      elementParams.pasted = true;
-    }
+  }
+  if (options.pasted) {
+    elementParams.pasted = true;
   }
 
   var slideIndex = this.cp.$current.index();
@@ -1398,6 +1398,9 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   if (elementParams.pasted) {
     if (type === 'H5P.Image') {
       that.setImageSize(element, elementParams, elementParams.action.params.file);
+    }
+    else if (type === 'H5P.ContinuousText') {
+      H5P.ContinuousText.Engine.run(this);
     }
     delete elementParams.pasted;
   }
