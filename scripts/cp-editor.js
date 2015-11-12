@@ -370,14 +370,14 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     // Update params when the element is dropped.
     that.dnb.stopMovingCallback = function (x, y) {
-      var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
+      var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
       params.x = x;
       params.y = y;
     };
 
     // Update params when the element is moved instead, to prevent timing issues.
     that.dnb.dnd.moveCallback = function (x, y) {
-      var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
+      var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
       params.x = x;
       params.y = y;
 
@@ -386,8 +386,8 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     // Edit element when it is dropped.
     that.dnb.dnd.releaseCallback = function () {
-      var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.dnd.$element.index()];
-      var element = that.elements[that.cp.$current.index()][that.dnb.dnd.$element.index()];
+      var params = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
+      var element = that.elements[that.cp.$current.index()][that.dnb.$element.index()];
 
       if (that.dnb.newElement) {
         that.cp.$boxWrapper.add(that.cp.$boxWrapper.find('.h5p-presentation-wrapper:first')).css('overflow', '');
@@ -399,12 +399,12 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
             var CTs = that.getCTs(false, true);
             if (CTs.length === 1) {
               // First element, open form
-              that.showElementForm(element, that.dnb.dnd.$element, params);
+              that.showElementForm(element, that.dnb.$element, params);
             }
           }
         }
         else {
-          that.showElementForm(element, that.dnb.dnd.$element, params);
+          that.showElementForm(element, that.dnb.$element, params);
         }
       }
     };
