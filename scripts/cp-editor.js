@@ -1615,7 +1615,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       .eq(0)
       .focus();
   };
-  if (library.currentLibrary === undefined) {
+  if (library instanceof ns.Library && library.currentLibrary === undefined) {
     library.change(focusFirstField);
   }
   else {
