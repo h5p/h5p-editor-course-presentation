@@ -274,6 +274,14 @@ H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
   };
 };
 
+H5PEditor.CoursePresentation.prototype.setContainerEm = function (containerEm) {
+  this.containerEm = containerEm;
+
+  if (this.dnb !== undefined && this.dnb.dnr !== undefined) {
+    this.dnb.dnr.setContainerEm(this.containerEm);
+  }
+};
+
 /**
  * Initialize the drag and drop menu bar.
  *
@@ -308,6 +316,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper});
     that.dnb.dnr.snap = 10;
+    that.dnb.dnr.setContainerEm(that.containerEm);
 
     // Register all attached elements with dnb
     that.elements.forEach(function (slide, slideIndex) {
@@ -334,8 +343,6 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       H5P.ContinuousText.Engine.run(that);
       reflowLoop = setTimeout(reflow, reflowInterval);
     };
-
-
 
     // Resizing listener
     that.dnb.dnr.on('startResizing', function (eventData) {
