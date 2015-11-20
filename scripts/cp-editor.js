@@ -171,13 +171,20 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
     slideParams.elements = [elementParams];
   }
   else {
+    var containerStyle = window.getComputedStyle(this.dnb.$container[0]);
+    var containerWidth = parseFloat(containerStyle.width);
+    var containerHeight = parseFloat(containerStyle.height);
+
     // Make sure we don't overlap another element
-    var pToPx = parseFloat(window.getComputedStyle(this.dnb.$container[0]).width) / 100;
+    var pToPx = containerWidth / 100;
     var pos = {
       x: elementParams.x * pToPx,
       y: (elementParams.y * pToPx) / this.slideRatio
     };
-    this.dnb.avoidOverlapping(pos);
+    this.dnb.avoidOverlapping(pos, {
+      width: (elementParams.width / 100) * containerWidth,
+      height: (elementParams.height / 100) * containerHeight,
+    });
     elementParams.x = pos.x / pToPx;
     elementParams.y = (pos.y / pToPx) * this.slideRatio;
 
