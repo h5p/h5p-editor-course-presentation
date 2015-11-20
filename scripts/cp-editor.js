@@ -1376,6 +1376,10 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   var element = this.elements[slideIndex][elementIndex];
   element.$wrapper = $wrapper;
 
+  H5P.jQuery('<div/>', {
+    'class': 'h5p-element-overlay'
+  }).appendTo($wrapper);
+
   if (that.dnb) {
     var options = {};
     if (elementParams.displayAsButton) {
@@ -1393,10 +1397,6 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   $wrapper.dblclick(function () {
     that.showElementForm(element, $wrapper, elementParams);
   });
-
-  H5P.jQuery('<div/>', {
-    'class': 'h5p-element-overlay'
-  }).appendTo($wrapper);
 
   if (type === 'H5P.ContinuousText' && that.ct === undefined) {
     // Keep track of first CT element!

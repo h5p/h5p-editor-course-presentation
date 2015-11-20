@@ -241,6 +241,9 @@
 .h5p-course-presentation .h5p-element.focused .h5p-element-outer {
   outline: 1px solid #0099ff;
 }
+.h5p-course-presentation .h5p-element > div {
+  z-index: 1;
+}
 
 .h5p-course-presentation .h5p-element-remove {
   position: absolute;
