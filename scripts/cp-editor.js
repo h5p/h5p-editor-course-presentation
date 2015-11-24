@@ -1669,6 +1669,9 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
   var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
   var $element = this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
 
+  // Make sure we're inside the container
+  this.fitElement($element, elementParams);
+
   // Resize element.
   instance = elementInstances[elementInstances.length - 1];
   if ((instance.preventResize === undefined || instance.preventResize === false) && instance.$ !== undefined && !elementParams.displayAsButton) {
@@ -1680,6 +1683,47 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
     // Put focus back on element
     that.dnb.focus($element);
   }, 1);
+};
+
+/**
+ * Applies the updated position and size properties to the given element.
+ *
+ * All properties are converted to percentage.
+ *
+ * @param {H5P.jQuery} $element
+ * @param {Object} elementParams
+ */
+H5PEditor.CoursePresentation.prototype.fitElement = function ($element, elementParams) {
+  var self = this;
+
+  var currentSlide = H5P.DragNBar.getSizeNPosition(self.cp.$current[0]);
+  var updated = H5P.DragNBar.fitElementInside($element, currentSlide);
+
+  var pW = (currentSlide.width / 100);
+  var pH = (currentSlide.height / 100);
+
+  // Set the updated properties
+  var style = {};
+
+  if (updated.width !== undefined) {
+    elementParams.width = updated.width / pW;
+    style.width = elementParams.width + '%';
+  }
+  if (updated.left !== undefined) {
+    elementParams.x = updated.left / pW;
+    style.left = elementParams.x + '%';
+  }
+  if (updated.height !== undefined) {
+    elementParams.height = updated.height / pH;
+    style.height = elementParams.height + '%';
+  }
+  if (updated.top !== undefined) {
+    elementParams.y = updated.top / pH;
+    style.top = elementParams.y + '%';
+  }
+
+  // Apply style
+  $element.css(style);
 };
 
 /**
