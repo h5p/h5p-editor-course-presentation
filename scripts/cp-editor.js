@@ -1186,6 +1186,11 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
 
+  // If IV editor - do not show guided tour
+  if (H5PEditor.InteractiveVideo) {
+    H5PEditor.InteractiveVideo.disableGuidedTour = true;
+  }
+
   // Hide library selector
   element.$form.children('.library:first').children('label, select').hide().end().children('.libwrap').css('margin-top', '0');
 
