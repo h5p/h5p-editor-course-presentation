@@ -1134,6 +1134,24 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 };
 
 /**
+ * Helper function for traversing a tree of nodes recursively. Invoking callback
+ * for each nodes
+ *
+ * @method traverseChildren
+ * @param  {Array}         children
+ * @param  {Function}       callback
+ */
+function traverseChildren(children, callback) {
+  if (children !== undefined && children.length !== undefined) {
+    for (var i = 0; i < children.length; i++) {
+      var child = children[i];
+      callback(child);
+      traverseChildren(child.children, callback);
+    }
+  }
+}
+
+/**
  * Generate element form.
  *
  * @param {Object} elementParams
@@ -1549,6 +1567,13 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     that.ct.element.$form.find('.text .ckeditor').first().html(that.params.ct);
     that.ct.params.action.params.text = that.params.ct;
   }
+
+  // If this is an interactive video, disable guided tour!
+  traverseChildren(element.children, function (elementInstance) {
+    if (elementInstance instanceof H5PEditor.InteractiveVideo) {
+      elementInstance.disableGuidedTour();
+    }
+  });
 
   element.$form.dialog({
     modal: true,
