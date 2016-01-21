@@ -241,6 +241,9 @@
 .h5p-course-presentation .h5p-element.focused .h5p-element-outer {
   outline: 1px solid #0099ff;
 }
+.h5p-course-presentation .h5p-element > div {
+  z-index: 1;
+}
 
 .h5p-course-presentation .h5p-element-remove {
   position: absolute;
@@ -276,6 +279,7 @@
   display: none;
 }
 
+
 .h5p-course-presentation .ui-widget-header {
   background: none;
   border: none;
@@ -284,6 +288,24 @@
 .h5p-course-presentation .ui-dialog-buttonpane {
   border: none;
   margin-top: 0;
+  padding: 0.25em 0.5em;
+}
+.h5p-course-presentation .ui-dialog {
+  border-radius: 0;
+  padding: 0;
+}
+.h5p-course-presentation .ui-dialog-titlebar {
+  padding: 0.5em 0.75em;
+  border-bottom: 1px solid #eee;
+  border-radius: 0;
+}
+.h5p-course-presentation .ui-dialog-content {
+  padding: 0 0.75em 0.75em;
+}
+.h5p-course-presentation .ui-dialog-content > .field.library {
+  padding: 0;
+  border: 0;
+  margin: 0;
 }
 
 .h5p-course-presentation .ui-resizable-se {
@@ -412,7 +434,8 @@
 .h5p-dragnbar-more-button:before,
 .h5p-dragnbar-appearin-button:before,
 .h5p-dragnbar-twitteruserfeed-button:before,
-.h5p-dragnbar-interactivevideo-button:before {
+.h5p-dragnbar-interactivevideo-button:before,
+.h5p-dragnbar-chart-button:before {
   font-family: 'H5PFontAwesome4';
   color: #494949;
   font-size: 1.1em;
@@ -446,6 +469,9 @@
 .h5p-dragnbar-interactivevideo-button:before {
   content: "\f03d";
   vertical-align: middle;
+}
+.h5p-dragnbar-chart-button:before {
+  content: "\f200";
 }
 /* H5P specific icons */
 .h5p-dragnbar-dragquestion-button:before {
@@ -481,6 +507,9 @@
 }
 .h5p-dragnbar-singlechoiceset-button:before {
   content: "\e603";
+}
+.h5p-dragnbar-dialogcards-button:before {
+  content: "\e900";
 }
 
 .h5p-dragnbar-li-ul {
@@ -642,6 +671,19 @@
 .h5peditor .ui-dialog button:focus {
   box-shadow: 0 0 0.25em 0.125em #53a0ff;
   outline: none;
+}
+.h5peditor .h5p-active-surface {
+  margin-bottom: 5%;
+}
+.h5peditor .h5p-active-surface .h5p-box-wrapper {
+  height: 100%;
+}
+.h5peditor .h5p-active-surface .h5p-slidecontrols {
+  bottom: -2.025em;
+}
+.h5peditor .field.disabled,
+.h5peditor .field.disabled .h5peditor-field-description {
+  color: #9b9b9b;
 }
 
 .h5p-coursepresentation-editor .h5p-element.h5p-element-button-wrapper.focused {

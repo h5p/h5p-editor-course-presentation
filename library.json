@@ -1,7 +1,7 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 6,
+  "minorVersion": 7,
   "patchVersion": 0,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
@@ -11,6 +11,9 @@
     "minorVersion": 5
   },
   "preloadedJs": [
+    {
+      "path": "scripts/disposable-boolean.js"
+    },
     {
       "path": "scripts/cp-editor.js"
     }
@@ -34,7 +37,7 @@
     {
       "machineName": "H5P.DragNBar",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 2
     },
     {
       "machineName": "H5P.Image",
@@ -84,7 +87,7 @@
     {
       "machineName": "H5P.MultiChoice",
       "majorVersion": 1,
-      "minorVersion": 4
+      "minorVersion": 5
     },
     {
       "machineName": "H5P.DragQuestion",
@@ -104,17 +107,17 @@
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 7
+      "minorVersion": 8
     },
     {
       "machineName": "H5P.CoursePresentation",
       "majorVersion": 1,
-      "minorVersion": 6
+      "minorVersion": 7
     },
     {
       "machineName": "H5P.MarkTheWords",
       "majorVersion": 1,
-      "minorVersion": 4
+      "minorVersion": 5
     },
     {
       "machineName": "H5P.DragText",
@@ -130,6 +133,11 @@
       "machineName": "H5P.AppearIn",
       "majorVersion": 1,
       "minorVersion": 0
+    },
+    {
+      "machineName": "H5P.Dialogcards",
+      "majorVersion": 1,
+      "minorVersion": 2
     }
   ]
 }
