@@ -1561,16 +1561,22 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
 H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wrapper, elementParams) {
   var that = this;
 
-  var machineName = H5P.libraryFromString(elementParams.action.library).machineName;
-  var isContinuousText = (elementParams.action !== undefined && machineName === 'H5P.ContinuousText');
+  // Determine element type
+  var machineName;
+  if (elementParams.action !== undefined) {
+    machineName = H5P.libraryFromString(elementParams.action.library).machineName;
+  }
+
+  // Special case for Continuous Text
+  var isContinuousText = (machineName === 'H5P.ContinuousText');
   if (isContinuousText && that.ct) {
-    // Make sure form uses the right text.
+    // Get CT text from storage
     that.ct.element.$form.find('.text .ckeditor').first().html(that.params.ct);
     that.ct.params.action.params.text = that.params.ct;
   }
 
+  // Disable guided tour for IV
   if (machineName === 'H5P.InteractiveVideo') {
-    // If this is an interactive video, disable guided tour!
     traverseChildren(element.children, function (elementInstance) {
       if (elementInstance instanceof H5PEditor.InteractiveVideo) {
         elementInstance.disableGuidedTour();
@@ -1578,6 +1584,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     });
   }
 
+  // Display dialog with form
   element.$form.dialog({
     modal: true,
     draggable: false,
