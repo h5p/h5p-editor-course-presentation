@@ -1,0 +1,67 @@
+
+.h5p-bg-selector {
+  display: none;
+  padding: 0.5em;
+}
+
+.h5p-bg-selector.show {
+  display: block;
+}
+
+.h5peditor button.h5p-background-selector-reset {
+  display: none;
+  font-size: 1em;
+  padding: 0.5em 1.6em;
+}
+
+.h5peditor button.h5p-background-selector-reset.show {
+  display: block;
+}
+
+.h5p-background-selector-title {
+  color: #444;
+  background-color: #f4f4f4;
+  font-size: 1em;
+  padding: 0.5em 0.75em;
+}
+
+.h5p-slide-selector-option {
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  background: #ddd;
+  padding: 0.5em;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-right: 0;
+  color: #444;
+  font-size: 0.875em;
+}
+
+.h5p-slide-selector-option:hover,
+.h5p-slide-selector-option.active {
+  background: #f4f4f4;
+}
+
+.h5p-slide-selector-option:last-of-type {
+  border-right: 1px solid #ccc;
+}
+
+.h5p-slide-selector-content {
+  display: none;
+  font-size: 0.875em;
+}
+
+.h5p-slide-selector-content.show {
+  display: block;
+}
+
+.h5p-radio-selector-values .field.h5p-color-selector {
+  margin: 1.5em 0 -0.5em;
+}
+
+.h5p-radio-selector-values .sp-container {
+  border: 0;
+  background-color: transparent;
+  margin-left: -0.5em;
+}

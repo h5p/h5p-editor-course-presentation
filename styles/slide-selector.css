@@ -1,0 +1,21 @@
+.h5p-background-selector {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 13em;
+  z-index: 3;
+  background: #FFF;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+}
+
+.h5p-background-selector.hidden {
+  display: none;
+}
+
+.h5p-background-selector-content-wrapper {
+  overflow: hidden;
+  overflow-y: auto;
+  height: calc(100% - 4.35em);
+}
