@@ -217,6 +217,11 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   if (this.cp.$wrapper.is(':visible')) {
     this.cp.trigger('resize');
   }
+  var $settingsWrapper = H5PEditor.$('<div>', {
+    'class': 'h5p-settings-wrapper',
+    appendTo: that.cp.$boxWrapper.children('.h5p-presentation-wrapper')
+  });
+
 
   // Add drag and drop menu bar.
   that.initializeDNB();
@@ -225,7 +230,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   var globalBackgroundField = H5PEditor.CoursePresentation.findField('globalBackgroundSelector', this.field.fields);
   var slideFields = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
   this.backgroundSelector = new H5PEditor.CoursePresentation.SlideSelector(that, that.cp.$slidesWrapper, globalBackgroundField, slideFields, that.params)
-    .appendTo(that.cp.$settingsWrapper);
+    .appendTo($settingsWrapper);
 
   // Add and bind slide controls.
   H5PEditor.$(
@@ -241,7 +246,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .children('a:first')
     .click(function () {
       that.backgroundSelector.toggleOpen();
-      H5P.jQuery(this).toggleClass('active');
+      H5PEditor.$(this).toggleClass('active');
 
       return false;
     })
