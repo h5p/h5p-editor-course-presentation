@@ -22,13 +22,13 @@
   opacity: 1;
   visibility: visible;
 
-  -webkit-transition: transform 0.2s, opacity 0.2s ease-in;
-  transition: transform 0.2s, opacity 0.2s ease-in;
+  -webkit-transition: visibility 0s linear 0s, transform 0.2s, opacity 0.2s ease-in;
+  transition: visibility 0s linear 0s, transform 0.2s, opacity 0.2s ease-in;
 }
 
 .h5p-settings-wrapper.hidden {
   visibility: hidden;
-  opacity: 0.5;
+  opacity: 0;
 
   -webkit-transform: translateX(100%);
   -ms-transform: translateX(100%);
