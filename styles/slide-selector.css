@@ -20,6 +20,7 @@
   -ms-transform: translateX(0);
   transform: translateX(0);
   opacity: 1;
+  visibility: visible;
 
   -webkit-transition: transform 0.2s, opacity 0.2s ease-in;
   transition: transform 0.2s, opacity 0.2s ease-in;
