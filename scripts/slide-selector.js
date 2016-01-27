@@ -304,6 +304,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
      * @returns {H5PEditor.CoursePresentation.SlideSelector}
      */
     self.appendTo = function ($wrapper) {
+      self.$wrapper = $wrapper;
       initBgSelectors();
       initSlideOperationsListeners();
       $popup.appendTo($wrapper);
@@ -316,8 +317,10 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
      * @returns {H5PEditor.CoursePresentation.SlideSelector}
      */
     self.open = function () {
-      $popup.removeClass('hidden');
-      isOpen = true;
+      if (self.$wrapper) {
+        self.$wrapper.removeClass('hidden');
+        isOpen = true;
+      }
 
       return self;
     };
@@ -327,8 +330,10 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
      * @returns {H5PEditor.CoursePresentation.SlideSelector}
      */
     self.close = function () {
-      $popup.addClass('hidden');
-      isOpen = false;
+      if (self.$wrapper) {
+        self.$wrapper.addClass('hidden');
+        isOpen = false;
+      }
 
       return self;
     };
@@ -338,13 +343,15 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
      * @returns {H5PEditor.CoursePresentation.SlideSelector}
      */
     self.toggleOpen = function () {
-      if (isOpen) {
-        self.close();
-      } else {
-        self.open();
-      }
+      if (self.$wrapper) {
+        if (isOpen) {
+          self.close();
+        } else {
+          self.open();
+        }
 
-      updateColorPicker();
+        updateColorPicker();
+      }
 
       return self;
     };

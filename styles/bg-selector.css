@@ -19,7 +19,7 @@
 }
 
 .h5p-background-selector-title {
-  color: #444;
+  color: #323232;
   background-color: #f4f4f4;
   font-size: 1em;
   padding: 0.5em 0.75em;
@@ -34,7 +34,7 @@
   padding: 0.5em;
   box-sizing: border-box;
   border-bottom: 1px solid #ccc;
-  color: #444;
+  color: #323232;
   font-size: 0.875em;
 }
 
@@ -64,4 +64,10 @@
   border: 0;
   background-color: transparent;
   margin-left: -0.5em;
+}
+
+.h5p-radio-selector-values .thumbnail > img {
+  max-height: 100px;
+  height: auto;
+  max-width: 10em;
 }

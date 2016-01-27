@@ -1,4 +1,10 @@
-.h5p-background-selector {
+.h5p-background-selector-content-wrapper {
+  overflow: hidden;
+  overflow-y: auto;
+  height: calc(100% - 4.35em);
+}
+
+.h5p-settings-wrapper {
   position: absolute;
   top: 0;
   right: 0;
@@ -8,14 +14,25 @@
   background: #FFF;
   font-size: 1rem;
   border: 1px solid #ccc;
+  box-shadow: 0 0 0.15em 0 #d1d1d1;
+
+  -webkit-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
+  opacity: 1;
+
+  -webkit-transition: transform 0.2s, opacity 0.2s ease-in;
+  transition: transform 0.2s, opacity 0.2s ease-in;
 }
 
-.h5p-background-selector.hidden {
-  display: none;
-}
+.h5p-settings-wrapper.hidden {
+  visibility: hidden;
+  opacity: 0.5;
 
-.h5p-background-selector-content-wrapper {
-  overflow: hidden;
-  overflow-y: auto;
-  height: calc(100% - 4.35em);
+  -webkit-transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  transform: translateX(100%);
+
+  -webkit-transition: visibility 0s linear 0.2s, transform 0.2s, opacity 0.2s ease-in;
+  transition: visibility 0s linear 0.2s, transform 0.2s, opacity 0.2s ease-in;
 }

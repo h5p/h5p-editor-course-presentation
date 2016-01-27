@@ -218,7 +218,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     this.cp.trigger('resize');
   }
   var $settingsWrapper = H5PEditor.$('<div>', {
-    'class': 'h5p-settings-wrapper',
+    'class': 'h5p-settings-wrapper hidden',
     appendTo: that.cp.$boxWrapper.children('.h5p-presentation-wrapper')
   });
 
