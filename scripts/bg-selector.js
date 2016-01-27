@@ -1,11 +1,13 @@
 H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher) {
 
   /**
-   * Class for selecting slide settings.
+   * Create a Background Selector.
    *
    * @class H5PEditor.CoursePresentation.BackgroundSelector
+   * @param {H5PEditor.$} $backgroundSlides Elements to paint
+   * @param {boolean} [isSingleSlide] Background selector is for a single element
    */
-  function BackgroundSelector(isSingleSlide, $backgroundSlides) {
+  function BackgroundSelector($backgroundSlides, isSingleSlide) {
     var self = this;
 
     // Inheritance
@@ -22,6 +24,9 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
 
     // Collection of processed semantics
     this.children = [];
+
+    // Default to false
+    isSingleSlide = isSingleSlide || false;
 
     this.addBackground = function () {
       var settings = self.getSettings();
@@ -130,9 +135,9 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
         paintElement();
       }
 
-      // Insert at index and preserve children
-      if (options.index && (options.index < $wrapper.children().length - 1)) {
-        $bgSelector.insertBefore($wrapper.children('.single').eq(options.index));
+      // Insert after previous index
+      if (options.index && (options.index > 0) && (options.index < $wrapper.children().length)) {
+        $bgSelector.insertAfter($wrapper.children('.single').eq(options.index - 1));
       }
       else {
         $bgSelector.appendTo($wrapper);

@@ -44,7 +44,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
 
       // Global bg selector
       $globalContent = createSlideSelector('All slides', true);
-      globalBackground = new H5PEditor.CoursePresentation.BackgroundSelector(false, $slides.children())
+      globalBackground = new H5PEditor.CoursePresentation.BackgroundSelector($slides.children())
         .addBgSelector(globalFields, params, $globalContent, {isVisible: true});
 
       // Single slide bg selector
@@ -138,7 +138,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     var initSingleSlide = function ($wrapper, idx) {
       var slideParams = params.slides[idx];
 
-      var singleSlide = new H5PEditor.CoursePresentation.BackgroundSelector(true, $slides.children().eq(idx));
+      var singleSlide = new H5PEditor.CoursePresentation.BackgroundSelector($slides.children().eq(idx), true);
 
       // Trigger fallback to global background when single slide is removed
       globalBackground.setBackgroundSlides($slides.children());
