@@ -1,9 +1,15 @@
 H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
 
   /**
-   * Class for selecting slide settings.
+   * Create a Slide Selector with background settings
    *
    * @class H5PEditor.CoursePresentation.SlideSelector
+   * @extends H5P.EventDispatcher Enables pub/sub
+   * @param {H5PEditor.CoursePresentation} cpEditor CP editor for listening to events
+   * @param {jQuery} $slides Targeted slides
+   * @param {Object} globalFields Global semantic fields
+   * @param {Object} slideFields Single slide semantic fields
+   * @param {Object} params Parameters for semantic fields
    */
   function SlideSelector(cpEditor, $slides, globalFields, slideFields, params) {
     var self = this;
@@ -35,6 +41,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     var $globalContent;
     var $slideContent;
 
+    // Single slide semantic fields
     var singleSlideFields = H5PEditor.CoursePresentation.findField('slideBackgroundSelector', slideFields.field.fields);
 
     /**
@@ -62,6 +69,9 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       $header.children().css('width', (100 / $header.children().length) + '%');
     };
 
+    /**
+     * Init listeners for slide operations
+     */
     var initSlideOperationsListeners = function () {
       // Register changed slide listener
       cpEditor.cp.on('changedSlide', function (e) {
@@ -82,6 +92,11 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       });
     };
 
+    /**
+     * Sanitize parameters of slide index, so they can be easily processed
+     *
+     * @param {number} idx Index of slide parameters
+     */
     var sanitizeSlideParams = function (idx) {
       var slideParams =  params.slides[idx].slideBackgroundSelector;
       if (!slideParams) {
@@ -98,8 +113,9 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     };
 
     /**
+     * Add slide selector at specified index
      *
-     * @param newSlideIndex
+     * @param {number} newSlideIndex Index for new slide
      */
     var addSlide = function (newSlideIndex) {
       // Must sanitize params before processing semantics
@@ -111,6 +127,11 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       singleSlides[newSlideIndex].setSelectedIndex(selectedIndex);
     };
 
+    /**
+     * Remove slide selector at specified index
+     *
+     * @param {number} removeIndex Index of removed slide
+     */
     var removeSlide = function (removeIndex) {
       var removed = singleSlides.splice(removeIndex, 1);
       removed.forEach(function (singleSlide) {
@@ -118,6 +139,11 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       });
     };
 
+    /**
+     * Sort current slide selector to the specified direction
+     *
+     * @param {number} dir Negative or positive direction and value of sort.
+     */
     var sortSlide = function (dir) {
       // Validate sort
       if ((currentSlide + dir >= 0) && (currentSlide + dir < $slides.children().length)) {
@@ -135,6 +161,13 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       }
     };
 
+    /**
+     * Initialize a single slide
+     *
+     * @param {jQuery} $wrapper Element the single slide will be attached to
+     * @param {number} idx Index single slide will be inserted at
+     * @returns {H5PEditor.CoursePresentation.BackgroundSelector} Background selector that was created
+     */
     var initSingleSlide = function ($wrapper, idx) {
       var slideParams = params.slides[idx];
 
@@ -157,6 +190,11 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       return singleSlide;
     };
 
+    /**
+     * Change to specified slide
+     *
+     * @param {number} index Index of slide we will change to
+     */
     var changeToSlide = function (index) {
       // Slide has not been created yet
       if (index >= singleSlides.length) {
@@ -176,6 +214,11 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       updateColorPicker();
     };
 
+    /**
+     * Change slide type
+     *
+     * @param {jQuery} $content The element that we will show
+     */
     var changeSlideType = function ($content) {
       var $headerButton = $header.children().eq($content.index());
       if ($content.hasClass('show') && $headerButton.hasClass('active')) {
@@ -193,6 +236,13 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       updateColorPicker();
     };
 
+    /**
+     * Create slide selector
+     *
+     * @param {string} option Label of slide selector
+     * @param {boolean} isVisible Initial visibility of slide selector
+     * @returns {jQuery} Slide selector that was created
+     */
     var createSlideSelector = function (option, isVisible) {
       // First slide selector will be active
       var first = isVisible ? ' show' : '';
@@ -231,17 +281,26 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       return $content;
     };
 
+    /**
+     * Update color picker in current slide
+     */
     var updateColorPicker = function () {
       isSingleSlide() ? singleSlides[currentSlide].updateColorPicker() : globalBackground.updateColorPicker();
     };
 
+    /**
+     * Determine if selected slide is a single slide
+     *
+     * @returns {boolean} True if currently selected slide is a single slide
+     */
     var isSingleSlide = function () {
       return $slideContent.hasClass('show');
     };
 
     /**
      * Append slide selector to wrapper
-     * @param $wrapper Wrapper
+     *
+     * @param {jQuery} $wrapper Wrapper we attach to
      * @returns {H5PEditor.CoursePresentation.SlideSelector}
      */
     self.appendTo = function ($wrapper) {
@@ -293,14 +352,16 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     /**
      * Communicate when we are ready
      *
-     * @returns {boolean}
+     * @returns {boolean} True if ready
      */
     self.ready = function () {
       return true; // Always ready
     };
 
     /**
-     * Validate content
+     * Checks validity of user input
+     *
+     * @returns {boolean} True if valid
      */
     self.validate = function () {
       var valid = true;

@@ -4,14 +4,15 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
    * Create a Background Selector.
    *
    * @class H5PEditor.CoursePresentation.BackgroundSelector
-   * @param {H5PEditor.$} $backgroundSlides Elements to paint
+   * @extends H5P.EventDispatcher Allows pub/sub
+   * @param {jQuery} $backgroundSlides Elements to paint
    * @param {boolean} [isSingleSlide] Background selector is for a single element
    */
   function BackgroundSelector($backgroundSlides, isSingleSlide) {
     var self = this;
 
     // Inheritance
-    EventDispatcher.call(this);
+    EventDispatcher.call(self);
 
     // Background selector wrapper
     var $bgSelector;
@@ -20,55 +21,32 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
     var $resetButton;
 
     // Outsource readies
-    this.passReadies = true;
+    self.passReadies = true;
 
     // Collection of processed semantics
-    this.children = [];
+    self.children = [];
 
     // Default to false
     isSingleSlide = isSingleSlide || false;
 
-    this.addBackground = function () {
-      var settings = self.getSettings();
-
-      // Invalid background
-      if (!settings) {
-        removeBackground();
-        return;
-      }
-
-      // Store single slide data
-      if (isSingleSlide && settings.value) {
-        $backgroundSlides.removeClass('global');
-      }
-
-      paintElement();
-      $resetButton.addClass('show');
-    };
-
+    // Labels for radio buttons
     var radioLabels = [
       H5PEditor.t('H5PEditor.CoursePresentation', 'setImageBackground', {}),
       H5PEditor.t('H5PEditor.CoursePresentation', 'setColorFillBackground', {})
     ];
 
-    var removeBackground = function () {
-
-      // Trigger global background
-      if (isSingleSlide) {
-        $backgroundSlides.addClass('global');
-        self.trigger('turnedGlobal');
-      }
-      else {
-        // Remove global background
-        paintElement();
-      }
-      $resetButton.removeClass('show');
-    };
-
+    /**
+     * Get slide(s) that will be painted
+     *
+     * @returns {jQuery} Slide(s)
+     */
     var getTargetSlides = function () {
       return isSingleSlide ? $backgroundSlides : $backgroundSlides.filter('.global');
     };
 
+    /**
+     * Paint slide(s) with current settings
+     */
     var paintElement = function () {
       var settings = self.getSettings();
 
@@ -95,6 +73,88 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
       }
     };
 
+    /**
+     * Add listener for when backgrounds are changed
+     */
+    var addOptionListeners = function () {
+      var radioSelector = getRadioSelector();
+      radioSelector.on('backgroundAdded', function () {
+        self.addBackground();
+      });
+
+      radioSelector.on('backgroundRemoved', function () {
+        removeBackground();
+      });
+    };
+
+    /**
+     * Add reset button for resetting background slides
+     *
+     * @param {jQuery} $wrapper Element reset button is attached to
+     */
+    var addResetButton = function ($wrapper) {
+
+      $resetButton = $('<button>', {
+        'html': H5PEditor.t('H5PEditor.CoursePresentation', 'resetToDefault', {}),
+        'class': 'h5p-background-selector-reset'
+      }).click(function () {
+        getRadioSelector().resetCheckedOption();
+      });
+
+      if (self.getSettings()) {
+        $resetButton.addClass('show');
+      }
+
+      $resetButton.appendTo($wrapper);
+    };
+
+    /**
+     * Get processed Radio Selector instance
+     *
+     * @returns {H5PEditor.RadioSelector}
+     */
+    var getRadioSelector = function () {
+      return self.children[0];
+    };
+
+    /**
+     * Remove background from slide(s)
+     */
+    var removeBackground = function () {
+
+      // Trigger global background
+      if (isSingleSlide) {
+        $backgroundSlides.addClass('global');
+        self.trigger('turnedGlobal');
+      }
+      else {
+        // Remove global background
+        paintElement();
+      }
+      $resetButton.removeClass('show');
+    };
+
+    /**
+     * Add background to slide(s) with current settings
+     */
+    self.addBackground = function () {
+      var settings = self.getSettings();
+
+      // Invalid background
+      if (!settings) {
+        removeBackground();
+        return;
+      }
+
+      // Store single slide data
+      if (isSingleSlide && settings.value) {
+        $backgroundSlides.removeClass('global');
+      }
+
+      paintElement();
+      $resetButton.addClass('show');
+    };
+
 
     /**
      * @typedef {Object} bgOptions Background options object
@@ -104,14 +164,14 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
      */
 
     /**
-     * Add a background selector
+     * Create a new background selector and add to collection
      *
-     * @param fields
-     * @param params
-     * @param {jQuery} $wrapper
-     * @param {bgOptions} [options] Options object
+     * @param {array|Object} fields Semantics for processing background selector
+     * @param {Object} params Parameters belonging to semantics
+     * @param {jQuery} $wrapper Element that we will append to
+     * @param {bgOptions} [options] Additional background options
      */
-    this.addBgSelector = function (fields, params, $wrapper, options) {
+    self.addBgSelector = function (fields, params, $wrapper, options) {
       options = options || {};
       var single = options.isSingle ? ' single' : '';
       var show = options.isVisible ? ' show' : '';
@@ -120,7 +180,6 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
       });
 
       // Process semantics into background selector
-      console.log("adding bg selector", params);
       H5PEditor.processSemanticsChunk(H5P.jQuery.makeArray(fields), params, $bgSelector, self);
       addOptionListeners();
       addResetButton($bgSelector);
@@ -143,77 +202,74 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
         $bgSelector.appendTo($wrapper);
       }
 
-      return this;
+      return self;
     };
 
     /**
-     * Add listener for when backgrounds are changed
+     * Validate background selector.
+     *
+     * @returns {Boolean} Validity of inputs
      */
-    var addOptionListeners = function () {
-      var radioSelector = getRadioSelector();
-      radioSelector.on('backgroundAdded', function () {
-        self.addBackground();
-      });
-
-      radioSelector.on('backgroundRemoved', function () {
-        removeBackground();
-      });
-    };
-
-    var addResetButton = function ($wrapper) {
-
-      $resetButton = $('<button>', {
-        'html': H5PEditor.t('H5PEditor.CoursePresentation', 'resetToDefault', {}),
-        'class': 'h5p-background-selector-reset'
-      }).click(function () {
-        getRadioSelector().resetCheckedOption();
-      });
-
-      if (self.getSettings()) {
-        $resetButton.addClass('show');
-      }
-
-      $resetButton.appendTo($wrapper);
-    };
-
-    /**
-     * Get radio selector
-     * @returns {H5PEditor.RadioSelector}
-     */
-    var getRadioSelector = function () {
-      return self.children[0];
-    };
-
-    this.validate = function () {
+    self.validate = function () {
       return getRadioSelector().validate();
     };
 
-    this.getSettings = function () {
+    /**
+     * Get current settings
+     */
+    self.getSettings = function () {
       return getRadioSelector().getStoredOption();
     };
 
-    this.setBackgroundSlides = function ($newBackgroundSlides) {
+    /**
+     * Set target elements for background operations
+     *
+     * @param {jQuery} $newBackgroundSlides Target elements
+     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     */
+    self.setBackgroundSlides = function ($newBackgroundSlides) {
       $backgroundSlides = $newBackgroundSlides;
+      return self;
     };
 
-    this.removeElement = function () {
+    /**
+     * Remove background selector element, used when deleting slides.
+     *
+     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     */
+    self.removeElement = function () {
       if ($bgSelector) {
         $bgSelector.remove();
       }
-
-      return this;
+      return self;
     };
 
-    this.updateColorPicker = function () {
+    /**
+     * Update color picker in Radio Selector, used when changing slides.
+     *
+     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     */
+    self.updateColorPicker = function () {
       getRadioSelector().reflow();
+      return self;
     };
 
-    this.getSelectedIndex = function () {
+    /**
+     * Get selected index in Radio Selector.
+     */
+    self.getSelectedIndex = function () {
       return getRadioSelector().getSelectedIndex();
     };
 
-    this.setSelectedIndex = function (index) {
+    /**
+     * Set selected index in Radio Selector.
+     *
+     * @param {number} index New index for Radio Selector
+     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     */
+    self.setSelectedIndex = function (index) {
       getRadioSelector().setSelectedIndex(index);
+      return self;
     };
   }
 
