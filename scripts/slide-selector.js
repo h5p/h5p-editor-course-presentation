@@ -106,9 +106,6 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       sanitizeSlideParams(newSlideIndex);
       initSingleSlide($slideContent, newSlideIndex);
 
-      // Update background and active slide
-      changeToSlide(newSlideIndex);
-
       // Change to selected radio button
       var selectedIndex = singleSlides[newSlideIndex - 1].getSelectedIndex();
       singleSlides[newSlideIndex].setSelectedIndex(selectedIndex);
@@ -135,11 +132,10 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
         var next = currentSlide + (dir < 0 ? dir : 0);
         $slideContent.children().eq(prev)
           .insertBefore($slideContent.children().eq(next));
-        changeToSlide(currentSlide + dir);
       }
     };
 
-    var initSingleSlide = function ($wrapper, idx, selectedOption) {
+    var initSingleSlide = function ($wrapper, idx) {
       var slideParams = params.slides[idx];
 
       var singleSlide = new H5PEditor.CoursePresentation.BackgroundSelector(true, $slides.children().eq(idx));
