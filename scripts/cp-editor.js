@@ -1897,7 +1897,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "keywordsTip": "Drag in keywords using the two buttons above.",
     "popupTitle": "Edit :type",
     "loading": "Loading...",
-    'keywordsMenu': 'Left menu menu',
+    "keywordsMenu": "Keywords menu",
     "element": "Element",
     "resetToDefault": "Reset to default",
     "slideBackground": "Slide background",
