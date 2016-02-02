@@ -38,6 +38,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
     /**
      * Get slide(s) that will be painted
      *
+     * @private
      * @returns {jQuery} Slide(s)
      */
     var getTargetSlides = function () {
@@ -46,6 +47,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
 
     /**
      * Paint slide(s) with current settings
+     * @private
      */
     var paintElement = function () {
       var settings = self.getSettings();
@@ -75,6 +77,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
 
     /**
      * Add listener for when backgrounds are changed
+     * @private
      */
     var addOptionListeners = function () {
       var radioSelector = getRadioSelector();
@@ -90,6 +93,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
     /**
      * Add reset button for resetting background slides
      *
+     * @private
      * @param {jQuery} $wrapper Element reset button is attached to
      */
     var addResetButton = function ($wrapper) {
@@ -111,6 +115,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
     /**
      * Get processed Radio Selector instance
      *
+     * @private
      * @returns {H5PEditor.RadioSelector}
      */
     var getRadioSelector = function () {
@@ -119,6 +124,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
 
     /**
      * Remove background from slide(s)
+     * @private
      */
     var removeBackground = function () {
 

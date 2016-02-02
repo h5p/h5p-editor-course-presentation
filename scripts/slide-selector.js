@@ -46,6 +46,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
 
     /**
      * Init background selectors
+     * @private
      */
     var initBgSelectors = function () {
 
@@ -71,6 +72,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
 
     /**
      * Init listeners for slide operations
+     * @private
      */
     var initSlideOperationsListeners = function () {
       // Register changed slide listener
@@ -95,6 +97,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     /**
      * Sanitize parameters of slide index, so they can be easily processed
      *
+     * @private
      * @param {number} idx Index of slide parameters
      */
     var sanitizeSlideParams = function (idx) {
@@ -115,6 +118,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     /**
      * Add slide selector at specified index
      *
+     * @private
      * @param {number} newSlideIndex Index for new slide
      */
     var addSlide = function (newSlideIndex) {
@@ -130,6 +134,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     /**
      * Remove slide selector at specified index
      *
+     * @private
      * @param {number} removeIndex Index of removed slide
      */
     var removeSlide = function (removeIndex) {
@@ -142,6 +147,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     /**
      * Sort current slide selector to the specified direction
      *
+     * @private
      * @param {number} dir Negative or positive direction and value of sort.
      */
     var sortSlide = function (dir) {
@@ -164,6 +170,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     /**
      * Initialize a single slide
      *
+     * @private
      * @param {jQuery} $wrapper Element the single slide will be attached to
      * @param {number} idx Index single slide will be inserted at
      * @returns {H5PEditor.CoursePresentation.BackgroundSelector} Background selector that was created
@@ -193,6 +200,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     /**
      * Change to specified slide
      *
+     * @private
      * @param {number} index Index of slide we will change to
      */
     var changeToSlide = function (index) {
@@ -217,6 +225,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     /**
      * Change slide type
      *
+     * @private
      * @param {jQuery} $content The element that we will show
      */
     var changeSlideType = function ($content) {
@@ -239,6 +248,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     /**
      * Create slide selector
      *
+     * @private
      * @param {string} option Label of slide selector
      * @param {boolean} isVisible Initial visibility of slide selector
      * @returns {jQuery} Slide selector that was created
@@ -283,14 +293,22 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
 
     /**
      * Update color picker in current slide
+     *
+     * @private
      */
     var updateColorPicker = function () {
-      isSingleSlide() ? singleSlides[currentSlide].updateColorPicker() : globalBackground.updateColorPicker();
+      if (isSingleSlide()) {
+        singleSlides[currentSlide].updateColorPicker();
+      }
+      else {
+        globalBackground.updateColorPicker();
+      }
     };
 
     /**
      * Determine if selected slide is a single slide
      *
+     * @private
      * @returns {boolean} True if currently selected slide is a single slide
      */
     var isSingleSlide = function () {
