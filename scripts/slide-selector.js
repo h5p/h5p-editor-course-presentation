@@ -30,7 +30,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     var currentSlide = 0;
 
     // DOM elements
-    var $popup = $('<div class="h5p-background-selector hidden">');
+    var $popup = $('<div class="h5p-background-selector">');
     $('<div>', {
       'class': 'h5p-background-selector-title',
       html: H5PEditor.t('H5PEditor.CoursePresentation', 'slideBackground', {}),
