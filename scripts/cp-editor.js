@@ -804,10 +804,6 @@ H5PEditor.CoursePresentation.prototype.keywordStartMoving = function (event) {
   }
 
   if (this.keywordsDNS.$element.hasClass('h5p-new-keyword')) {
-    // Adjust new keywords to mouse pos.
-    var height = this.keywordsDNS.$element.height() / 2;
-    this.keywordsDNS.dnd.adjust.x += height;
-    this.keywordsDNS.dnd.adjust.y += this.keywordsDNS.$element.offset().top - event.pageY + (height * 1.75);
     this.keywordsDNS.$element.removeClass('h5p-new-keyword');
   }
 
