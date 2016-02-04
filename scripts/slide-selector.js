@@ -164,6 +164,9 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
         var next = currentSlide + (dir < 0 ? dir : 0);
         $slideContent.children().eq(prev)
           .insertBefore($slideContent.children().eq(next));
+
+        // Must update internal current slide, since CPs is transition based
+        currentSlide += dir;
       }
     };
 
