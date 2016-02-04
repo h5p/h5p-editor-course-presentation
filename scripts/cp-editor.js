@@ -266,7 +266,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .click(function () {
       var removeIndex = that.cp.$current.index();
       var removed = that.removeSlide();
-      console.log("removed ?", removed, removed !== false);
       if (removed !== false) {
         that.trigger('removeSlide', removeIndex);
       }
