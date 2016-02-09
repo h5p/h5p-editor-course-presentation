@@ -1613,6 +1613,10 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     traverseChildren(element.children, function (elementInstance) {
       if (elementInstance instanceof H5PEditor.InteractiveVideo) {
         elementInstance.disableGuidedTour();
+
+        // Recreate IV form, workaround for Youtube API not firing
+        // onStateChange when IV is reopened.
+        element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
       }
     });
   }
