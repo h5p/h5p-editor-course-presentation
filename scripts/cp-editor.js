@@ -1902,6 +1902,8 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "slideBackground": "Slide background",
     "setImageBackground": "Image background",
     "setColorFillBackground": "Color fill background",
-    "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone."
+    "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone.",
+    "template": "Template",
+    "currentSlide": "This slide"
   }
 };

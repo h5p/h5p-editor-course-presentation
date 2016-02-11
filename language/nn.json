@@ -25,6 +25,8 @@
     "slideBackground": "Bakgrunn",
     "setImageBackground": "Bildebakgrunn",
     "setColorFillBackground": "Fargebakgrunn",
-    "activeSurfaceWarning": "Er du sikker på at du vil aktivera aktivoverflatemodus? Denne handlinga kan ikkje angrast."
+    "activeSurfaceWarning": "Er du sikker på at du vil aktivera aktivoverflatemodus? Denne handlinga kan ikkje angrast.",
+    "template": "Mal",
+    "currentSlide": "Denne sliden"
   }
 }

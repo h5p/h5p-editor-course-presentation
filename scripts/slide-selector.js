@@ -51,12 +51,12 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     var initBgSelectors = function () {
 
       // Global bg selector
-      $globalContent = createSlideSelector('All slides', true);
+      $globalContent = createSlideSelector(H5PEditor.t('H5PEditor.CoursePresentation', 'template'), true);
       globalBackground = new H5PEditor.CoursePresentation.BackgroundSelector($slides.children())
         .addBgSelector(globalFields, params, $globalContent, {isVisible: true});
 
       // Single slide bg selector
-      $slideContent = createSlideSelector('Current slide', false);
+      $slideContent = createSlideSelector(H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlide'), false);
       $slides.children().each(function (idx) {
         initSingleSlide($slideContent, idx);
       });
