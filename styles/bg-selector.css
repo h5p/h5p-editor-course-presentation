@@ -30,36 +30,6 @@
   border-bottom: 1px solid #ccc;
 }
 
-.h5p-slide-selector-option {
-  display: inline-block;
-  cursor: pointer;
-  text-align: center;
-  background: #ddd;
-  padding: 0.5em;
-  box-sizing: border-box;
-  border-bottom: 1px solid #ccc;
-  color: #323232;
-  font-size: 0.875em;
-}
-
-.h5p-slide-selector-option:hover,
-.h5p-slide-selector-option.active {
-  background: #f4f4f4;
-}
-
-.h5p-slide-selector-option:last-of-type {
-  border-left: 1px solid #ccc;
-}
-
-.h5p-slide-selector-content {
-  display: none;
-  font-size: 0.875em;
-}
-
-.h5p-slide-selector-content.show {
-  display: block;
-}
-
 .h5p-radio-selector-values .field.h5p-color-selector {
   margin: 1.5em 0 -0.5em;
 }

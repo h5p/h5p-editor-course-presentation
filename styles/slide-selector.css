@@ -41,3 +41,43 @@
   -webkit-transition: visibility 0s linear 0.2s, transform 0.2s, opacity 0.2s ease-in;
   transition: visibility 0s linear 0.2s, transform 0.2s, opacity 0.2s ease-in;
 }
+
+.h5p-slide-selector-option {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  box-sizing: border-box;
+  border-bottom: 1px solid #eee;
+  color: #323232;
+  font-size: 0.875em;
+  padding: 0.5em;
+}
+
+.h5p-slide-selector-option:hover,
+.h5p-slide-selector-option.active {
+  color: #3973b0;
+}
+
+.h5p-slide-selector-option:hover:after,
+.h5p-slide-selector-option.active:after {
+  content: "";
+  position: absolute;
+  width: 60%;
+  height: 100%;
+  border-bottom: solid #3973b0 1px;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.h5p-slide-selector-content {
+  display: none;
+  font-size: 0.875em;
+}
+
+.h5p-slide-selector-content.show {
+  display: block;
+}
