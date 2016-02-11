@@ -1899,6 +1899,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "keywordsMenu": "Keywords menu",
     "element": "Element",
     "resetToDefault": "Reset to default",
+    "resetToTemplate": "Reset to template",
     "slideBackground": "Slide background",
     "setImageBackground": "Image background",
     "setColorFillBackground": "Color fill background",

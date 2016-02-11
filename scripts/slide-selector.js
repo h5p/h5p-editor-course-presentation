@@ -56,13 +56,15 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       $globalContent = createSlideSelector(templateString, true);
       globalBackground = new H5PEditor.CoursePresentation.BackgroundSelector($slides.children())
         .addBgSelector(globalFields, params, $globalContent, {isVisible: true})
-        .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'templateDescription', {':currentSlide': currentSlideString}));
+        .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'templateDescription', {':currentSlide': currentSlideString}))
+        .addResetButton();
 
       // Single slide bg selector
       $slideContent = createSlideSelector(currentSlideString, false);
       $slides.children().each(function (idx) {
         initSingleSlide($slideContent, idx)
-          .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlideDescription', {':template': templateString}));
+          .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlideDescription', {':template': templateString}))
+          .addResetButton(H5PEditor.t('H5PEditor.CoursePresentation', 'resetToTemplate'));
       });
 
       // Select single slide if first slide has single slide options

@@ -19,8 +19,21 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
       'class': 'h5p-bg-selector'
     });
 
+    // Description field
     var $descriptionField = $('<div>', {
       'class': 'h5p-bg-selector-description',
+      appendTo: $bgSelector
+    });
+
+    // Bg selector widget
+    var $bgSelectorContent = $('<div>', {
+      'class': 'h5p-bg-selector-content',
+      appendTo: $bgSelector
+    });
+
+    // Area for reset button
+    var $resetButtonArea = $('<div>', {
+      'class': 'h5p-bg-selector-reset-area',
       appendTo: $bgSelector
     });
 
@@ -98,28 +111,6 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
     };
 
     /**
-     * Add reset button for resetting background slides
-     *
-     * @private
-     * @param {jQuery} $wrapper Element reset button is attached to
-     */
-    var addResetButton = function ($wrapper) {
-
-      $resetButton = $('<button>', {
-        'html': H5PEditor.t('H5PEditor.CoursePresentation', 'resetToDefault', {}),
-        'class': 'h5p-background-selector-reset'
-      }).click(function () {
-        getRadioSelector().resetCheckedOption();
-      });
-
-      if (self.getSettings()) {
-        $resetButton.addClass('show');
-      }
-
-      $resetButton.appendTo($wrapper);
-    };
-
-    /**
      * Get processed Radio Selector instance
      *
      * @private
@@ -193,9 +184,8 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
         .toggleClass('show', options.isVisible);
 
       // Process semantics into background selector
-      H5PEditor.processSemanticsChunk(H5P.jQuery.makeArray(fields), params, $bgSelector, self);
+      H5PEditor.processSemanticsChunk(H5P.jQuery.makeArray(fields), params, $bgSelectorContent, self);
       addOptionListeners();
-      addResetButton($bgSelector);
       getRadioSelector().setRadioLabels(radioLabels);
 
       // Check if single slide should use global settings
@@ -214,6 +204,38 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
       else {
         $bgSelector.appendTo($wrapper);
       }
+
+      return self;
+    };
+
+
+    /**
+     * Add reset button for resetting background slides
+     *
+     * @param {string} [text] Optional text for reset button
+     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     */
+    self.addResetButton = function (text) {
+      text = text || H5PEditor.t('H5PEditor.CoursePresentation', 'resetToDefault');
+
+      $resetButton = $('<button>', {
+        'html': text,
+        'class': 'h5p-background-selector-reset'
+      }).click(function () {
+        getRadioSelector().resetCheckedOption();
+      });
+
+      if (self.getSettings()) {
+        $resetButton.addClass('show');
+      }
+
+      // Remove reset button elements
+      $resetButtonArea.children().each(function () {
+        $(this).remove();
+      });
+
+      // Add reset button to reset button area
+      $resetButton.appendTo($resetButtonArea);
 
       return self;
     };
