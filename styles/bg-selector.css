@@ -75,3 +75,9 @@
   height: auto;
   max-width: 10em;
 }
+
+.h5p-bg-selector-description {
+  padding: 0.25em 0 0.5em;
+  font-size: 10px;
+  color: #555555;
+}

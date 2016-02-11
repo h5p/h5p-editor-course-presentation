@@ -15,7 +15,14 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
     EventDispatcher.call(self);
 
     // Background selector wrapper
-    var $bgSelector;
+    var $bgSelector = $('<div>', {
+      'class': 'h5p-bg-selector'
+    });
+
+    var $descriptionField = $('<div>', {
+      'class': 'h5p-bg-selector-description',
+      appendTo: $bgSelector
+    });
 
     // Button for resetting background
     var $resetButton;
@@ -181,9 +188,9 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
       options = options || {};
       var single = options.isSingle ? ' single' : '';
       var show = options.isVisible ? ' show' : '';
-      $bgSelector = $('<div>', {
-        'class': 'h5p-bg-selector' + single + show
-      });
+
+      $bgSelector.toggleClass('single', options.isSingle)
+        .toggleClass('show', options.isVisible);
 
       // Process semantics into background selector
       H5PEditor.processSemanticsChunk(H5P.jQuery.makeArray(fields), params, $bgSelector, self);
@@ -207,6 +214,18 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
       else {
         $bgSelector.appendTo($wrapper);
       }
+
+      return self;
+    };
+
+    /**
+     * Set description at the top of the background selector
+     *
+     * @param {string} description
+     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     */
+    self.setDescription = function (description) {
+      $descriptionField.html(description);
 
       return self;
     };
