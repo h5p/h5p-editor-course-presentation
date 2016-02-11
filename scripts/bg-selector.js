@@ -135,7 +135,10 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
         // Remove global background
         paintElement();
       }
-      $resetButton.removeClass('show');
+
+      if ($resetButton) {
+        $resetButton.removeClass('show');
+      }
     };
 
     /**
@@ -156,7 +159,10 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
       }
 
       paintElement();
-      $resetButton.addClass('show');
+
+      if ($resetButton) {
+        $resetButton.addClass('show');
+      }
     };
 
 

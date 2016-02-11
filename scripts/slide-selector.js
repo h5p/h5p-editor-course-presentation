@@ -130,7 +130,11 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     var addSlide = function (newSlideIndex) {
       // Must sanitize params before processing semantics
       sanitizeSlideParams(newSlideIndex);
-      initSingleSlide($slideContent, newSlideIndex);
+      initSingleSlide($slideContent, newSlideIndex)
+        .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlideDescription', {
+          ':template': H5PEditor.t('H5PEditor.CoursePresentation', 'template')
+        }))
+        .addResetButton(H5PEditor.t('H5PEditor.CoursePresentation', 'resetToTemplate'));
 
       // Change to selected radio button
       var selectedIndex = singleSlides[newSlideIndex - 1].getSelectedIndex();
