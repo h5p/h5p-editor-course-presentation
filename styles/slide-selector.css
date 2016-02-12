@@ -54,6 +54,10 @@
   padding: 0.5em;
 }
 
+.h5p-course-presentation a.h5p-slide-selector-option:focus {
+  outline: rgb(94, 158, 214) auto 5px;
+}
+
 .h5p-slide-selector-option:hover,
 .h5p-slide-selector-option.active {
   color: #3973b0;

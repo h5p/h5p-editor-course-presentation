@@ -277,11 +277,10 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       }).appendTo($contentWrapper);
 
       // Option for showing content
-      var $slideSelectorOption = $('<div>', {
+      var $slideSelectorOption = $('<a>', {
         'class': 'h5p-slide-selector-option' + active,
+        href: 'javascript:void(0)',
         html: option,
-        role: 'button',
-        tabIndex: 0,
         on: {
           click: function () {
             changeSlideType($content);

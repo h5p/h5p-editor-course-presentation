@@ -1905,7 +1905,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "setColorFillBackground": "Color fill background",
     "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone.",
     "template": "Template",
-    "templateDescription": "Will be applied to all slides not overriden by any \":currentSlide\" settings.",
+    "templateDescription": "Will be applied to all slides not overridden by any \":currentSlide\" settings.",
     "currentSlide": "This slide",
     "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings."
   }
