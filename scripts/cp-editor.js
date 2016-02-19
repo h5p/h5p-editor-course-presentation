@@ -266,7 +266,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .click(function () {
       var removeIndex = that.cp.$current.index();
       var removed = that.removeSlide();
-      console.log("removed ?", removed, removed !== false);
       if (removed !== false) {
         that.trigger('removeSlide', removeIndex);
       }
@@ -805,10 +804,6 @@ H5PEditor.CoursePresentation.prototype.keywordStartMoving = function (event) {
   }
 
   if (this.keywordsDNS.$element.hasClass('h5p-new-keyword')) {
-    // Adjust new keywords to mouse pos.
-    var height = this.keywordsDNS.$element.height() / 2;
-    this.keywordsDNS.dnd.adjust.x += height;
-    this.keywordsDNS.dnd.adjust.y += this.keywordsDNS.$element.offset().top - event.pageY + (height * 1.75);
     this.keywordsDNS.$element.removeClass('h5p-new-keyword');
   }
 
@@ -1618,6 +1613,10 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     traverseChildren(element.children, function (elementInstance) {
       if (elementInstance instanceof H5PEditor.InteractiveVideo) {
         elementInstance.disableGuidedTour();
+
+        // Recreate IV form, workaround for Youtube API not firing
+        // onStateChange when IV is reopened.
+        element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
       }
     });
   }
@@ -1900,9 +1899,14 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "keywordsMenu": "Keywords menu",
     "element": "Element",
     "resetToDefault": "Reset to default",
+    "resetToTemplate": "Reset to template",
     "slideBackground": "Slide background",
     "setImageBackground": "Image background",
     "setColorFillBackground": "Color fill background",
-    "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone."
+    "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone.",
+    "template": "Template",
+    "templateDescription": "Will be applied to all slides not overridden by any \":currentSlide\" settings.",
+    "currentSlide": "This slide",
+    "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings."
   }
 };

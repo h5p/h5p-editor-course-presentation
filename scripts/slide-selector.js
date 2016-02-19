@@ -51,14 +51,20 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     var initBgSelectors = function () {
 
       // Global bg selector
-      $globalContent = createSlideSelector('All slides', true);
+      var templateString = H5PEditor.t('H5PEditor.CoursePresentation', 'template');
+      var currentSlideString = H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlide');
+      $globalContent = createSlideSelector(templateString, true);
       globalBackground = new H5PEditor.CoursePresentation.BackgroundSelector($slides.children())
-        .addBgSelector(globalFields, params, $globalContent, {isVisible: true});
+        .addBgSelector(globalFields, params, $globalContent, {isVisible: true})
+        .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'templateDescription', {':currentSlide': currentSlideString}))
+        .addResetButton();
 
       // Single slide bg selector
-      $slideContent = createSlideSelector('Current slide', false);
+      $slideContent = createSlideSelector(currentSlideString, false);
       $slides.children().each(function (idx) {
-        initSingleSlide($slideContent, idx);
+        initSingleSlide($slideContent, idx)
+          .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlideDescription', {':template': templateString}))
+          .addResetButton(H5PEditor.t('H5PEditor.CoursePresentation', 'resetToTemplate'));
       });
 
       // Select single slide if first slide has single slide options
@@ -124,7 +130,11 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     var addSlide = function (newSlideIndex) {
       // Must sanitize params before processing semantics
       sanitizeSlideParams(newSlideIndex);
-      initSingleSlide($slideContent, newSlideIndex);
+      initSingleSlide($slideContent, newSlideIndex)
+        .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlideDescription', {
+          ':template': H5PEditor.t('H5PEditor.CoursePresentation', 'template')
+        }))
+        .addResetButton(H5PEditor.t('H5PEditor.CoursePresentation', 'resetToTemplate'));
 
       // Change to selected radio button
       var selectedIndex = singleSlides[newSlideIndex - 1].getSelectedIndex();
@@ -164,6 +174,9 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
         var next = currentSlide + (dir < 0 ? dir : 0);
         $slideContent.children().eq(prev)
           .insertBefore($slideContent.children().eq(next));
+
+        // Must update internal current slide, since CPs is transition based
+        currentSlide += dir;
       }
     };
 
@@ -264,11 +277,10 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       }).appendTo($contentWrapper);
 
       // Option for showing content
-      var $slideSelectorOption = $('<div>', {
+      var $slideSelectorOption = $('<a>', {
         'class': 'h5p-slide-selector-option' + active,
+        href: 'javascript:void(0)',
         html: option,
-        role: 'button',
-        tabIndex: 0,
         on: {
           click: function () {
             changeSlideType($content);
