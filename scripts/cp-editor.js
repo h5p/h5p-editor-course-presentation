@@ -217,37 +217,71 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   if (this.cp.$wrapper.is(':visible')) {
     this.cp.trigger('resize');
   }
+  var $settingsWrapper = H5PEditor.$('<div>', {
+    'class': 'h5p-settings-wrapper hidden',
+    appendTo: that.cp.$boxWrapper.children('.h5p-presentation-wrapper')
+  });
+
 
   // Add drag and drop menu bar.
   that.initializeDNB();
 
+  // Find BG selector fields and init slide selector
+  var globalBackgroundField = H5PEditor.CoursePresentation.findField('globalBackgroundSelector', this.field.fields);
+  var slideFields = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
+  this.backgroundSelector = new H5PEditor.CoursePresentation.SlideSelector(that, that.cp.$slidesWrapper, globalBackgroundField, slideFields, that.params)
+    .appendTo($settingsWrapper);
+
   // Add and bind slide controls.
   H5PEditor.$(
     '<div class="h5p-slidecontrols">' +
+      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'backgroundSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-background"></a>' +
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>' +
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>' +
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>' +
       '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>' +
-      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a></div>'
+      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a>' +
+    '</div>'
   ).appendTo(this.cp.$wrapper)
     .children('a:first')
     .click(function () {
+      that.backgroundSelector.toggleOpen();
+      H5PEditor.$(this).toggleClass('active');
+
+      return false;
+    })
+    .next()
+    .click(function () {
+      that.trigger('sortSlide', -1);
       that.sortSlide(that.cp.$current.prev(), -1); // Left
       return false;
-    }).next().click(function () {
+    })
+    .next()
+    .click(function () {
+      that.trigger('sortSlide', 1);
       that.sortSlide(that.cp.$current.next(), 1); // Right
       return false;
-  }).next().click(function () {
-    that.removeSlide();
-    return false;
-  }).next().click(function () {
-    that.addSlide(H5P.cloneObject(that.params.slides[that.cp.$current.index()],true));
-    H5P.ContinuousText.Engine.run(that);
-    return false;
-  }).next().click(function () {
-    that.addSlide();
-    return false;
-  });
+    })
+    .next()
+    .click(function () {
+      var removeIndex = that.cp.$current.index();
+      var removed = that.removeSlide();
+      if (removed !== false) {
+        that.trigger('removeSlide', removeIndex);
+      }
+      return false;
+    })
+    .next()
+    .click(function () {
+      that.addSlide(H5P.cloneObject(that.params.slides[that.cp.$current.index()],true));
+      H5P.ContinuousText.Engine.run(that);
+      return false;
+    })
+    .next()
+    .click(function () {
+      that.addSlide();
+      return false;
+    });
 
   if (this.cp.activeSurface) {
     // Enable adjustments
@@ -530,6 +564,8 @@ H5PEditor.CoursePresentation.prototype.validate = function () {
       }
     }
   }
+  valid &= this.backgroundSelector.validate();
+
   // Distribute CT text across elements
   H5P.ContinuousText.Engine.run(this);
   return valid;
@@ -768,10 +804,6 @@ H5PEditor.CoursePresentation.prototype.keywordStartMoving = function (event) {
   }
 
   if (this.keywordsDNS.$element.hasClass('h5p-new-keyword')) {
-    // Adjust new keywords to mouse pos.
-    var height = this.keywordsDNS.$element.height() / 2;
-    this.keywordsDNS.dnd.adjust.x += height;
-    this.keywordsDNS.dnd.adjust.y += this.keywordsDNS.$element.offset().top - event.pageY + (height * 1.75);
     this.keywordsDNS.$element.removeClass('h5p-new-keyword');
   }
 
@@ -906,6 +938,7 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   // Add slide with elements
   var $slide = H5P.jQuery(H5P.CoursePresentation.createSlide(slideParams)).insertAfter(this.cp.$current);
+  that.trigger('addedSlide', that.cp.$current.index() + 1);
   this.cp.addElements(slideParams, $slide, $slide.index());
 
   // Add keywords
@@ -1580,6 +1613,10 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     traverseChildren(element.children, function (elementInstance) {
       if (elementInstance instanceof H5PEditor.InteractiveVideo) {
         elementInstance.disableGuidedTour();
+
+        // Recreate IV form, workaround for Youtube API not firing
+        // onStateChange when IV is reopened.
+        element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
       }
     });
   }
@@ -1844,6 +1881,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
   "libraryStrings": {
     "confirmDeleteSlide": "Are you sure you wish to delete this slide?",
     "sortSlide": "Sort slide - :dir",
+    "backgroundSlide": "Set slide background",
     "removeSlide": "Remove slide",
     "cloneSlide": "Clone slide",
     "newSlide": "Add new slide",
@@ -1858,8 +1896,17 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "keywordsTip": "Drag in keywords using the two buttons above.",
     "popupTitle": "Edit :type",
     "loading": "Loading...",
-    'keywordsMenu': 'Left menu menu',
+    "keywordsMenu": "Keywords menu",
     "element": "Element",
-    "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone."
+    "resetToDefault": "Reset to default",
+    "resetToTemplate": "Reset to template",
+    "slideBackground": "Slide background",
+    "setImageBackground": "Image background",
+    "setColorFillBackground": "Color fill background",
+    "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone.",
+    "template": "Template",
+    "templateDescription": "Will be applied to all slides not overridden by any \":currentSlide\" settings.",
+    "currentSlide": "This slide",
+    "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings."
   }
 };
