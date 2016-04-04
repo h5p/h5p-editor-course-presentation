@@ -1,14 +1,14 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 9,
+  "minorVersion": 10,
   "patchVersion": 0,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel AS",
   "coreApi": {
     "majorVersion": 1,
-    "minorVersion": 5
+    "minorVersion": 7
   },
   "preloadedJs": [
     {
@@ -124,7 +124,7 @@
     {
       "machineName": "H5P.CoursePresentation",
       "majorVersion": 1,
-      "minorVersion": 9
+      "minorVersion": 10
     },
     {
       "machineName": "H5P.MarkTheWords",
