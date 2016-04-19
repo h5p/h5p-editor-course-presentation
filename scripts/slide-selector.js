@@ -31,11 +31,14 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
 
     // DOM elements
     var $popup = $('<div class="h5p-background-selector">');
-    $('<div>', {
-      'class': 'h5p-background-selector-title',
-      html: H5PEditor.t('H5PEditor.CoursePresentation', 'slideBackground', {}),
-      appendTo: $popup
-    });
+    var $title = $('<div class="h5p-background-selector-title">')
+      .html(H5PEditor.t('H5PEditor.CoursePresentation', 'slideBackground', {}))
+      .appendTo($popup);
+    var $close = $('<div class="h5p-background-selector-close">')
+      .prependTo($title)
+      .click(function () {
+        self.close();
+      });
     var $header = $('<div>').appendTo($popup);
     var $contentWrapper = $('<div class="h5p-background-selector-content-wrapper">').appendTo($popup);
     var $globalContent;

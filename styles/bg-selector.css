@@ -30,6 +30,21 @@
   border-bottom: 1px solid #ccc;
 }
 
+.h5p-background-selector-close {
+  float: right;
+  color: #757575;
+  cursor: pointer;
+}
+
+.h5p-background-selector-close:hover {
+  color: #555;
+}
+
+.h5p-background-selector-close:after {
+  content: "\f057";
+  font-family: 'H5PFontAwesome4';
+}
+
 .h5p-radio-selector-values .field.h5p-color-selector {
   margin: 1.5em 0 -0.5em;
 }
