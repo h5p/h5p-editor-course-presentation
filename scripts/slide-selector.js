@@ -37,7 +37,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     var $close = $('<div class="h5p-background-selector-close">')
       .prependTo($title)
       .click(function () {
-        self.close();
+        cpEditor.slideControls.$background.click();
       });
     var $header = $('<div>').appendTo($popup);
     var $contentWrapper = $('<div class="h5p-background-selector-content-wrapper">').appendTo($popup);

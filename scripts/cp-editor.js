@@ -233,16 +233,24 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .appendTo($settingsWrapper);
 
   // Add and bind slide controls.
-  H5PEditor.$(
-    '<div class="h5p-slidecontrols">' +
-      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'backgroundSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-background"></a>' +
-      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>' +
-      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>' +
-      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>' +
-      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>' +
-      '<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a>' +
-    '</div>'
-  ).appendTo(this.cp.$wrapper)
+  var slideControls = {
+    $background: H5PEditor.$('<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'backgroundSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-background"></a>'),
+    $sortLeft: H5PEditor.$('<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>'),
+    $sortRight: H5PEditor.$('<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>'),
+    $delete: H5PEditor.$('<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>'),
+    $clone: H5PEditor.$('<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>'),
+    $add: H5PEditor.$('<a href="#" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a>')
+  };
+  this.slideControls = slideControls;
+
+  H5PEditor.$('<div class="h5p-slidecontrols">').append([
+    slideControls.$background,
+    slideControls.$sortLeft,
+    slideControls.$sortRight,
+    slideControls.$delete,
+    slideControls.$clone,
+    slideControls.$add
+  ]).appendTo(this.cp.$wrapper)
     .children('a:first')
     .click(function () {
       that.backgroundSelector.toggleOpen();
