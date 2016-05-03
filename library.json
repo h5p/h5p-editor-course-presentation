@@ -33,6 +33,9 @@
     },
     {
       "path": "styles/bg-selector.css"
+    },
+    {
+      "path": "styles/toolbar.css"
     }
   ],
   "preloadedDependencies": [
