@@ -225,3 +225,19 @@
 .h5p-dragnbar-li-ul .h5p-dragnbar-a {
   height: 1em;
 }
+
+/* Rules for vertical menu buttons when they are in the horizontal menu */
+ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-interactivevideo-button:before {
+  vertical-align: bottom;
+}
+
+ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-table-button:before,
+ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-exportabletextarea-button:before,
+ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-markthewords-button:before {
+  vertical-align: super;
+}
+
+ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-button:before {
+  font-size: 1.0em;
+  vertical-align: baseline;
+}
