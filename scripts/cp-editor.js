@@ -62,6 +62,9 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.params.slides.forEach(function (slide) {
     slide.keywords = slide.keywords || [];
   });
+
+  // Disable IV's guided tour within CP
+  H5PEditor.InteractiveVideo.disableGuidedTour();
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
@@ -1175,24 +1178,6 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 };
 
 /**
- * Helper function for traversing a tree of nodes recursively. Invoking callback
- * for each nodes
- *
- * @method traverseChildren
- * @param  {Array}         children
- * @param  {Function}       callback
- */
-function traverseChildren(children, callback) {
-  if (children !== undefined && children.length !== undefined) {
-    for (var i = 0; i < children.length; i++) {
-      var child = children[i];
-      callback(child);
-      traverseChildren(child.children, callback);
-    }
-  }
-}
-
-/**
  * Generate element form.
  *
  * @param {Object} elementParams
@@ -1244,11 +1229,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   // Render element fields
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
-
-  // If IV editor - do not show guided tour
-  if (H5PEditor.InteractiveVideo) {
-    H5PEditor.InteractiveVideo.disableGuidedTour = true;
-  }
 
   // Hide library selector
   element.$form.children('.library:first').children('label, select').hide().end().children('.libwrap').css('margin-top', '0');
@@ -1618,15 +1598,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
   // Disable guided tour for IV
   if (machineName === 'H5P.InteractiveVideo') {
-    traverseChildren(element.children, function (elementInstance) {
-      if (elementInstance instanceof H5PEditor.InteractiveVideo) {
-        elementInstance.disableGuidedTour();
-
-        // Recreate IV form, workaround for Youtube API not firing
-        // onStateChange when IV is reopened.
-        element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
-      }
-    });
+    // Recreate IV form, workaround for Youtube API not firing
+    // onStateChange when IV is reopened.
+    element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
   }
 
   // Display dialog with form
