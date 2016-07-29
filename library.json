@@ -165,9 +165,9 @@
       "minorVersion": 0
     },
 	{
-      "machineName": "H5P.QuestionSet",
+      "machineName": "H5P.ImageHotspots",
       "majorVersion": 1,
-      "minorVersion": 8
+      "minorVersion": 3
     }
   ]
 }
