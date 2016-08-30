@@ -1491,7 +1491,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, element
       H5PEditor.Html.removeWysiwyg();
     }
     self.removeElement(element, element.$wrapper, (elementParams.action !== undefined && H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText'));
-    dnbElement.blur();
+    self.dnb.blurAll();
   });
 
   dnbElement.contextMenu.on('contextMenuBringToFront', function () {
