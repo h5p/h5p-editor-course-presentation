@@ -111,6 +111,7 @@
 .h5p-dragnbar-appearin-button:before,
 .h5p-dragnbar-twitteruserfeed-button:before,
 .h5p-dragnbar-interactivevideo-button:before,
+.h5p-dragnbar-questionset-button:before,
 .h5p-dragnbar-chart-button:before {
   font-family: 'H5PFontAwesome4';
   color: #494949;
@@ -149,6 +150,10 @@
 .h5p-dragnbar-chart-button:before {
   content: "\f200";
 }
+.h5p-dragnbar-questionset-button:before {
+  content: "\f059";
+}
+
 /* H5P specific icons */
 .h5p-dragnbar-dragquestion-button:before {
   content: "\e991";
