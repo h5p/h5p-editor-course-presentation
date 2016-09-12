@@ -82,7 +82,7 @@
     {
       "machineName": "H5P.Video",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 3
     },
     {
       "machineName": "H5P.Audio",
@@ -92,7 +92,7 @@
     {
       "machineName": "H5P.Blanks",
       "majorVersion": 1,
-      "minorVersion": 6
+      "minorVersion": 7
     },
     {
       "machineName": "H5P.SingleChoiceSet",
@@ -102,7 +102,7 @@
     {
       "machineName": "H5P.MultiChoice",
       "majorVersion": 1,
-      "minorVersion": 7
+      "minorVersion": 8
     },
     {
       "machineName": "H5P.DragQuestion",
