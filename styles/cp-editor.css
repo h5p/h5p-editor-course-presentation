@@ -237,22 +237,23 @@
   height: 9.09%;
 }
 
-.h5p-course-presentation .h5p-element {
-  border: 1px solid rgba(255,255,255,0.7);
+.editor.h5p-course-presentation .h5p-press-to-go {
+  position: relative;
+  box-sizing: border-box;
+  border: 2px solid rgba(255,255,255,0.7);
 }
-.h5p-course-presentation .h5p-element:before {
+.editor.h5p-course-presentation .h5p-press-to-go:before {
   content: " ";
   display: block;
   position: absolute;
-  border: 1px dashed rgba(0, 0, 0, 0.7);
+  border: 2px dashed rgba(0, 0, 0, 0.7);
   width: 100%;
   height: 100%;
-  top: -1px;
-  left: -1px;
+  top: -2px;
+  left: -2px;
 }
 
-.h5p-course-presentation .h5p-element:focus,
-.h5p-course-presentation .h5p-element.focused {
+.h5p-course-presentation .h5p-element {
   border: 1px solid transparent;
 }
 
