@@ -63,8 +63,10 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     slide.keywords = slide.keywords || [];
   });
 
-  // Disable IV's guided tour within CP
-  H5PEditor.InteractiveVideo.disableGuidedTour();
+  if (H5PEditor.InteractiveVideo !== undefined) {
+    // Disable IV's guided tour within CP
+    H5PEditor.InteractiveVideo.disableGuidedTour();
+  }
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
@@ -1491,7 +1493,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, element
       H5PEditor.Html.removeWysiwyg();
     }
     self.removeElement(element, element.$wrapper, (elementParams.action !== undefined && H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText'));
-    dnbElement.blur();
+    self.dnb.blurAll();
   });
 
   dnbElement.contextMenu.on('contextMenuBringToFront', function () {
