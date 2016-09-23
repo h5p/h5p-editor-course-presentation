@@ -63,8 +63,10 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     slide.keywords = slide.keywords || [];
   });
 
-  // Disable IV's guided tour within CP
-  H5PEditor.InteractiveVideo.disableGuidedTour();
+  if (H5PEditor.InteractiveVideo !== undefined) {
+    // Disable IV's guided tour within CP
+    H5PEditor.InteractiveVideo.disableGuidedTour();
+  }
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
