@@ -217,7 +217,8 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.$errors = this.$item.children('.h5p-errors');
 
   // Create new presentation.
-  this.cp = new H5P.CoursePresentation(this.parent.params, H5PEditor.contentId, {cpEditor: this});
+  var presentationParams = (this.parent instanceof ns.Library ? this.parent.params.params : this.parent.params);
+  this.cp = new H5P.CoursePresentation(presentationParams, H5PEditor.contentId, {cpEditor: this});
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
     this.cp.trigger('resize');
