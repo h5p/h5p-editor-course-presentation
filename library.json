@@ -1,7 +1,7 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 12,
+  "minorVersion": 13,
   "patchVersion": 0,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
@@ -97,12 +97,17 @@
     {
       "machineName": "H5P.SingleChoiceSet",
       "majorVersion": 1,
-      "minorVersion": 5
+      "minorVersion": 6
     },
     {
       "machineName": "H5P.MultiChoice",
       "majorVersion": 1,
       "minorVersion": 8
+    },
+    {
+      "machineName": "H5P.TrueFalse",
+      "majorVersion": 1,
+      "minorVersion": 0
     },
     {
       "machineName": "H5P.DragQuestion",
@@ -122,12 +127,12 @@
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 11
+      "minorVersion": 12
     },
     {
       "machineName": "H5P.CoursePresentation",
       "majorVersion": 1,
-      "minorVersion": 12
+      "minorVersion": 13
     },
     {
       "machineName": "H5P.MarkTheWords",
@@ -152,7 +157,7 @@
     {
       "machineName": "H5P.Dialogcards",
       "majorVersion": 1,
-      "minorVersion": 3
+      "minorVersion": 4
     },
     {
       "machineName": "H5PEditor.ColorSelector",

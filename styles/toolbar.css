@@ -159,6 +159,10 @@
 .h5p-dragnbar-multichoice-button:before {
   content: "\e603";
 }
+.h5p-dragnbar-truefalse-button:before {
+  font-family: 'H5PFontIcons';
+  content: "\e902";
+}
 .h5p-dragnbar-summary-button:before {
   content: "\e992";
 }
