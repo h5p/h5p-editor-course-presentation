@@ -1,0 +1,302 @@
+.h5p-dragnbar {
+  height: 7%;
+  background: transparent;
+  position: absolute;
+  top: -7%;
+  left: 0;
+  width: 100%;
+  padding: 0 0.5em;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.h5p-dragnbar .h5p-dragnbar-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.h5p-dragnbar-ul {
+  float: right;
+}
+
+.h5p-dragnbar-li {
+  float: left;
+  margin: 0;
+  padding: 0;
+  border-right: 1px solid #ccc;
+  border-left: 1px solid #eee;
+  height: 100%;
+  position: relative;
+
+  background: rgb(240,240,240); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(240,240,240,1) 1%, rgba(204,204,204,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(240,240,240,1)), color-stop(100%,rgba(204,204,204,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+}
+
+.h5p-dragnbar-li:hover {
+  background: rgb(204,204,204); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(204,204,204,1) 12%, rgba(240,240,240,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(12%,rgba(204,204,204,1)), color-stop(100%,rgba(240,240,240,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(204,204,204,1) 12%,rgba(240,240,240,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(204,204,204,1) 12%,rgba(240,240,240,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(204,204,204,1) 12%,rgba(240,240,240,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(204,204,204,1) 12%,rgba(240,240,240,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-9 */
+}
+
+.h5p-dragnbar-li:first-child {
+  border-left: 0;
+  border-top-left-radius: 0.5em;
+}
+
+.h5p-dragnbar-li:last-child {
+  border-right: 0;
+  border-top-right-radius: 0.5em;
+}
+
+.h5p-dragnbar-li:last-child {
+  border-right: 0;
+  border-top-right-radius: 0.5em;
+}
+
+.h5p-dragnbar-a {
+  line-height: 1em;
+  display: block;
+  width: 1.4em;
+  padding: 0.3em;
+  color: #000;
+}
+
+.h5p-dragnbar-a:hover {
+  text-decoration: none;
+}
+.h5p-dragnbar-left {
+  float: left;
+}
+.h5p-dragnbar-left > .h5p-dragnbar-li:first-child {
+  border-left: 0;
+  border-right: 1px solid #ccc;
+  border-top-left-radius: 0.5em;
+}
+.h5p-dragnbar-left > .h5p-dragnbar-li:last-child {
+  border-left: 1px solid #eee;
+  border-top-right-radius: 0.5em;
+}
+
+.h5p-dragnbar-a {
+  font-family: H5PCoursePresentation;
+  color: #494949;
+}
+.h5p-dragnbar-a:before {
+  font-size: 1.2em;
+}
+.h5p-dragnbar-advancedtext-button:before {
+  content: "\e997";
+  font-size: 1.6em;
+}
+/* FontAwesome4 icons */
+.h5p-dragnbar-table-button:before,
+.h5p-dragnbar-link-button:before,
+.h5p-dragnbar-image-button:before,
+.h5p-dragnbar-audio-button:before,
+.h5p-dragnbar-video-button:before,
+.h5p-dragnbar-more-button:before,
+.h5p-dragnbar-appearin-button:before,
+.h5p-dragnbar-twitteruserfeed-button:before,
+.h5p-dragnbar-interactivevideo-button:before,
+.h5p-dragnbar-chart-button:before {
+  font-family: 'H5PFontAwesome4';
+  color: #494949;
+  font-size: 1.1em;
+  vertical-align: top;
+}
+.h5p-dragnbar-table-button:before {
+  content: "\f0ce";
+}
+.h5p-dragnbar-link-button:before {
+  content: "\f0c1";
+}
+.h5p-dragnbar-image-button:before {
+  content: "\f03e";
+}
+.h5p-dragnbar-audio-button:before {
+  content: "\f028";
+}
+.h5p-dragnbar-video-button:before {
+  content: "\f008";
+}
+.h5p-dragnbar-twitteruserfeed-button:before {
+  content: "\f099";
+}
+.h5p-dragnbar-appearin-button:before {
+  content: "\f086";
+}
+.h5p-dragnbar-more-button:before {
+  content: "\f067";
+  font-size: 1em;
+}
+.h5p-dragnbar-interactivevideo-button:before {
+  content: "\f03d";
+  vertical-align: middle;
+}
+.h5p-dragnbar-chart-button:before {
+  content: "\f200";
+}
+/* H5P specific icons */
+.h5p-dragnbar-dragquestion-button:before {
+  content: "\e991";
+}
+.h5p-dragnbar-blanks-button:before {
+  content: "\e994";
+}
+.h5p-dragnbar-multichoice-button:before {
+  content: "\e603";
+}
+.h5p-dragnbar-truefalse-button:before {
+  font-family: 'H5PFontIcons';
+  content: "\e902";
+}
+.h5p-dragnbar-summary-button:before {
+  content: "\e992";
+}
+.h5p-dragnbar-continuoustext-button:before {
+  content: "\e996";
+}
+.h5p-dragnbar-exportabletextarea-button:before {
+  content: "\e995";
+  font-size: 1.3em;
+  vertical-align: middle;
+}
+.h5p-dragnbar-markthewords-button:before {
+  content: "\e601";
+  font-size: 1.4em;
+}
+.h5p-dragnbar-dragtext-button:before {
+  content: "\e600";
+  font-size: 1.4em;
+}
+.h5p-dragnbar-gotoslide-button:before {
+  content: "\e602";
+}
+.h5p-dragnbar-singlechoiceset-button:before {
+  content: "\e993";
+}
+.h5p-dragnbar-dialogcards-button:before {
+  content: "\e900";
+}
+
+.h5p-dragnbar-li-ul {
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  top: 1.7em;
+  right: 0;
+  z-index: 2;
+  display: none;
+  /* Remove the whitespace between more button and dropdown menu */
+  margin-top: -0.06em;
+}
+
+.h5p-dragnbar-li-ul .h5p-dragnbar-li {
+  float: none;
+  height: 2em;
+  box-sizing: border-box;
+  border-left: 0;
+  /* Borders around the drop down buttons */
+  border-left: 1px solid #f7f0f9;
+  border-bottom: 1px solid #f7f0f9;
+  border-right: 1px solid #f7f0f9;
+  /* Remove the whitespace between buttons in the dropdown menu */
+  margin-top: -0.04em;
+  padding: 0.2em 0 0 0;
+}
+/* Remove top-left rounding of corner for drop down buttons */
+.h5p-dragnbar-li-ul .h5p-dragnbar-li:first-child {
+  border-top-left-radius: 0em;
+}
+
+/* Change the rounding of the last drop down button to be rounded downwards */
+.h5p-dragnbar-li-ul .h5p-dragnbar-li:last-child {
+  border-top-right-radius: 0em;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+}
+.h5p-dragnbar-li-ul .h5p-dragnbar-a {
+  height: 1em;
+}
+
+/* Rules for vertical menu buttons when they are in the horizontal menu */
+ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-interactivevideo-button:before {
+  vertical-align: bottom;
+}
+
+ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-table-button:before,
+ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-exportabletextarea-button:before,
+ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-markthewords-button:before {
+  vertical-align: super;
+}
+
+ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-button:before {
+  font-size: 1.0em;
+  vertical-align: baseline;
+}
+.h5p-dragnbar-keywords {
+  width: 2em;
+  cursor: pointer;
+}
+.h5p-dragnbar-keywords:before {
+  font-family: 'H5PFontAwesome4';
+  content: "\f0c9";
+}
+.h5p-dragnbar-keywords:after {
+  font-family: 'H5PFontAwesome4';
+  content: "\f0dd";
+  margin-left: 0.25em;
+  margin-bottom: 1em;
+  vertical-align: top;
+}
+.h5p-keywords-dropdown {
+  position: absolute;
+  z-index: 2;
+  max-width: 12.5em;
+  background: #fff;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 0 0.5em 0 rgba(105, 105, 105, 0.4);
+  padding: 0.25em 0.5em;
+  opacity: 0;
+  visibility: hidden;
+  top: 3.25em;
+  -webkit-transition: visibility 0s linear 0.1s, opacity 0.1s linear, top 0.1s linear;
+  -moz-transition: visibility 0s linear 0.1s, opacity 0.1s linear, top 0.1s linear;
+  transition: visibility 0s linear 0.1s, opacity 0.1s linear, top 0.1s linear;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: left;
+}
+.h5p-keywords-dropdown.h5p-open {
+  top: 1.625em;
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition-delay: 0s;
+  -moz-transition-delay: 0s;
+  transition-delay: 0s;
+}
+.h5p-keywords-dropdown > label {
+  display: block;
+  white-space: nowrap;
+}
+.h5p-keywords-dropdown input[type="text"],
+.h5p-keywords-dropdown input[type="checkbox"] {
+  vertical-align: middle;
+}
+.h5p-keywords-dropdown input[type="text"] {
+  width: 2em;
+}

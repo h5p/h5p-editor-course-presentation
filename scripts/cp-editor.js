@@ -62,6 +62,11 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.params.slides.forEach(function (slide) {
     slide.keywords = slide.keywords || [];
   });
+
+  if (H5PEditor.InteractiveVideo !== undefined) {
+    // Disable IV's guided tour within CP
+    H5PEditor.InteractiveVideo.disableGuidedTour();
+  }
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
@@ -212,7 +217,8 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.$errors = this.$item.children('.h5p-errors');
 
   // Create new presentation.
-  this.cp = new H5P.CoursePresentation(this.parent.params, H5PEditor.contentId, {cpEditor: this});
+  var presentationParams = (this.parent instanceof ns.Library ? this.parent.params.params : this.parent.params);
+  this.cp = new H5P.CoursePresentation(presentationParams, H5PEditor.contentId, {cpEditor: this});
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
     this.cp.trigger('resize');
@@ -1175,24 +1181,6 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 };
 
 /**
- * Helper function for traversing a tree of nodes recursively. Invoking callback
- * for each nodes
- *
- * @method traverseChildren
- * @param  {Array}         children
- * @param  {Function}       callback
- */
-function traverseChildren(children, callback) {
-  if (children !== undefined && children.length !== undefined) {
-    for (var i = 0; i < children.length; i++) {
-      var child = children[i];
-      callback(child);
-      traverseChildren(child.children, callback);
-    }
-  }
-}
-
-/**
  * Generate element form.
  *
  * @param {Object} elementParams
@@ -1244,11 +1232,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   // Render element fields
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
-
-  // If IV editor - do not show guided tour
-  if (H5PEditor.InteractiveVideo) {
-    H5PEditor.InteractiveVideo.disableGuidedTour = true;
-  }
 
   // Hide library selector
   element.$form.children('.library:first').children('label, select').hide().end().children('.libwrap').css('margin-top', '0');
@@ -1511,7 +1494,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, element
       H5PEditor.Html.removeWysiwyg();
     }
     self.removeElement(element, element.$wrapper, (elementParams.action !== undefined && H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText'));
-    dnbElement.blur();
+    self.dnb.blurAll();
   });
 
   dnbElement.contextMenu.on('contextMenuBringToFront', function () {
@@ -1618,15 +1601,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
   // Disable guided tour for IV
   if (machineName === 'H5P.InteractiveVideo') {
-    traverseChildren(element.children, function (elementInstance) {
-      if (elementInstance instanceof H5PEditor.InteractiveVideo) {
-        elementInstance.disableGuidedTour();
-
-        // Recreate IV form, workaround for Youtube API not firing
-        // onStateChange when IV is reopened.
-        element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
-      }
-    });
+    // Recreate IV form, workaround for Youtube API not firing
+    // onStateChange when IV is reopened.
+    element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
   }
 
   // Display dialog with form
