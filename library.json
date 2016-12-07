@@ -97,7 +97,7 @@
     {
       "machineName": "H5P.SingleChoiceSet",
       "majorVersion": 1,
-      "minorVersion": 6
+      "minorVersion": 7
     },
     {
       "machineName": "H5P.MultiChoice",
@@ -117,7 +117,7 @@
     {
       "machineName": "H5P.Summary",
       "majorVersion": 1,
-      "minorVersion": 5
+      "minorVersion": 6 
     },
     {
       "machineName": "H5P.ExportableTextArea",
