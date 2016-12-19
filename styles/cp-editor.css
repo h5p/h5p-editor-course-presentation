@@ -364,7 +364,7 @@
 .h5peditor .ui-dialog .ui-dialog-content {
   position: static;
 }
-.h5peditor .ui-dialog button {
+.h5peditor .ui-dialog .ui-button {
   font-size: 0.75em;
   padding: 0.2em 1.2em;
   box-shadow: none;
@@ -378,7 +378,7 @@
   background: -ms-linear-gradient(top,#fff 0,#f2f2f2 100%);
   background: -o-linear-gradient(top,#fff 0,#f2f2f2 100%);
 }
-.h5peditor .ui-dialog button.h5p-done {
+.h5peditor .ui-dialog .ui-button.h5p-done {
   color: #fff;
   background: #3673B5;
   background: -webkit-linear-gradient(top,#5A94D3 0,#3673B5 100%);
@@ -387,29 +387,29 @@
   background: -o-linear-gradient(top,#5A94D3 0,#3673B5 100%);
   border-color: #20588F;
 }
-.h5peditor .ui-dialog button.h5p-done:hover {
+.h5peditor .ui-dialog .ui-button.h5p-done:hover {
   background: #3275bc;
   background: -webkit-linear-gradient(top,#3275bc 0,#285585 100%);
   background: -moz-linear-gradient(top,#3275bc 0,#285585 100%);
   background: -ms-linear-gradient(top,#3275bc 0,#285585 100%);
   background: -o-linear-gradient(top,#3275bc 0,#285585 100%);
 }
-.h5peditor .ui-dialog button.h5p-remove {
+.h5peditor .ui-dialog .ui-button.h5p-remove {
   background: none;
   border: none;
   color: #a00;
   padding: 0;
   border-radius: 0;
 }
-.h5peditor .ui-dialog button.h5p-remove:hover {
+.h5peditor .ui-dialog .ui-button.h5p-remove:hover {
   background: none;
   border: none;
   color: #e40000;
 }
-.h5peditor .ui-dialog button:hover {
+.h5peditor .ui-dialog .ui-button:hover {
   background: #ededed;
 }
-.h5peditor .ui-dialog button:focus {
+.h5peditor .ui-dialog .ui-button:focus {
   box-shadow: 0 0 0.25em 0.125em #53a0ff;
   outline: none;
 }
