@@ -31,18 +31,15 @@ ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
      * @returns {H5P.jQuery}
      */
     var createElement = function () {
-      var html = '<label class="h5peditor-label"><input type="checkbox"';
-      if (checked) {
-        html += ' checked="checked" disabled="disabled"';
-      }
-      html += '/>';
-      if (field.label !== 0) {
-        html += (field.label === undefined ? field.name : field.label);
-      }
-      $element = $(ns.createItem(field.type, html + '</label>', field.description));
+      var state = checked ? ' checked="checked" disabled="disabled"' : '';
+      var content = '<input type="checkbox"' + state + ' />';
+
+      $element = $(ns.createFieldMarkup(field, content));
+
       if (checked) {
         $element.addClass('disabled');
       }
+
       var $input = $element.find('input').on('change', function () {
         if (confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'activeSurfaceWarning'))) {
           checked = $input.is(':checked');

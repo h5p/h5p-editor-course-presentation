@@ -540,7 +540,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
  * Create HTML for the field.
  */
 H5PEditor.CoursePresentation.prototype.createHtml = function () {
-  return H5PEditor.createItem(this.field.widget, '<div class="editor"></div>');
+  return H5PEditor.createFieldMarkup(this.field, '<div class="editor"></div>');
 };
 
 /**
