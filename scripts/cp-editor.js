@@ -322,7 +322,7 @@ H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
 
   return {
     id: id,
-    title: H5PEditor.t('H5PEditor.CoursePresentation', 'insertElement', {':type': library.title.toLowerCase()}),
+    title: library.title,
     createElement: function () {
       return that.addElement(library.uberName);
     }
@@ -362,7 +362,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     if (goToSlide) {
       buttons.splice(5, 0, {
         id: 'gotoslide',
-        title: H5PEditor.t('H5PEditor.CoursePresentation', 'insertElement', {':type': goToSlide.label}),
+        title: goToSlide.label,
         createElement: function () {
           return that.addElement('GoToSlide');
         }
