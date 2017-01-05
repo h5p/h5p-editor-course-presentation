@@ -1611,9 +1611,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     modal: true,
     draggable: false,
     resizable: false,
-    width: '95%',
-    maxHeight: H5P.jQuery('.field.coursepresentation').height() + 100,
-    position: {my: 'top', at: 'top-15', of: '.editor.h5p-course-presentation'},
+    width: '90%',
+    maxHeight: H5P.jQuery('.h5p-coursepresentation-editor').innerHeight(),
+    position: {my: 'top', at: 'top', of: '.h5p-coursepresentation-editor'},
     dialogClass: "h5p-dialog-no-close",
     appendTo: '.h5p-course-presentation',
     buttons: [
