@@ -37,6 +37,10 @@
   width: auto;
 }
 
+.h5p-course-presentation .h5p-dragnbar-li:hover:before {
+  top: 36px;
+}
+
 .h5p-course-presentation .h5p-keywordcontrols-button, .h5p-course-presentation .h5p-slidecontrols-button {
   display: block;
   float: left;
