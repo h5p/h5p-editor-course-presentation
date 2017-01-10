@@ -589,6 +589,7 @@ H5PEditor.CoursePresentation.prototype.validate = function () {
  * Remove this item.
  */
 H5PEditor.CoursePresentation.prototype.remove = function () {
+  this.dnb.remove();
   this.$item.remove();
 };
 
