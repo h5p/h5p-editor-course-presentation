@@ -34,7 +34,7 @@ ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
       var state = checked ? ' checked="checked" disabled="disabled"' : '';
       var content = '<input type="checkbox"' + state + ' />';
 
-      $element = $(ns.createFieldMarkup(field, content));
+      $element = $(ns.createBooleanFieldMarkup(field, content));
 
       if (checked) {
         $element.addClass('disabled');
