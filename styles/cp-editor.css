@@ -455,3 +455,7 @@
 .h5p-coursepresentation-editor .h5p-course-presentation .h5p-element.h5p-element-button-wrapper.focused {
   border: 0;
 }
+
+.field-name-presentation > .h5peditor-label-wrapper {
+  display: none;
+}
