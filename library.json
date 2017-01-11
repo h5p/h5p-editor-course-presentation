@@ -1,14 +1,14 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 14,
+  "minorVersion": 15,
   "patchVersion": 0,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel AS",
   "coreApi": {
     "majorVersion": 1,
-    "minorVersion": 7
+    "minorVersion": 12
   },
   "preloadedJs": [
     {
@@ -102,7 +102,7 @@
     {
       "machineName": "H5P.MultiChoice",
       "majorVersion": 1,
-      "minorVersion": 8
+      "minorVersion": 9
     },
     {
       "machineName": "H5P.TrueFalse",
@@ -127,12 +127,12 @@
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 13
+      "minorVersion": 14
     },
     {
       "machineName": "H5P.CoursePresentation",
       "majorVersion": 1,
-      "minorVersion": 14
+      "minorVersion": 15
     },
     {
       "machineName": "H5P.MarkTheWords",
