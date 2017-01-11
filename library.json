@@ -2,7 +2,7 @@
   "title": "Course Presentation Editor",
   "majorVersion": 1,
   "minorVersion": 15,
-  "patchVersion": 0,
+  "patchVersion": 1,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel AS",
@@ -117,7 +117,7 @@
     {
       "machineName": "H5P.Summary",
       "majorVersion": 1,
-      "minorVersion": 6 
+      "minorVersion": 6
     },
     {
       "machineName": "H5P.ExportableTextArea",
