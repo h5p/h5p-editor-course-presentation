@@ -37,8 +37,9 @@
   width: auto;
 }
 
-.h5p-course-presentation .h5p-dragnbar-li:hover:before {
+.h5p-course-presentation .h5p-dragnbar-li:before {
   top: 36px;
+  font-size: 0.585em;
 }
 
 .h5p-course-presentation .h5p-keywordcontrols-button, .h5p-course-presentation .h5p-slidecontrols-button {
