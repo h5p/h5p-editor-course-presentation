@@ -38,7 +38,7 @@
 }
 
 .h5p-course-presentation .h5p-dragnbar-li:before {
-  top: 36px;
+  top: 100%;
   font-size: 0.585em;
 }
 
