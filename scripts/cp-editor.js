@@ -540,7 +540,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
  * Create HTML for the field.
  */
 H5PEditor.CoursePresentation.prototype.createHtml = function () {
-  return H5PEditor.createItem(this.field.widget, '<div class="editor"></div>');
+  return H5PEditor.createFieldMarkup(this.field, '<div class="editor"></div>');
 };
 
 /**
@@ -589,6 +589,9 @@ H5PEditor.CoursePresentation.prototype.validate = function () {
  * Remove this item.
  */
 H5PEditor.CoursePresentation.prototype.remove = function () {
+  if (this.dnb !== undefined) {
+    this.dnb.remove();
+  }
   this.$item.remove();
 };
 
@@ -1611,7 +1614,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     modal: true,
     draggable: false,
     resizable: false,
-    width: '80%',
+    width: '90%',
     maxHeight: H5P.jQuery('.h5p-coursepresentation-editor').innerHeight(),
     position: {my: 'top', at: 'top', of: '.h5p-coursepresentation-editor'},
     dialogClass: "h5p-dialog-no-close",

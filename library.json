@@ -1,14 +1,14 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 14,
-  "patchVersion": 0,
+  "minorVersion": 15,
+  "patchVersion": 1,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel AS",
   "coreApi": {
     "majorVersion": 1,
-    "minorVersion": 7
+    "minorVersion": 12
   },
   "preloadedJs": [
     {
@@ -67,7 +67,7 @@
     {
       "machineName": "H5P.Link",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 3
     },
     {
       "machineName": "H5P.ContinuousText",
@@ -97,27 +97,27 @@
     {
       "machineName": "H5P.SingleChoiceSet",
       "majorVersion": 1,
-      "minorVersion": 7
+      "minorVersion": 8
     },
     {
       "machineName": "H5P.MultiChoice",
       "majorVersion": 1,
-      "minorVersion": 8
+      "minorVersion": 9
     },
     {
       "machineName": "H5P.TrueFalse",
       "majorVersion": 1,
-      "minorVersion": 0
+      "minorVersion": 1
     },
     {
       "machineName": "H5P.DragQuestion",
       "majorVersion": 1,
-      "minorVersion": 7
+      "minorVersion": 8
     },
     {
       "machineName": "H5P.Summary",
       "majorVersion": 1,
-      "minorVersion": 6 
+      "minorVersion": 7
     },
     {
       "machineName": "H5P.ExportableTextArea",
@@ -127,12 +127,12 @@
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 13
+      "minorVersion": 14
     },
     {
       "machineName": "H5P.CoursePresentation",
       "majorVersion": 1,
-      "minorVersion": 14
+      "minorVersion": 15
     },
     {
       "machineName": "H5P.MarkTheWords",
@@ -157,17 +157,17 @@
     {
       "machineName": "H5P.Dialogcards",
       "majorVersion": 1,
-      "minorVersion": 4
+      "minorVersion": 5
     },
     {
       "machineName": "H5PEditor.ColorSelector",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 2
     },
     {
       "machineName": "H5PEditor.RadioSelector",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 2
     }
   ]
 }
