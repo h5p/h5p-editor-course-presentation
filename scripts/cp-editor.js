@@ -1761,11 +1761,11 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
 H5PEditor.CoursePresentation.prototype.fitElement = function ($element, elementParams) {
   var self = this;
 
-  var currentSlide = H5P.DragNBar.getSizeNPosition(self.cp.$current[0]);
-  var updated = H5P.DragNBar.fitElementInside($element, currentSlide);
+  var sizeNPosition = self.dnb.getElementSizeNPosition($element);
+  var updated = H5P.DragNBar.fitElementInside(sizeNPosition);
 
-  var pW = (currentSlide.width / 100);
-  var pH = (currentSlide.height / 100);
+  var pW = (sizeNPosition.containerWidth / 100);
+  var pH = (sizeNPosition.containerHeight / 100);
 
   // Set the updated properties
   var style = {};
