@@ -1,4 +1,4 @@
-.libwrap.h5p-coursepresentation-editor {
+1.libwrap.h5p-coursepresentation-editor {
   margin-top: 55px;
 }
 
@@ -14,22 +14,23 @@
   height: 440px;
 }
 
-.h5p-course-presentation .h5p-slidecontrols, .h5p-course-presentation .h5p-keywordcontrols {
-  border: 1px solid #bebebe;
-  border-top: 0;
-  text-shadow: 0 0 1em #fff;
+.h5p-course-presentation .h5p-footer {
+  line-height: 3.1em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols {
   position: absolute;
   right: 0.25em;
   border-radius: 0.5em;
-  border: 1px solid #d9d9d9;
-  bottom: -0.025em;
-  font-size: 0.75em;
+  bottom: -0.7em;
+  font-size: 1.2em;
+  border-top: 0;
+  text-shadow: 0 0 1em #fff;
 }
 
 .h5p-course-presentation .h5p-keywordcontrols {
+  border-top: 0;
+  text-shadow: 0 0 1em #fff;
   float: left;
   border-radius: 0.5em;
   margin: 0.15em;
@@ -42,34 +43,46 @@
   font-size: 0.585em;
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button, .h5p-course-presentation .h5p-slidecontrols-button {
+.h5p-course-presentation .h5p-slidecontrols-button {
   display: block;
   float: left;
+  position: relative;
   color: #292929;
-  border-left: 1px solid #bebebe;
-  line-height: 1.6em;
-  padding: 0.05em 0.5em;
-  height: 1.6em;
-
-  background: rgb(240,240,240); /* Old browsers */
-  background: -moz-linear-gradient(top,  rgba(240,240,240,1) 1%, rgba(204,204,204,1) 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(240,240,240,1)), color-stop(100%,rgba(204,204,204,1))); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+  line-height: 1em;
+  padding: 0.25em;
+  height: 1em;
+  margin: 0.2em;
+  border-radius: 0.1em;
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button, .h5p-course-presentation .h5p-slidecontrols-button:hover {
-  background: rgb(204,204,204); /* Old browsers */
-  background: -moz-linear-gradient(top,  rgba(204,204,204,1) 12%, rgba(240,240,240,1) 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(12%,rgba(204,204,204,1)), color-stop(100%,rgba(240,240,240,1))); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  rgba(204,204,204,1) 12%,rgba(240,240,240,1) 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  rgba(204,204,204,1) 12%,rgba(240,240,240,1) 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  rgba(204,204,204,1) 12%,rgba(240,240,240,1) 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  rgba(204,204,204,1) 12%,rgba(240,240,240,1) 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-9 */
+.h5p-course-presentation .h5p-slidecontrols-button:hover {
+  box-shadow: 0 0 5px 1px #aeaeae;
+}
+
+.h5p-course-presentation .h5p-slidecontrols-button:hover:after {
+  content: attr(aria-label);
+  font-size: 14px;
+  font-size: 0.5em;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  z-index: 2;
+  position: absolute;
+  padding: 0 0.5em;
+  transform: translateX(-50%);
+  left: 50%;
+  line-height: 2;
+  border-radius: 4px;
+  white-space: nowrap;
+  bottom: 100%;
+}
+
+.h5p-course-presentation .h5p-slidecontrols-button:before {
+  font-family: 'h5pFontIcons';
+  color: #494949;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .h5p-course-presentation .h5p-keywordcontrols-button {
@@ -86,6 +99,11 @@
   background: -ms-linear-gradient(top,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* IE10+ */
   background: linear-gradient(to bottom,  rgba(240,240,240,1) 1%,rgba(204,204,204,1) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+}
+
+.h5p-course-presentation .h5p-keywordcontrols-button:hover {
+  text-decoration: none;
+  background-color: #d0dfd0;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-background.active,
@@ -107,73 +125,44 @@
   color: #c33f62;
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button:first-child, .h5p-course-presentation .h5p-slidecontrols-button:first-child {
+.h5p-course-presentation .h5p-keywordcontrols-button:first-child {
   border-top-left-radius: 0.5em;
   border-bottom-left-radius: 0.5em;
   border-left: none;
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button:first-child, .h5p-course-presentation .h5p-slidecontrols-button:last-child {
+.h5p-course-presentation .h5p-keywordcontrols-button:first-child {
   border-top-right-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
   border-right: none;
-}
-
-
-.h5p-course-presentation .h5p-keywordcontrols-button:hover, .h5p-course-presentation .h5p-slidecontrols-button:hover {
-  text-decoration: none;
-  background-color: #d0dfd0;
-}
-
-.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-clone:before {
-  font-family: 'H5PFontAwesome4';
-  content: "\f0c5";
-  margin-left: 0.1em;
-  color: #494949;
-  margin-left: -0.1em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-background {
   position: relative;
 }
 
+.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-clone:before {
+  content: "\e990";
+}
+
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-background:before {
-  font-family: 'H5PFontAwesome4';
-  content: "\f1fc";
-  color: #292929;
-  font-size: 0.8em;
-  vertical-align: super;
+  content: "\e91a";
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-sort-left:before {
-  font-family: H5PCoursePresentation;
   content: "\e987";
-  color: #494949;
-  font-size: 1.4em;
-  margin-left: -0.1em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-sort-right:before {
-  font-family: H5PCoursePresentation;
   content: "\e988";
-  color: #494949;
-  font-size: 1.4em;
-  margin-left: -0.1em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-delete:before {
-  font-family: 'H5PFontAwesome4';
-  content: "\f014";
-  color: #494949;
-  font-size: 1.1em;
+  content: "\e989";
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-add:before {
-  font-family: 'H5PFontAwesome4';
-  content: "\f055";
-  color: #494949;
-  font-size: 1.1em;
-  margin-left: 0;
+  content: "\e990";
 }
 
 .h5p-course-presentation .h5p-keywordcontrols-button:hover {
