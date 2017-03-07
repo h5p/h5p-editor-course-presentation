@@ -23,7 +23,7 @@
   right: 0.25em;
   border-radius: 0.5em;
   bottom: -0.7em;
-  font-size: 1.2em;
+  font-size: 1.3em;
   border-top: 0;
   text-shadow: 0 0 1em #fff;
 }
@@ -48,21 +48,22 @@
   float: left;
   position: relative;
   color: #292929;
-  line-height: 1em;
-  padding: 0.25em;
-  height: 1em;
-  margin: 0.2em;
+  line-height: 0.8;
+  height: 0.9em;
   border-radius: 0.1em;
+  border: solid 0.042em #ffffff;
+  padding: 0.25em 0.2em;
+  margin: 0.25em 0.12em;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button:hover {
-  box-shadow: 0 0 5px 1px #aeaeae;
+  box-shadow: 0 0 0.208em 0.042em #dcdcdc;
+  border: solid 0.042em #d8d8d8;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button:hover:after {
   content: attr(aria-label);
-  font-size: 14px;
-  font-size: 0.5em;
+  font-size: 0.45em;
   background-color: rgba(0, 0, 0, 0.9);
   color: #fff;
   z-index: 2;
