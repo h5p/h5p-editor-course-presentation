@@ -1867,9 +1867,9 @@ H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
 H5PEditor.language["H5PEditor.CoursePresentation"] = {
   "libraryStrings": {
     "confirmDeleteSlide": "Are you sure you wish to delete this slide?",
-    "sortSlide": "Sort slide - :dir",
-    "backgroundSlide": "Set slide background",
-    "removeSlide": "Remove slide",
+    "sortSlide": "Move slide :dir",
+    "backgroundSlide": "Slide background",
+    "removeSlide": "Delete slide",
     "cloneSlide": "Clone slide",
     "newSlide": "Add new slide",
     "insertElement": "Click and drag to place :type",

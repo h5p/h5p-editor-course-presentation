@@ -1,9 +1,9 @@
 {
   "libraryStrings": {
     "confirmDeleteSlide": "Er du sikker på at du vil slette dette skjermbiletet?",
-    "sortSlide": "Sorter skjermbilete - :dir",
+    "sortSlide": "Flytt skjermbilete :dir",
     "backgroundSlide": "Bakgrunnsvelger",
-    "removeSlide": "Fjern skjermbilete",
+    "removeSlide": "Slett skjermbilete",
     "cloneSlide": "Klon skjermbilete",
     "newSlide": "Legg til nytt skjermbilete",
     "insertElement": "Klikk og dra for å plassere :type",

@@ -1,9 +1,9 @@
 {
   "libraryStrings": {
     "confirmDeleteSlide": "Er du sikker på at du vil slette denne sliden?",
-    "sortSlide": "Sorter slide - :dir",
+    "sortSlide": "Flytt slide :dir",
     "backgroundSlide": "Bakgrunnsvelger",
-    "removeSlide": "Fjern slide",
+    "removeSlide": "Slett slide",
     "cloneSlide": "Klon slide",
     "newSlide": "Legg til ny slide",
     "insertElement": "Klikk og dra for å plassere :type",
