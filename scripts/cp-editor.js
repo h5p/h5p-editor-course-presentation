@@ -1523,7 +1523,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, element
     self.elements[slideIndex].push(element);
   });
 
-  dnbElement.contextMenu.on('contextMenuBringToBack', function () {
+  dnbElement.contextMenu.on('contextMenuSendToBack', function () {
     // Old index
     var oldZ = element.$wrapper.index();
 
