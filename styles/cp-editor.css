@@ -413,13 +413,13 @@
   outline: none;
 }
 .h5peditor .h5p-active-surface {
-  margin-bottom: 5%;
+  margin-bottom: 6%;
 }
 .h5peditor .h5p-active-surface .h5p-box-wrapper {
   height: 100%;
 }
 .h5peditor .h5p-active-surface .h5p-slidecontrols {
-  bottom: -2.025em;
+  bottom: -1.9em;
 }
 .h5peditor .field.disabled,
 .h5peditor .field.disabled .h5peditor-field-description {
