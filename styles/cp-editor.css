@@ -178,12 +178,14 @@
 }
 .h5p-course-presentation .h5p-keywords-wrapper textarea {
   resize: none;
+  background: none;
   overflow: hidden;
-  font-size: 1em;
-  padding-right: 1.833em;
-  width: 7.6em;
+  padding: 10px;
+  margin: -10px;
+  height: inherit;
+  font-size: inherit;
   box-shadow: none;
-  border: 0.1em solid #ff9933;
+  border: none;
   font-weight: bold;
 }
 .h5p-course-presentation .h5p-keywords-wrapper .h5p-current span {
@@ -201,11 +203,10 @@
 }
 .h5p-course-presentation .h5p-delete-keyword {
   position: absolute;
+  vertical-align: middle;
   right: -0.7em;
-  top: 50%;
   width: 1em;
   height: 1em;
-  margin-top: -0.7em;
 }
 
 .h5p-course-presentation .h5p-delete-keyword:after {

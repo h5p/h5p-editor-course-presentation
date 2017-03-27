@@ -601,14 +601,18 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
  */
 H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   var that = this;
-
   // Add our own menu to the drag and drop menu bar.
   that.$keywordsDNB = H5PEditor.$(
     '<ul class="h5p-dragnbar-ul h5p-dragnbar-left">' +
-      '<li class="h5p-dragnbar-li">' +
-        '<div title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'keywordsMenu') + '" class="h5p-dragnbar-a h5p-dragnbar-keywords" role="button" tabindex="1"></div>' +
+      '<li class="h5p-slides-menu">' +
+        '<div title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'slidesMenu') + '" class="h5p-dragnbar-keywords" role="button" tabindex="1">' +
+          '<span>' + H5PEditor.t('H5PEditor.CoursePresentation', 'slidesMenu') + '</span>' +
+        '</div>' +
         '<div class="h5p-keywords-dropdown">' +
-          '<label class="h5p-keywords-enable"><input type="checkbox"/> Keywords list</label>' +
+          '<label class="h5p-keywords-enable">' +
+            '<input type="checkbox"/>' +
+            H5PEditor.t('H5PEditor.CoursePresentation', 'showSlideTitles') +
+          '</label>' +
           '<label class="h5p-keywords-always"><input type="checkbox"/> Always show</label>' +
           '<label class="h5p-keywords-hide"><input type="checkbox"/> Auto hide</label>' +
           '<label class="h5p-keywords-opacity">Opacity <input type="text"/> %</label>' +
@@ -652,9 +656,9 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     if (!$ol.length) {
       $ol = H5PEditor.$('<ol class="h5p-keywords-ol"></ol>').prependTo($li);
     }
+
     var $element = H5PEditor.$('<li class="h5p-keywords-li h5p-new-keyword h5p-empty-keyword ' + classes + '"><span>' + newKeywordString + '</span></li>').appendTo($ol);
     var $label = $element.children('span').click(keywordClick).mousedown(keywordMousedown);
-
     that.keywordsDNS.press($element, x, y);
 
     // Edit once element is dropped.
@@ -676,8 +680,8 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   this.cp.$keywords.find('span').click(keywordClick).mousedown(keywordMousedown);
 
   this.$newKeyword = H5PEditor.$('<li class="h5p-keywords-li h5p-add-keyword" role="button" tabindex="1">Add keyword</li>').mousedown(function (event) {
-    if (event.button !== 0) {
-      return; // We only handle left click
+    if (event.button !== 0 || that.params.slides[that.cp.$current.index()].keywords.length !== 0) {
+      return; // We only handle left click and only allow one keyword
     }
 
     // Create new keyword.
@@ -690,6 +694,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   }).appendTo(this.cp.$currentKeyword);
 
   // Make keywords drop down menu come alive
+  var $slidesMenu = this.$bar.find('.h5p-dragnbar-keywords');
   var $dropdown = this.$bar.find('.h5p-keywords-dropdown');
   var preventClose = false;
   var closeDropdown = function () {
@@ -697,15 +702,17 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       preventClose = false;
     }
     else {
+      $slidesMenu.removeClass('h5p-open');
       $dropdown.removeClass('h5p-open');
       that.cp.$container.off('click', closeDropdown);
     }
   };
 
   // Open dropdown when clicking the dropdown button
-  this.$bar.find('.h5p-dragnbar-keywords').click(function () {
+  $slidesMenu.click(function () {
     if (!$dropdown.hasClass('h5p-open')) {
       that.cp.$container.on('click', closeDropdown);
+      $slidesMenu.addClass('h5p-open');
       $dropdown.addClass('h5p-open');
       preventClose = true;
     }
@@ -727,9 +734,11 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       else {
         that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).show();
       }
+      ns.$(this).parent().siblings().show();
     }
     else {
       that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).hide();
+      ns.$(this).parent().siblings().hide();
     }
   });
 
@@ -1883,7 +1892,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "keywordsTip": "Drag in keywords using the two buttons above.",
     "popupTitle": "Edit :type",
     "loading": "Loading...",
-    "keywordsMenu": "Keywords menu",
+    "slidesMenu": "Slides menu",
     "element": "Element",
     "resetToDefault": "Reset to default",
     "resetToTemplate": "Reset to template",
@@ -1894,6 +1903,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "template": "Template",
     "templateDescription": "Will be applied to all slides not overridden by any \":currentSlide\" settings.",
     "currentSlide": "This slide",
-    "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings."
+    "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings.",
+    "showSlideTitles": "Show slide titles"
   }
 };
