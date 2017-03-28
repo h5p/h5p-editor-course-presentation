@@ -646,7 +646,8 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     that.keywordsDNS.press(H5PEditor.$(this).parent(), event.pageX, event.pageY);
     return false;
   };
-  var newKeyword = function ($li, newKeywordString, classes, x, y) {
+
+  this.newKeyword = function ($li, newKeywordString, classes) {
     if (that.$keywordsTip !== undefined) {
       that.$keywordsTip.remove();
       delete that.$keywordsTip;
@@ -659,39 +660,12 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
 
     var $element = H5PEditor.$('<li class="h5p-keywords-li h5p-new-keyword h5p-empty-keyword ' + classes + '"><span>' + newKeywordString + '</span></li>').appendTo($ol);
     var $label = $element.children('span').click(keywordClick).mousedown(keywordMousedown);
-    that.keywordsDNS.press($element, x, y);
-
-    // Edit once element is dropped.
-    var edit = function () {
-      H5P.$body.off('mouseup', edit).off('mouseleave', edit);
-
-      // Use timeout to edit on next tick. (when moving and sorting has finished)
-      setTimeout(function () {
-        that.keywordsDNS.moving = false;
-        $label.trigger('click');
-      }, 0);
-    };
-    H5P.$body.on('mouseup', edit).on('mouseleave', edit);
 
     return false;
   };
 
   // Make existing keywords editable
   this.cp.$keywords.find('span').click(keywordClick).mousedown(keywordMousedown);
-
-  this.$newKeyword = H5PEditor.$('<li class="h5p-keywords-li h5p-add-keyword" role="button" tabindex="1">Add keyword</li>').mousedown(function (event) {
-    if (event.button !== 0 || that.params.slides[that.cp.$current.index()].keywords.length !== 0) {
-      return; // We only handle left click and only allow one keyword
-    }
-
-    // Create new keyword.
-    var newKeywordString = H5PEditor.t('H5PEditor.CoursePresentation', 'newKeyword');
-
-    // Add to params
-    that.params.slides[that.cp.$current.index()].keywords.push({main: newKeywordString});
-
-    return newKeyword(that.cp.$keywords.children('.h5p-current'), newKeywordString, 'h5p-main-keyword', event.pageX, event.pageY);
-  }).appendTo(this.cp.$currentKeyword);
 
   // Make keywords drop down menu come alive
   var $slidesMenu = this.$bar.find('.h5p-dragnbar-keywords');
@@ -976,11 +950,13 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
       if (!that.keywordsDNS.moving && that.editKeyword(H5PEditor.$(this)) !== false) {
         event.stopPropagation();
       }
-    }).mousedown(function (event) {
-      that.keywordsDNS.press(H5PEditor.$(this).parent(), event.pageX, event.pageY);
-      return false;
     });
   }
+
+  // Add the title
+  var newKeywordString = H5PEditor.t('H5PEditor.CoursePresentation', 'newKeyword');
+  that.params.slides[that.cp.$current.index() + 1].keywords.push({main: newKeywordString});
+  this.newKeyword(that.cp.$keywords.children('.h5p-current').next(), newKeywordString, 'h5p-main-keyword');
 
   this.updateNavigationLine(index);
 
