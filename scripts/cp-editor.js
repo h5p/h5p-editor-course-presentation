@@ -60,7 +60,13 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   // Make sure each slide has keywords array defined.
   // This won't always be the case for old presentations
   this.params.slides.forEach(function (slide) {
-    slide.keywords = slide.keywords || [];
+    if (slide.keywords === undefined || slide.keywords.length === 0) {
+      var newKeywordString = H5PEditor.t('H5PEditor.CoursePresentation', 'newKeyword');
+      slide.keywords = [{main: newKeywordString}];
+    }
+    else if (slide.keywords.length > 0) {
+      slide.keywords = slide.keywords;
+    }
   });
 
   if (H5PEditor.InteractiveVideo !== undefined) {
@@ -264,7 +270,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     })
     .next()
     .click(function () {
-      that.addSlide(H5P.cloneObject(that.params.slides[that.cp.$current.index()],true));
+      var newSlide = H5P.cloneObject(that.params.slides[that.cp.$current.index()],true);
+      newSlide.keywords = [];
+      that.addSlide(newSlide);
       H5P.ContinuousText.Engine.run(that);
       return false;
     })
@@ -615,7 +623,10 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
           '</label>' +
           '<label class="h5p-keywords-always"><input type="checkbox"/> Always show</label>' +
           '<label class="h5p-keywords-hide"><input type="checkbox"/> Auto hide</label>' +
-          '<label class="h5p-keywords-opacity">Opacity <input type="text"/> %</label>' +
+          '<label class="h5p-keywords-opacity"><input type="text"/> % Opacity</label>' +
+          '<div class="h5peditor-button h5peditor-button-textual importance-low" role="button" tabindex="0" aria-disabled="false">' +
+            H5PEditor.t('H5PEditor.CoursePresentation', 'ok') +
+          '</div>' +
         '</div>' +
       '</li>' +
     '</ul>').prependTo(this.$bar);
@@ -659,13 +670,13 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     }
 
     var $element = H5PEditor.$('<li class="h5p-keywords-li h5p-new-keyword h5p-empty-keyword ' + classes + '"><span>' + newKeywordString + '</span></li>').appendTo($ol);
-    var $label = $element.children('span').click(keywordClick).mousedown(keywordMousedown);
+    var $label = $element.children('span').click(keywordClick);
 
     return false;
   };
 
   // Make existing keywords editable
-  this.cp.$keywords.find('span').click(keywordClick).mousedown(keywordMousedown);
+  this.cp.$keywords.find('span').click(keywordClick);
 
   // Make keywords drop down menu come alive
   var $slidesMenu = this.$bar.find('.h5p-dragnbar-keywords');
@@ -681,6 +692,14 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       that.cp.$container.off('click', closeDropdown);
     }
   };
+
+  $dropdown.find('.h5peditor-button').click(closeDropdown);
+
+  // Make sure keywords settings and button is hidden on load if disabled
+  if (!this.params.keywordListEnabled) {
+    $dropdown.children().first().siblings().hide().last().show();
+    that.cp.$keywordsButton.hide();
+  }
 
   // Open dropdown when clicking the dropdown button
   $slidesMenu.click(function () {
@@ -712,7 +731,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     }
     else {
       that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).hide();
-      ns.$(this).parent().siblings().hide();
+      ns.$(this).parent().siblings().hide().last().show();
     }
   });
 
@@ -1124,7 +1143,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 
     if (H5P.trim(keyword) === '') {
       $li.addClass('h5p-empty-keyword');
-      keyword = H5PEditor.t('H5PEditor.CoursePresentation', 'newKeyword');
+      keyword = H5PEditor.t('H5PEditor.CoursePresentation', 'newkeyword');
     }
     else {
       $li.removeClass('h5p-empty-keyword');
@@ -1880,6 +1899,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "templateDescription": "Will be applied to all slides not overridden by any \":currentSlide\" settings.",
     "currentSlide": "This slide",
     "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings.",
-    "showSlideTitles": "Show slide titles"
+    "showSlideTitles": "Show slide titles",
+    "ok": "OK"
   }
 };
