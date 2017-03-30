@@ -1155,7 +1155,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   }
 
   var slideIndex = that.cp.$current.index();
-  var $confirm = H5PEditor.$('<a href="#" class="h5p-confirm-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'deleteKeyword') + '"></a>');
+  var $confirm = H5PEditor.$('<a href="#" class="h5p-confirm-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'confirmKeyword') + '"></a>');
   var $delete = H5PEditor.$('<a href="#" class="h5p-delete-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'deleteKeyword') + '"></a>');
   var $textarea = H5PEditor.$('<textarea>' + $span.text() + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
     if (event.keyCode === 13) {
@@ -1187,13 +1187,16 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 
   $textarea.keyup();
 
-  $confirm.insertAfter($textarea);
+  $confirm.insertAfter($textarea).mousedown(function () {
+    // Do nothing
+  });
 
   $delete.insertAfter($textarea).mousedown(function () {
     // Remove keyword
     if (main) {
       var newKeywordString = H5PEditor.t('H5PEditor.CoursePresentation', 'noTitle');
       that.params.slides[slideIndex].keywords = [{main: newKeywordString}];
+      $textarea.text(newKeywordString);
     }
     else {
       // Sub keywords
@@ -1902,6 +1905,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "newSlide": "Add new slide",
     "insertElement": "Click and drag to place :type",
     "newKeyword": "New keyword",
+    "confirmKeyword": "Confirm keyword",
     "deleteKeyword": "Remove this keyword",
     "removeElement": "Remove this element",
     "confirmRemoveElement": "Are you sure you wish to remove this element?",
