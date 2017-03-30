@@ -284,14 +284,13 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
 .h5p-keywords-dropdown {
   position: absolute;
   z-index: 2;
+  top: 1.4em;
   width: 100%;
   max-width: 6.5em;
   background: #fff;
   box-shadow: 0 0px 5px 2px rgba(105, 105, 105, 0.4);
-  padding: 0.25em 0.5em;
-  opacity: 0;
+  padding: 0.25em 0.7em;
   visibility: hidden;
-  top: 3.25em;
   overflow: auto;
   overflow-x: hidden;
   overflow-y: auto;
@@ -299,13 +298,7 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
   border-radius: 0 0.2em 0.2em 0.2em;
 }
 .h5p-keywords-dropdown.h5p-open {
-  top: 1.4em;
-  opacity: 1;
-  padding: 0.25em 0.5em;
   visibility: visible;
-  -webkit-transition-delay: 0s;
-  -moz-transition-delay: 0s;
-  transition-delay: 0s;
 }
 .h5p-keywords-dropdown > label {
   display: block;
@@ -322,8 +315,18 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
   width: 2em;
   font-weight: bold;
   color: #4a4a4a;
+  padding: 0.5em;
+  font-size: 0.9em;
+  border-radius: 0.5em;
+  border-style: solid;
+  border-width: 1px;
 }
-
+.h5p-keywords-dropdown .h5peditor-button {
+  width: 100%;
+  color: #181818;
+  background: #d5d5d5;
+  text-align: center;
+}
 .h5p-dragnbar-ul .h5p-slides-menu {
   overflow: hidden;
   padding: 3px 3px 0px 3px;
