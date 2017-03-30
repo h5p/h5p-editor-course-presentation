@@ -180,8 +180,9 @@
   resize: none;
   background: none;
   overflow: hidden;
-  padding: 10px;
-  margin: -10px;
+  padding: 0.75em;
+  margin: -0.75em;
+  padding-right: 3em;
   height: inherit;
   font-size: inherit;
   box-shadow: none;
@@ -194,15 +195,17 @@
 .h5p-course-presentation .h5p-keywords-wrapper .h5p-current span:hover {
   color: #000;
 }
-.h5p-course-presentation .h5p-sub-keyword textarea {
-  padding-right: 1.833em;
-  width: 7.7em;
-}
-.h5p-course-presentation .h5p-confirm-keyword,
+.h5p-course-presentation .h5p-confirm-keyword, 
 .h5p-course-presentation .h5p-delete-keyword {
+  position: absolute;
   vertical-align: middle;
-  width: 1em;
-  height: 1em;
+  font-size: 1.5em;
+}
+.h5p-course-presentation .h5p-confirm-keyword {
+  right: 1.2em;
+}
+.h5p-course-presentation .h5p-delete-keyword {
+  right: 0em;
 }
 .h5p-course-presentation .h5p-confirm-keyword:after {
   font-family: 'H5PFontAwesome4';
