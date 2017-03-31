@@ -311,6 +311,9 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
 .h5p-keywords-dropdown input[type="checkbox"] {
   vertical-align: middle;
 }
+.h5p-keywords-dropdown input[type="checkbox"] {
+  margin-right: 0.8em;
+}
 .h5p-keywords-dropdown input[type="text"] {
   width: 2em;
   font-weight: bold;

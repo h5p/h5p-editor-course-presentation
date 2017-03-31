@@ -628,8 +628,8 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
             '<input type="checkbox"/>' +
             H5PEditor.t('H5PEditor.CoursePresentation', 'showSlideTitles') +
           '</label>' +
-          '<label class="h5p-keywords-always"><input type="checkbox"/> Always show</label>' +
-          '<label class="h5p-keywords-hide"><input type="checkbox"/> Auto hide</label>' +
+          '<label class="h5p-keywords-always"><input type="checkbox"/>Always show</label>' +
+          '<label class="h5p-keywords-hide"><input type="checkbox"/>Auto hide</label>' +
           '<label class="h5p-keywords-opacity"><input type="text"/> % Opacity</label>' +
           '<div class="h5peditor-button h5peditor-button-textual importance-low" role="button" tabindex="0" aria-disabled="false">' +
             H5PEditor.t('H5PEditor.CoursePresentation', 'ok') +
