@@ -277,13 +277,57 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .next()
     .click(function () {
       that.trigger('sortSlide', -1);
-      that.sortSlide(that.cp.$current.prev(), -1); // Left
+      var $selectedProgressPart = that.cp.$progressbar.find('.h5p-progressbar-part-selected');
+      var partWidth = $selectedProgressPart.width();
+
+      // Fake parts switching place with animation for visual effect desired
+      $selectedProgressPart.animate({
+        left: -partWidth + 'px',
+        easing: 'linear',
+      }, 300, function() {
+        ns.$(this).css({
+          'left': 'initial'
+        })
+      });
+
+      $selectedProgressPart.prev().animate({
+        left: partWidth + 'px',
+        easing: 'linear',
+      }, 300, function() {
+        ns.$(this).css({
+          'left': 'initial'
+        })
+        that.sortSlide(that.cp.$current.prev(), -1);
+      });
+
       return false;
     })
     .next()
     .click(function () {
       that.trigger('sortSlide', 1);
-      that.sortSlide(that.cp.$current.next(), 1); // Right
+      var $selectedProgressPart = that.cp.$progressbar.find('.h5p-progressbar-part-selected');
+      var partWidth = $selectedProgressPart.width();
+
+      // Fake parts switching place with animation for visual effect desired
+      $selectedProgressPart.animate({
+        left: partWidth + 'px',
+        easing: 'linear',
+      }, 300, function() {
+        ns.$(this).css({
+          'left': 'initial'
+        })
+      });
+
+      $selectedProgressPart.next().animate({
+        left: -partWidth + 'px',
+        easing: 'linear',
+      }, 300, function() {
+        ns.$(this).css({
+          'left': 'initial'
+        })
+        that.sortSlide(that.cp.$current.next(), 1);
+      });
+
       return false;
     })
     .next()

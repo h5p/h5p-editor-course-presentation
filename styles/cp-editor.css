@@ -454,3 +454,16 @@
 .field-name-presentation > .h5peditor-label-wrapper {
   display: none;
 }
+
+.h5p-coursepresentation-editor .h5p-progressbar-part {
+  position: relative;
+}
+
+.h5p-coursepresentation-editor .h5p-progressbar-part:not(:last-child) {
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+
+.h5p-coursepresentation-editor .h5p-progressbar-part:not(.h5p-progressbar-part-selected) {
+  background: none;
+}
