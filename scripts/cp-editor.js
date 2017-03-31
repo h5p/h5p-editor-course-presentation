@@ -620,13 +620,13 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   that.$keywordsDNB = H5PEditor.$(
     '<ul class="h5p-dragnbar-ul h5p-dragnbar-left">' +
       '<li class="h5p-slides-menu">' +
-        '<div title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'slidesMenu') + '" class="h5p-dragnbar-keywords" role="button" tabindex="1">' +
-          '<span>' + H5PEditor.t('H5PEditor.CoursePresentation', 'slidesMenu') + '</span>' +
+        '<div title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'slides') + '" class="h5p-dragnbar-keywords" role="button" tabindex="1">' +
+          '<span>' + H5PEditor.t('H5PEditor.CoursePresentation', 'slides') + '</span>' +
         '</div>' +
         '<div class="h5p-keywords-dropdown">' +
           '<label class="h5p-keywords-enable">' +
             '<input type="checkbox"/>' +
-            H5PEditor.t('H5PEditor.CoursePresentation', 'showSlideTitles') +
+            H5PEditor.t('H5PEditor.CoursePresentation', 'showTitles') +
           '</label>' +
           '<label class="h5p-keywords-always"><input type="checkbox"/>Always show</label>' +
           '<label class="h5p-keywords-hide"><input type="checkbox"/>Auto hide</label>' +
@@ -1155,8 +1155,8 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   }
 
   var slideIndex = that.cp.$current.index();
-  var $confirm = H5PEditor.$('<a href="#" class="h5p-confirm-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'confirmKeyword') + '"></a>');
-  var $delete = H5PEditor.$('<a href="#" class="h5p-delete-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'deleteKeyword') + '"></a>');
+  var $confirm = H5PEditor.$('<a href="#" class="h5p-confirm-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'save') + '"></a>');
+  var $delete = H5PEditor.$('<a href="#" class="h5p-delete-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cancel') + '"></a>');
   var $textarea = H5PEditor.$('<textarea>' + $span.text() + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
     if (event.keyCode === 13) {
       $textarea.blur();
@@ -1905,8 +1905,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "newSlide": "Add new slide",
     "insertElement": "Click and drag to place :type",
     "newKeyword": "New keyword",
-    "confirmKeyword": "Confirm keyword",
-    "deleteKeyword": "Remove this keyword",
+    "save": "Save",
     "removeElement": "Remove this element",
     "confirmRemoveElement": "Are you sure you wish to remove this element?",
     "cancel": "Cancel",
@@ -1915,7 +1914,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "keywordsTip": "Drag in keywords using the two buttons above.",
     "popupTitle": "Edit :type",
     "loading": "Loading...",
-    "slidesMenu": "Slides menu",
+    "slides": "Slides",
     "element": "Element",
     "resetToDefault": "Reset to default",
     "resetToTemplate": "Reset to template",
@@ -1927,7 +1926,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "templateDescription": "Will be applied to all slides not overridden by any \":currentSlide\" settings.",
     "currentSlide": "This slide",
     "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings.",
-    "showSlideTitles": "Show slide titles",
+    "showTitles": "Show Titles",
     "ok": "OK",
     "noTitle": "No title",
     "slide": "Slide"
