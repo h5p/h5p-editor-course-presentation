@@ -327,7 +327,20 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     }
   });
 
-  //this.updateSlidesSidebar();
+  var $keywords = this.cp.$keywords.children();
+
+  $keywords.each(function (index) {
+    var $editIcon = H5PEditor.$(
+      '<a href="#" class="joubel-icon-edit" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '">' +
+        '<span class="h5p-icon-circle"></span>' +
+        '<span class="h5p-icon-pencil"></span>' +
+      '</a>')
+    .click(function(e) {
+      e.preventDefault();
+      H5PEditor.$(this).siblings('span').click();
+    })
+    .appendTo($keywords.eq(index).find('.h5p-keywords-li'));
+  });
 };
 
 H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
@@ -658,6 +671,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     // Convert keywords into text areas when clicking.
     if (!that.keywordsDNS.moving && that.editKeyword(H5PEditor.$(this)) !== false) {
       event.stopPropagation();
+      H5PEditor.$(event.target).parent().addClass('h5p-editing');
     }
   };
   var keywordMousedown = function (event) {
@@ -676,12 +690,23 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       $ol = H5PEditor.$('<ol class="h5p-keywords-ol"></ol>').prependTo($li);
     }
 
-    var $element = H5PEditor.$('<li class="h5p-keywords-li h5p-new-keyword ' + classes + '">' +
-                                 '<div class="h5p-keyword-title"></div>' +
-                                 '<span>' + newKeywordString + '</span>' +
-                               '</li>');
+    var $element = H5PEditor.$(
+      '<li class="h5p-keywords-li h5p-new-keyword ' + classes + '">' +
+        '<div class="h5p-keyword-title"></div>' +
+        '<span>' + newKeywordString + '</span>' +
+      '</li>')
+    .appendTo($ol);
 
-    $element.appendTo($ol);
+    var $editIcon = H5PEditor.$(
+      '<a href="#" class="joubel-icon-edit" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '">' +
+        '<span class="h5p-icon-circle"></span>' +
+        '<span class="h5p-icon-pencil"></span>' +
+      '</a>')
+    .click(function(e) {
+      e.preventDefault();
+      H5PEditor.$(this).siblings('span').click();
+    })
+    .appendTo($element);
 
     var $label = $element.children('span').click(keywordClick);
 
@@ -974,7 +999,7 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   // Add keywords
   if (slideParams.keywords !== undefined) {
-    H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function (event) {
+   H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function (event) {
       that.cp.keywordClick(H5PEditor.$(this));
       event.preventDefault();
     }).find('span').click(function (event) {
@@ -1155,8 +1180,19 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   }
 
   var slideIndex = that.cp.$current.index();
-  var $confirm = H5PEditor.$('<a href="#" class="h5p-confirm-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'save') + '"></a>');
-  var $delete = H5PEditor.$('<a href="#" class="h5p-delete-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cancel') + '"></a>');
+
+  var $approve = H5PEditor.$(
+    '<a href="#" class="joubel-icon-approve" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'save') + '">' +
+      '<span class="h5p-icon-circle"></span>' +
+      '<span class="h5p-icon-check"></span>' +
+    '</a>');
+
+  var $delete = H5PEditor.$(
+    '<a href="#" class="joubel-icon-cancel" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cancel') + '">' +
+      '<span class="h5p-icon-circle"></span>' +
+      '<span class="h5p-icon-cross"></span>' +
+    '</a>');
+
   var $textarea = H5PEditor.$('<textarea>' + $span.text() + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
     if (event.keyCode === 13) {
       $textarea.blur();
@@ -1172,9 +1208,10 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     }
 
     // Update visuals
-    $span.text(keyword).show();
-    $textarea.add($delete).add($confirm).remove();
-    that.cp.$keywordsButton.text(keyword);
+    $textarea.parent().removeClass('h5p-editing');
+    $span.text(keyword).css({'display': 'inline-block'});
+    $textarea.add($delete).add($approve).remove();
+    that.cp.$keywordsButton.html('<span>' + keyword + '</span>');
 
     // Update params
     if (main) {
@@ -1187,9 +1224,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 
   $textarea.keyup();
 
-  $confirm.insertAfter($textarea).mousedown(function () {
-    // Do nothing
-  });
+  $approve.insertAfter($textarea);
 
   $delete.insertAfter($textarea).mousedown(function () {
     // Remove keyword
@@ -1911,6 +1946,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "cancel": "Cancel",
     "done": "Done",
     "remove": "Remove",
+    "edit": "Edit",
     "keywordsTip": "Drag in keywords using the two buttons above.",
     "popupTitle": "Edit :type",
     "loading": "Loading...",

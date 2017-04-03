@@ -169,9 +169,14 @@
 .h5p-course-presentation .h5p-keywordcontrols-button:hover {
   background-color: #edd1de;
 }
-
 .h5p-course-presentation .h5p-keywords-li {
   position: relative;
+}
+.h5p-course-presentation .h5p-keywords-li.h5p-editing {
+  box-shadow: inset 0px 0px 50px -18px rgba(0,0,0,0.3);
+}
+.h5p-course-presentation .h5p-keywords-li:not(.h5p-editing):hover > .joubel-icon-edit {
+  visibility: visible;
 }
 .h5p-course-presentation .h5p-placeholder {
   list-style: none;
@@ -187,7 +192,7 @@
   font-size: inherit;
   box-shadow: none;
   border: none;
-  font-weight: bold;
+  font-family: H5PDroidSans, sans-serif;
 }
 .h5p-course-presentation .h5p-keywords-wrapper .h5p-current span {
   cursor: pointer;
@@ -195,41 +200,24 @@
 .h5p-course-presentation .h5p-keywords-wrapper .h5p-current span:hover {
   color: #000;
 }
-.h5p-course-presentation .h5p-confirm-keyword, 
-.h5p-course-presentation .h5p-delete-keyword {
+.h5p-course-presentation .joubel-icon-approve, 
+.h5p-course-presentation .joubel-icon-edit,
+.h5p-course-presentation .joubel-icon-cancel {
   position: absolute;
-  vertical-align: middle;
-  font-size: 1.5em;
+  font-size: 1.75em;
+  line-height: inherit;
+  top: 0.8em;
 }
-.h5p-course-presentation .h5p-confirm-keyword {
-  right: 1.2em;
+.h5p-course-presentation .joubel-icon-approve {
+  right: 1.9em;
 }
-.h5p-course-presentation .h5p-delete-keyword {
-  right: 0em;
+.h5p-course-presentation .joubel-icon-edit {
+  right: 0.7em;
+  visibility: hidden;
 }
-.h5p-course-presentation .h5p-confirm-keyword:after {
-  font-family: 'H5PFontAwesome4';
-  content: "\f058";
-  color: #ccc;
+.h5p-course-presentation .joubel-icon-cancel {
+  right: 0.7em;
 }
-.h5p-course-presentation .h5p-delete-keyword:after {
-  font-family: 'H5PFontAwesome4';
-  content: "\f057";
-  color: #ccc;
-}
-.h5p-course-presentation .h5p-confirm-keyword:hover:after {
-  color: #3ea35f;
-  text-decoration: none;
-}
-.h5p-course-presentation .h5p-delete-keyword:hover:after {
-  color: #de3354;
-  text-decoration: none;
-}
-.h5p-course-presentation .h5p-delete-keyword:hover {
-  text-decoration: none;
-  color: #c33f62;
-}
-
 .h5p-course-presentation .h5p-moving {
   position: absolute;
   cursor: move;
@@ -237,7 +225,6 @@
 .h5p-course-presentation .slideination {
   height: 9.09%;
 }
-
 .editor.h5p-course-presentation .h5p-press-to-go {
   position: relative;
   box-sizing: border-box;
