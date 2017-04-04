@@ -789,12 +789,30 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
 
   // Always show keywords list
   var $alwaysKeywords = this.$bar.find('.h5p-keywords-always input').change(function () {
-    that.params.keywordListAlwaysShow = $alwaysKeywords.is(':checked');
+    var checked = $alwaysKeywords.is(':checked');
+
+    that.params.keywordListAlwaysShow = checked;
+
+    if (checked) {
+      // Disable auto hide
+      that.params.keywordListAutoHide = false;
+      that.$bar.find('.h5p-keywords-hide input')
+        .attr('checked', false)
+        .attr("disabled", true)
+        .parent().addClass('h5p-disabled');
+    }
+    else {
+      that.$bar.find('.h5p-keywords-hide input')
+        .attr("disabled", false)
+        .parent().removeClass('h5p-disabled');
+    }
+
     if (!that.params.keywordListEnabled) {
       that.cp.hideKeywords();
       that.cp.$keywordsButton.hide();
       return;
-    } else if (!that.params.keywordListAlwaysShow) {
+    }
+    else if (!that.params.keywordListAlwaysShow) {
       that.cp.$keywordsButton.show();
     }
     if (that.params.keywordListAlwaysShow) {

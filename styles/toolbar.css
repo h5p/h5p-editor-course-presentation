@@ -316,6 +316,9 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
   padding: 0.5em 0.6em;
   color: #4a4a4a;
 }
+.h5p-keywords-dropdown .h5p-keywords-hide.h5p-disabled {
+  opacity: 0.6;
+}
 .h5p-keywords-dropdown input[type="text"],
 .h5p-keywords-dropdown input[type="checkbox"] {
   vertical-align: middle;
