@@ -337,7 +337,14 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
       '</a>')
     .click(function(e) {
       e.preventDefault();
-      H5PEditor.$(this).siblings('span').click();
+
+      // If clicked is not already active, do a double click
+      if (!H5PEditor.$(this).parent().parent().parent().hasClass('h5p-current')) {
+        H5PEditor.$(this).siblings('span').click().click();
+      }
+      else {
+        H5PEditor.$(this).siblings('span').click();
+      }
     })
     .appendTo($keywords.eq(index).find('.h5p-keywords-li'));
   });
@@ -704,7 +711,14 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       '</a>')
     .click(function(e) {
       e.preventDefault();
-      H5PEditor.$(this).siblings('span').click();
+
+      // If clicked is not already active, do a double click
+      if (!H5PEditor.$(this).parent().parent().parent().hasClass('h5p-current')) {
+        H5PEditor.$(this).siblings('span').click().click();
+      }
+      else {
+        H5PEditor.$(this).siblings('span').click();
+      }
     })
     .appendTo($element);
 
@@ -1208,23 +1222,25 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
       keyword = H5PEditor.t('H5PEditor.CoursePresentation', 'noTitle');
     }
 
-    if (e.relatedTarget !== null && e.relatedTarget.className !== "joubel-icon-cancel") {
-      $span.text(keyword);
-      that.cp.$keywordsButton.html('<span>' + keyword + '</span>');
-
-      // Update params
-      if (main) {
-        that.params.slides[slideIndex].keywords[$li.index()].main = keyword;
-      }
-      else {
-        that.params.slides[slideIndex].keywords[$li.parent().parent().index()].subs[$li.index()] = keyword;
-      }
-    }
-
     // Update visuals
     $textarea.parent().removeClass('h5p-editing');
     $span.css({'display': 'inline-block'});
     $textarea.add($delete).add($approve).remove();
+
+    if (e.relatedTarget !== null && e.relatedTarget.className === "joubel-icon-cancel") {
+      return false;
+    }
+
+    $span.text(keyword);
+    that.cp.$keywordsButton.html('<span>' + keyword + '</span>');
+
+    // Update params
+    if (main) {
+      that.params.slides[slideIndex].keywords[$li.index()].main = keyword;
+    }
+    else {
+      that.params.slides[slideIndex].keywords[$li.parent().parent().index()].subs[$li.index()] = keyword;
+    }
   }).focus();
 
   $textarea.keyup();
