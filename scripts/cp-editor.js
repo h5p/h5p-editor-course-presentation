@@ -1208,7 +1208,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
       keyword = H5PEditor.t('H5PEditor.CoursePresentation', 'noTitle');
     }
 
-    if (e.relatedTarget.className !== "joubel-icon-cancel") {
+    if (e.relatedTarget !== null && e.relatedTarget.className !== "joubel-icon-cancel") {
       $span.text(keyword);
       that.cp.$keywordsButton.html('<span>' + keyword + '</span>');
 
