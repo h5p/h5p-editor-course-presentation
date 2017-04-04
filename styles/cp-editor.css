@@ -187,12 +187,13 @@
   overflow: hidden;
   padding: 0.75em;
   margin: -0.75em;
-  padding-right: 3em;
+  padding-right: 4.5em;
   height: inherit;
   font-size: inherit;
   box-shadow: none;
   border: none;
   font-family: H5PDroidSans, sans-serif;
+  word-break: break-all;
 }
 .h5p-course-presentation .h5p-keywords-wrapper .h5p-current span {
   cursor: pointer;

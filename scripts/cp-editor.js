@@ -1174,6 +1174,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   var $li = $span.parent();
   var $ancestor = $li.parent().parent();
   var main = $ancestor.hasClass('h5p-current');
+  var oldContent = $span.text();
 
   if (!main && !$ancestor.parent().parent().hasClass('h5p-current')) {
     return false;
@@ -1199,27 +1200,31 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
       return false;
     }
   }).keyup(function () {
-    $textarea.css('height', 1).css('height', $textarea[0].scrollHeight - 8);
-  }).blur(function () {
+    $textarea.css('height', 1).css('height', $textarea[0].scrollHeight);
+  }).blur(function (e) {
     var keyword = $textarea.val();
 
     if (H5P.trim(keyword) === '') {
       keyword = H5PEditor.t('H5PEditor.CoursePresentation', 'noTitle');
     }
 
+    if (e.relatedTarget.className !== "joubel-icon-cancel") {
+      $span.text(keyword);
+      that.cp.$keywordsButton.html('<span>' + keyword + '</span>');
+
+      // Update params
+      if (main) {
+        that.params.slides[slideIndex].keywords[$li.index()].main = keyword;
+      }
+      else {
+        that.params.slides[slideIndex].keywords[$li.parent().parent().index()].subs[$li.index()] = keyword;
+      }
+    }
+
     // Update visuals
     $textarea.parent().removeClass('h5p-editing');
-    $span.text(keyword).css({'display': 'inline-block'});
+    $span.css({'display': 'inline-block'});
     $textarea.add($delete).add($approve).remove();
-    that.cp.$keywordsButton.html('<span>' + keyword + '</span>');
-
-    // Update params
-    if (main) {
-      that.params.slides[slideIndex].keywords[$li.index()].main = keyword;
-    }
-    else {
-      that.params.slides[slideIndex].keywords[$li.parent().parent().index()].subs[$li.index()] = keyword;
-    }
   }).focus();
 
   $textarea.keyup();
@@ -1229,7 +1234,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   $delete.insertAfter($textarea).mousedown(function () {
     // Remove keyword
     if (main) {
-      var newKeywordString = H5PEditor.t('H5PEditor.CoursePresentation', 'noTitle');
+      var newKeywordString = oldContent;
       that.params.slides[slideIndex].keywords = [{main: newKeywordString}];
       $textarea.text(newKeywordString);
     }
