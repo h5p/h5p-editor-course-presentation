@@ -339,7 +339,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
       e.preventDefault();
 
       // If clicked is not already active, do a double click
-      if (!H5PEditor.$(this).parent().parent().parent().hasClass('h5p-current')) {
+      if (!H5PEditor.$(this).parents('.h5p-keywords-li').hasClass('h5p-current')) {
         H5PEditor.$(this).siblings('span').click().click();
       }
       else {
@@ -1255,9 +1255,6 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     // Update params
     if (main) {
       that.params.slides[slideIndex].keywords[$li.index()].main = keyword;
-    }
-    else {
-      that.params.slides[slideIndex].keywords[$li.parent().parent().index()].subs[$li.index()] = keyword;
     }
   }).focus();
 
