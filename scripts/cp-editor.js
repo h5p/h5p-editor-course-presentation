@@ -1244,6 +1244,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     $textarea.parent().removeClass('h5p-editing');
     $span.css({'display': 'inline-block'});
     $textarea.add($delete).add($approve).remove();
+    that.cp.progressbarParts[slideIndex].data('keyword', keyword);
 
     if (e.relatedTarget !== null && e.relatedTarget.className === "joubel-icon-cancel") {
       return false;
