@@ -345,6 +345,8 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
       else {
         H5PEditor.$(this).siblings('span').click();
       }
+
+      $editIcon.siblings('textarea').select();
     })
     .appendTo($keywords.eq(index).find('.h5p-keywords-li'));
   });
