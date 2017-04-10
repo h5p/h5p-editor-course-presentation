@@ -59,8 +59,14 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 
   // Make sure each slide has keywords array defined.
   // This won't always be the case for old presentations
-  this.params.slides.forEach(function (slide) {
-    slide.keywords = slide.keywords || [];
+  this.params.slides.forEach(function (slide, index) {
+    if (slide.keywords === undefined || slide.keywords.length === 0) {
+      var newKeywordString = H5PEditor.t('H5PEditor.CoursePresentation', 'noTitle');
+      slide.keywords = [{main: newKeywordString}];
+    }
+    else if (slide.keywords.length > 0) {
+      slide.keywords = slide.keywords;
+    }
   });
 
   if (H5PEditor.InteractiveVideo !== undefined) {
@@ -260,12 +266,16 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .children('a:first')
     .click(function () {
       that.addSlide();
+      that.updateSlidesSidebar();
       return false;
     })
     .next()
     .click(function () {
-      that.addSlide(H5P.cloneObject(that.params.slides[that.cp.$current.index()],true));
+      var newSlide = H5P.cloneObject(that.params.slides[that.cp.$current.index()],true);
+      newSlide.keywords = [];
+      that.addSlide(newSlide);
       H5P.ContinuousText.Engine.run(that);
+      that.updateSlidesSidebar();
       return false;
     })
     .next()
@@ -278,12 +288,14 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .click(function () {
       that.trigger('sortSlide', -1);
       that.sortSlide(that.cp.$current.prev(), -1); // Left
+      that.updateSlidesSidebar();
       return false;
     })
     .next()
     .click(function () {
       that.trigger('sortSlide', 1);
       that.sortSlide(that.cp.$current.next(), 1); // Right
+      that.updateSlidesSidebar();
       return false;
     })
     .next()
@@ -293,6 +305,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
       if (removed !== false) {
         that.trigger('removeSlide', removeIndex);
       }
+      that.updateSlidesSidebar();
       return false;
     });
 
@@ -312,6 +325,28 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
       delete that.keywordsDNS.dnd.containerOffset;
       delete that.keywordsDNS.marginAdjust;
     }
+  });
+
+  var $keywords = this.cp.$keywords.children();
+
+  $keywords.each(function (index) {
+    var $editIcon = H5PEditor.$(
+      '<a href="#" class="joubel-icon-edit" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '">' +
+        '<span class="h5p-icon-circle"></span>' +
+        '<span class="h5p-icon-pencil"></span>' +
+      '</a>')
+    .click(function(e) {
+      e.preventDefault();
+
+      // If clicked is not already active, do a double click
+      if (!H5PEditor.$(this).parent().parent().parent().hasClass('h5p-current')) {
+        H5PEditor.$(this).siblings('span').click().click();
+      }
+      else {
+        H5PEditor.$(this).siblings('span').click();
+      }
+    })
+    .appendTo($keywords.eq(index).find('.h5p-keywords-li'));
   });
 };
 
@@ -601,17 +636,24 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
  */
 H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   var that = this;
-
   // Add our own menu to the drag and drop menu bar.
   that.$keywordsDNB = H5PEditor.$(
     '<ul class="h5p-dragnbar-ul h5p-dragnbar-left">' +
-      '<li class="h5p-dragnbar-li">' +
-        '<div title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'keywordsMenu') + '" class="h5p-dragnbar-a h5p-dragnbar-keywords" role="button" tabindex="1"></div>' +
+      '<li class="h5p-slides-menu">' +
+        '<div title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'slides') + '" class="h5p-dragnbar-keywords" role="button" tabindex="1">' +
+          '<span>' + H5PEditor.t('H5PEditor.CoursePresentation', 'slides') + '</span>' +
+        '</div>' +
         '<div class="h5p-keywords-dropdown">' +
-          '<label class="h5p-keywords-enable"><input type="checkbox"/> Keywords list</label>' +
-          '<label class="h5p-keywords-always"><input type="checkbox"/> Always show</label>' +
-          '<label class="h5p-keywords-hide"><input type="checkbox"/> Auto hide</label>' +
-          '<label class="h5p-keywords-opacity">Opacity <input type="text"/> %</label>' +
+          '<label class="h5p-keywords-enable">' +
+            '<input type="checkbox"/>' +
+            H5PEditor.t('H5PEditor.CoursePresentation', 'showTitles') +
+          '</label>' +
+          '<label class="h5p-keywords-always"><input type="checkbox"/>Always show</label>' +
+          '<label class="h5p-keywords-hide"><input type="checkbox"/>Auto hide</label>' +
+          '<label class="h5p-keywords-opacity"><input type="text"/> % Opacity</label>' +
+          '<div class="h5peditor-button h5peditor-button-textual importance-low" role="button" tabindex="0" aria-disabled="false">' +
+            H5PEditor.t('H5PEditor.CoursePresentation', 'ok') +
+          '</div>' +
         '</div>' +
       '</li>' +
     '</ul>').prependTo(this.$bar);
@@ -636,13 +678,15 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     // Convert keywords into text areas when clicking.
     if (!that.keywordsDNS.moving && that.editKeyword(H5PEditor.$(this)) !== false) {
       event.stopPropagation();
+      H5PEditor.$(event.target).parent().addClass('h5p-editing');
     }
   };
   var keywordMousedown = function (event) {
     that.keywordsDNS.press(H5PEditor.$(this).parent(), event.pageX, event.pageY);
     return false;
   };
-  var newKeyword = function ($li, newKeywordString, classes, x, y) {
+
+  this.newKeyword = function ($li, newKeywordString, classes) {
     if (that.$keywordsTip !== undefined) {
       that.$keywordsTip.remove();
       delete that.$keywordsTip;
@@ -652,44 +696,42 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
     if (!$ol.length) {
       $ol = H5PEditor.$('<ol class="h5p-keywords-ol"></ol>').prependTo($li);
     }
-    var $element = H5PEditor.$('<li class="h5p-keywords-li h5p-new-keyword h5p-empty-keyword ' + classes + '"><span>' + newKeywordString + '</span></li>').appendTo($ol);
-    var $label = $element.children('span').click(keywordClick).mousedown(keywordMousedown);
 
-    that.keywordsDNS.press($element, x, y);
+    var $element = H5PEditor.$(
+      '<li class="h5p-keywords-li h5p-new-keyword ' + classes + '">' +
+        '<div class="h5p-keyword-title"></div>' +
+        '<span>' + newKeywordString + '</span>' +
+      '</li>')
+    .appendTo($ol);
 
-    // Edit once element is dropped.
-    var edit = function () {
-      H5P.$body.off('mouseup', edit).off('mouseleave', edit);
+    var $editIcon = H5PEditor.$(
+      '<a href="#" class="joubel-icon-edit" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '">' +
+        '<span class="h5p-icon-circle"></span>' +
+        '<span class="h5p-icon-pencil"></span>' +
+      '</a>')
+    .click(function(e) {
+      e.preventDefault();
 
-      // Use timeout to edit on next tick. (when moving and sorting has finished)
-      setTimeout(function () {
-        that.keywordsDNS.moving = false;
-        $label.trigger('click');
-      }, 0);
-    };
-    H5P.$body.on('mouseup', edit).on('mouseleave', edit);
+      // If clicked is not already active, do a double click
+      if (!H5PEditor.$(this).parent().parent().parent().hasClass('h5p-current')) {
+        H5PEditor.$(this).siblings('span').click().click();
+      }
+      else {
+        H5PEditor.$(this).siblings('span').click();
+      }
+    })
+    .appendTo($element);
+
+    var $label = $element.children('span').click(keywordClick);
 
     return false;
   };
 
   // Make existing keywords editable
-  this.cp.$keywords.find('span').click(keywordClick).mousedown(keywordMousedown);
-
-  this.$newKeyword = H5PEditor.$('<li class="h5p-keywords-li h5p-add-keyword" role="button" tabindex="1">Add keyword</li>').mousedown(function (event) {
-    if (event.button !== 0) {
-      return; // We only handle left click
-    }
-
-    // Create new keyword.
-    var newKeywordString = H5PEditor.t('H5PEditor.CoursePresentation', 'newKeyword');
-
-    // Add to params
-    that.params.slides[that.cp.$current.index()].keywords.push({main: newKeywordString});
-
-    return newKeyword(that.cp.$keywords.children('.h5p-current'), newKeywordString, 'h5p-main-keyword', event.pageX, event.pageY);
-  }).appendTo(this.cp.$currentKeyword);
+  this.cp.$keywords.find('span').click(keywordClick);
 
   // Make keywords drop down menu come alive
+  var $slidesMenu = this.$bar.find('.h5p-dragnbar-keywords');
   var $dropdown = this.$bar.find('.h5p-keywords-dropdown');
   var preventClose = false;
   var closeDropdown = function () {
@@ -697,15 +739,25 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       preventClose = false;
     }
     else {
+      $slidesMenu.removeClass('h5p-open');
       $dropdown.removeClass('h5p-open');
       that.cp.$container.off('click', closeDropdown);
     }
   };
 
+  $dropdown.find('.h5peditor-button').click(closeDropdown);
+
+  // Make sure keywords settings and button is hidden on load if disabled
+  if (!this.params.keywordListEnabled) {
+    $dropdown.children().first().siblings().hide().last().show();
+    that.cp.$keywordsButton.hide();
+  }
+
   // Open dropdown when clicking the dropdown button
-  this.$bar.find('.h5p-dragnbar-keywords').click(function () {
+  $slidesMenu.click(function () {
     if (!$dropdown.hasClass('h5p-open')) {
       that.cp.$container.on('click', closeDropdown);
+      $slidesMenu.addClass('h5p-open');
       $dropdown.addClass('h5p-open');
       preventClose = true;
     }
@@ -727,20 +779,40 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       else {
         that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).show();
       }
+      ns.$(this).parent().siblings().show();
     }
     else {
       that.cp.$keywordsWrapper.add(that.cp.$keywordsButton).hide();
+      ns.$(this).parent().siblings().hide().last().show();
     }
   });
 
   // Always show keywords list
   var $alwaysKeywords = this.$bar.find('.h5p-keywords-always input').change(function () {
-    that.params.keywordListAlwaysShow = $alwaysKeywords.is(':checked');
+    var checked = $alwaysKeywords.is(':checked');
+
+    that.params.keywordListAlwaysShow = checked;
+
+    if (checked) {
+      // Disable auto hide
+      that.params.keywordListAutoHide = false;
+      that.$bar.find('.h5p-keywords-hide input')
+        .attr('checked', false)
+        .attr("disabled", true)
+        .parent().addClass('h5p-disabled');
+    }
+    else {
+      that.$bar.find('.h5p-keywords-hide input')
+        .attr("disabled", false)
+        .parent().removeClass('h5p-disabled');
+    }
+
     if (!that.params.keywordListEnabled) {
       that.cp.hideKeywords();
       that.cp.$keywordsButton.hide();
       return;
-    } else if (!that.params.keywordListAlwaysShow) {
+    }
+    else if (!that.params.keywordListAlwaysShow) {
       that.cp.$keywordsButton.show();
     }
     if (that.params.keywordListAlwaysShow) {
@@ -959,7 +1031,7 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   // Add keywords
   if (slideParams.keywords !== undefined) {
-    H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function (event) {
+   H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function (event) {
       that.cp.keywordClick(H5PEditor.$(this));
       event.preventDefault();
     }).find('span').click(function (event) {
@@ -967,11 +1039,13 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
       if (!that.keywordsDNS.moving && that.editKeyword(H5PEditor.$(this)) !== false) {
         event.stopPropagation();
       }
-    }).mousedown(function (event) {
-      that.keywordsDNS.press(H5PEditor.$(this).parent(), event.pageX, event.pageY);
-      return false;
     });
   }
+
+  // Add the title
+  var newKeywordString = H5PEditor.t('H5PEditor.CoursePresentation', 'noTitle');
+  that.params.slides[that.cp.$current.index() + 1].keywords.push({main: newKeywordString});
+  this.newKeyword(that.cp.$keywords.children('.h5p-current').next(), newKeywordString, 'h5p-main-keyword');
 
   this.updateNavigationLine(index);
 
@@ -1055,6 +1129,18 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 };
 
 /**
+ * Update the slides sidebar
+ */
+H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
+  var $keywords = this.cp.$keywords.children();
+
+  // Update the sub titles
+  $keywords.each(function (index) {
+    ns.$(this).find('.h5p-keyword-title').text(H5PEditor.t('H5PEditor.CoursePresentation', 'slide') + ' ' + (index + 1));
+  });
+};
+
+/**
  * Sort current slide in the given direction.
  *
  * @param {H5PEditor.$} $element The next/prev slide.
@@ -1120,34 +1206,51 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   var $li = $span.parent();
   var $ancestor = $li.parent().parent();
   var main = $ancestor.hasClass('h5p-current');
+  var oldContent = $span.text();
 
   if (!main && !$ancestor.parent().parent().hasClass('h5p-current')) {
     return false;
   }
 
   var slideIndex = that.cp.$current.index();
-  var $delete = H5PEditor.$('<a href="#" class="h5p-delete-keyword" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'deleteKeyword') + '"></a>');
-  var $textarea = H5PEditor.$('<textarea>' + ($li.hasClass('h5p-empty-keyword') ? '' : $span.text()) + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
+
+  var $approve = H5PEditor.$(
+    '<a href="#" class="joubel-icon-approve" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'save') + '">' +
+      '<span class="h5p-icon-circle"></span>' +
+      '<span class="h5p-icon-check"></span>' +
+    '</a>');
+
+  var $delete = H5PEditor.$(
+    '<a href="#" class="joubel-icon-cancel" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cancel') + '">' +
+      '<span class="h5p-icon-circle"></span>' +
+      '<span class="h5p-icon-cross"></span>' +
+    '</a>');
+
+  var $textarea = H5PEditor.$('<textarea>' + $span.text() + '</textarea>').insertBefore($span.hide()).keydown(function (event) {
     if (event.keyCode === 13) {
       $textarea.blur();
       return false;
     }
   }).keyup(function () {
-    $textarea.css('height', 1).css('height', $textarea[0].scrollHeight - 8);
-  }).blur(function () {
+    $textarea.css('height', 1).css('height', $textarea[0].scrollHeight);
+  }).blur(function (e) {
     var keyword = $textarea.val();
 
     if (H5P.trim(keyword) === '') {
-      $li.addClass('h5p-empty-keyword');
-      keyword = H5PEditor.t('H5PEditor.CoursePresentation', 'newKeyword');
-    }
-    else {
-      $li.removeClass('h5p-empty-keyword');
+      keyword = H5PEditor.t('H5PEditor.CoursePresentation', 'noTitle');
     }
 
     // Update visuals
-    $span.text(keyword).show();
-    $textarea.add($delete).remove();
+    $textarea.parent().removeClass('h5p-editing');
+    $span.css({'display': 'inline-block'});
+    $textarea.add($delete).add($approve).remove();
+
+    if (e.relatedTarget !== null && e.relatedTarget.className === "joubel-icon-cancel") {
+      return false;
+    }
+
+    $span.text(keyword);
+    that.cp.$keywordsButton.html('<span>' + keyword + '</span>');
 
     // Update params
     if (main) {
@@ -1160,11 +1263,14 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 
   $textarea.keyup();
 
-  $delete.insertBefore($textarea).mousedown(function () {
+  $approve.insertAfter($textarea);
+
+  $delete.insertAfter($textarea).mousedown(function () {
     // Remove keyword
     if (main) {
-      that.params.slides[slideIndex].keywords.splice($li.index(), 1);
-      $li.add($textarea).remove();
+      var newKeywordString = oldContent;
+      that.params.slides[slideIndex].keywords = [{main: newKeywordString}];
+      $textarea.text(newKeywordString);
     }
     else {
       // Sub keywords
@@ -1207,10 +1313,10 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   // Manipulate semantics into only using a given set of fields
   if (type === 'goToSlide') {
     // Hide all others
-    self.showFields(elementFields, ['title', 'goToSlide', 'invisible']);
+    self.showFields(elementFields, ['title', 'goToSlide', 'goToSlideType', 'invisible']);
   }
   else {
-    var hideFields = ['title', 'goToSlide', 'invisible'];
+    var hideFields = ['title', 'goToSlide', 'goToSlideType', 'invisible'];
 
     if (type === 'H5P.ContinuousText' || type === 'H5P.Audio') {
       // Continuous Text or Go To Slide cannot be displayed as a button
@@ -1753,7 +1859,6 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, elemen
 
   // Update visuals
   $wrapper.remove();
-
   var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
   var $element = this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
 
@@ -1898,16 +2003,17 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "newSlide": "Add new slide",
     "insertElement": "Click and drag to place :type",
     "newKeyword": "New keyword",
-    "deleteKeyword": "Remove this keyword",
+    "save": "Save",
     "removeElement": "Remove this element",
     "confirmRemoveElement": "Are you sure you wish to remove this element?",
     "cancel": "Cancel",
     "done": "Done",
     "remove": "Remove",
+    "edit": "Edit",
     "keywordsTip": "Drag in keywords using the two buttons above.",
     "popupTitle": "Edit :type",
     "loading": "Loading...",
-    "keywordsMenu": "Keywords menu",
+    "slides": "Slides",
     "element": "Element",
     "resetToDefault": "Reset to default",
     "resetToTemplate": "Reset to template",
@@ -1918,6 +2024,10 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "template": "Template",
     "templateDescription": "Will be applied to all slides not overridden by any \":currentSlide\" settings.",
     "currentSlide": "This slide",
-    "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings."
+    "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings.",
+    "showTitles": "Show Titles",
+    "ok": "OK",
+    "noTitle": "No title",
+    "slide": "Slide"
   }
 };
