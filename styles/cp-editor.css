@@ -1,4 +1,4 @@
-1.libwrap.h5p-coursepresentation-editor {
+.libwrap.h5p-coursepresentation-editor {
   margin-top: 55px;
 }
 
@@ -169,22 +169,31 @@
 .h5p-course-presentation .h5p-keywordcontrols-button:hover {
   background-color: #edd1de;
 }
-
 .h5p-course-presentation .h5p-keywords-li {
   position: relative;
+}
+.h5p-course-presentation .h5p-keywords-li.h5p-editing {
+  box-shadow: inset 0px 0px 50px -18px rgba(0,0,0,0.3);
+}
+.h5p-course-presentation .h5p-keywords-li:not(.h5p-editing):hover > .joubel-icon-edit {
+  visibility: visible;
 }
 .h5p-course-presentation .h5p-placeholder {
   list-style: none;
 }
 .h5p-course-presentation .h5p-keywords-wrapper textarea {
   resize: none;
+  background: none;
   overflow: hidden;
-  font-size: 1em;
-  padding-right: 1.833em;
-  width: 7.6em;
+  padding: 0.75em;
+  margin: -0.75em;
+  padding-right: 4.5em;
+  height: inherit;
+  font-size: inherit;
   box-shadow: none;
-  border: 0.1em solid #ff9933;
-  font-weight: bold;
+  border: none;
+  font-family: H5PDroidSans, sans-serif;
+  word-break: break-all;
 }
 .h5p-course-presentation .h5p-keywords-wrapper .h5p-current span {
   cursor: pointer;
@@ -192,38 +201,24 @@
 .h5p-course-presentation .h5p-keywords-wrapper .h5p-current span:hover {
   color: #000;
 }
-.h5p-course-presentation .h5p-sub-keyword textarea {
-  padding-right: 1.833em;
-  width: 7.7em;
-}
-.h5p-course-presentation .h5p-empty-keyword > span {
-  font-style: italic;
-}
-.h5p-course-presentation .h5p-delete-keyword {
+.h5p-course-presentation .joubel-icon-approve, 
+.h5p-course-presentation .joubel-icon-edit,
+.h5p-course-presentation .joubel-icon-cancel {
   position: absolute;
-  right: -0.7em;
-  top: 50%;
-  width: 1em;
-  height: 1em;
-  margin-top: -0.7em;
+  font-size: 1.75em;
+  line-height: inherit;
+  top: 0.8em;
 }
-
-.h5p-course-presentation .h5p-delete-keyword:after {
-  font-family: 'H5PFontAwesome4';
-  content: "\f057";
-  color: #ccc;
+.h5p-course-presentation .joubel-icon-approve {
+  right: 1.9em;
 }
-
-.h5p-course-presentation .h5p-delete-keyword:hover:after {
-  color: #c33f62;
-  text-decoration: none;
+.h5p-course-presentation .joubel-icon-edit {
+  right: 0.7em;
+  visibility: hidden;
 }
-
-.h5p-course-presentation .h5p-delete-keyword:hover {
-  text-decoration: none;
-  color: #c33f62;
+.h5p-course-presentation .joubel-icon-cancel {
+  right: 0.7em;
 }
-
 .h5p-course-presentation .h5p-moving {
   position: absolute;
   cursor: move;
@@ -231,7 +226,6 @@
 .h5p-course-presentation .slideination {
   height: 9.09%;
 }
-
 .editor.h5p-course-presentation .h5p-press-to-go {
   position: relative;
   box-sizing: border-box;
