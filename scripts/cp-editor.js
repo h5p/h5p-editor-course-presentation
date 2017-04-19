@@ -277,57 +277,13 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .next()
     .click(function () {
       that.trigger('sortSlide', -1);
-      var $selectedProgressPart = that.cp.$progressbar.find('.h5p-progressbar-part-selected');
-      var partWidth = $selectedProgressPart.width();
-
-      // Fake parts switching place with animation for visual effect desired
-      $selectedProgressPart.animate({
-        left: -partWidth + 'px',
-        easing: 'linear',
-      }, 300, function() {
-        ns.$(this).css({
-          'left': 'initial'
-        })
-      });
-
-      $selectedProgressPart.prev().animate({
-        left: partWidth + 'px',
-        easing: 'linear',
-      }, 300, function() {
-        ns.$(this).css({
-          'left': 'initial'
-        })
-        that.sortSlide(that.cp.$current.prev(), -1);
-      });
-
+      that.animateSlidePart(-1);
       return false;
     })
     .next()
     .click(function () {
       that.trigger('sortSlide', 1);
-      var $selectedProgressPart = that.cp.$progressbar.find('.h5p-progressbar-part-selected');
-      var partWidth = $selectedProgressPart.width();
-
-      // Fake parts switching place with animation for visual effect desired
-      $selectedProgressPart.animate({
-        left: partWidth + 'px',
-        easing: 'linear',
-      }, 300, function() {
-        ns.$(this).css({
-          'left': 'initial'
-        })
-      });
-
-      $selectedProgressPart.next().animate({
-        left: -partWidth + 'px',
-        easing: 'linear',
-      }, 300, function() {
-        ns.$(this).css({
-          'left': 'initial'
-        })
-        that.sortSlide(that.cp.$current.next(), 1);
-      });
-
+      that.animateSlidePart(1);
       return false;
     })
     .next()
@@ -1099,6 +1055,46 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 };
 
 /**
+ * Animate current slide in the given direction.
+ *
+ * @param {int} direction 1 for next, -1 for prev.
+ * @returns {Boolean} Indicates success.
+ */
+H5PEditor.CoursePresentation.prototype.animateSlidePart = function (direction) {
+  var that = this;
+  var $selectedProgressPart = that.cp.$progressbar.find('.h5p-progressbar-part-selected');
+  var partWidth = $selectedProgressPart.width();
+
+  var $selectedNext = (direction == 1 ? $selectedProgressPart.next() : $selectedProgressPart.prev());
+
+  if (!$selectedNext.length) {
+    return false;
+  }
+
+  // Fake parts switching place with animation for visual effect desired
+  $selectedProgressPart.animate({
+    left: (partWidth * direction) + 'px',
+    easing: 'linear',
+  }, 300, function() {
+    ns.$(this).css({
+      'left': 'initial'
+    })
+  });
+
+  $selectedNext.animate({
+    left: (partWidth * -direction) + 'px',
+    easing: 'linear',
+  }, 300, function() {
+    ns.$(this).css({
+      'left': 'initial'
+    })
+    that.sortSlide((direction == 1 ? that.cp.$current.next() : that.cp.$current.prev()), direction);
+  });
+
+  return true;
+};
+
+/**
  * Sort current slide in the given direction.
  *
  * @param {H5PEditor.$} $element The next/prev slide.
@@ -1111,7 +1107,6 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   }
 
   var index = this.cp.$current.index();
-
   var keywordsEnabled = this.cp.$currentKeyword !== undefined;
 
   // Move slides and keywords.
@@ -1146,7 +1141,6 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   this.cp.elementsAttached.splice(newIndex, 0, this.cp.elementsAttached.splice(index, 1)[0]);
 
   this.updateNavigationLine(newIndex);
-
   H5P.ContinuousText.Engine.run(this);
 
   return true;
