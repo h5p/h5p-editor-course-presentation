@@ -201,7 +201,7 @@
 .h5p-course-presentation .h5p-keywords-wrapper .h5p-current span:hover {
   color: #000;
 }
-.h5p-course-presentation .joubel-icon-approve, 
+.h5p-course-presentation .joubel-icon-approve,
 .h5p-course-presentation .joubel-icon-edit,
 .h5p-course-presentation .joubel-icon-cancel {
   position: absolute;
@@ -456,6 +456,10 @@
 .h5p-coursepresentation-editor .h5p-progressbar-part {
   position: relative;
   margin: 0 1px;
+}
+.editor.h5p-course-presentation .h5p-progressbar .h5p-progressbar-part,
+.editor.h5p-course-presentation .h5p-progressbar .h5p-progressbar-part-show {
+  transition: transform 0.3s linear;
 }
 
 .h5p-coursepresentation-editor .h5p-progressbar-part:first-child {

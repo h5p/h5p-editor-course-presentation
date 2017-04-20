@@ -286,14 +286,12 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     })
     .next()
     .click(function () {
-      that.trigger('sortSlide', -1);
-      that.animateSlidePart(-1);
+      that.sortSlide(that.cp.$current.prev(), -1);
       return false;
     })
     .next()
     .click(function () {
-      that.trigger('sortSlide', 1);
-      that.animateSlidePart(1);
+      that.sortSlide(that.cp.$current.next(), 1);
       return false;
     })
     .next()
@@ -1127,43 +1125,22 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 };
 
 /**
- * Animate current slide in the given direction.
+ * Animate navigation line slide icons when the slides are sorted
  *
- * @param {int} direction 1 for next, -1 for prev.
- * @returns {Boolean} Indicates success.
+ * @param {number} direction 1 for next, -1 for prev.
  */
-H5PEditor.CoursePresentation.prototype.animateSlidePart = function (direction) {
+H5PEditor.CoursePresentation.prototype.animateNavigationLine = function (direction) {
   var that = this;
+
   var $selectedProgressPart = that.cp.$progressbar.find('.h5p-progressbar-part-selected');
-  var partWidth = $selectedProgressPart.width();
+  $selectedProgressPart.css('transform', 'translateX(' + (-100 * direction) + '%)');
 
-  var $selectedNext = (direction == 1 ? $selectedProgressPart.next() : $selectedProgressPart.prev());
+  var $selectedNext = (direction == 1 ? $selectedProgressPart.prev() : $selectedProgressPart.next());
+  $selectedNext.css('transform', 'translateX(' + (100 * direction) + '%)');
 
-  if (!$selectedNext.length) {
-    return false;
-  }
-
-  // Fake parts switching place with animation for visual effect desired
-  $selectedProgressPart.animate({
-    left: (partWidth * direction) + 'px',
-    easing: 'linear',
-  }, 300, function() {
-    ns.$(this).css({
-      'left': 'initial'
-    })
-  });
-
-  $selectedNext.animate({
-    left: (partWidth * -direction) + 'px',
-    easing: 'linear',
-  }, 300, function() {
-    ns.$(this).css({
-      'left': 'initial'
-    })
-    that.sortSlide((direction == 1 ? that.cp.$current.next() : that.cp.$current.prev()), direction);
-  });
-
-  return true;
+  setTimeout(function () { // Next tick triggers animation
+    $selectedProgressPart.add($selectedNext).css('transform', '');
+  }, 0);
 };
 
 /** Update the slides sidebar
@@ -1226,6 +1203,9 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   this.updateNavigationLine(newIndex);
   H5P.ContinuousText.Engine.run(this);
   this.updateSlidesSidebar();
+
+  this.animateNavigationLine(direction);
+  this.trigger('sortSlide', direction);
 
   return true;
 };
