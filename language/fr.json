@@ -2,6 +2,7 @@
   "libraryStrings": {
     "confirmDeleteSlide": "Êtes-vous sûr de vouloir supprimer cette diapositive ?",
     "sortSlide": "Tri des diapositives - :dir",
+    "backgroundSlide": "Slide background"
     "removeSlide": "Supprimer cette diapositive",
     "cloneSlide": "Dupliquer cette diapositive",
     "newSlide": "Ajouter une diapositive",
@@ -19,6 +20,14 @@
     "popupTitle": "Rediger :type",
     "loading": "Chargement...",
     "element": "Element",
-    "activeSurfaceWarning": "Êtes-vous sûr de vouloir activer le mode de surface active? Cette action ne peut pas être annulée."
+    "activeSurfaceWarning": "Êtes-vous sûr de vouloir activer le mode de surface active? Cette action ne peut pas être annulée.",
+    "slides": "Slides",
+    "showTitles": "Show Titles",
+    "noTitle": "No title",
+    "alwaysShow": "Always show",
+    "autoHide": "Auto hide",
+    "opacity": "Opacity",
+    "ok": "OK",
+    "edit": "Edit",
   }
 }

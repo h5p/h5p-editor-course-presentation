@@ -32,5 +32,13 @@
     "currentSlide": "Denne sliden",
     "currentSlideDescription": "Innstillinger vil bli satt kun i denne sliden, og vil overskrive \":template\" innstillinger.",
     "showSlideTitles": "Vis slidetitler"
+    "slides": "Slides",
+    "showTitles": "Vis titler",
+    "alwaysShow": "Alltid vis",
+    "autoHide": "Skjul automatisk",
+    "opacity": "Opasitet",
+    "ok": "OK",
+    "noTitle": "Ingen tittel",
+    "edit": "Rediger"
   }
 }
