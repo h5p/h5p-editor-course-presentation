@@ -2,7 +2,7 @@
   "libraryStrings": {
     "confirmDeleteSlide": "Êtes-vous sûr de vouloir supprimer cette diapositive ?",
     "sortSlide": "Tri des diapositives - :dir",
-    "backgroundSlide": "Slide background"
+    "backgroundSlide": "Slide background",
     "removeSlide": "Supprimer cette diapositive",
     "cloneSlide": "Dupliquer cette diapositive",
     "newSlide": "Ajouter une diapositive",
