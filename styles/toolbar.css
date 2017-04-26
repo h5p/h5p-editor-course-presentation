@@ -270,7 +270,7 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
   color: #4a4a4a;
 }
 .h5p-dragnbar-keywords:before {
-  font-family: 'h5pFontIcons';
+  font-family: 'H5PFontIcons';
   content: '\e90b';
   margin-right: 0.25em;
   -webkit-font-smoothing: antialiased;
