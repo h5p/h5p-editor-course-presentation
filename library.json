@@ -168,6 +168,11 @@
       "machineName": "H5PEditor.RadioSelector",
       "majorVersion": 1,
       "minorVersion": 2
+    },
+    {
+      "machineName": "H5P.FontIcons",
+      "majorVersion": 1,
+      "minorVersion": 0
     }
   ]
 }
