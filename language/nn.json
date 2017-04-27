@@ -31,7 +31,7 @@
     "templateDescription": "Innstillinger vil bli satt i alle slides some ikke er overskrevet av \":currentSlide\" innstillinger.",
     "currentSlide": "Denne sliden",
     "currentSlideDescription": "Innstillinger vil bli satt kun i denne sliden, og vil overskrive \":template\" innstillinger.",
-    "showSlideTitles": "Vis slidetitler"
+    "showSlideTitles": "Vis slidetitler",
     "slides": "Slides",
     "showTitles": "Vis titler",
     "alwaysShow": "Alltid vis",
