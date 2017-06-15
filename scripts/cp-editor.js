@@ -1577,8 +1577,11 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     };
   }
 
-  if (elementParams.pasted && type === 'H5P.ContinuousText') {
-    H5P.ContinuousText.Engine.run(this);
+  if (elementParams.pasted) {
+    if (type === 'H5P.ContinuousText') {
+      H5P.ContinuousText.Engine.run(this);
+    }
+
     delete elementParams.pasted;
   }
 
@@ -1905,6 +1908,7 @@ H5PEditor.CoursePresentation.prototype.fitElement = function ($element, elementP
 
   var pW = (sizeNPosition.containerWidth / 100);
   var pH = (sizeNPosition.containerHeight / 100);
+  
   // Set the updated properties
   var style = {};
 
