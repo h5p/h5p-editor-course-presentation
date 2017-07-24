@@ -1337,6 +1337,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     if (type === 'H5P.ContinuousText' || type === 'H5P.Audio') {
       // Continuous Text or Go To Slide cannot be displayed as a button
       hideFields.push('displayAsButton');
+      hideFields.push('buttonSize');
     }
 
     // Only display goToSlide field for goToSlide elements
@@ -1360,6 +1361,23 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   // Hide library selector
   element.$form.children('.library:first').children('label, select').hide().end().children('.libwrap').css('margin-top', '0');
 
+  // Show or hide button size dropdown depending on display as button checkbox
+  element.$form.find('.field-name-displayAsButton').each(function(index) {
+    var buttonSizeField = ns.$(this).parent().find('.field-name-buttonSize');
+
+    if (!ns.$(this).find("input")[0].checked) {
+      buttonSizeField.addClass("h5p-hidden");
+    }
+
+    ns.$(this).find("input").change(function(e) {
+      if (e.target.checked) {
+        buttonSizeField.removeClass("h5p-hidden");
+      } else {
+        buttonSizeField.addClass("h5p-hidden");
+      }
+    });
+  });
+  
   // Set correct aspect ratio on new images.
   // TODO: Do not use/rely on magic numbers!
   var library = element.children[4];

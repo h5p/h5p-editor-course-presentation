@@ -477,3 +477,23 @@
 .h5p-coursepresentation-editor .h5p-progressbar-part:not(.h5p-progressbar-part-selected) {
   background: #999;
 }
+
+.h5p-coursepresentation-editor .h5p-hidden {
+  display: none;
+}
+
+.h5p-coursepresentation-editor .field-name-displayAsButton {
+  float: left;
+  margin-top: 0;
+}
+
+.h5p-coursepresentation-editor .field-name-buttonSize {
+  float: left;
+  margin-top: -0.7em;
+  margin-left: 3em;
+}
+
+.h5p-coursepresentation-editor .field-name-buttonSize label {
+  display: inline-block;
+  margin-right: 0.5em;
+}
