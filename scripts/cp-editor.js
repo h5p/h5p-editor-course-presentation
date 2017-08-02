@@ -410,13 +410,19 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       slide.forEach(function (element, elementIndex) {
         var elementParams = that.params.slides[slideIndex].elements[elementIndex];
         var options = {};
+
         if (elementParams.displayAsButton) {
           options.disableResize = true;
         }
 
         var type = (elementParams.action ? elementParams.action.library.split(' ')[0] : null);
-        if (type === 'H5P.Image' || (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart')) {
+
+        if (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart') {
           options.lock = true;
+        }
+
+        if (type === 'H5P.Image') {
+          options.cornerLock = true;
         }
 
         // Register option for locking dimensions if image
@@ -1575,8 +1581,12 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
       options.disableResize = true;
     }
 
-    if (type === 'H5P.Image' || (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart')) {
+    if (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart') {
       options.lock = true;
+    }
+
+    if (type === 'H5P.Image') {
+      options.cornerLock = true;
     }
 
     that.addToDragNBar(element, elementParams, options);
