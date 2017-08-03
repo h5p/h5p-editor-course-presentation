@@ -17,7 +17,7 @@
     "keywordsTip": "Stichworte mit Hilfe der oberen Buttons hineinziehen.",
     "popupTitle": ":type bearbeiten",
     "loading": "Laden...",
-    "keywordsMenu": "Menü für Stichworte",
+    "slidesmenu": "Menü für Stichworte",
     "element": "Element",
     "resetToDefault": "Auf Standard zurücksetzen",
     "resetToTemplate": "Aufs Template zurücksetzen",
@@ -28,6 +28,14 @@
     "template": "Template",
     "templateDescription": "Wird auf alle Folien angewendet und nicht von \":currentSlide\" Einstellungen überschrieben.",
     "currentSlide": "Diese Folie",
-    "currentSlideDescription": "Wird nur auf diese Folie angewendet und wird alle \":template\" Einstellungen überschreiben."
+    "currentSlideDescription": "Wird nur auf diese Folie angewendet und wird alle \":template\" Einstellungen überschreiben.",
+    "slides": "Slides",
+    "showTitles": "Show Titles",
+    "noTitle": "No title",
+    "alwaysShow": "Always show",
+    "autoHide": "Auto hide",
+    "opacity": "Opacity",
+    "ok": "OK",
+    "edit": "Edit"
   }
 }
