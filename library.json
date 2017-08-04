@@ -1,8 +1,8 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 18,
-  "patchVersion": 0,
+  "minorVersion": 17,
+  "patchVersion": 1,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel",
@@ -107,7 +107,7 @@
     {
       "machineName": "H5P.TrueFalse",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 2
     },
     {
       "machineName": "H5P.DragQuestion",
@@ -127,12 +127,12 @@
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 18
+      "minorVersion": 17
     },
     {
       "machineName": "H5P.CoursePresentation",
       "majorVersion": 1,
-      "minorVersion": 18
+      "minorVersion": 17
     },
     {
       "machineName": "H5P.MarkTheWords",
@@ -157,7 +157,7 @@
     {
       "machineName": "H5P.Dialogcards",
       "majorVersion": 1,
-      "minorVersion": 5
+      "minorVersion": 6
     },
     {
       "machineName": "H5PEditor.ColorSelector",
