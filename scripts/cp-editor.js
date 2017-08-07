@@ -1253,6 +1253,8 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     $textarea.css('height', 1).css('height', $textarea[0].scrollHeight);
   }).blur(function (e) {
     var keyword = $textarea.val();
+    // Encode keyword before rendering
+    var encodedKeyword = H5PEditor.$('<div>').text(keyword).html();
 
     if (H5P.trim(keyword) === '') {
       keyword = H5PEditor.t('H5PEditor.CoursePresentation', 'noTitle');
@@ -1262,7 +1264,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     $textarea.parent().removeClass('h5p-editing');
     $span.css({'display': 'inline-block'});
     $textarea.add($delete).add($approve).remove();
-    that.cp.progressbarParts[slideIndex].data('keyword', $textarea.html());
+    that.cp.progressbarParts[slideIndex].data('keyword', encodedKeyword);
 
     if (e.relatedTarget !== null && e.relatedTarget.className === "joubel-icon-cancel") {
       return false;
@@ -1276,7 +1278,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 
     // Update params
     if (main) {
-      that.params.slides[slideIndex].keywords[$li.index()].main = $textarea.html();
+      that.params.slides[slideIndex].keywords[$li.index()].main = encodedKeyword;
     }
   }).focus();
 
