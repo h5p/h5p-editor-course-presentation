@@ -1029,7 +1029,7 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   // Add keywords
   if (slideParams.keywords !== undefined) {
-   H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function (event) {
+    H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function (event) {
       that.cp.keywordClick(H5PEditor.$(this));
       event.preventDefault();
     }).find('span').click(function (event) {
@@ -1262,18 +1262,21 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     $textarea.parent().removeClass('h5p-editing');
     $span.css({'display': 'inline-block'});
     $textarea.add($delete).add($approve).remove();
-    that.cp.progressbarParts[slideIndex].data('keyword', keyword);
+    that.cp.progressbarParts[slideIndex].data('keyword', $textarea.html());
 
     if (e.relatedTarget !== null && e.relatedTarget.className === "joubel-icon-cancel") {
       return false;
     }
 
     $span.text(keyword);
-    that.cp.$keywordsButton.html('<span>' + keyword + '</span>');
+    that.cp.$keywordsButton.html();
+    H5PEditor.$('span', {
+      text: keyword
+    }).appendTo(that.cp.$keywordsButton);
 
     // Update params
     if (main) {
-      that.params.slides[slideIndex].keywords[$li.index()].main = keyword;
+      that.params.slides[slideIndex].keywords[$li.index()].main = $textarea.html();
     }
   }).focus();
 
@@ -1377,7 +1380,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
       }
     });
   });
-  
+
   // Set correct aspect ratio on new images.
   // TODO: Do not use/rely on magic numbers!
   var library = element.children[4];
@@ -1926,7 +1929,7 @@ H5PEditor.CoursePresentation.prototype.fitElement = function ($element, elementP
 
   var pW = (sizeNPosition.containerWidth / 100);
   var pH = (sizeNPosition.containerHeight / 100);
-  
+
   // Set the updated properties
   var style = {};
 
