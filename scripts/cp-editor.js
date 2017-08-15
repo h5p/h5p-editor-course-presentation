@@ -402,6 +402,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     }
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper});
+    that.$dnbContainer = that.cp.$current;
     that.dnb.dnr.snap = 10;
     that.dnb.dnr.setContainerEm(that.containerEm);
 
@@ -1087,6 +1088,7 @@ H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
 H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var index = this.cp.$current.index();
   var $remove = this.cp.$current.add(this.cp.$currentKeyword);
+  var isRemovingDnbContainer = this.cp.$current.index() === this.$dnbContainer.index();
 
   // Confirm
   if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmDeleteSlide'))) {
@@ -1104,6 +1106,13 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 
   // Change slide
   var move = this.cp.previousSlide() ? -1 : (this.cp.nextSlide(true) ? 0 : undefined);
+
+  // Replace existing DnB container used for calculating dimensions of elements
+  if (isRemovingDnbContainer) {
+    // Set new dnb container
+    this.$dnbContainer = this.cp.$current;
+    this.dnb.setContainer(this.$dnbContainer);
+  }
   if (move === undefined) {
     return false; // No next or previous slide
   }
