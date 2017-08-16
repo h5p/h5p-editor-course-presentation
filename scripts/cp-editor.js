@@ -402,6 +402,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     }
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper});
+    that.$dnbContainer = that.cp.$current;
     that.dnb.dnr.snap = 10;
     that.dnb.dnr.setContainerEm(that.containerEm);
 
@@ -1035,7 +1036,7 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 
   // Add keywords
   if (slideParams.keywords !== undefined) {
-   H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function (event) {
+    H5PEditor.$(this.cp.keywordsHtml(slideParams.keywords)).insertAfter(this.cp.$currentKeyword).click(function (event) {
       that.cp.keywordClick(H5PEditor.$(this));
       event.preventDefault();
     }).find('span').click(function (event) {
@@ -1093,6 +1094,7 @@ H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
 H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var index = this.cp.$current.index();
   var $remove = this.cp.$current.add(this.cp.$currentKeyword);
+  var isRemovingDnbContainer = this.cp.$current.index() === this.$dnbContainer.index();
 
   // Confirm
   if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmDeleteSlide'))) {
@@ -1110,6 +1112,13 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 
   // Change slide
   var move = this.cp.previousSlide() ? -1 : (this.cp.nextSlide(true) ? 0 : undefined);
+
+  // Replace existing DnB container used for calculating dimensions of elements
+  if (isRemovingDnbContainer) {
+    // Set new dnb container
+    this.$dnbContainer = this.cp.$current;
+    this.dnb.setContainer(this.$dnbContainer);
+  }
   if (move === undefined) {
     return false; // No next or previous slide
   }
@@ -1259,6 +1268,8 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     $textarea.css('height', 1).css('height', $textarea[0].scrollHeight);
   }).blur(function (e) {
     var keyword = $textarea.val();
+    // Encode keyword before rendering
+    var encodedKeyword = H5PEditor.$('<div>').text(keyword).html();
 
     if (H5P.trim(keyword) === '') {
       keyword = H5PEditor.t('H5PEditor.CoursePresentation', 'noTitle');
@@ -1268,18 +1279,21 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     $textarea.parent().removeClass('h5p-editing');
     $span.css({'display': 'inline-block'});
     $textarea.add($delete).add($approve).remove();
-    that.cp.progressbarParts[slideIndex].data('keyword', keyword);
+    that.cp.progressbarParts[slideIndex].data('keyword', encodedKeyword);
 
     if (e.relatedTarget !== null && e.relatedTarget.className === "joubel-icon-cancel") {
       return false;
     }
 
     $span.text(keyword);
-    that.cp.$keywordsButton.html('<span>' + keyword + '</span>');
+    that.cp.$keywordsButton.html();
+    H5PEditor.$('span', {
+      text: keyword
+    }).appendTo(that.cp.$keywordsButton);
 
     // Update params
     if (main) {
-      that.params.slides[slideIndex].keywords[$li.index()].main = keyword;
+      that.params.slides[slideIndex].keywords[$li.index()].main = encodedKeyword;
     }
   }).focus();
 
@@ -1383,7 +1397,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
       }
     });
   });
-  
+
   // Set correct aspect ratio on new images.
   // TODO: Do not use/rely on magic numbers!
   var library = element.children[4];
@@ -1936,7 +1950,7 @@ H5PEditor.CoursePresentation.prototype.fitElement = function ($element, elementP
 
   var pW = (sizeNPosition.containerWidth / 100);
   var pH = (sizeNPosition.containerHeight / 100);
-  
+
   // Set the updated properties
   var style = {};
 
