@@ -1629,6 +1629,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, element
   dnbElement.contextMenu.on('contextMenuEdit', function () {
     self.showElementForm(element, element.$wrapper, elementParams);
   });
+  element.$wrapper.find('*').attr('tabindex', '-1');
 
   dnbElement.contextMenu.on('contextMenuRemove', function () {
     if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
