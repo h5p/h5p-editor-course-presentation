@@ -1371,18 +1371,18 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   element.$form.children('.library:first').children('label, select').hide().end().children('.libwrap').css('margin-top', '0');
 
   // Show or hide button size dropdown depending on display as button checkbox
-  element.$form.find('.field-name-displayAsButton').each(function(index) {
+  element.$form.find('.field-name-displayAsButton').each(function(index) { // TODO: Use showWhen in semantics.json instead…
     var buttonSizeField = ns.$(this).parent().find('.field-name-buttonSize');
 
     if (!ns.$(this).find("input")[0].checked) {
-      buttonSizeField.addClass("h5p-hidden");
+      buttonSizeField.addClass("h5p-hidden2");
     }
 
     ns.$(this).find("input").change(function(e) {
       if (e.target.checked) {
-        buttonSizeField.removeClass("h5p-hidden");
+        buttonSizeField.removeClass("h5p-hidden2");
       } else {
-        buttonSizeField.addClass("h5p-hidden");
+        buttonSizeField.addClass("h5p-hidden2");
       }
     });
   });
