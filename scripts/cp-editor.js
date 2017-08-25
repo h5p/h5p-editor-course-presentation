@@ -530,6 +530,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           that.dnb.focus(that.addElement(pasted.specific, options));
         }
         else if (supported(pasted.generic.library)) {
+          // Special case for ETA - can't copy the index, then export won't include
+          // the original, since they will have the same index.
+          if (pasted.generic.library.split(' ')[0] === 'H5P.ExportableTextArea') {
+            delete pasted.generic.params.index;
+          }
           // Has generic part and the generic libray is supported
           that.dnb.focus(that.addElement(pasted.specific, options));
         }
