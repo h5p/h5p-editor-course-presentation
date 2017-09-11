@@ -310,7 +310,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
   $keywords.each(function (index) {
     var $editIcon = H5PEditor.$(
-      '<a href="#" class="joubel-icon-edit" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '">' +
+      '<a href="#" class="joubel-icon-edit" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
         '<span class="h5p-icon-circle"></span>' +
         '<span class="h5p-icon-pencil"></span>' +
       '</a>')
@@ -327,7 +327,20 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
       $editIcon.siblings('textarea').select();
     })
-    .appendTo($keywords.eq(index).find('.h5p-keywords-li'));
+    .blur(function(e) {
+      $editIcon.css('visibility', 'hidden');
+    })
+    .appendTo($keywords.eq(index));
+
+    var $keywordSpan = $keywords.eq(index).find('span').first();
+    $keywordSpan.focus(function(e) {
+      $editIcon.css('visibility', 'visible');
+    })
+    .blur(function(e) {
+      if (e.relatedTarget && e.relatedTarget.className !== 'joubel-icon-edit' || !e.relatedTarget) {
+        $editIcon.css('visibility', 'hidden');
+      }
+    })
   });
 };
 
@@ -1032,12 +1045,6 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     oldTitle = ''; // Prevent editing 'No title' string
   }
 
-  var $approve = H5PEditor.$(
-    '<a href="#" class="joubel-icon-approve" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'save') + '">' +
-      '<span class="h5p-icon-circle"></span>' +
-      '<span class="h5p-icon-check"></span>' +
-    '</a>');
-
   var $delete = H5PEditor.$(
     '<a href="#" class="joubel-icon-cancel" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cancel') + '">' +
       '<span class="h5p-icon-circle"></span>' +
@@ -1052,48 +1059,53 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   }).keyup(function () {
     $textarea.css('height', $textarea[0].scrollHeight);
   }).blur(function (event) {
-    var hasTitle = true;
-    var keyword = $textarea.val(); // Text not HTML
+    if (event.relatedTarget && event.relatedTarget.className !== 'joubel-icon-cancel' || !event.relatedTarget) {
+      var hasTitle = true;
+      var keyword = $textarea.val(); // Text not HTML
 
-    if (H5P.trim(keyword) === '') {
-      // Title is blank, use placeholder text
-      keyword = that.cp.l10n.noTitle;
-      hasTitle = false;
-    }
+      if (H5P.trim(keyword) === '') {
+        // Title is blank, use placeholder text
+        keyword = that.cp.l10n.noTitle;
+        hasTitle = false;
+      }
 
-    // Remove textarea
-    $textarea.parent().removeClass('h5p-editing');
-    $span.css({'display': 'inline-block'});
-    $textarea.add($delete).add($approve).remove();
+      // Remove textarea
+      $textarea.parent().removeClass('h5p-editing');
+      $span.css({'display': 'inline-block'});
+      $textarea.add($delete).remove();
 
-    // Update static title display
-    $span.text(keyword);
+      // Update static title display
+      $span.text(keyword);
 
-    // Update navigation bar display?
-    that.cp.progressbarParts[slideIndex].data('keyword', $span.html());
+      // Update navigation bar display?
+      that.cp.progressbarParts[slideIndex].data('keyword', $span.html());
 
-    // Update keywords button ?
-    that.cp.$keywordsButton.html();
-    H5PEditor.$('span', {
-      text: keyword
-    }).appendTo(that.cp.$keywordsButton);
+      // Update keywords button ?
+      that.cp.$keywordsButton.html();
+      H5PEditor.$('span', {
+        text: keyword
+      }).appendTo(that.cp.$keywordsButton);
 
-    // Update params
-    if (hasTitle) {
-      that.params.slides[slideIndex].keywords = [{main: $span.html()}];
-    }
-    else {
-      delete that.params.slides[slideIndex].keywords;
+      // Update params
+      if (hasTitle) {
+        that.params.slides[slideIndex].keywords = [{main: $span.html()}];
+      }
+      else {
+        delete that.params.slides[slideIndex].keywords;
+      }
     }
   }).focus();
 
   $textarea.keyup();
 
-  $approve.insertAfter($textarea);
-
-  $delete.insertAfter($textarea).mousedown(function () {
-    // Remove keyword title
-    $textarea.val('');
+  $delete.insertAfter($textarea).click(function(e) {
+    e.preventDefault();
+    $textarea.val(oldTitle).blur();
+  })
+  .blur(function(e) {
+    if (e.relatedTarget && e.relatedTarget.tagName !== 'TEXTAREA' || !e.relatedTarget) {
+      $textarea.blur();
+    }
   });
 };
 

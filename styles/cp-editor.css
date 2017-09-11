@@ -178,6 +178,7 @@
 .h5p-course-presentation .h5p-keywords-li:not(.h5p-editing):hover > .joubel-icon-edit {
   visibility: visible;
 }
+
 .h5p-course-presentation .h5p-placeholder {
   list-style: none;
 }
@@ -216,8 +217,14 @@
   right: 0.7em;
   visibility: hidden;
 }
+.h5p-course-presentation .joubel-icon-edit:focus .h5p-icon-circle:before {
+  outline: -webkit-focus-ring-color auto 5px;
+}
 .h5p-course-presentation .joubel-icon-cancel {
   right: 0.7em;
+}
+.h5p-course-presentation .joubel-icon-cancel:focus .h5p-icon-circle:before {
+  outline: -webkit-focus-ring-color auto 5px;
 }
 .h5p-course-presentation .h5p-moving {
   position: absolute;
