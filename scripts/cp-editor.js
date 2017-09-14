@@ -377,7 +377,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     if (goToSlide) {
       buttons.splice(5, 0, {
         id: 'gotoslide',
-        title: goToSlide.label,
+        title: H5PEditor.t('H5PEditor.CoursePresentation', 'goToSlide'),
         createElement: function () {
           return that.addElement('GoToSlide');
         }
@@ -1851,6 +1851,7 @@ H5PEditor.language["H5PEditor.CoursePresentation"] = {
     "autoHide": "Auto hide",
     "ok": "OK",
     "slide": "Slide",
-    "opacity": "Opacity"
+    "opacity": "Opacity",
+    "goToSlide": "Go to slide"
   }
 };
