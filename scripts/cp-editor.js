@@ -306,42 +306,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     that.cp.trigger('resize');
   });
 
-  var $keywords = this.cp.$keywords.children();
-
-  $keywords.each(function (index) {
-    var $editIcon = H5PEditor.$(
-      '<a href="#" class="joubel-icon-edit" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
-        '<span class="h5p-icon-circle"></span>' +
-        '<span class="h5p-icon-pencil"></span>' +
-      '</a>')
-    .click(function(e) {
-      e.preventDefault();
-
-      // If clicked is not already active, do a double click
-      if (!H5PEditor.$(this).parents('.h5p-keywords-li').hasClass('h5p-current')) {
-        H5PEditor.$(this).siblings('span').click().click();
-      }
-      else {
-        H5PEditor.$(this).siblings('span').click();
-      }
-
-      $editIcon.siblings('textarea').select();
-    })
-    .blur(function(e) {
-      $editIcon.css('visibility', 'hidden');
-    })
-    .appendTo($keywords.eq(index));
-
-    var $keywordSpan = $keywords.eq(index).find('span').first();
-    $keywordSpan.focus(function(e) {
-      $editIcon.css('visibility', 'visible');
-    })
-    .blur(function(e) {
-      if (e.relatedTarget && e.relatedTarget.className !== 'joubel-icon-edit' || !e.relatedTarget) {
-        $editIcon.css('visibility', 'hidden');
-      }
-    })
-  });
+  this.updateSlidesSidebar();
 };
 
 H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
@@ -966,6 +931,57 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
   // Update the sub titles
   $keywords.each(function (index) {
     ns.$(this).find('.h5p-keyword-title').html(self.cp.l10n.slide + ' ' + (index + 1));
+
+    var $editIcon = H5PEditor.$(
+      '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
+        '<span class="h5p-icon-circle"></span>' +
+        '<span class="h5p-icon-pencil"></span>' +
+      '</a>')
+    .click(function(e) {
+      e.preventDefault();
+      // If clicked is not already active, do a double click
+      if (!H5PEditor.$(this).parents('.h5p-keywords-li').hasClass('h5p-current')) {
+        H5PEditor.$(this).siblings('span').click().click();
+      }
+      else {
+        H5PEditor.$(this).siblings('span').click();
+      }
+      $editIcon.siblings('textarea').select();
+    })
+    .blur(function(e) {
+      $editIcon.addClass('h5p-hidden');
+    })
+    .appendTo($keywords.eq(index));
+
+    H5PEditor.$(this).focus(function(e) {
+      $editIcon.removeClass('h5p-hidden');
+    })
+    .hover(function(e) {
+      if (!H5PEditor.$(this).hasClass('h5p-editing')) {
+        $editIcon.removeClass('h5p-hidden');
+      }
+    })
+    .mouseleave(function(e) {
+      $editIcon.addClass('h5p-hidden');
+    })
+    .blur(function(e) {
+      if (e.relatedTarget && e.relatedTarget.className !== 'joubel-icon-edit' || !e.relatedTarget) {
+        $editIcon.addClass('h5p-hidden');
+      }
+    })
+    .keydown(function (event) {
+      if (event.keyCode === 13) {
+        H5PEditor.$(this).click();
+      }
+      if (event.keyCode === 38) {
+        event.preventDefault();
+        H5PEditor.$(this).prev().focus();
+      }
+      if (event.keyCode === 40) {
+        event.preventDefault();
+        H5PEditor.$(this).next().focus();
+      }
+    });
   });
 };
 
@@ -1054,6 +1070,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   var $textarea = H5PEditor.$('<textarea></textarea>').val(oldTitle).insertBefore($span.hide()).keydown(function (event) {
     if (event.keyCode === 13) {
       $textarea.blur();
+      H5PEditor.$('.h5p-keywords-li.h5p-current').next().focus();
       return false;
     }
   }).keyup(function () {
@@ -1101,6 +1118,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   $delete.insertAfter($textarea).click(function(e) {
     e.preventDefault();
     $textarea.val(oldTitle).blur();
+    H5PEditor.$('.h5p-keywords-li.h5p-current').focus();
   })
   .blur(function(e) {
     if (e.relatedTarget && e.relatedTarget.tagName !== 'TEXTAREA' || !e.relatedTarget) {
