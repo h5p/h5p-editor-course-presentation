@@ -932,6 +932,8 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
   $keywords.each(function (index) {
     ns.$(this).find('.h5p-keyword-title').html(self.cp.l10n.slide + ' ' + (index + 1));
 
+    ns.$(this).find('.joubel-icon-edit').remove();
+
     var $editIcon = H5PEditor.$(
       '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
         '<span class="h5p-icon-circle"></span>' +
