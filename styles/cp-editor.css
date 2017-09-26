@@ -169,10 +169,10 @@
 .h5p-course-presentation .h5p-keywordcontrols-button:hover {
   background-color: #edd1de;
 }
-.h5p-course-presentation .h5p-keywords-li {
+.h5p-course-presentation .h5p-keywords-wrapper [role="menuitem"] {
   position: relative;
 }
-.h5p-course-presentation .h5p-keywords-li.h5p-editing {
+.h5p-course-presentation .h5p-keywords-wrapper [role="menuitem"].h5p-editing {
   box-shadow: inset 0px 0px 50px -18px rgba(0,0,0,0.3);
 }
 .h5p-course-presentation .h5p-placeholder {

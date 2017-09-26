@@ -259,7 +259,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     })
     .next()
     .click(function () {
-      var newSlide = H5P.cloneObject(that.params.slides[that.cp.$current.index()],true);
+      var newSlide = H5P.cloneObject(that.params.slides[that.cp.$current.index()], true);
       newSlide.keywords = [];
       that.addSlide(newSlide);
       H5P.ContinuousText.Engine.run(that);
@@ -629,7 +629,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   };
 
   // Make existing keywords editable
-  this.cp.$keywords.find('span').click(keywordClick);
+  this.cp.$keywords.find('.h5p-keyword-title').click(keywordClick);
 
   // Make keywords drop down menu come alive
   var $slidesMenu = this.$bar.find('.h5p-dragnbar-keywords');
@@ -781,6 +781,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
  */
 H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   var that = this;
+  var $ = H5P.jQuery;
 
   if (slideParams === undefined) {
     // Set new slide params
@@ -801,11 +802,8 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   that.trigger('addedSlide', index);
   this.cp.addElements(slideParams, $slide, index);
 
-  // Add keyword title
-  H5PEditor.$(this.cp.createKeywordHtml(slideParams.keywords, (index === 0), index)).insertAfter(this.cp.$currentKeyword).click(function (event) {
-    that.cp.keywordClick(H5PEditor.$(this));
-    event.preventDefault();
-  }).find('span').click(function (event) {
+  var $menuItemElements = this.cp.updateKeywordMenuFromSlides();
+  $menuItemElements.find('.joubel-icon-edit').click(function (event) {
     // Convert keywords into text areas when clicking.
     if (that.editKeyword(H5PEditor.$(this)) !== false) {
       event.stopPropagation();
@@ -887,9 +885,6 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   // ExportableTextArea needs to know about the deletion:
   H5P.ExportableTextArea.CPInterface.onDeleteSlide(index);
 
-  // Remove visuals.
-  $remove.remove();
-
   // Update presentation params.
   this.params.slides.splice(index, 1);
 
@@ -897,7 +892,11 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   this.cp.elementInstances.splice(index, 1);
   this.cp.elementsAttached.splice(index, 1);
 
+  this.cp.updateKeywordMenuFromSlides();
   this.updateNavigationLine(index + move);
+
+  // Remove visuals.
+  $remove.remove();
 
   H5P.ContinuousText.Engine.run(this);
 };
@@ -927,14 +926,15 @@ H5PEditor.CoursePresentation.prototype.animateNavigationLine = function (directi
 H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
   var self = this;
   var $keywords = this.cp.$keywords.children();
+  var $ = H5PEditor.$;
 
   // Update the sub titles
   $keywords.each(function (index) {
-    ns.$(this).find('.h5p-keyword-title').html(self.cp.l10n.slide + ' ' + (index + 1));
+    ns.$(this).find('.h5p-keyword-subtitle').html(self.cp.l10n.slide + ' ' + (index + 1));
 
     ns.$(this).find('.joubel-icon-edit').remove();
 
-    var $editIcon = H5PEditor.$(
+    var $editIcon = $(
       '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
         '<span class="h5p-icon-circle"></span>' +
         '<span class="h5p-icon-pencil"></span>' +
@@ -942,11 +942,11 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
     .click(function(e) {
       e.preventDefault();
       // If clicked is not already active, do a double click
-      if (!H5PEditor.$(this).parents('.h5p-keywords-li').hasClass('h5p-current')) {
-        H5PEditor.$(this).siblings('span').click().click();
+      if (!$(this).parents('[role="menuitem"]').hasClass('h5p-current')) {
+        $(this).siblings('span').click().click();
       }
       else {
-        H5PEditor.$(this).siblings('span').click();
+        $(this).siblings('span').click();
       }
       $editIcon.siblings('textarea').select();
     })
@@ -955,11 +955,11 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
     })
     .appendTo($keywords.eq(index));
 
-    H5PEditor.$(this).focus(function(e) {
+    $(this).focus(function(e) {
       $editIcon.removeClass('h5p-hidden');
     })
     .hover(function(e) {
-      if (!H5PEditor.$(this).hasClass('h5p-editing')) {
+      if (!$(this).hasClass('h5p-editing')) {
         $editIcon.removeClass('h5p-hidden');
       }
     })
@@ -973,15 +973,15 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
     })
     .keydown(function (event) {
       if (event.keyCode === 13) {
-        H5PEditor.$(this).click();
+        $(this).click();
       }
       if (event.keyCode === 38) {
         event.preventDefault();
-        H5PEditor.$(this).prev().focus();
+        $(this).prev().focus();
       }
       if (event.keyCode === 40) {
         event.preventDefault();
-        H5PEditor.$(this).next().focus();
+        $(this).next().focus();
       }
     });
   });
@@ -1006,18 +1006,22 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   if (direction === -1) {
     this.cp.$current.insertBefore($element.removeClass('h5p-previous'));
     if (keywordsEnabled) {
-      this.cp.$currentKeyword.insertBefore(this.cp.$currentKeyword.prev());
+      var $prev = this.cp.$currentKeyword.prev();
+      this.cp.$currentKeyword.insertBefore($prev);
+      this.swapIndexes(this.cp.$currentKeyword, $prev);
     }
   }
   else {
     this.cp.$current.insertAfter($element.addClass('h5p-previous'));
     if (keywordsEnabled) {
-      this.cp.$currentKeyword.insertAfter(this.cp.$currentKeyword.next());
+      var $next = this.cp.$currentKeyword.next();
+      this.cp.$currentKeyword.insertAfter($next);
+      this.swapIndexes(this.cp.$currentKeyword, $next);
     }
   }
 
   if (keywordsEnabled) {
-    this.cp.scrollToKeywords();
+    this.cp.keywordMenu.scrollToKeywords();
   }
 
   // Jump to sorted slide number
@@ -1041,6 +1045,13 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   this.trigger('sortSlide', direction);
 
   return true;
+};
+
+H5PEditor.CoursePresentation.prototype.swapIndexes = function ($current, $other) {
+  var currentIndex = $current.attr('data-index');
+  var otherIndex = $other.attr('data-index');
+  $current.attr('data-index', otherIndex);
+  $other.attr('data-index', currentIndex);
 };
 
 /**
@@ -1072,21 +1083,16 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   var $textarea = H5PEditor.$('<textarea></textarea>').val(oldTitle).insertBefore($span.hide()).keydown(function (event) {
     if (event.keyCode === 13) {
       $textarea.blur();
-      H5PEditor.$('.h5p-keywords-li.h5p-current').next().focus();
+      H5PEditor.$('[role="menuitem"].h5p-current').next().focus();
       return false;
     }
   }).keyup(function () {
     $textarea.css('height', $textarea[0].scrollHeight);
   }).blur(function (event) {
     if (event.relatedTarget && event.relatedTarget.className !== 'joubel-icon-cancel' || !event.relatedTarget) {
-      var hasTitle = true;
       var keyword = $textarea.val(); // Text not HTML
 
-      if (H5P.trim(keyword) === '') {
-        // Title is blank, use placeholder text
-        keyword = that.cp.l10n.noTitle;
-        hasTitle = false;
-      }
+      that.updateKeyword(keyword, slideIndex, $span.html());
 
       // Remove textarea
       $textarea.parent().removeClass('h5p-editing');
@@ -1096,22 +1102,6 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
       // Update static title display
       $span.text(keyword);
 
-      // Update navigation bar display?
-      that.cp.progressbarParts[slideIndex].data('keyword', $span.html());
-
-      // Update keywords button ?
-      that.cp.$keywordsButton.html();
-      H5PEditor.$('span', {
-        text: keyword
-      }).appendTo(that.cp.$keywordsButton);
-
-      // Update params
-      if (hasTitle) {
-        that.params.slides[slideIndex].keywords = [{main: $span.html()}];
-      }
-      else {
-        delete that.params.slides[slideIndex].keywords;
-      }
     }
   }).focus();
 
@@ -1120,13 +1110,40 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   $delete.insertAfter($textarea).click(function(e) {
     e.preventDefault();
     $textarea.val(oldTitle).blur();
-    H5PEditor.$('.h5p-keywords-li.h5p-current').focus();
+    H5PEditor.$('[role="menuitem"].h5p-current').focus();
   })
   .blur(function(e) {
     if (e.relatedTarget && e.relatedTarget.tagName !== 'TEXTAREA' || !e.relatedTarget) {
       $textarea.blur();
     }
   });
+};
+
+H5PEditor.CoursePresentation.prototype.updateKeyword = function (keyword, slideIndex, oldTitle) {
+  var that = this;
+  var hasTitle = true;
+
+  if (H5P.trim(keyword) === '') {
+    // Title is blank, use placeholder text
+    keyword = that.cp.l10n.noTitle;
+    hasTitle = false;
+  }
+
+  // Update navigation bar display?
+  that.cp.progressbarParts[slideIndex].data('keyword', oldTitle);
+
+  // Update keywords button
+  H5PEditor.$('.current-slide-title').html(oldTitle);
+
+  // Update params
+  if (hasTitle) {
+    that.params.slides[slideIndex].keywords = [{
+      main: keyword
+    }];
+  }
+  else {
+    delete that.params.slides[slideIndex].keywords;
+  }
 };
 
 /**
