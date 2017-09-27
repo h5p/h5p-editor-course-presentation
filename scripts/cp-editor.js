@@ -618,18 +618,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
       '</li>' +
     '</ul>').prependTo(this.$bar);
 
-  // Keyword events
-
-  var keywordClick = function (event) {
-    // Convert keywords into text areas when clicking.
-    if (that.editKeyword(H5PEditor.$(this)) !== false) {
-      event.stopPropagation();
-      H5PEditor.$(event.target).parent().addClass('h5p-editing');
-    }
-  };
-
-  // Make existing keywords editable
-  this.cp.$keywords.find('.h5p-keyword-title').click(keywordClick);
+  that.initKeywordMenu();
 
   // Make keywords drop down menu come alive
   var $slidesMenu = this.$bar.find('.h5p-dragnbar-keywords');
@@ -774,6 +763,25 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
 };
 
 /**
+ * Initiates the keyword menu
+ */
+H5PEditor.CoursePresentation.prototype.initKeywordMenu = function () {
+  var that = this;
+  // Keyword events
+  var keywordClick = function (event) {
+    // Convert keywords into text areas when clicking.
+    if (that.editKeyword(H5PEditor.$(this)) !== false) {
+      event.stopPropagation();
+      H5PEditor.$(event.target).parent().addClass('h5p-editing');
+    }
+  };
+
+  // Make existing keywords editable
+  this.cp.$keywords.find('.h5p-keyword-title').click(keywordClick);
+};
+
+
+/**
  * Adds slide after current slide.
  *
  * @param {object} slideParams
@@ -802,13 +810,8 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   that.trigger('addedSlide', index);
   this.cp.addElements(slideParams, $slide, index);
 
-  var $menuItemElements = this.cp.updateKeywordMenuFromSlides();
-  $menuItemElements.find('.joubel-icon-edit').click(function (event) {
-    // Convert keywords into text areas when clicking.
-    if (that.editKeyword(H5PEditor.$(this)) !== false) {
-      event.stopPropagation();
-    }
-  });
+  this.cp.updateKeywordMenuFromSlides();
+  this.initKeywordMenu();
 
   // Update progressbar
   this.updateNavigationLine(index);
@@ -893,6 +896,7 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   this.cp.elementsAttached.splice(index, 1);
 
   this.cp.updateKeywordMenuFromSlides();
+  this.initKeywordMenu();
   this.updateNavigationLine(index + move);
 
   // Remove visuals.
