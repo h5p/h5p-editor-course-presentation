@@ -1102,10 +1102,6 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
       $textarea.parent().removeClass('h5p-editing');
       $span.css({'display': 'inline-block'});
       $textarea.add($delete).remove();
-
-      // Update static title display
-      $span.text(keyword);
-
     }
   }).focus();
 
@@ -1148,6 +1144,9 @@ H5PEditor.CoursePresentation.prototype.updateKeyword = function (keyword, slideI
   else {
     delete that.params.slides[slideIndex].keywords;
   }
+
+  // Update keyword list item
+  H5PEditor.$('[role="menuitem"].h5p-current .h5p-keyword-title').text(keyword);
 };
 
 /**
