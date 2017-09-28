@@ -789,7 +789,6 @@ H5PEditor.CoursePresentation.prototype.initKeywordMenu = function () {
  */
 H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   var that = this;
-  var $ = H5P.jQuery;
 
   if (slideParams === undefined) {
     // Set new slide params
@@ -930,7 +929,6 @@ H5PEditor.CoursePresentation.prototype.animateNavigationLine = function (directi
 H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
   var self = this;
   var $keywords = this.cp.$keywords.children();
-  var $ = H5PEditor.$;
 
   // Update the sub titles
   $keywords.each(function (index) {
@@ -938,7 +936,7 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
 
     ns.$(this).find('.joubel-icon-edit').remove();
 
-    var $editIcon = $(
+    var $editIcon = H5PEditor.$(
       '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
         '<span class="h5p-icon-circle"></span>' +
         '<span class="h5p-icon-pencil"></span>' +
@@ -946,11 +944,11 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
     .click(function(e) {
       e.preventDefault();
       // If clicked is not already active, do a double click
-      if (!$(this).parents('[role="menuitem"]').hasClass('h5p-current')) {
-        $(this).siblings('span').click().click();
+      if (!H5PEditor.$(this).parents('[role="menuitem"]').hasClass('h5p-current')) {
+        H5PEditor.$(this).siblings('span').click().click();
       }
       else {
-        $(this).siblings('span').click();
+        H5PEditor.$(this).siblings('span').click();
       }
       $editIcon.siblings('textarea').select();
     })
@@ -959,11 +957,11 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
     })
     .appendTo($keywords.eq(index));
 
-    $(this).focus(function(e) {
+    H5PEditor.$(this).focus(function(e) {
       $editIcon.removeClass('h5p-hidden');
     })
     .hover(function(e) {
-      if (!$(this).hasClass('h5p-editing')) {
+      if (!H5PEditor.$(this).hasClass('h5p-editing')) {
         $editIcon.removeClass('h5p-hidden');
       }
     })
@@ -977,15 +975,15 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
     })
     .keydown(function (event) {
       if (event.keyCode === 13) {
-        $(this).click();
+        H5PEditor.$(this).click();
       }
       if (event.keyCode === 38) {
         event.preventDefault();
-        $(this).prev().focus();
+        H5PEditor.$(this).prev().focus();
       }
       if (event.keyCode === 40) {
         event.preventDefault();
-        $(this).next().focus();
+        H5PEditor.$(this).next().focus();
       }
     });
   });
@@ -1051,6 +1049,12 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   return true;
 };
 
+/**
+ * Swaps the [data-index] values of two elements
+ *
+ * @param {jQuery} $current
+ * @param {jQuery} $other
+ */
 H5PEditor.CoursePresentation.prototype.swapIndexes = function ($current, $other) {
   var currentIndex = $current.attr('data-index');
   var otherIndex = $other.attr('data-index');
@@ -1119,6 +1123,13 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   });
 };
 
+/**
+ * Updates the configs with the new keyword
+ *
+ * @param {string} keyword
+ * @param {number} slideIndex
+ * @param {string} oldTitle
+ */
 H5PEditor.CoursePresentation.prototype.updateKeyword = function (keyword, slideIndex, oldTitle) {
   var that = this;
   var hasTitle = true;
