@@ -1,6 +1,8 @@
 /*global H5P*/
 var H5PEditor = H5PEditor || {};
 
+
+
 /**
  * Create a field for the form.
  *
@@ -1088,26 +1090,34 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
       '<span class="h5p-icon-cross"></span>' +
     '</a>');
 
-  var $textarea = H5PEditor.$('<textarea></textarea>').val(oldTitle).insertBefore($span.hide()).keydown(function (event) {
-    if (event.keyCode === 13) {
-      $textarea.blur();
-      H5PEditor.$('[role="menuitem"].h5p-current').next().focus();
-      return false;
-    }
-  }).keyup(function () {
-    $textarea.css('height', $textarea[0].scrollHeight);
-  }).blur(function (event) {
-    if (event.relatedTarget && event.relatedTarget.className !== 'joubel-icon-cancel' || !event.relatedTarget) {
-      var keyword = $textarea.val(); // Text not HTML
+  var $textarea = H5PEditor.$('<textarea></textarea>')
+    .val(oldTitle)
+    .insertBefore($span.hide())
+    .keydown(function (event) {
+      if (event.keyCode === 13) {
+        $textarea.blur();
+        H5PEditor.$('[role="menuitem"].h5p-current').next().focus();
+        return false;
+      }
 
-      that.updateKeyword(keyword, slideIndex, $span.html());
+      // don't propagate ENTER and SPACE events from textarea
+      if(event.keyCode === 13 || event.keyCode === 32) {
+        event.stopPropagation();
+      }
+    }).keyup(function () {
+      $textarea.css('height', $textarea[0].scrollHeight);
+    }).blur(function (event) {
+      if (event.relatedTarget && event.relatedTarget.className !== 'joubel-icon-cancel' || !event.relatedTarget) {
+        var keyword = $textarea.val(); // Text not HTML
 
-      // Remove textarea
-      $textarea.parent().removeClass('h5p-editing');
-      $span.css({'display': 'inline-block'});
-      $textarea.add($delete).remove();
-    }
-  }).focus();
+        that.updateKeyword(keyword, slideIndex, $span.html());
+
+        // Remove textarea
+        $textarea.parent().removeClass('h5p-editing');
+        $span.css({'display': 'inline-block'});
+        $textarea.add($delete).remove();
+      }
+    }).focus();
 
   $textarea.keyup();
 
