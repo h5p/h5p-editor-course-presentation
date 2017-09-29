@@ -945,6 +945,7 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
       '</a>')
     .click(function(e) {
       e.preventDefault();
+      event.stopPropagation();
       // If clicked is not already active, do a double click
       if (!H5PEditor.$(this).parents('[role="menuitem"]').hasClass('h5p-current')) {
         H5PEditor.$(this).siblings('span').click().click();
@@ -1100,10 +1101,8 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
         return false;
       }
 
-      // don't propagate ENTER and SPACE events from textarea
-      if(event.keyCode === 13 || event.keyCode === 32) {
-        event.stopPropagation();
-      }
+      // don't propagate key events from textarea
+      event.stopPropagation();
     }).keyup(function () {
       $textarea.css('height', $textarea[0].scrollHeight);
     }).blur(function (event) {
