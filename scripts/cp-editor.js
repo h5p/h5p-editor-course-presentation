@@ -1,8 +1,6 @@
 /*global H5P*/
 var H5PEditor = H5PEditor || {};
 
-
-
 /**
  * Create a field for the form.
  *
@@ -391,7 +389,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     };
 
     // Resizing listener
-    that.dnb.dnr.on('startResizing', function (eventData) {
+    that.dnb.dnr.on('startResizing', function () {
       var elementParams = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
 
       // Check for continuous text
@@ -401,7 +399,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     });
 
     // Resizing has stopped
-    that.dnb.dnr.on('stoppedResizing', function (eventData) {
+    that.dnb.dnr.on('stoppedResizing', function () {
       var elementParams = that.params.slides[that.cp.$current.index()].elements[that.dnb.$element.index()];
 
       // Store new element position
@@ -954,20 +952,20 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
       }
       $editIcon.siblings('textarea').select();
     })
-    .blur(function(e) {
+    .blur(function() {
       $editIcon.addClass('h5p-hidden');
     })
     .appendTo($keywords.eq(index));
 
-    H5PEditor.$(this).focus(function(e) {
+    H5PEditor.$(this).focus(function() {
       $editIcon.removeClass('h5p-hidden');
     })
-    .hover(function(e) {
+    .hover(function() {
       if (!H5PEditor.$(this).hasClass('h5p-editing')) {
         $editIcon.removeClass('h5p-hidden');
       }
     })
-    .mouseleave(function(e) {
+    .mouseleave(function() {
       $editIcon.addClass('h5p-hidden');
     })
     .blur(function(e) {
@@ -1096,7 +1094,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     .keydown(function (event) {
       if (event.keyCode === 13) {
         $textarea.blur();
-        H5PEditor.$('[role="menuitem"].h5p-current').next().focus();
+        $li.focus();
         return false;
       }
 
@@ -1113,7 +1111,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
         that.updateKeyword(keyword, slideIndex, $span.html());
 
         // Remove textarea
-        $textarea.parent().removeClass('h5p-editing');
+        $li.removeClass('h5p-editing');
         $span.css({'display': 'inline-block'});
         $textarea.add($delete).remove();
       }
@@ -1210,7 +1208,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     self.hideFields(elementFields, hideFields);
   }
 
-  var popupTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': type.split('.')[1]});
   var element = {
     '$form': H5P.jQuery('<div/>')
   };
@@ -1228,7 +1225,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   element.$form.children('.library:first').children('label, select').hide().end().children('.libwrap').css('margin-top', '0');
 
   // Show or hide button size dropdown depending on display as button checkbox
-  element.$form.find('.field-name-displayAsButton').each(function(index) { // TODO: Use showWhen in semantics.json instead…
+  element.$form.find('.field-name-displayAsButton').each(function() { // TODO: Use showWhen in semantics.json instead…
     var buttonSizeField = ns.$(this).parent().find('.field-name-buttonSize');
 
     if (!ns.$(this).find("input")[0].checked) {
@@ -1663,12 +1660,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
         class: 'h5p-done',
         click: function () {
-          // Validate children
-          var valid = true;
+          // Validate / save children
           for (var i = 0; i < element.children.length; i++) {
-            if (element.children[i].validate() === false) {
-              valid = false;
-            }
+            element.children[i].validate();
           }
 
           if (isContinuousText) {
