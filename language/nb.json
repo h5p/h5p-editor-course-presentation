@@ -38,7 +38,7 @@
     "autoHide":"Skjul automatisk",
     "opacity":"Opasitet",
     "ok":"OK",
-    "noTitle":"Ingen tittel",
-    "edit":"Rediger"
+    "edit":"Rediger",
+    "goToSlide": "Gå til slide"
   }
 }
