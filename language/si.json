@@ -36,9 +36,9 @@
     "showTitles": "showTitles",
     "alwaysShow": "alwaysShow",
     "autoHide": "autoHide",
-    "opacity": "opacity",
+    "opacity": "prosojnost",
     "ok": "ok",
-    "edit": "edit",
-    "goToSlide": "Go to slide"
+    "edit": "uredi",
+    "goToSlide": "Pojdi na prosojnico"
   }
 }
