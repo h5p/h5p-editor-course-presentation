@@ -23,7 +23,7 @@
     "element": "Element",
     "resetToDefault": "Ponastavi",
     "resetToTemplate": "Ponastavi do predloge",
-    "slideBackground": "Ozdaje prosojnce",
+    "slideBackground": "Ozadje prosojnice",
     "setImageBackground": "Nastavi sliko ozadja",
     "setColorFillBackground": "Nastavi barvo ozadja",
     "activeSurfaceWarning": "Opozorilo aktivne površine",
@@ -33,12 +33,12 @@
     "currentSlideDescription": "Opis trenutne prosojnice",
     "showSlideTitles": "Pokaži naslove prosojnice",
     "slides": "Prosojnice",
-    "showTitles": "Pokaži naslove,
+    "showTitles": "Pokaži naslove",
     "alwaysShow": "Vedno pokaži",
     "autoHide": "Samodejno skrij",
     "opacity": "Prosojnost",
     "ok": "V redu",
     "edit": "Uredi",
-    "goToSlide": "Pojdi na prosojnico"
+    "goToSlide": "Pojdi na prosojnico",
   }
 }
