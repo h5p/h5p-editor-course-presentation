@@ -932,18 +932,18 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
 
   // Update the sub titles
   $keywords.each(function (index) {
-    ns.$(this).find('.h5p-keyword-subtitle').html(self.cp.l10n.slide + ' ' + (index + 1));
 
-    ns.$(this).find('.joubel-icon-edit').remove();
+    var $keyword = H5PEditor.$(this);
+
+    $keyword.find('.h5p-keyword-subtitle').html(self.cp.l10n.slide + ' ' + (index + 1));
+    $keyword.find('.joubel-icon-edit').remove();
 
     var $editIcon = H5PEditor.$(
       '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
         '<span class="h5p-icon-circle"></span>' +
         '<span class="h5p-icon-pencil"></span>' +
       '</a>')
-    .click(function(e) {
-      e.preventDefault();
-      event.stopPropagation();
+    .click(function() {
       // If clicked is not already active, do a double click
       if (!H5PEditor.$(this).parents('[role="menuitem"]').hasClass('h5p-current')) {
         H5PEditor.$(this).siblings('span').click().click();
@@ -952,8 +952,18 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
         H5PEditor.$(this).siblings('span').click();
       }
       $editIcon.siblings('textarea').select();
-    })
-    .blur(function() {
+      return false;
+    }).keydown(function (event) {
+      if ([13,32].indexOf(event.which) !== -1) {
+        H5PEditor.$(this).click();
+        return false;
+      }
+
+      // Ignore arrow keys for now to avoid JS-error
+      if (event.which >= 37 && event.which <= 40) {
+        return false;
+      }
+    }).blur(function() {
       $editIcon.addClass('h5p-hidden');
     })
     .appendTo($keywords.eq(index));
@@ -972,19 +982,6 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
     .blur(function(e) {
       if (e.relatedTarget && e.relatedTarget.className !== 'joubel-icon-edit' || !e.relatedTarget) {
         $editIcon.addClass('h5p-hidden');
-      }
-    })
-    .keydown(function (event) {
-      if (event.keyCode === 13) {
-        H5PEditor.$(this).click();
-      }
-      if (event.keyCode === 38) {
-        event.preventDefault();
-        H5PEditor.$(this).prev().focus();
-      }
-      if (event.keyCode === 40) {
-        event.preventDefault();
-        H5PEditor.$(this).next().focus();
       }
     });
   });
@@ -1122,8 +1119,16 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     e.preventDefault();
     $textarea.val(oldTitle).blur();
     H5PEditor.$('[role="menuitem"].h5p-current').focus();
-  })
-  .blur(function(e) {
+  }).keydown(function (e) {
+    if ([32,13].indexOf(e.which) !== -1) {
+      H5PEditor.$(this).click();
+      return false;
+    }
+    // Ignore arrow keys for now to avoid JS-error
+    if (event.which >= 37 && event.which <= 40) {
+      return false;
+    }
+  }).blur(function(e) {
     if (e.relatedTarget && e.relatedTarget.tagName !== 'TEXTAREA' || !e.relatedTarget) {
       $textarea.blur();
     }
