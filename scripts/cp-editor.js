@@ -1,4 +1,4 @@
-/*global H5P*/
+/*global H5P,ns*/
 var H5PEditor = H5PEditor || {};
 
 /**

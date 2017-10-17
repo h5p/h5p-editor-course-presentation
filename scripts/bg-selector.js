@@ -75,7 +75,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
       if (!settings) {
         settings = {
           type: 'reset'
-        }
+        };
       }
       var $targetSlides = getTargetSlides();
 
@@ -183,8 +183,6 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
      */
     self.addBgSelector = function (fields, params, $wrapper, options) {
       options = options || {};
-      var single = options.isSingle ? ' single' : '';
-      var show = options.isVisible ? ' show' : '';
 
       $bgSelector.toggleClass('single', options.isSingle)
         .toggleClass('show', options.isVisible);
