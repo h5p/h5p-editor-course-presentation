@@ -66,3 +66,14 @@
   font-size: 10px;
   color: #555555;
 }
+
+.h5p-radio-selector-values > .field {
+  position: inherit;
+}
+.h5p-radio-selector-values > .field > .h5p-editor-dialog {
+  top: 0;
+  margin: 0;
+  right: 0;
+  overflow-y: auto;
+  height: 100%;
+}
