@@ -34,7 +34,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
     var $title = $('<div class="h5p-background-selector-title">')
       .html(H5PEditor.t('H5PEditor.CoursePresentation', 'slideBackground', {}))
       .appendTo($popup);
-    var $close = $('<div>', {
+    $('<div>', {
       class: 'h5p-background-selector-close',
       role: 'button',
       tabIndex: '0',
@@ -81,7 +81,7 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
 
       // Select single slide if first slide has single slide options
       if (singleSlides[0].getSettings()) {
-        changeSlideType($slideContent)
+        changeSlideType($slideContent);
       }
 
       // Resize header items

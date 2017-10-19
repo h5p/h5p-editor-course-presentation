@@ -1,3 +1,4 @@
+/*global ns*/
 // Create a new editor widget for boolean fields
 ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
 
