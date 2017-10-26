@@ -169,14 +169,11 @@
 .h5p-course-presentation .h5p-keywordcontrols-button:hover {
   background-color: #edd1de;
 }
-.h5p-course-presentation .h5p-keywords-li {
+.h5p-course-presentation .h5p-keywords-wrapper [role="menuitem"] {
   position: relative;
 }
-.h5p-course-presentation .h5p-keywords-li.h5p-editing {
+.h5p-course-presentation .h5p-keywords-wrapper [role="menuitem"].h5p-editing {
   box-shadow: inset 0px 0px 50px -18px rgba(0,0,0,0.3);
-}
-.h5p-course-presentation .h5p-keywords-li:not(.h5p-editing):hover > .joubel-icon-edit {
-  visibility: visible;
 }
 .h5p-course-presentation .h5p-placeholder {
   list-style: none;
@@ -201,7 +198,6 @@
 .h5p-course-presentation .h5p-keywords-wrapper .h5p-current span:hover {
   color: #000;
 }
-.h5p-course-presentation .joubel-icon-approve,
 .h5p-course-presentation .joubel-icon-edit,
 .h5p-course-presentation .joubel-icon-cancel {
   position: absolute;
@@ -209,15 +205,13 @@
   line-height: inherit;
   top: 0.8em;
 }
-.h5p-course-presentation .joubel-icon-approve {
-  right: 1.9em;
-}
-.h5p-course-presentation .joubel-icon-edit {
-  right: 0.7em;
-  visibility: hidden;
-}
+.h5p-course-presentation .joubel-icon-edit,
 .h5p-course-presentation .joubel-icon-cancel {
   right: 0.7em;
+}
+.h5p-course-presentation .joubel-icon-edit:focus .h5p-icon-circle:before,
+.h5p-course-presentation .joubel-icon-cancel:focus .h5p-icon-circle:before {
+  outline: -webkit-focus-ring-color auto 5px;
 }
 .h5p-course-presentation .h5p-moving {
   position: absolute;
@@ -292,7 +286,6 @@
 .h5p-course-presentation .h5p-dialog-no-close .ui-dialog-titlebar-close {
   display: none;
 }
-
 
 .h5p-course-presentation .ui-widget-header {
   background: none;
@@ -496,4 +489,8 @@
 .h5p-coursepresentation-editor .field-name-buttonSize label {
   display: inline-block;
   margin-right: 0.5em;
+}
+
+.h5p-coursepresentation-editor .h5p-hidden {
+  visibility: hidden;
 }

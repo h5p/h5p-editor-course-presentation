@@ -38,7 +38,7 @@
     "autoHide":"Auto hide",
     "opacity":"Opacity",
     "ok":"OK",
-    "noTitle":"No title",
-    "edit":"Edit"
+    "edit":"Edit",
+    "goToSlide": "Go to slide"
   }
 }
