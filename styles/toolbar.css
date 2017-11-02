@@ -108,6 +108,7 @@
 .h5p-dragnbar-table-button:before,
 .h5p-dragnbar-link-button:before,
 .h5p-dragnbar-image-button:before,
+.h5p-dragnbar-shape-button:before,
 .h5p-dragnbar-audio-button:before,
 .h5p-dragnbar-video-button:before,
 .h5p-dragnbar-more-button:before,
@@ -128,6 +129,10 @@
 }
 .h5p-dragnbar-image-button:before {
   content: "\f03e";
+}
+.h5p-dragnbar-shape-button {
+  height: 64%;
+  background: transparent url(../shape-icon.svg) no-repeat center;
 }
 .h5p-dragnbar-audio-button:before {
   content: "\f028";

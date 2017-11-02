@@ -142,6 +142,11 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
           elementParams.action.params.fitToWrapper = true;
           break;
 
+        case 'H5P.Shape':
+          elementParams.width = 10.6765;
+          elementParams.height = 21.09;
+          break;
+
         case 'H5P.DragQuestion':
           elementParams.width = 50;
           elementParams.height = 50;
