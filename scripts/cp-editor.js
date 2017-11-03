@@ -143,8 +143,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
           break;
 
         case 'H5P.Shape':
-          elementParams.width = 10.6765;
-          elementParams.height = 21.09;
+          elementParams.width = 10.9;
+          elementParams.height = 21.5;
           break;
 
         case 'H5P.DragQuestion':
@@ -377,11 +377,22 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       slide.forEach(function (element, elementIndex) {
         var elementParams = that.params.slides[slideIndex].elements[elementIndex];
         var type = (elementParams.action ? elementParams.action.library.split(' ')[0] : null);
+        var directionLock;
+
+        if (type === 'H5P.Shape') {
+          if (elementParams.action.params.type == 'vertical-line') {
+            directionLock = "vertical";
+          }
+          else if (elementParams.action.params.type == 'horizontal-line') {
+            directionLock = "horizontal";
+          }
+        }
 
         that.addToDragNBar(element, elementParams, {
           disableResize: elementParams.displayAsButton,
           lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-          cornerLock: (type === 'H5P.Image')
+          cornerLock: (type === 'H5P.Image'),
+          directionLock: directionLock
         });
       });
     });
@@ -1442,10 +1453,22 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   }).appendTo($wrapper);
 
   if (that.dnb) {
+    var directionLock;
+
+    if (type === 'H5P.Shape') {
+      if (elementParams.action.params.type == 'vertical-line') {
+        directionLock = "vertical";
+      }
+      else if (elementParams.action.params.type == 'horizontal-line') {
+        directionLock = "horizontal";
+      }
+    }
+
     that.addToDragNBar(element, elementParams, {
       disableResize: elementParams.displayAsButton,
       lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-      cornerLock: (type === 'H5P.Image')
+      cornerLock: (type === 'H5P.Image'),
+      directionLock: directionLock
     });
   }
 
