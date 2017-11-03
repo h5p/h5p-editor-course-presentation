@@ -494,3 +494,10 @@
 .h5p-coursepresentation-editor .h5p-hidden {
   visibility: hidden;
 }
+
+.h5p-coursepresentation-editor .h5p-shape-editor .field.field-name-solution,
+.h5p-coursepresentation-editor .h5p-shape-editor .field.field-name-alwaysDisplayComments,
+.h5p-coursepresentation-editor .h5p-shape-editor .field.field-name-backgroundOpacity,
+.h5p-coursepresentation-editor .h5p-shape-editor .field.field-name-displayAsButton {
+  display: none;
+}
