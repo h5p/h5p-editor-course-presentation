@@ -1224,6 +1224,14 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
       hideFields.push('buttonSize');
     }
 
+    if (type === "H5P.Shape") {
+      hideFields.push('solution');
+      hideFields.push('alwaysDisplayComments');
+      hideFields.push('backgroundOpacity');
+      hideFields.push('displayAsButton');
+      hideFields.push('buttonSize');
+    }
+
     // Only display goToSlide field for goToSlide elements
     self.hideFields(elementFields, hideFields);
   }
