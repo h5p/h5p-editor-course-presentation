@@ -1677,11 +1677,11 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     width: '90%',
     maxHeight: H5P.jQuery('.h5p-coursepresentation-editor').innerHeight(),
     position: {my: 'top', at: 'top', of: '.h5p-coursepresentation-editor'},
-    dialogClass: "h5p-dialog-no-close",
+    dialogClass: (machineName === 'H5P.Shape' ? ' h5p-dialog-shape ' : '') + "h5p-dialog-no-close",
     appendTo: '.h5p-course-presentation',
     buttons: [
       {
-        text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
+        text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove') + (machineName === 'H5P.Shape' ? ' ' + machineName.replace('H5P.', '') : ''),
         class: 'h5p-remove',
         click: function () {
           if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {

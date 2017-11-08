@@ -287,6 +287,16 @@
   display: none;
 }
 
+.h5p-course-presentation .h5p-dialog-shape {
+  max-width: 500px;
+}
+
+.h5p-course-presentation .h5p-dialog-shape .ui-dialog-buttonpane {
+  margin-top: 1em;
+  border-top: 1px solid #d0d0d1;
+  background-color: #eee;
+}
+
 .h5p-course-presentation .ui-widget-header {
   background: none;
   border: none;
