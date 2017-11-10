@@ -1681,7 +1681,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     appendTo: '.h5p-course-presentation',
     buttons: [
       {
-        text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove') + (machineName === 'H5P.Shape' ? ' ' + machineName.replace('H5P.', '') : ''),
+        text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
         class: 'h5p-remove',
         click: function () {
           if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
