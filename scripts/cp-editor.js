@@ -391,7 +391,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         that.addToDragNBar(element, elementParams, {
           disableResize: elementParams.displayAsButton,
           lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-          cornerLock: (type === 'H5P.Image'),
+          cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape'),
           directionLock: directionLock
         });
       });
@@ -1475,7 +1475,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     that.addToDragNBar(element, elementParams, {
       disableResize: elementParams.displayAsButton,
       lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-      cornerLock: (type === 'H5P.Image'),
+      cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape'),
       directionLock: directionLock
     });
   }
