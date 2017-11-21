@@ -505,3 +505,7 @@
 .h5p-coursepresentation-editor .h5p-hidden {
   visibility: hidden;
 }
+
+.h5p-course-presentation .h5p-element.focused .h5p-element-outer.h5p-shape-outer-element {
+  outline-offset: 1px;
+}
