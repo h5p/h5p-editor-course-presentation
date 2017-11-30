@@ -377,23 +377,28 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       slide.forEach(function (element, elementIndex) {
         var elementParams = that.params.slides[slideIndex].elements[elementIndex];
         var type = (elementParams.action ? elementParams.action.library.split(' ')[0] : null);
-        var directionLock;
+
+        var dragNBarObject = {
+          disableResize: elementParams.displayAsButton,
+          lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
+          cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
+        }
 
         if (type === 'H5P.Shape') {
+          var directionLock;
+
           if (elementParams.action.params.type == 'vertical-line') {
             directionLock = "vertical";
           }
           else if (elementParams.action.params.type == 'horizontal-line') {
             directionLock = "horizontal";
           }
+
+          dragNBarObject.directionLock = directionLock;
+          dragNBarObject.minSize = 3;
         }
 
-        that.addToDragNBar(element, elementParams, {
-          disableResize: elementParams.displayAsButton,
-          lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-          cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape'),
-          directionLock: directionLock
-        });
+        that.addToDragNBar(element, elementParams, dragNBarObject);
       });
     });
 
@@ -1461,23 +1466,27 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   }).appendTo($wrapper);
 
   if (that.dnb) {
-    var directionLock;
+    var dragNBarObject = {
+      disableResize: elementParams.displayAsButton,
+      lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
+      cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
+    }
 
     if (type === 'H5P.Shape') {
+      var directionLock;
+
       if (elementParams.action.params.type == 'vertical-line') {
         directionLock = "vertical";
       }
       else if (elementParams.action.params.type == 'horizontal-line') {
         directionLock = "horizontal";
       }
+
+      dragNBarObject.directionLock = directionLock;
+      dragNBarObject.minSize = 3;
     }
 
-    that.addToDragNBar(element, elementParams, {
-      disableResize: elementParams.displayAsButton,
-      lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-      cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape'),
-      directionLock: directionLock
-    });
+    that.addToDragNBar(element, elementParams, dragNBarObject);
   }
 
   // Open form dialog when double clicking element
