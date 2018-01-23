@@ -381,8 +381,8 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         var dragNBarObject = {
           disableResize: elementParams.displayAsButton,
           lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-          cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
-        }
+          cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
+        };
 
         if (type === 'H5P.Shape') {
           var directionLock;
@@ -1469,8 +1469,8 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
     var dragNBarObject = {
       disableResize: elementParams.displayAsButton,
       lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-      cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
-    }
+      cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
+    };
 
     if (type === 'H5P.Shape') {
       var directionLock;
