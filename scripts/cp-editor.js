@@ -376,29 +376,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     that.elements.forEach(function (slide, slideIndex) {
       slide.forEach(function (element, elementIndex) {
         var elementParams = that.params.slides[slideIndex].elements[elementIndex];
-        var type = (elementParams.action ? elementParams.action.library.split(' ')[0] : null);
-
-        var dragNBarObject = {
-          disableResize: elementParams.displayAsButton,
-          lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-          cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
-        };
-
-        if (type === 'H5P.Shape') {
-          var directionLock;
-
-          if (elementParams.action.params.type == 'vertical-line') {
-            directionLock = "vertical";
-          }
-          else if (elementParams.action.params.type == 'horizontal-line') {
-            directionLock = "horizontal";
-          }
-
-          dragNBarObject.directionLock = directionLock;
-          dragNBarObject.minSize = 3;
-        }
-
-        that.addToDragNBar(element, elementParams, dragNBarObject);
+        that.addToDragNBar(element, elementParams);
       });
     });
 
@@ -1228,8 +1206,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
       hideFields.push('displayAsButton');
       hideFields.push('buttonSize');
     }
-
-    if (type === "H5P.Shape") {
+    else if (type === "H5P.Shape") {
       hideFields.push('solution');
       hideFields.push('alwaysDisplayComments');
       hideFields.push('backgroundOpacity');
@@ -1466,27 +1443,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   }).appendTo($wrapper);
 
   if (that.dnb) {
-    var dragNBarObject = {
-      disableResize: elementParams.displayAsButton,
-      lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-      cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
-    };
-
-    if (type === 'H5P.Shape') {
-      var directionLock;
-
-      if (elementParams.action.params.type == 'vertical-line') {
-        directionLock = "vertical";
-      }
-      else if (elementParams.action.params.type == 'horizontal-line') {
-        directionLock = "horizontal";
-      }
-
-      dragNBarObject.directionLock = directionLock;
-      dragNBarObject.minSize = 3;
-    }
-
-    that.addToDragNBar(element, elementParams, dragNBarObject);
+    that.addToDragNBar(element, elementParams);
   }
 
   // Open form dialog when double clicking element
@@ -1521,11 +1478,29 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
  *
  * @param {Object} element
  * @param {Object} elementParams
- * @param {Object} options
  * @returns {H5P.DragNBarElement}
  */
-H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, elementParams, options) {
+H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, elementParams) {
   var self = this;
+
+  var type = (elementParams.action ? elementParams.action.library.split(' ')[0] : null);
+  var options = {
+    disableResize: elementParams.displayAsButton,
+    lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
+    cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
+  };
+
+  if (type === 'H5P.Shape') {
+    options.minSize = 3;
+    if (elementParams.action.params.type == 'vertical-line') {
+      options.directionLock = "vertical";
+      options.minSize = elementParams.action.params.line.borderWidth + 2;
+    }
+    else if (elementParams.action.params.type == 'horizontal-line') {
+      options.directionLock = "horizontal";
+      options.minSize = elementParams.action.params.line.borderWidth + 2;
+    }
+  }
 
   var clipboardData = H5P.DragNBar.clipboardify(H5PEditor.CoursePresentation.clipboardKey, elementParams, 'action');
   var dnbElement = self.dnb.add(element.$wrapper, clipboardData, options);
