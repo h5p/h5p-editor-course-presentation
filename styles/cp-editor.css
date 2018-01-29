@@ -75,6 +75,7 @@
   border-radius: 4px;
   white-space: nowrap;
   bottom: 100%;
+  pointer-events: none;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button:before {
