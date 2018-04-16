@@ -1032,10 +1032,10 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   H5P.ExportableTextArea.CPInterface.changeSlideIndex(direction > 0 ? index : index-1, direction > 0 ? index+1 : index);
 
   // Update params.
-  this.params.slides.splice(newIndex, 0, this.params.slides.splice(index, 1)[0]);
-  this.elements.splice(newIndex, 0, this.elements.splice(index, 1)[0]);
-  this.cp.elementInstances.splice(newIndex, 0, this.cp.elementInstances.splice(index, 1)[0]);
-  this.cp.elementsAttached.splice(newIndex, 0, this.cp.elementsAttached.splice(index, 1)[0]);
+  this.swapCollectionIndex(this.params.slides, index, newIndex);
+  this.swapCollectionIndex(this.elements, index, newIndex);
+  this.swapCollectionIndex(this.cp.elementInstances, index, newIndex);
+  this.swapCollectionIndex(this.cp.elementsAttached, index, newIndex);
 
   this.updateNavigationLine(newIndex);
   H5P.ContinuousText.Engine.run(this);
@@ -1045,6 +1045,19 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   this.trigger('sortSlide', direction);
 
   return true;
+};
+
+/**
+ * Swap indexes in array, useful when sorting
+ *
+ * @param {Array} collection The collection we'll swap indexes in
+ * @param {number} firstIndex First index that will be swapped
+ * @param {number} secondIndex Second index that will be swapped
+ */
+H5PEditor.CoursePresentation.prototype.swapCollectionIndex = function (collection, firstIndex, secondIndex) {
+  var temp = collection[firstIndex];
+  collection[firstIndex] = collection[secondIndex];
+  collection[secondIndex] = temp;
 };
 
 /**
