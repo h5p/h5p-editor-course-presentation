@@ -8,16 +8,16 @@
     "newSlide": "Novi slajd",
     "insertElement": ":type Klikni i povuci do željenog mjesta",
     "newKeyword": "Nova ključna riječ",
-    "deleteKeyword": "Obriši ključnu riječ",
+    "save": "Save",
     "removeElement": "Obriši ovaj element",
     "confirmRemoveElement": "Jeste li sigurni da želite obrisati ovaj element?",
     "cancel": "Otkaži",
     "done": "Gotovo",
     "remove": "Obriši",
+    "edit": "Uredi",
     "keywordsTip": "Pomoć za ključne riječi.",
     "popupTitle": ":type uredi",
     "loading": "Učitava se...",
-    "slidesmenu": "Meni za slajdove",
     "element": "Element",
     "resetToDefault": "Vratiti na zadane postavke",
     "resetToTemplate": "Vratiti na zadane postavke templejta",
@@ -31,11 +31,11 @@
     "currentSlideDescription": "Biće primjenjeno samo na ovaj slajd, dok će svi drugi slajdovi u \":template\" ostati nepromjenjeni.",
     "slides": "SliSlajdovides",
     "showTitles": "Prikaži nazive",
-    "noTitle": "Nema naziva",
     "alwaysShow": "Uvijek prikaži",
     "autoHide": "Uvijek sakrij",
-    "opacity": "Zamućenost",
     "ok": "OK",
-    "edit": "Uredi"
+    "slide": "Slide",
+    "opacity": "Zamućenost",
+    "goToSlide": "Go to slide"
   }
 }
