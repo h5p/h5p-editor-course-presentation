@@ -513,6 +513,10 @@
   margin-top: -10em;
 }
 
+.h5p-coursepresentation-editor .push-top .h5p-editor-dialog.h5p-dialog-wide.h5p-metadata-wrapper.h5p-open {
+  margin-top: 0em;
+}
+
 .h5p-coursepresentation-editor .push-top .h5p-metadata-wrapper > fieldset {
   margin-top: 3em;
 }
