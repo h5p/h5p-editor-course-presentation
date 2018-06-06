@@ -442,7 +442,7 @@
   border: 0;
 }
 
-.field-name-presentation > .h5peditor-label-wrapper {
+.field-name-presentation > .h5p-editor-flex-wrapper {
   display: none;
 }
 
@@ -497,4 +497,30 @@
 
 .h5p-coursepresentation-editor .h5p-hidden {
   visibility: hidden;
+}
+
+.h5p-coursepresentation-editor .field-name-title.text {
+  margin-top: 0;
+  margin-bottom: 3em;
+}
+
+.h5p-coursepresentation-editor .ui-dialog-content .field-name-title.text {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.h5p-coursepresentation-editor .h5p-editor-dialog.h5p-dialog-wide.h5p-metadata-wrapper.h5p-open {
+  margin-top: -10em;
+}
+
+.h5p-coursepresentation-editor .push-top .h5p-metadata-wrapper > fieldset {
+  margin-top: 3em;
+}
+
+.h5p-metadata-title-wrapper {
+  margin-bottom: 1em;
+}
+
+.h5p-metadata-button-wrapper {
+  margin-bottom: 0.5em;
 }
