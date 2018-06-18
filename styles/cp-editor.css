@@ -409,6 +409,9 @@
 .h5peditor .h5p-active-surface .h5p-slidecontrols {
   bottom: -1.9em;
 }
+.h5peditor .h5p-active-surface .h5p-footer {
+  margin-top: -1em;
+}
 .h5peditor .field.disabled,
 .h5peditor .field.disabled .h5peditor-field-description {
   color: #9b9b9b;
