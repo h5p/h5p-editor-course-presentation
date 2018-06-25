@@ -1269,8 +1269,22 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
         });
       }
 
+      // Determine library options for this subcontent library
+      var libraryOptions = H5PEditor.CoursePresentation.findField('action', elementFields).options;
+      if (libraryOptions.length > 0 && typeof libraryOptions[0] === 'object') {
+        libraryOptions = libraryOptions.filter(function (option) {
+          return option.name.split(' ')[0] === type;
+        });
+        libraryOptions = (libraryOptions.length > 0) ? libraryOptions[0] : {};
+      }
+      else {
+        libraryOptions = {};
+      }
+
       // Add metadata title and button
-      self.addMetaDataButton(type, element.$form)
+      if (libraryOptions && libraryOptions.hasmetadata !== false) {
+        self.addMetaDataButton(type, element.$form);
+      }
     };
     if (library.children === undefined) {
       library.changes.push(libraryChange);
@@ -1284,12 +1298,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
 };
 
 H5PEditor.CoursePresentation.prototype.addMetaDataButton = function(type, form) {
-  // Blocklist of menu items that don't need metadata
-  if (type == 'H5P.Link' ||
-      type == 'H5P.TwitterUserFeed') {
-        return;
-  }
-
   // Inject a custom text field for the metadata title
   var metaDataTitleSemantics = [{
     'name' : 'title',
