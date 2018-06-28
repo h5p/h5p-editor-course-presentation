@@ -1326,8 +1326,13 @@ H5PEditor.CoursePresentation.prototype.addMetaDataButton = function(type, form) 
     // Ensure it has validation functions
     ns.processSemanticsChunk(metaDataTitleSemantics, {}, form.children('.h5p-metadata-title-wrapper'), this);
 
+    // Populate the title field
+    const $titleInputField = form.find('.h5p-metadata-title-wrapper').find('.h5peditor-text');
+    $titleInputField
+      .attr('id', 'metadata-title-sub');
+
     // Add metadata label after the library has loaded
-    var label = form.find('.h5p-metadata-title-wrapper').find('.h5p-editor-flex-wrapper').first();
+    const label = form.find('.h5p-metadata-title-wrapper').find('.h5p-editor-flex-wrapper').first();
     label.append($metadataButton);
   }
 
