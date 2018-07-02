@@ -1307,20 +1307,8 @@ H5PEditor.CoursePresentation.prototype.addMetaDataButton = function(type, form) 
     'optional': false
   }];
 
-  var $metadataButton = H5PEditor.$('' +
-    '<div class="h5p-metadata-button-wrapper">' +
-      '<div class="h5p-metadata-button-tip"></div>' +
-      '<div class="toggle-metadata">' + ns.t('core', 'metadata') + '</div>' +
-    '</div>');
-
-  // Don't add a title field for text and image libraries, just add the metadata button
-  if (type == 'H5P.AdvancedText' || type == 'H5P.Image') {
-    var label = form.find('.libwrap').find('.h5p-editor-flex-wrapper').first();
-    label.append($metadataButton);
-  }
-
   // Add the title field for all other libraries
-  else {
+  if (type !== 'H5P.AdvancedText' && type !== 'H5P.Image') {
     form.prepend(H5PEditor.$('<div class="h5p-metadata-title-wrapper"></div>'));
 
     // Ensure it has validation functions
@@ -1330,23 +1318,8 @@ H5PEditor.CoursePresentation.prototype.addMetaDataButton = function(type, form) 
     const $titleInputField = form.find('.h5p-metadata-title-wrapper').find('.h5peditor-text');
     $titleInputField
       .attr('id', 'metadata-title-sub');
-
-    // Add metadata label after the library has loaded
-    const label = form.find('.h5p-metadata-title-wrapper').find('.h5p-editor-flex-wrapper').first();
-    label.append($metadataButton);
   }
-
-  // Add click listener to toggle the metadata form
-  $metadataButton.click(function () {
-    var metadataWrapper = form.find('.h5p-metadata-wrapper');
-    metadataWrapper.toggleClass('h5p-open')
-    metadataWrapper.closest('.tree').find('.overlay').toggle();
-    metadataWrapper.find('.h5p-metadata-wrapper').find('.field-name-title').find('input.h5peditor-text').focus();
-    if (H5PIntegration && H5PIntegration.user && H5PIntegration.user.name) {
-      metadataWrapper.find('.field-name-authorName').find('input.h5peditor-text').val(H5PIntegration.user.name);
-    }
-  });
-}
+};
 
 /**
  * Help set size for new images and keep aspect ratio.
