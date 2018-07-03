@@ -1234,6 +1234,8 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     element.$form.attr('title', H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': title}));
   });
 
+  self.addMetaDataTitle(type, element.$form);
+
   // Render element fields
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
@@ -1280,11 +1282,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
       else {
         libraryOptions = {};
       }
-
-      // Add metadata title and button
-      if (libraryOptions && libraryOptions.hasmetadata !== false) {
-        self.addMetaDataButton(type, element.$form);
-      }
     };
     if (library.children === undefined) {
       library.changes.push(libraryChange);
@@ -1297,7 +1294,13 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   return element;
 };
 
-H5PEditor.CoursePresentation.prototype.addMetaDataButton = function(type, form) {
+/**
+ * Add the metadata title field to the form.
+ *
+ * @param {string} type - Library name.
+ * @param {$jQuery} form - form to add the title field to.
+ */
+H5PEditor.CoursePresentation.prototype.addMetaDataTitle = function(type, $form) {
   // Inject a custom text field for the metadata title
   var metaDataTitleSemantics = [{
     'name' : 'title',
@@ -1307,17 +1310,19 @@ H5PEditor.CoursePresentation.prototype.addMetaDataButton = function(type, form) 
     'optional': false
   }];
 
-  // Add the title field for all other libraries
-  if (type !== 'H5P.AdvancedText' && type !== 'H5P.Image') {
-    form.prepend(H5PEditor.$('<div class="h5p-metadata-title-wrapper"></div>'));
+  // Add the title field for all other libraries -- a property for this might come in handy
+  const blockList = ['H5P.AdvancedText', 'H5P.Image', 'H5P.Link', 'goToSlide', 'H5P.ContinuousText', 'H5P.ExportableTextArea', 'H5P.TwitterUserFeed'];
+  if (blockList.indexOf(type) === -1) {
+    $form.prepend(H5PEditor.$('<div class="h5p-metadata-title-wrapper"></div>'));
 
     // Ensure it has validation functions
-    ns.processSemanticsChunk(metaDataTitleSemantics, {}, form.children('.h5p-metadata-title-wrapper'), this);
+    ns.processSemanticsChunk(metaDataTitleSemantics, {}, $form.children('.h5p-metadata-title-wrapper'), this);
 
     // Populate the title field
-    const $titleInputField = form.find('.h5p-metadata-title-wrapper').find('.h5peditor-text');
-    $titleInputField
-      .attr('id', 'metadata-title-sub');
+    const $titleInputField = $form.find('.h5p-metadata-title-wrapper').find('.h5peditor-text');
+
+    // Selector for H5PEditor.Library
+    $titleInputField.attr('id', 'metadata-title-sub');
   }
 };
 
