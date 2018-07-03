@@ -1311,7 +1311,7 @@ H5PEditor.CoursePresentation.prototype.addMetaDataTitle = function(type, $form) 
   }];
 
   // Add the title field for all other libraries -- a property for this might come in handy
-  const blockList = ['H5P.AdvancedText', 'H5P.Image', 'H5P.Link', 'goToSlide', 'H5P.ContinuousText', 'H5P.ExportableTextArea', 'H5P.TwitterUserFeed'];
+  const blockList = ['H5P.AdvancedText', 'H5P.Table', 'H5P.Image', 'H5P.Link', 'goToSlide', 'H5P.ContinuousText', 'H5P.ExportableTextArea', 'H5P.TwitterUserFeed'];
   if (blockList.indexOf(type) === -1) {
     $form.prepend(H5PEditor.$('<div class="h5p-metadata-title-wrapper"></div>'));
 
