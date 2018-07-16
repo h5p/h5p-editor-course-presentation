@@ -120,6 +120,9 @@
   font-size: 1.1em;
   vertical-align: top;
 }
+.h5p-dragnbar-more-button {
+  width: 0.7em;
+}
 .h5p-dragnbar-table-button:before {
   content: "\f0ce";
 }
@@ -142,7 +145,7 @@
   content: "\f086";
 }
 .h5p-dragnbar-more-button:before {
-  content: "\f067";
+  content: "\f142";
   font-size: 1em;
 }
 .h5p-dragnbar-interactivevideo-button:before {
