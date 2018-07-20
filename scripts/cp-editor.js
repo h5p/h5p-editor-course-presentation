@@ -1234,6 +1234,8 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     element.$form.attr('title', H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': title}));
   });
 
+  self.addMetaDataTitle(type, element.$form);
+
   // Render element fields
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
@@ -1269,8 +1271,17 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
         });
       }
 
-      // Add metadata title and button
-      self.addMetaDataButton(type, element.$form)
+      // Determine library options for this subcontent library
+      var libraryOptions = H5PEditor.CoursePresentation.findField('action', elementFields).options;
+      if (libraryOptions.length > 0 && typeof libraryOptions[0] === 'object') {
+        libraryOptions = libraryOptions.filter(function (option) {
+          return option.name.split(' ')[0] === type;
+        });
+        libraryOptions = (libraryOptions.length > 0) ? libraryOptions[0] : {};
+      }
+      else {
+        libraryOptions = {};
+      }
     };
     if (library.children === undefined) {
       library.changes.push(libraryChange);
@@ -1283,13 +1294,13 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   return element;
 };
 
-H5PEditor.CoursePresentation.prototype.addMetaDataButton = function(type, form) {
-  // Blocklist of menu items that don't need metadata
-  if (type == 'H5P.Link' ||
-      type == 'H5P.TwitterUserFeed') {
-        return;
-  }
-
+/**
+ * Add the metadata title field to the form.
+ *
+ * @param {string} type - Library name.
+ * @param {$jQuery} form - form to add the title field to.
+ */
+H5PEditor.CoursePresentation.prototype.addMetaDataTitle = function(type, $form) {
   // Inject a custom text field for the metadata title
   var metaDataTitleSemantics = [{
     'name' : 'title',
@@ -1299,41 +1310,21 @@ H5PEditor.CoursePresentation.prototype.addMetaDataButton = function(type, form) 
     'optional': false
   }];
 
-  var $metadataButton = H5PEditor.$('' +
-    '<div class="h5p-metadata-button-wrapper">' +
-      '<div class="h5p-metadata-button-tip"></div>' +
-      '<div class="toggle-metadata">' + ns.t('core', 'metadata') + '</div>' +
-    '</div>');
-
-  // Don't add a title field for text and image libraries, just add the metadata button
-  if (type == 'H5P.AdvancedText' || type == 'H5P.Image') {
-    var label = form.find('.libwrap').find('.h5p-editor-flex-wrapper').first();
-    label.append($metadataButton);
-  }
-
-  // Add the title field for all other libraries
-  else {
-    form.prepend(H5PEditor.$('<div class="h5p-metadata-title-wrapper"></div>'));
+  // Add the title field for all other libraries -- a property for this might come in handy
+  const blockList = ['H5P.AdvancedText', 'H5P.Table', 'H5P.Image', 'H5P.Link', 'goToSlide', 'H5P.ContinuousText', 'H5P.ExportableTextArea', 'H5P.TwitterUserFeed'];
+  if (blockList.indexOf(type) === -1) {
+    $form.prepend(H5PEditor.$('<div class="h5p-metadata-title-wrapper"></div>'));
 
     // Ensure it has validation functions
-    ns.processSemanticsChunk(metaDataTitleSemantics, {}, form.children('.h5p-metadata-title-wrapper'), this);
+    ns.processSemanticsChunk(metaDataTitleSemantics, {}, $form.children('.h5p-metadata-title-wrapper'), this);
 
-    // Add metadata label after the library has loaded
-    var label = form.find('.h5p-metadata-title-wrapper').find('.h5p-editor-flex-wrapper').first();
-    label.append($metadataButton);
+    // Populate the title field
+    const $titleInputField = $form.find('.h5p-metadata-title-wrapper').find('.h5peditor-text');
+
+    // Selector for H5PEditor.Library
+    $titleInputField.attr('id', 'metadata-title-sub');
   }
-
-  // Add click listener to toggle the metadata form
-  $metadataButton.click(function () {
-    var metadataWrapper = form.find('.h5p-metadata-wrapper');
-    metadataWrapper.toggleClass('h5p-open')
-    metadataWrapper.closest('.tree').find('.overlay').toggle();
-    metadataWrapper.find('.h5p-metadata-wrapper').find('.field-name-title').find('input.h5peditor-text').focus();
-    if (H5PIntegration && H5PIntegration.user && H5PIntegration.user.name) {
-      metadataWrapper.find('.field-name-authorName').find('input.h5peditor-text').val(H5PIntegration.user.name);
-    }
-  });
-}
+};
 
 /**
  * Help set size for new images and keep aspect ratio.
