@@ -375,7 +375,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       });
     }
 
-    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper});
+    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper, libraries: libraries});
 
     that.$dnbContainer = that.cp.$current;
     that.dnb.dnr.snap = 10;
