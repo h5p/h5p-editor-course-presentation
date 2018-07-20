@@ -61,6 +61,19 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     // Disable IV's guided tour within CP
     H5PEditor.InteractiveVideo.disableGuidedTour();
   }
+
+  // Update paste button
+  H5P.externalDispatcher.on('datainclipboard', function (event) {
+    if (!that.libraries) {
+      return;
+    }
+    var canPaste = !event.data.reset;
+    if (canPaste) {
+      // Check if content type is supported here
+      canPaste = that.canPaste(H5P.getClipboard());
+    }
+    that.dnb.setCanPaste(canPaste);
+  });
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
@@ -363,6 +376,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     }
 
     that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper});
+
     that.$dnbContainer = that.cp.$current;
     that.dnb.dnr.snap = 10;
     that.dnb.dnr.setContainerEm(that.containerEm);
@@ -522,11 +536,29 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     that.dnb.attach(that.$bar);
 
+    // Set paste button
+    that.dnb.setCanPaste(that.canPaste(H5P.getClipboard()));
+
     // Bind keyword interactions.
     that.initKeywordInteractions();
 
     // Trigger event
     that.trigger('librariesReady');
+  });
+};
+
+/**
+ * Check if the clipboard can be pasted into CP.
+ *
+ * @param {Object} [clipboard] Clipboard data.
+ * @return {boolean} True, if clipboard can be pasted.
+ */
+H5PEditor.CoursePresentation.prototype.canPaste = function (clipboard) {
+  if (!clipboard || !clipboard.generic) {
+    return false;
+  }
+  return this.libraries.some(function (element) {
+    return element.uberName === clipboard.generic.library;
   });
 };
 
