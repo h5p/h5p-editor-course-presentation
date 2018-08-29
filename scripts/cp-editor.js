@@ -1272,8 +1272,13 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
 
-  // Hide library selector
-  element.$form.children('.library:first').children('label, select').hide().end().children('.libwrap').css('margin-top', '0');
+  // Remove library selector and copy button and paste button
+  var pos = elementFields.map(function(field) {return field.type;}).indexOf('library');
+  if (pos > -1) {
+    element.children[pos].removeLibrarySelector();
+    element.children[pos].removeCopyPaste();
+    element.$form.css('padding-top', '0');
+  }
 
   // Show or hide button size dropdown depending on display as button checkbox
   element.$form.find('.field-name-displayAsButton').each(function() { // TODO: Use showWhen in semantics.json instead…
