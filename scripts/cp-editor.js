@@ -1273,10 +1273,11 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   element.children = self.children;
 
   // Remove library selector and copy button and paste button
-  var pos = elementFields.map(function(field) {return field.type;}).indexOf('library');
+  var pos = elementFields.map(function (field) {
+    return field.type;
+  }).indexOf('library');
   if (pos > -1) {
-    element.children[pos].removeLibrarySelector();
-    element.children[pos].removeCopyPaste();
+    element.children[pos].hide();
     element.$form.css('padding-top', '0');
   }
 
