@@ -61,6 +61,19 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     // Disable IV's guided tour within CP
     H5PEditor.InteractiveVideo.disableGuidedTour();
   }
+
+  // Update paste button
+  H5P.externalDispatcher.on('datainclipboard', function (event) {
+    if (!that.libraries) {
+      return;
+    }
+    var canPaste = !event.data.reset;
+    if (canPaste) {
+      // Check if content type is supported here
+      canPaste = that.canPaste(H5P.getClipboard());
+    }
+    that.dnb.setCanPaste(canPaste);
+  });
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
@@ -362,7 +375,8 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       });
     }
 
-    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper});
+    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper, libraries: libraries});
+
     that.$dnbContainer = that.cp.$current;
     that.dnb.dnr.snap = 10;
     that.dnb.dnr.setContainerEm(that.containerEm);
@@ -522,11 +536,29 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     that.dnb.attach(that.$bar);
 
+    // Set paste button
+    that.dnb.setCanPaste(that.canPaste(H5P.getClipboard()));
+
     // Bind keyword interactions.
     that.initKeywordInteractions();
 
     // Trigger event
     that.trigger('librariesReady');
+  });
+};
+
+/**
+ * Check if the clipboard can be pasted into CP.
+ *
+ * @param {Object} [clipboard] Clipboard data.
+ * @return {boolean} True, if clipboard can be pasted.
+ */
+H5PEditor.CoursePresentation.prototype.canPaste = function (clipboard) {
+  if (!clipboard || !clipboard.generic) {
+    return false;
+  }
+  return this.libraries.some(function (element) {
+    return element.uberName === clipboard.generic.library;
   });
 };
 
@@ -1234,12 +1266,20 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     element.$form.attr('title', H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': title}));
   });
 
+  self.addMetaDataTitle(type, element.$form);
+
   // Render element fields
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
 
-  // Hide library selector
-  element.$form.children('.library:first').children('label, select').hide().end().children('.libwrap').css('margin-top', '0');
+  // Remove library selector and copy button and paste button
+  var pos = elementFields.map(function (field) {
+    return field.type;
+  }).indexOf('library');
+  if (pos > -1) {
+    element.children[pos].hide();
+    element.$form.css('padding-top', '0');
+  }
 
   // Show or hide button size dropdown depending on display as button checkbox
   element.$form.find('.field-name-displayAsButton').each(function() { // TODO: Use showWhen in semantics.json instead…
@@ -1268,6 +1308,18 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
           self.setImageSize(element, elementParams, params);
         });
       }
+
+      // Determine library options for this subcontent library
+      var libraryOptions = H5PEditor.CoursePresentation.findField('action', elementFields).options;
+      if (libraryOptions.length > 0 && typeof libraryOptions[0] === 'object') {
+        libraryOptions = libraryOptions.filter(function (option) {
+          return option.name.split(' ')[0] === type;
+        });
+        libraryOptions = (libraryOptions.length > 0) ? libraryOptions[0] : {};
+      }
+      else {
+        libraryOptions = {};
+      }
     };
     if (library.children === undefined) {
       library.changes.push(libraryChange);
@@ -1278,6 +1330,38 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   }
 
   return element;
+};
+
+/**
+ * Add the metadata title field to the form.
+ *
+ * @param {string} type - Library name.
+ * @param {$jQuery} form - form to add the title field to.
+ */
+H5PEditor.CoursePresentation.prototype.addMetaDataTitle = function(type, $form) {
+  // Inject a custom text field for the metadata title
+  var metaDataTitleSemantics = [{
+    'name' : 'title',
+    'type' : 'text',
+    'label' : ns.t('core', 'title'),
+    'description': ns.t('core', 'usedForSearchingReportsAndCopyrightInformation'),
+    'optional': false
+  }];
+
+  // Add the title field for all other libraries -- a property for this might come in handy
+  const blockList = ['H5P.AdvancedText', 'H5P.Table', 'H5P.Image', 'H5P.Link', 'goToSlide', 'H5P.ContinuousText', 'H5P.ExportableTextArea', 'H5P.TwitterUserFeed'];
+  if (blockList.indexOf(type) === -1) {
+    $form.prepend(H5PEditor.$('<div class="h5p-metadata-title-wrapper"></div>'));
+
+    // Ensure it has validation functions
+    ns.processSemanticsChunk(metaDataTitleSemantics, {}, $form.children('.h5p-metadata-title-wrapper'), this);
+
+    // Populate the title field
+    const $titleInputField = $form.find('.h5p-metadata-title-wrapper').find('.h5peditor-text');
+
+    // Selector for H5PEditor.Library
+    $titleInputField.attr('id', 'metadata-title-sub');
+  }
 };
 
 /**
