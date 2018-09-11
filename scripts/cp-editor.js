@@ -868,7 +868,8 @@ H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
 
     if (isTaskWithSolution) {
       hasSolutionArray.push([[isTaskWithSolution]]);
-    } else {
+    }
+    else {
       hasSolutionArray.push([]);
     }
   });
@@ -974,8 +975,8 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
       '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
         '<span class="h5p-icon-circle"></span>' +
         '<span class="h5p-icon-pencil"></span>' +
-      '</a>')
-    .click(function() {
+      '</a>'
+    ).click(function () {
       // If clicked is not already active, do a double click
       if (!H5PEditor.$(this).parents('[role="menuitem"]').hasClass('h5p-current')) {
         H5PEditor.$(this).siblings('span').click().click();
@@ -995,23 +996,19 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
       if (event.which >= 37 && event.which <= 40) {
         return false;
       }
-    }).blur(function() {
+    }).blur(function () {
       $editIcon.addClass('h5p-hidden');
-    })
-    .appendTo($keywords.eq(index));
+    }).appendTo($keywords.eq(index));
 
-    H5PEditor.$(this).focus(function() {
+    H5PEditor.$(this).focus(function () {
       $editIcon.removeClass('h5p-hidden');
-    })
-    .hover(function() {
+    }).hover(function () {
       if (!H5PEditor.$(this).hasClass('h5p-editing')) {
         $editIcon.removeClass('h5p-hidden');
       }
-    })
-    .mouseleave(function() {
+    }).mouseleave(function () {
       $editIcon.addClass('h5p-hidden');
-    })
-    .blur(function(e) {
+    }).blur(function (e) {
       if (e.relatedTarget && e.relatedTarget.className !== 'joubel-icon-edit' || !e.relatedTarget) {
         $editIcon.addClass('h5p-hidden');
       }
@@ -1160,7 +1157,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 
   $textarea.keyup();
 
-  $delete.insertAfter($textarea).click(function(e) {
+  $delete.insertAfter($textarea).click(function (e) {
     e.preventDefault();
     $textarea.val(oldTitle).blur();
     H5PEditor.$('[role="menuitem"].h5p-current').focus();
@@ -1173,7 +1170,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
     if (event.which >= 37 && event.which <= 40) {
       return false;
     }
-  }).blur(function(e) {
+  }).blur(function (e) {
     if (e.relatedTarget && e.relatedTarget.tagName !== 'TEXTAREA' || !e.relatedTarget) {
       $textarea.blur();
     }
@@ -1282,17 +1279,18 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   }
 
   // Show or hide button size dropdown depending on display as button checkbox
-  element.$form.find('.field-name-displayAsButton').each(function() { // TODO: Use showWhen in semantics.json instead…
+  element.$form.find('.field-name-displayAsButton').each(function () { // TODO: Use showWhen in semantics.json instead…
     var buttonSizeField = ns.$(this).parent().find('.field-name-buttonSize');
 
     if (!ns.$(this).find("input")[0].checked) {
       buttonSizeField.addClass("h5p-hidden2");
     }
 
-    ns.$(this).find("input").change(function(e) {
+    ns.$(this).find("input").change(function (e) {
       if (e.target.checked) {
         buttonSizeField.removeClass("h5p-hidden2");
-      } else {
+      }
+      else {
         buttonSizeField.addClass("h5p-hidden2");
       }
     });
@@ -1338,7 +1336,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
  * @param {string} type - Library name.
  * @param {$jQuery} form - form to add the title field to.
  */
-H5PEditor.CoursePresentation.prototype.addMetaDataTitle = function(type, $form) {
+H5PEditor.CoursePresentation.prototype.addMetaDataTitle = function (type, $form) {
   // Inject a custom text field for the metadata title
   var metaDataTitleSemantics = [{
     'name' : 'title',
@@ -1576,7 +1574,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
  * @param {Object} options
  * @returns {H5P.DragNBarElement}
  */
-H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, elementParams, options) {
+H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elementParams, options) {
   var self = this;
 
   var clipboardData = H5P.DragNBar.clipboardify(H5PEditor.CoursePresentation.clipboardKey, elementParams, 'action');
@@ -1823,7 +1821,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 /**
 *
 */
-H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, element, elementParams) {
+H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, element, elementParams) {
   var elementIndex = $wrapper.index();
   var slideIndex = this.cp.$current.index();
   var elementsParams = this.params.slides[slideIndex].elements;
