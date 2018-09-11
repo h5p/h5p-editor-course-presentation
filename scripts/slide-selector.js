@@ -388,7 +388,8 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       if (self.$wrapper) {
         if (isOpen) {
           self.close();
-        } else {
+        }
+        else {
           self.open();
         }
 
