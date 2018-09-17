@@ -1167,7 +1167,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
       return false;
     }
     // Ignore arrow keys for now to avoid JS-error
-    if (event.which >= 37 && event.which <= 40) {
+    if (e.which >= 37 && e.which <= 40) {
       return false;
     }
   }).blur(function (e) {
@@ -1273,7 +1273,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   var pos = elementFields.map(function (field) {
     return field.type;
   }).indexOf('library');
-  if (pos > -1) {
+  if (pos !== -1 && element.children[pos].hide) {
     element.children[pos].hide();
     element.$form.css('padding-top', '0');
   }
