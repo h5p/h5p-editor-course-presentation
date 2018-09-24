@@ -504,8 +504,7 @@
   margin-bottom: 3em;
 }
 
-.h5p-coursepresentation-editor .ui-dialog-content .field-name-title.text {
-  margin-top: 0;
+.h5p-coursepresentation-editor .ui-dialog-content .field-name-extraTitle.text {
   margin-bottom: 0;
 }
 
@@ -515,10 +514,6 @@
 
 .h5p-coursepresentation-editor .h5p-metadata-form-wrapper .h5p-editor-dialog.h5p-dialog-wide.h5p-metadata-wrapper.h5p-open {
   margin-top: 0em;
-}
-
-.h5p-metadata-title-wrapper {
-  margin-top: 1em;
 }
 
 .h5p-metadata-button-wrapper {
