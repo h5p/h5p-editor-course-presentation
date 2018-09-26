@@ -54,42 +54,10 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-9 */
 }
 
-.h5p-dragnbar-li.paste-button,
-.h5p-dragnbar-li.paste-button.disabled:hover {
-  background: #e6f1fa; /* Old browsers */
-  background: -moz-linear-gradient(top, #e6f1fa 1%, #add1ef 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #e6f1fa), color-stop(100%, #add1ef)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #e6f1fa 1%, #add1ef 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #e6f1fa 1%, #add1ef 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #e6f1fa 1%, #add1ef 100%); /* IE10+ */
-  background: linear-gradient(to bottom, #e6f1fa 1%, #add1ef 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6f1fa', endColorstr='#add1ef',GradientType=0 ); /* IE6-9 */
-}
-
-.h5p-dragnbar-li.paste-button:hover {
-  background: #add1ef; /* Old browsers */
-  background: -moz-linear-gradient(top, #add1ef 1%, #e6f1fa 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #add1ef), color-stop(100%, #e6f1fa)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #add1ef 1%, #e6f1fa 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #add1ef 1%, #e6f1fa 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #add1ef 1%, #e6f1fa 100%); /* IE10+ */
-  background: linear-gradient(to bottom, #add1ef 1%, #e6f1fa 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#add1ef', endColorstr='#e6f1fa',GradientType=0 ); /* IE6-9 */
-
-  cursor: pointer;
-}
-
-.h5p-dragnbar-li.paste-button.disabled:hover {
-  cursor: auto;
-}
-
-.h5p-dragnbar-li.disabled {
+.h5p-dragnbar-li.disabled,
+.h5p-dragnbar-li.disabled:hover {
   opacity: 0.3;
   cursor: auto;
-}
-
-.h5p-dragnbar-paste-button:before {
-  color: #0061A2;
 }
 
 .h5p-dragnbar-li:first-child {
@@ -100,6 +68,7 @@
 .h5p-dragnbar-li:last-child {
   border-right: 0;
   border-top-right-radius: 0.5em;
+  overflow: hidden;
 }
 
 .h5p-dragnbar-li:last-child {
@@ -398,4 +367,9 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
   overflow: hidden;
   padding: 3px 3px 0px 3px;
   margin-top: -0.4em;
+}
+
+/*Paste button overrides. Be careful, so we only hit the CP's drag-n-bar */
+.h5p-course-presentation > .h5p-wrapper > .h5peditor-dragnbar #h5p-dragnbar-paste {
+  border: none;
 }
