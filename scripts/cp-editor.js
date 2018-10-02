@@ -619,6 +619,12 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
     this.dnb.remove();
   }
   this.$item.remove();
+
+  this.elements.forEach(function (slides) {
+    slides.forEach(function (interaction) {
+      H5PEditor.removeChildren(interaction.children);
+    });
+  });
 };
 
 /**
