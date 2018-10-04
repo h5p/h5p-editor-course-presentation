@@ -370,6 +370,6 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
 }
 
 /*Paste button overrides. Be careful, so we only hit the CP's drag-n-bar */
-.h5p-course-presentation > .h5p-wrapper > .h5peditor-dragnbar #h5p-dragnbar-paste {
+.h5p-course-presentation > .h5p-wrapper > .h5peditor-dragnbar .h5p-dragnbar-paste-button {
   border: none;
 }
