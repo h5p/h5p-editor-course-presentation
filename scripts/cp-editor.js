@@ -561,7 +561,7 @@ H5PEditor.CoursePresentation.prototype.canPaste = function (clipboard) {
       // Non generic part = must be content like gotoslide or similar
       return true;
     }
-    else if (clipboard.generic && that.supported(clipboard.generic.library)) {
+    else if (clipboard.generic && this.supported(clipboard.generic.library)) {
       // Supported library from another content type
       return true;
     }
