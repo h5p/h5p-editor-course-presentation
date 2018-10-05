@@ -479,7 +479,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
      * @param {string} lib uber name
      * @returns {boolean}
      */
-    var supported = function (lib) {
+    that.supported = function (lib) {
       for (var i = 0; i < libraries.length; i++) {
         if (libraries[i].restricted !== true && libraries[i].uberName === lib) {
           return true; // Library is supported and allowed
@@ -504,7 +504,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           // Non generic part, must be content like gotoslide or similar
           that.dnb.focus(that.addElement(pasted.specific, options));
         }
-        else if (supported(pasted.generic.library)) {
+        else if (that.supported(pasted.generic.library)) {
           // Special case for ETA - can't copy the index, then export won't include
           // the original, since they will have the same index.
           if (pasted.generic.library.split(' ')[0] === 'H5P.ExportableTextArea') {
@@ -518,7 +518,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         }
       }
       else if (pasted.generic) {
-        if (supported(pasted.generic.library)) {
+        if (that.supported(pasted.generic.library)) {
           // Supported library from another content type)
 
           if (pasted.specific.displayType === 'button') {
@@ -554,12 +554,20 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
  * @return {boolean} True, if clipboard can be pasted.
  */
 H5PEditor.CoursePresentation.prototype.canPaste = function (clipboard) {
-  if (!clipboard || !clipboard.generic) {
-    return false;
+  if (clipboard) {
+    if (clipboard.from === H5PEditor.CoursePresentation.clipboardKey &&
+        (!clipboard.generic || this.supported(clipboard.generic.library))) {
+      // Content comes from the same version of CP
+      // Non generic part = must be content like gotoslide or similar
+      return true;
+    }
+    else if (clipboard.generic && that.supported(clipboard.generic.library)) {
+      // Supported library from another content type
+      return true;
+    }
   }
-  return this.libraries.some(function (element) {
-    return element.uberName === clipboard.generic.library;
-  });
+
+  return false;
 };
 
 /**
