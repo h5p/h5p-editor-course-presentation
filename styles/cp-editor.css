@@ -310,7 +310,7 @@
 }
 
 /* Add some margin before metadata title in popups */
-.h5p-course-presentation .ui-dialog-content > .library > .libwrap > .field-name-extraTitle {
+.h5p-course-presentation .ui-dialog-content > .library > .libwrap {
   margin-top: 1em;
 }
 
