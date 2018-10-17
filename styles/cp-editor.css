@@ -309,6 +309,11 @@
   margin: 0;
 }
 
+/* Add some margin before metadata title in popups */
+.h5p-course-presentation .ui-dialog-content > .library > .libwrap > .field-name-extraTitle {
+  margin-top: 1em;
+}
+
 .h5p-course-presentation .ui-resizable-se {
   bottom: -5px;
   right: -5px;
