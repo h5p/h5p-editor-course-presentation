@@ -479,7 +479,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
      * @param {string} lib uber name
      * @returns {boolean}
      */
-    var supported = function (lib) {
+    that.supported = function (lib) {
       for (var i = 0; i < libraries.length; i++) {
         if (libraries[i].restricted !== true && libraries[i].uberName === lib) {
           return true; // Library is supported and allowed
@@ -504,7 +504,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           // Non generic part, must be content like gotoslide or similar
           that.dnb.focus(that.addElement(pasted.specific, options));
         }
-        else if (supported(pasted.generic.library)) {
+        else if (that.supported(pasted.generic.library)) {
           // Special case for ETA - can't copy the index, then export won't include
           // the original, since they will have the same index.
           if (pasted.generic.library.split(' ')[0] === 'H5P.ExportableTextArea') {
@@ -518,7 +518,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         }
       }
       else if (pasted.generic) {
-        if (supported(pasted.generic.library)) {
+        if (that.supported(pasted.generic.library)) {
           // Supported library from another content type)
 
           if (pasted.specific.displayType === 'button') {
@@ -554,12 +554,20 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
  * @return {boolean} True, if clipboard can be pasted.
  */
 H5PEditor.CoursePresentation.prototype.canPaste = function (clipboard) {
-  if (!clipboard || !clipboard.generic) {
-    return false;
+  if (clipboard) {
+    if (clipboard.from === H5PEditor.CoursePresentation.clipboardKey &&
+        (!clipboard.generic || this.supported(clipboard.generic.library))) {
+      // Content comes from the same version of CP
+      // Non generic part = must be content like gotoslide or similar
+      return true;
+    }
+    else if (clipboard.generic && this.supported(clipboard.generic.library)) {
+      // Supported library from another content type
+      return true;
+    }
   }
-  return this.libraries.some(function (element) {
-    return element.uberName === clipboard.generic.library;
-  });
+
+  return false;
 };
 
 /**
@@ -619,6 +627,12 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
     this.dnb.remove();
   }
   this.$item.remove();
+
+  this.elements.forEach(function (slides) {
+    slides.forEach(function (interaction) {
+      H5PEditor.removeChildren(interaction.children);
+    });
+  });
 };
 
 /**
@@ -1263,8 +1277,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     element.$form.attr('title', H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': title}));
   });
 
-  self.addMetaDataTitle(type, element.$form);
-
   // Render element fields
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
@@ -1328,38 +1340,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   }
 
   return element;
-};
-
-/**
- * Add the metadata title field to the form.
- *
- * @param {string} type - Library name.
- * @param {$jQuery} form - form to add the title field to.
- */
-H5PEditor.CoursePresentation.prototype.addMetaDataTitle = function (type, $form) {
-  // Inject a custom text field for the metadata title
-  var metaDataTitleSemantics = [{
-    'name' : 'title',
-    'type' : 'text',
-    'label' : ns.t('core', 'title'),
-    'description': ns.t('core', 'usedForSearchingReportsAndCopyrightInformation'),
-    'optional': false
-  }];
-
-  // Add the title field for all other libraries -- a property for this might come in handy
-  const blockList = ['H5P.AdvancedText', 'H5P.Table', 'H5P.Image', 'H5P.Link', 'goToSlide', 'H5P.ContinuousText', 'H5P.ExportableTextArea', 'H5P.TwitterUserFeed'];
-  if (blockList.indexOf(type) === -1) {
-    $form.prepend(H5PEditor.$('<div class="h5p-metadata-title-wrapper"></div>'));
-
-    // Ensure it has validation functions
-    ns.processSemanticsChunk(metaDataTitleSemantics, {}, $form.children('.h5p-metadata-title-wrapper'), this);
-
-    // Populate the title field
-    const $titleInputField = $form.find('.h5p-metadata-title-wrapper').find('.h5peditor-text');
-
-    // Selector for H5PEditor.Library
-    $titleInputField.attr('id', 'metadata-title-sub');
-  }
 };
 
 /**
@@ -1978,46 +1958,3 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
 
 // Tell the editor what widget we are.
 H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
-
-// Add translations
-H5PEditor.language["H5PEditor.CoursePresentation"] = {
-  "libraryStrings": {
-    "confirmDeleteSlide": "Are you sure you wish to delete this slide?",
-    "sortSlide": "Move slide :dir",
-    "backgroundSlide": "Slide background",
-    "removeSlide": "Delete slide",
-    "cloneSlide": "Clone slide",
-    "newSlide": "Add new slide",
-    "insertElement": "Click and drag to place :type",
-    "newKeyword": "New keyword",
-    "save": "Save",
-    "removeElement": "Remove this element",
-    "confirmRemoveElement": "Are you sure you wish to remove this element?",
-    "cancel": "Cancel",
-    "done": "Done",
-    "remove": "Remove",
-    "edit": "Edit",
-    "keywordsTip": "Drag in keywords using the two buttons above.",
-    "popupTitle": "Edit :type",
-    "loading": "Loading...",
-    "slides": "Slides",
-    "element": "Element",
-    "resetToDefault": "Reset to default",
-    "resetToTemplate": "Reset to template",
-    "slideBackground": "Slide background",
-    "setImageBackground": "Image background",
-    "setColorFillBackground": "Color fill background",
-    "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone.",
-    "template": "Template",
-    "templateDescription": "Will be applied to all slides not overridden by any \":currentSlide\" settings.",
-    "currentSlide": "This slide",
-    "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings.",
-    "showTitles": "Show titles",
-    "alwaysShow": "Always show",
-    "autoHide": "Auto hide",
-    "ok": "OK",
-    "slide": "Slide",
-    "opacity": "Opacity",
-    "goToSlide": "Go to slide"
-  }
-};
