@@ -68,7 +68,6 @@
 .h5p-dragnbar-li:last-child {
   border-right: 0;
   border-top-right-radius: 0.5em;
-  overflow: hidden;
 }
 
 .h5p-dragnbar-li:last-child {
