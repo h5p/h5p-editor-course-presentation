@@ -75,6 +75,10 @@
   border-top-right-radius: 0.5em;
 }
 
+.h5peditor-dragnbar .h5p-dragnbar-li .h5p-dragnbar-paste-button {
+  border-top-right-radius: 0.5em;
+}
+
 .h5p-dragnbar-button {
   line-height: 1em;
   display: block;
