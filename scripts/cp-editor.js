@@ -61,6 +61,19 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     // Disable IV's guided tour within CP
     H5PEditor.InteractiveVideo.disableGuidedTour();
   }
+
+  // Update paste button
+  H5P.externalDispatcher.on('datainclipboard', function (event) {
+    if (!that.libraries) {
+      return;
+    }
+    var canPaste = !event.data.reset;
+    if (canPaste) {
+      // Check if content type is supported here
+      canPaste = that.canPaste(H5P.getClipboard());
+    }
+    that.dnb.setCanPaste(canPaste);
+  });
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
@@ -362,7 +375,8 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       });
     }
 
-    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper});
+    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper, libraries: libraries});
+
     that.$dnbContainer = that.cp.$current;
     that.dnb.dnr.snap = 10;
     that.dnb.dnr.setContainerEm(that.containerEm);
@@ -465,7 +479,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
      * @param {string} lib uber name
      * @returns {boolean}
      */
-    var supported = function (lib) {
+    that.supported = function (lib) {
       for (var i = 0; i < libraries.length; i++) {
         if (libraries[i].restricted !== true && libraries[i].uberName === lib) {
           return true; // Library is supported and allowed
@@ -490,7 +504,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           // Non generic part, must be content like gotoslide or similar
           that.dnb.focus(that.addElement(pasted.specific, options));
         }
-        else if (supported(pasted.generic.library)) {
+        else if (that.supported(pasted.generic.library)) {
           // Special case for ETA - can't copy the index, then export won't include
           // the original, since they will have the same index.
           if (pasted.generic.library.split(' ')[0] === 'H5P.ExportableTextArea') {
@@ -504,7 +518,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         }
       }
       else if (pasted.generic) {
-        if (supported(pasted.generic.library)) {
+        if (that.supported(pasted.generic.library)) {
           // Supported library from another content type)
 
           if (pasted.specific.displayType === 'button') {
@@ -522,12 +536,38 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
 
     that.dnb.attach(that.$bar);
 
+    // Set paste button
+    that.dnb.setCanPaste(that.canPaste(H5P.getClipboard()));
+
     // Bind keyword interactions.
     that.initKeywordInteractions();
 
     // Trigger event
     that.trigger('librariesReady');
   });
+};
+
+/**
+ * Check if the clipboard can be pasted into CP.
+ *
+ * @param {Object} [clipboard] Clipboard data.
+ * @return {boolean} True, if clipboard can be pasted.
+ */
+H5PEditor.CoursePresentation.prototype.canPaste = function (clipboard) {
+  if (clipboard) {
+    if (clipboard.from === H5PEditor.CoursePresentation.clipboardKey &&
+        (!clipboard.generic || this.supported(clipboard.generic.library))) {
+      // Content comes from the same version of CP
+      // Non generic part = must be content like gotoslide or similar
+      return true;
+    }
+    else if (clipboard.generic && this.supported(clipboard.generic.library)) {
+      // Supported library from another content type
+      return true;
+    }
+  }
+
+  return false;
 };
 
 /**
@@ -587,6 +627,12 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
     this.dnb.remove();
   }
   this.$item.remove();
+
+  this.elements.forEach(function (slides) {
+    slides.forEach(function (interaction) {
+      H5PEditor.removeChildren(interaction.children);
+    });
+  });
 };
 
 /**
@@ -836,7 +882,8 @@ H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
 
     if (isTaskWithSolution) {
       hasSolutionArray.push([[isTaskWithSolution]]);
-    } else {
+    }
+    else {
       hasSolutionArray.push([]);
     }
   });
@@ -942,8 +989,8 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
       '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
         '<span class="h5p-icon-circle"></span>' +
         '<span class="h5p-icon-pencil"></span>' +
-      '</a>')
-    .click(function() {
+      '</a>'
+    ).click(function () {
       // If clicked is not already active, do a double click
       if (!H5PEditor.$(this).parents('[role="menuitem"]').hasClass('h5p-current')) {
         H5PEditor.$(this).siblings('span').click().click();
@@ -963,23 +1010,19 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
       if (event.which >= 37 && event.which <= 40) {
         return false;
       }
-    }).blur(function() {
+    }).blur(function () {
       $editIcon.addClass('h5p-hidden');
-    })
-    .appendTo($keywords.eq(index));
+    }).appendTo($keywords.eq(index));
 
-    H5PEditor.$(this).focus(function() {
+    H5PEditor.$(this).focus(function () {
       $editIcon.removeClass('h5p-hidden');
-    })
-    .hover(function() {
+    }).hover(function () {
       if (!H5PEditor.$(this).hasClass('h5p-editing')) {
         $editIcon.removeClass('h5p-hidden');
       }
-    })
-    .mouseleave(function() {
+    }).mouseleave(function () {
       $editIcon.addClass('h5p-hidden');
-    })
-    .blur(function(e) {
+    }).blur(function (e) {
       if (e.relatedTarget && e.relatedTarget.className !== 'joubel-icon-edit' || !e.relatedTarget) {
         $editIcon.addClass('h5p-hidden');
       }
@@ -1128,7 +1171,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
 
   $textarea.keyup();
 
-  $delete.insertAfter($textarea).click(function(e) {
+  $delete.insertAfter($textarea).click(function (e) {
     e.preventDefault();
     $textarea.val(oldTitle).blur();
     H5PEditor.$('[role="menuitem"].h5p-current').focus();
@@ -1138,10 +1181,10 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
       return false;
     }
     // Ignore arrow keys for now to avoid JS-error
-    if (event.which >= 37 && event.which <= 40) {
+    if (e.which >= 37 && e.which <= 40) {
       return false;
     }
-  }).blur(function(e) {
+  }).blur(function (e) {
     if (e.relatedTarget && e.relatedTarget.tagName !== 'TEXTAREA' || !e.relatedTarget) {
       $textarea.blur();
     }
@@ -1238,21 +1281,28 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
 
-  // Hide library selector
-  element.$form.children('.library:first').children('label, select').hide().end().children('.libwrap').css('margin-top', '0');
+  // Remove library selector and copy button and paste button
+  var pos = elementFields.map(function (field) {
+    return field.type;
+  }).indexOf('library');
+  if (pos !== -1 && element.children[pos].hide) {
+    element.children[pos].hide();
+    element.$form.css('padding-top', '0');
+  }
 
   // Show or hide button size dropdown depending on display as button checkbox
-  element.$form.find('.field-name-displayAsButton').each(function() { // TODO: Use showWhen in semantics.json instead…
+  element.$form.find('.field-name-displayAsButton').each(function () { // TODO: Use showWhen in semantics.json instead…
     var buttonSizeField = ns.$(this).parent().find('.field-name-buttonSize');
 
     if (!ns.$(this).find("input")[0].checked) {
       buttonSizeField.addClass("h5p-hidden2");
     }
 
-    ns.$(this).find("input").change(function(e) {
+    ns.$(this).find("input").change(function (e) {
       if (e.target.checked) {
         buttonSizeField.removeClass("h5p-hidden2");
-      } else {
+      }
+      else {
         buttonSizeField.addClass("h5p-hidden2");
       }
     });
@@ -1267,6 +1317,18 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
         library.children[0].changes.push(function (params) {
           self.setImageSize(element, elementParams, params);
         });
+      }
+
+      // Determine library options for this subcontent library
+      var libraryOptions = H5PEditor.CoursePresentation.findField('action', elementFields).options;
+      if (libraryOptions.length > 0 && typeof libraryOptions[0] === 'object') {
+        libraryOptions = libraryOptions.filter(function (option) {
+          return option.name.split(' ')[0] === type;
+        });
+        libraryOptions = (libraryOptions.length > 0) ? libraryOptions[0] : {};
+      }
+      else {
+        libraryOptions = {};
       }
     };
     if (library.children === undefined) {
@@ -1492,7 +1554,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
  * @param {Object} options
  * @returns {H5P.DragNBarElement}
  */
-H5PEditor.CoursePresentation.prototype.addToDragNBar = function(element, elementParams, options) {
+H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elementParams, options) {
   var self = this;
 
   var clipboardData = H5P.DragNBar.clipboardify(H5PEditor.CoursePresentation.clipboardKey, elementParams, 'action');
@@ -1739,7 +1801,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 /**
 *
 */
-H5PEditor.CoursePresentation.prototype.redrawElement = function($wrapper, element, elementParams) {
+H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, element, elementParams) {
   var elementIndex = $wrapper.index();
   var slideIndex = this.cp.$current.index();
   var elementsParams = this.params.slides[slideIndex].elements;
@@ -1896,46 +1958,3 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
 
 // Tell the editor what widget we are.
 H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
-
-// Add translations
-H5PEditor.language["H5PEditor.CoursePresentation"] = {
-  "libraryStrings": {
-    "confirmDeleteSlide": "Are you sure you wish to delete this slide?",
-    "sortSlide": "Move slide :dir",
-    "backgroundSlide": "Slide background",
-    "removeSlide": "Delete slide",
-    "cloneSlide": "Clone slide",
-    "newSlide": "Add new slide",
-    "insertElement": "Click and drag to place :type",
-    "newKeyword": "New keyword",
-    "save": "Save",
-    "removeElement": "Remove this element",
-    "confirmRemoveElement": "Are you sure you wish to remove this element?",
-    "cancel": "Cancel",
-    "done": "Done",
-    "remove": "Remove",
-    "edit": "Edit",
-    "keywordsTip": "Drag in keywords using the two buttons above.",
-    "popupTitle": "Edit :type",
-    "loading": "Loading...",
-    "slides": "Slides",
-    "element": "Element",
-    "resetToDefault": "Reset to default",
-    "resetToTemplate": "Reset to template",
-    "slideBackground": "Slide background",
-    "setImageBackground": "Image background",
-    "setColorFillBackground": "Color fill background",
-    "activeSurfaceWarning": "Are you sure you want to activate Active Surface Mode? This action cannot be undone.",
-    "template": "Template",
-    "templateDescription": "Will be applied to all slides not overridden by any \":currentSlide\" settings.",
-    "currentSlide": "This slide",
-    "currentSlideDescription": "Will be applied to this slide only, and will override any \":template\" settings.",
-    "showTitles": "Show titles",
-    "alwaysShow": "Always show",
-    "autoHide": "Auto hide",
-    "ok": "OK",
-    "slide": "Slide",
-    "opacity": "Opacity",
-    "goToSlide": "Go to slide"
-  }
-};

@@ -54,6 +54,12 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-9 */
 }
 
+.h5p-dragnbar-li.disabled,
+.h5p-dragnbar-li.disabled:hover {
+  opacity: 0.3;
+  cursor: auto;
+}
+
 .h5p-dragnbar-li:first-child {
   border-left: 0;
   border-top-left-radius: 0.5em;
@@ -67,6 +73,17 @@
 .h5p-dragnbar-li:last-child {
   border-right: 0;
   border-top-right-radius: 0.5em;
+}
+
+.h5p-dragnbar-button {
+  line-height: 1em;
+  display: block;
+  width: 1.4em;
+  padding: 0.3em;
+}
+
+.h5p-dragnbar-button:before {
+  font-size: 1.4
 }
 
 .h5p-dragnbar-a {
@@ -120,6 +137,9 @@
   font-size: 1.1em;
   vertical-align: top;
 }
+.h5p-dragnbar-more-button {
+  width: 0.7em;
+}
 .h5p-dragnbar-table-button:before {
   content: "\f0ce";
 }
@@ -142,7 +162,7 @@
   content: "\f086";
 }
 .h5p-dragnbar-more-button:before {
-  content: "\f067";
+  content: "\f142";
   font-size: 1em;
 }
 .h5p-dragnbar-interactivevideo-button:before {
@@ -346,4 +366,9 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
   overflow: hidden;
   padding: 3px 3px 0px 3px;
   margin-top: -0.4em;
+}
+
+/*Paste button overrides. Be careful, so we only hit the CP's drag-n-bar */
+.h5p-course-presentation > .h5p-wrapper > .h5peditor-dragnbar .h5p-dragnbar-paste-button {
+  border: none;
 }
