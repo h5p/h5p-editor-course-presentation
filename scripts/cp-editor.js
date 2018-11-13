@@ -52,6 +52,9 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
       var newHeight = parseFloat(window.getComputedStyle(that.cp.$current[0]).height);
       var change = (newHeight - oldHeight) / newHeight;
 
+      // Account for the progress bar that was removed
+      that.slideRatio = 16 / 9;
+
       // Update elements
       that.updateElementSizes(1 - change);
     });
