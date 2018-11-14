@@ -228,7 +228,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
   // Create new presentation.
   var presentationParams = (this.parent instanceof ns.Library ? this.parent.params.params : this.parent.params);
-  if (presentationParams.override.activeSurface === true) {
+  if (presentationParams && presentationParams.override && presentationParams.override.activeSurface === true) {
     this.slideRatio = H5PEditor.CoursePresentation.RATIO_SURFACE;
   }
   this.cp = new H5P.CoursePresentation(presentationParams, H5PEditor.contentId, {cpEditor: this});
