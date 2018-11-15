@@ -1,13 +1,6 @@
-.libwrap.h5p-coursepresentation-editor {
-  margin-top: 55px;
-}
-
 .h5peditor-form .field.coursepresentation {
   position: relative;
-}
-
-.h5p-course-presentation {
-  margin-top: 4%;
+  margin-top: 6%;
 }
 
 .h5p-course-presentation .h5p-wrapper {
@@ -66,7 +59,7 @@
   font-size: 0.45em;
   background-color: rgba(0, 0, 0, 0.9);
   color: #fff;
-  z-index: 2;
+  z-index: 3;
   position: absolute;
   padding: 0 0.5em;
   transform: translateX(-50%);
@@ -75,6 +68,7 @@
   border-radius: 4px;
   white-space: nowrap;
   bottom: 100%;
+  pointer-events: none;
 }
 
 .h5p-course-presentation .h5p-slidecontrols-button:before {
@@ -326,6 +320,11 @@
   margin: 0;
 }
 
+/* Add some margin before metadata title in popups */
+.h5p-course-presentation .ui-dialog-content > .library > .libwrap {
+  margin-top: 1em;
+}
+
 .h5p-course-presentation .ui-resizable-se {
   bottom: -5px;
   right: -5px;
@@ -419,6 +418,9 @@
 .h5peditor .h5p-active-surface .h5p-slidecontrols {
   bottom: -1.9em;
 }
+.h5peditor .h5p-active-surface .h5p-footer {
+  margin-top: -1em;
+}
 .h5peditor .field.disabled,
 .h5peditor .field.disabled .h5peditor-field-description {
   color: #9b9b9b;
@@ -449,7 +451,7 @@
   border: 0;
 }
 
-.field-name-presentation > .h5peditor-label-wrapper {
+.field-name-presentation > .h5p-editor-flex-wrapper {
   display: none;
 }
 
