@@ -327,17 +327,62 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.updateSlidesSidebar();
 };
 
-H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
+/**
+ * Add Drag and Drop button group.
+ *
+ * @param {H5P.Library} library Library for which a button will be added.
+ * @param {object} options Options.
+ */
+H5PEditor.CoursePresentation.prototype.addDNBButton = function (library, options) {
   var that = this;
+  options = options || {};
   var id = library.name.split('.')[1].toLowerCase();
 
   return {
-    id: id,
-    title: library.title,
+    id: options.id || id,
+    title: options.title || library.title,
     createElement: function () {
-      return that.addElement(library.uberName);
+      return that.addElement(library.uberName, options);
     }
   };
+};
+
+/**
+ * Add Drag and Drop button group.
+ *
+ * @param {H5P.Library} library Library for which a button will be added.
+ * @param {object} groupData Data for the group.
+ * @return {object} Button group.
+ */
+H5PEditor.CoursePresentation.prototype.addDNBButtonGroup = function (library, groupData) {
+  var that = this;
+  var id = library.name.split('.')[1].toLowerCase();
+
+  const buttonGroup = {
+    id: id,
+    title: groupData.dropdown.title || library.title,
+    titleGroup: groupData.dropdown.titleGroup,
+    type: 'group',
+    buttons: []
+  };
+
+  // Add buttons to button group
+  groupData.buttons.forEach(function (button) {
+    const options = {
+      id: button.id,
+      title: button.title,
+      width: button.width,
+      height: button.height,
+      action: {
+        library: library.uberName,
+        params: button.params || {}
+      }
+    };
+
+    buttonGroup.buttons.push(that.addDNBButton(library, options));
+  });
+
+  return buttonGroup;
 };
 
 H5PEditor.CoursePresentation.prototype.setContainerEm = function (containerEm) {
@@ -360,14 +405,94 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   var slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
   var elementFields = H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields;
   var action = H5PEditor.CoursePresentation.findField('action', elementFields);
+
+  // Ideally, this would not be built here
+  const dropdownMenus = [];
+  dropdownMenus['shape'] = {
+    dropdown: {
+      id: 'shape',
+      title: 'Shapes',
+      titleGroup: 'Drag to add'
+    },
+    buttons: [
+      {
+        id: 'shape-rectangle',
+        title: 'Rectangle',
+        width: 14.09, // 100 units
+        height: 14.09,
+        params: {
+          type: 'rectangle',
+          shape: {
+            fillColor: '#fff',
+            borderWidth: 0,
+            borderStyle: 'solid',
+            borderColor: '#000',
+            borderRadius: 0
+          }
+        }
+      },
+      {
+        id: 'shape-circle',
+        title: 'Circle',
+        width: 14.09, // 100 units
+        height: 14.09,
+        params: {
+          type: 'circle',
+          shape: {
+            fillColor: '#fff',
+            borderWidth: 0,
+            borderStyle: 'solid',
+            borderColor: '#000'
+          }
+        }
+      },
+      {
+        id: 'shape-horizontal-line',
+        title: 'Horizontal line',
+        width: 71.6, // 500 units
+        height: 71.6,
+        params: {
+          type: 'horizontal-line',
+          line: {
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: '#000'
+          }
+        }
+      },
+      {
+        id: 'shape-vertical-line',
+        title: 'Vertical line',
+        width: 35.66, // 250 units
+        height: 35.66,
+        params: {
+          type: 'vertical-line',
+          line: {
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: '#000'
+          }
+        }
+      }
+    ]
+  };
+
   H5PEditor.LibraryListCache.getLibraries(action.options, function (libraries) {
     that.libraries = libraries;
     var buttons = [];
     for (var i = 0; i < libraries.length; i++) {
       if (libraries[i].restricted !== true) {
-        buttons.push(that.addDNBButton(libraries[i]));
+        // Insert button or buttongroup
+        const libraryId = libraries[i].name.split('.')[1].toLowerCase();
+        if (dropdownMenus[libraryId] === undefined) {
+          buttons.push(that.addDNBButton(libraries[i]));
+        }
+        else {
+          buttons.push(that.addDNBButtonGroup(libraries[i], dropdownMenus['shape']));
+        }
       }
     }
+
     // Add go to slide button
     var goToSlide = H5PEditor.CoursePresentation.findField('goToSlide', elementFields);
     if (goToSlide) {
