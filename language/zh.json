@@ -36,6 +36,12 @@
     "ok": "確定",
     "slide": "投影片",
     "opacity": "不透明度",
-    "goToSlide": "移至投影片"
+    "goToSlide": "移至投影片",
+    "shapes": "Shapes",
+    "dragToAdd": "Drag to add",
+    "rectangle": "Rectangle",
+    "circle": "Circle",
+    "horizontalLine": "Horizontal line",
+    "verticalLine": "Vertical line"
   }
 }

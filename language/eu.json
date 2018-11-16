@@ -36,6 +36,12 @@
     "ok": "Ados",
     "slide": "Diapositiba",
     "opacity": "Opakutasuna",
-    "goToSlide": "Joan diapositibara"
+    "goToSlide": "Joan diapositibara",
+    "shapes": "Shapes",
+    "dragToAdd": "Drag to add",
+    "rectangle": "Rectangle",
+    "circle": "Circle",
+    "horizontalLine": "Horizontal line",
+    "verticalLine": "Vertical line"
   }
 }
