@@ -1852,16 +1852,29 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
   }
 
-  let editorLeftRight = '';
+  const position = [];
+  position['default'] = {
+    my: 'top',
+    at: 'top',
+    of: '.h5p-coursepresentation-editor'
+  };
 
-  // Position editor overlay for Shapes left or right of shapes
   if (machineName === 'H5P.Shape') {
+    // Position editor overlay for Shapes left or right of shapes
     const slideWidth = that.$dnbContainer.innerWidth();
-    const shapePos = $wrapper.position().left;
+    const shapeLeft = $wrapper.position().left;
     const shapeWidth = $wrapper.innerWidth();
 
-    editorLeftRight = (shapePos + 0.5 * shapeWidth > 0.5 * slideWidth) ? 'left-200%' : 'right+200%';
+    const editorLeftRight = shapeLeft + 0.5 * shapeWidth > 0.5 * slideWidth;
+
+    position['H5P.Shape'] = {
+      my: (editorLeftRight ? 'right' : 'left') + ' center',
+      at: (editorLeftRight ? 'left-10' : 'right+10') + ' center',
+      of: $wrapper
+    };
   }
+
+  const dialogPosition = typeof position[machineName] === 'undefined' ? position['default'] : position[machineName];
 
   // Display dialog with form
   element.$form.dialog({
@@ -1871,9 +1884,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     width: '90%',
     maxHeight: H5P.jQuery('.h5p-coursepresentation-editor').innerHeight(),
     position: {
-      my: 'top',
-      at: editorLeftRight + ' ' + 'top',
-      of: machineName === 'H5P.Shape' ? $wrapper : '.h5p-coursepresentation-editor'
+      my: dialogPosition.my,
+      at: dialogPosition.at,
+      of: dialogPosition.of
     },
     dialogClass: (machineName === 'H5P.Shape' ? ' h5p-dialog-shape ' : '') + "h5p-dialog-no-close",
     appendTo: '.h5p-course-presentation',
