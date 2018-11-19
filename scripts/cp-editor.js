@@ -1966,14 +1966,22 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 };
 
 /**
+* Redraw element.
 *
+* @param {jQuery} $wrapper Element container to be redrawn.
+* @param {object} element Element data.
+* @param {object} elementParams Element parameters.
+* @param {number} [repeat] Counter for redrawing if necessary.
 */
-H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, element, elementParams) {
+H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, element, elementParams, repeat) {
   var elementIndex = $wrapper.index();
   var slideIndex = this.cp.$current.index();
   var elementsParams = this.params.slides[slideIndex].elements;
   var elements = this.elements[slideIndex];
   var elementInstances = this.cp.elementInstances[slideIndex];
+
+  // Determine how many elements still need redrawal after this one
+  repeat = (typeof repeat === 'undefined') ? elements.length - 1 - elementIndex : repeat;
 
   if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
       elementParams.action.params.graphMode === 'pieChart') {
@@ -2010,6 +2018,12 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
     // Put focus back on element
     that.dnb.focus($element);
   }, 1);
+
+  // Reset to previous element order
+  if (repeat > 0) {
+    repeat--;
+    this.redrawElement(elements[elementIndex].$wrapper, elements[elementIndex], elementsParams[elementIndex], repeat);
+  }
 };
 
 /**
