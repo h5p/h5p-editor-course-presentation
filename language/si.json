@@ -37,11 +37,6 @@
     "slide": "Slide",
     "opacity": "Prosojnost",
     "goToSlide": "Pojdi na prosojnico",
-    "shapes": "Shapes",
-    "dragToAdd": "Drag to add",
-    "rectangle": "Rectangle",
-    "circle": "Circle",
-    "horizontalLine": "Horizontal line",
-    "verticalLine": "Vertical line"
+    "dragToAdd": "Drag to add"
   }
 }

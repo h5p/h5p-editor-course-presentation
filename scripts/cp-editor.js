@@ -340,7 +340,7 @@ H5PEditor.CoursePresentation.prototype.addDNBButton = function (library, options
 
   return {
     id: options.id || id,
-    title: options.title || library.title,
+    title: (options.title === undefined) ? library.title : options.title,
     createElement: function () {
       return that.addElement(library.uberName, options);
     }
@@ -411,13 +411,12 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   dropdownMenus['shape'] = {
     dropdown: {
       id: 'shape',
-      title: H5PEditor.t('H5PEditor.CoursePresentation', 'shapes'),
       titleGroup: H5PEditor.t('H5PEditor.CoursePresentation', 'dragToAdd')
     },
     buttons: [
       {
         id: 'shape-rectangle',
-        title: H5PEditor.t('H5PEditor.CoursePresentation', 'rectangle'),
+        title: '',
         width: 14.09, // 100 units
         height: 14.09,
         params: {
@@ -433,7 +432,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       },
       {
         id: 'shape-circle',
-        title: H5PEditor.t('H5PEditor.CoursePresentation', 'circle'),
+        title: '',
         width: 14.09, // 100 units
         height: 14.09,
         params: {
@@ -448,7 +447,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       },
       {
         id: 'shape-horizontal-line',
-        title: H5PEditor.t('H5PEditor.CoursePresentation', 'horizontalLine'),
+        title: '',
         width: 71.6, // 500 units
         height: 71.6,
         params: {
@@ -462,7 +461,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       },
       {
         id: 'shape-vertical-line',
-        title: H5PEditor.t('H5PEditor.CoursePresentation', 'verticalLine'),
+        title: '',
         width: 35.66, // 250 units
         height: 35.66,
         params: {

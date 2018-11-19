@@ -37,11 +37,6 @@
     "slide": "Dia",
     "opacity": "Sisällysluettelon läpinäkyvyys",
     "goToSlide": "Siirry dialle",
-    "shapes": "Shapes",
-    "dragToAdd": "Drag to add",
-    "rectangle": "Rectangle",
-    "circle": "Circle",
-    "horizontalLine": "Horizontal line",
-    "verticalLine": "Vertical line"
+    "dragToAdd": "Drag to add"
   }
 }
