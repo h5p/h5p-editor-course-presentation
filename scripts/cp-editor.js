@@ -1968,14 +1968,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
   else {
     focusFirstField();
   }
-
-  // Hide the shape selector and adjust dialog layout
-  if (machineName === 'H5P.Shape') {
-    const $shapeDialog = H5P.jQuery('.h5p-dialog-shape');
-    $shapeDialog.find('.h5p-editor-radio-group-container.horizontal').hide();
-    $shapeDialog.find('.field.h5p-editor-widget-show-when').css('margin-top', 0).css('margin-bottom', 0);
-    $shapeDialog.find('.content').children().first().css('border-top', 0);
-  }
 };
 
 /**
