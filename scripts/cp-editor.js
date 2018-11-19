@@ -410,8 +410,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   const dropdownMenus = [];
   dropdownMenus['shape'] = {
     dropdown: {
-      id: 'shape',
-      titleGroup: H5PEditor.t('H5PEditor.CoursePresentation', 'dragToAdd')
+      id: 'shape'
     },
     buttons: [
       {

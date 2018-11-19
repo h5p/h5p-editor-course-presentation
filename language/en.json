@@ -36,7 +36,6 @@
     "ok": "OK",
     "slide": "Slide",
     "opacity": "Opacity",
-    "goToSlide": "Go to slide",
-    "dragToAdd": "Drag to add"
+    "goToSlide": "Go to slide"
   }
 }

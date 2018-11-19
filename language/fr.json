@@ -36,7 +36,6 @@
     "ok": "OK",
     "slide": "Diapositive",
     "opacity": "Opacité",
-    "goToSlide": "Aller à la diapositive",
-    "dragToAdd": "Drag to add"
+    "goToSlide": "Aller à la diapositive"
   }
 }
