@@ -506,24 +506,3 @@
 .h5p-coursepresentation-editor .h5p-hidden {
   visibility: hidden;
 }
-
-.h5p-course-presentation .h5p-element.focused .h5p-element-outer.h5p-shape-outer-element {
-  outline-offset: 1px;
-}
-
-.h5p-course-presentation .ui-dialog-content > .library > .libwrap.h5p-shape-editor {
-  margin: 0;
-}
-
-.h5p-course-presentation .h5p-shape-editor .field-name-type {
-  display: none;
-}
-
-.h5p-course-presentation .h5p-shape-editor .h5p-editor-widget-show-when {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.h5p-course-presentation .h5p-shape-editor .content div:first-child {
-  border-top: 0;
-}
