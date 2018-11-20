@@ -1993,10 +1993,12 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
   }
 
   var that = this;
-  setTimeout(function () {
-    // Put focus back on element
-    that.dnb.focus($element);
-  }, 1);
+  if (repeat === elements.length - 1 - elementIndex) {
+    setTimeout(function () {
+      // Put focus back on element
+      that.dnb.focus($element);
+    }, 1);
+  }
 
   // Reset to previous element order
   if (repeat > 0) {
