@@ -1,13 +1,6 @@
-.libwrap.h5p-coursepresentation-editor {
-  margin-top: 55px;
-}
-
 .h5peditor-form .field.coursepresentation {
   position: relative;
-}
-
-.h5p-course-presentation {
-  margin-top: 4%;
+  margin-top: 6%;
 }
 
 .h5p-course-presentation .h5p-wrapper {
@@ -316,6 +309,11 @@
   margin: 0;
 }
 
+/* Add some margin before metadata title in popups */
+.h5p-course-presentation .ui-dialog-content > .library > .libwrap {
+  margin-top: 1em;
+}
+
 .h5p-course-presentation .ui-resizable-se {
   bottom: -5px;
   right: -5px;
@@ -442,7 +440,7 @@
   border: 0;
 }
 
-.field-name-presentation > .h5peditor-label-wrapper {
+.field-name-presentation > .h5p-editor-flex-wrapper {
   display: none;
 }
 
