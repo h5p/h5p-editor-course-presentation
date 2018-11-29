@@ -342,7 +342,8 @@ H5PEditor.CoursePresentation.prototype.addDNBButton = function (library, options
     id: options.id || id,
     title: (options.title === undefined) ? library.title : options.title,
     createElement: function () {
-      return that.addElement(library.uberName, options);
+      // Mind the functions's context
+      return that.addElement(library.uberName, H5P.jQuery.extend(true, {}, options));
     }
   };
 };
