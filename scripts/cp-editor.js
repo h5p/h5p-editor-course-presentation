@@ -1998,7 +1998,10 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
     }, 1);
   }
 
-  // Reset to previous element order
+  /*
+   * Reset to previous element order, otherwise the initially redrawn element
+   * would be put on top instead of remaining at the original z position.
+   */
   if (repeat > 0) {
     repeat--;
     this.redrawElement(elements[elementIndex].$wrapper, elements[elementIndex], elementsParams[elementIndex], repeat);
