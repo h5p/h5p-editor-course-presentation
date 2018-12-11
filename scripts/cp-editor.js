@@ -407,6 +407,33 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   var elementFields = H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields;
   var action = H5PEditor.CoursePresentation.findField('action', elementFields);
 
+  const shapeButtonBase = {
+    title: '',
+    width: 14.09, // 100 units
+    height: 14.09
+  };
+
+  const shapeButtonBase1D = {
+    params: {
+      line: {
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#000'
+      }
+    }
+  };
+
+  const shapeButtonBase2D = {
+    params: {
+      shape: {
+        fillColor: '#fff',
+        borderWidth: 0,
+        borderStyle: 'solid',
+        borderColor: '#000',
+      }
+    }
+  };
+
   // Ideally, this would not be built here
   const dropdownMenus = [];
   dropdownMenus['shape'] = {
@@ -414,65 +441,33 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       id: 'shape'
     },
     buttons: [
-      {
+      H5P.jQuery.extend(true, {}, shapeButtonBase, shapeButtonBase2D, {
         id: 'shape-rectangle',
-        title: '',
-        width: 14.09, // 100 units
-        height: 14.09,
         params: {
           type: 'rectangle',
           shape: {
-            fillColor: '#fff',
-            borderWidth: 0,
-            borderStyle: 'solid',
-            borderColor: '#000',
             borderRadius: 0
           }
         }
-      },
-      {
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, shapeButtonBase2D, {
         id: 'shape-circle',
-        title: '',
-        width: 14.09, // 100 units
-        height: 14.09,
         params: {
-          type: 'circle',
-          shape: {
-            fillColor: '#fff',
-            borderWidth: 0,
-            borderStyle: 'solid',
-            borderColor: '#000'
-          }
+          type: 'circle'
         }
-      },
-      {
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, shapeButtonBase1D, {
         id: 'shape-horizontal-line',
-        title: '',
-        width: 71.6, // 500 units
-        height: 71.6,
         params: {
-          type: 'horizontal-line',
-          line: {
-            borderWidth: 1,
-            borderStyle: 'solid',
-            borderColor: '#000'
-          }
+          type: 'horizontal-line'
         }
-      },
-      {
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, shapeButtonBase1D, {
         id: 'shape-vertical-line',
-        title: '',
-        width: 35.66, // 250 units
-        height: 35.66,
         params: {
-          type: 'vertical-line',
-          line: {
-            borderWidth: 1,
-            borderStyle: 'solid',
-            borderColor: '#000'
-          }
+          type: 'vertical-line'
         }
-      }
+      })
     ]
   };
 
