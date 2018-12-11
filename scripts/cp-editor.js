@@ -1684,11 +1684,9 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     options.minSize = 3;
     if (elementParams.action.params.type == 'vertical-line') {
       options.directionLock = "vertical";
-      options.minSize = elementParams.action.params.line.borderWidth + 2;
     }
     else if (elementParams.action.params.type == 'horizontal-line') {
       options.directionLock = "horizontal";
-      options.minSize = elementParams.action.params.line.borderWidth + 2;
     }
   }
 
