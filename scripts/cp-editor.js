@@ -482,7 +482,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           buttons.push(that.addDNBButton(libraries[i]));
         }
         else {
-          buttons.push(that.addDNBButtonGroup(libraries[i], dropdownMenus['shape']));
+          buttons.push(that.addDNBButtonGroup(libraries[i], dropdownMenus[libraryId]));
         }
       }
     }
