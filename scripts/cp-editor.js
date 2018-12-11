@@ -1674,14 +1674,16 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
  * @param {Object} elementParams
  * @returns {H5P.DragNBarElement}
  */
-H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elementParams, options) {
+H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elementParams) {
   var self = this;
 
   var type = (elementParams.action ? elementParams.action.library.split(' ')[0] : null);
-  options = options || {};
-  options.disableResize = elementParams.displayAsButton;
-  options.lock = (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart');
-  options.cornerLock = (type === 'H5P.Image' || type === 'H5P.Shape');
+
+  const options = {
+    disableResize: elementParams.displayAsButton,
+    lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
+    cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
+  };
 
   if (type === 'H5P.Shape') {
     options.minSize = 3;
