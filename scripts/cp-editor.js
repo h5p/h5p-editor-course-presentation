@@ -322,17 +322,63 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.updateSlidesSidebar();
 };
 
-H5PEditor.CoursePresentation.prototype.addDNBButton = function (library) {
+/**
+ * Add Drag and Drop button group.
+ *
+ * @param {H5P.Library} library Library for which a button will be added.
+ * @param {object} options Options.
+ */
+H5PEditor.CoursePresentation.prototype.addDNBButton = function (library, options) {
   var that = this;
+  options = options || {};
   var id = library.name.split('.')[1].toLowerCase();
 
   return {
-    id: id,
-    title: library.title,
+    id: options.id || id,
+    title: (options.title === undefined) ? library.title : options.title,
     createElement: function () {
-      return that.addElement(library.uberName);
+      // Mind the functions's context
+      return that.addElement(library.uberName, H5P.jQuery.extend(true, {}, options));
     }
   };
+};
+
+/**
+ * Add Drag and Drop button group.
+ *
+ * @param {H5P.Library} library Library for which a button will be added.
+ * @param {object} groupData Data for the group.
+ * @return {object} Button group.
+ */
+H5PEditor.CoursePresentation.prototype.addDNBButtonGroup = function (library, groupData) {
+  var that = this;
+  var id = library.name.split('.')[1].toLowerCase();
+
+  const buttonGroup = {
+    id: id,
+    title: groupData.dropdown.title || library.title,
+    titleGroup: groupData.dropdown.titleGroup,
+    type: 'group',
+    buttons: []
+  };
+
+  // Add buttons to button group
+  groupData.buttons.forEach(function (button) {
+    const options = {
+      id: button.id,
+      title: button.title,
+      width: button.width,
+      height: button.height,
+      action: {
+        library: library.uberName,
+        params: button.params || {}
+      }
+    };
+
+    buttonGroup.buttons.push(that.addDNBButton(library, options));
+  });
+
+  return buttonGroup;
 };
 
 H5PEditor.CoursePresentation.prototype.setContainerEm = function (containerEm) {
@@ -355,14 +401,87 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   var slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
   var elementFields = H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields;
   var action = H5PEditor.CoursePresentation.findField('action', elementFields);
+
+  const shapeButtonBase = {
+    title: '',
+    width: 14.09, // 100 units
+    height: 14.09
+  };
+
+  const shapeButtonBase1D = {
+    params: {
+      line: {
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#000'
+      }
+    }
+  };
+
+  const shapeButtonBase2D = {
+    params: {
+      shape: {
+        fillColor: '#fff',
+        borderWidth: 0,
+        borderStyle: 'solid',
+        borderColor: '#000',
+      }
+    }
+  };
+
+  // Ideally, this would not be built here
+  const dropdownMenus = [];
+  dropdownMenus['shape'] = {
+    dropdown: {
+      id: 'shape'
+    },
+    buttons: [
+      H5P.jQuery.extend(true, {}, shapeButtonBase, shapeButtonBase2D, {
+        id: 'shape-rectangle',
+        params: {
+          type: 'rectangle',
+          shape: {
+            borderRadius: 0
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, shapeButtonBase2D, {
+        id: 'shape-circle',
+        params: {
+          type: 'circle'
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, shapeButtonBase1D, {
+        id: 'shape-horizontal-line',
+        params: {
+          type: 'horizontal-line'
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, shapeButtonBase1D, {
+        id: 'shape-vertical-line',
+        params: {
+          type: 'vertical-line'
+        }
+      })
+    ]
+  };
+
   H5PEditor.LibraryListCache.getLibraries(action.options, function (libraries) {
     that.libraries = libraries;
     var buttons = [];
     for (var i = 0; i < libraries.length; i++) {
       if (libraries[i].restricted !== true) {
-        buttons.push(that.addDNBButton(libraries[i]));
+        // Insert button or buttongroup
+        const libraryId = libraries[i].name.split('.')[1].toLowerCase();
+        if (dropdownMenus[libraryId] === undefined) {
+          buttons.push(that.addDNBButton(libraries[i]));
+        }
+        else {
+          buttons.push(that.addDNBButtonGroup(libraries[i], dropdownMenus[libraryId]));
+        }
       }
     }
+
     // Add go to slide button
     var goToSlide = H5PEditor.CoursePresentation.findField('goToSlide', elementFields);
     if (goToSlide) {
@@ -385,13 +504,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     that.elements.forEach(function (slide, slideIndex) {
       slide.forEach(function (element, elementIndex) {
         var elementParams = that.params.slides[slideIndex].elements[elementIndex];
-        var type = (elementParams.action ? elementParams.action.library.split(' ')[0] : null);
-
-        that.addToDragNBar(element, elementParams, {
-          disableResize: elementParams.displayAsButton,
-          lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-          cornerLock: (type === 'H5P.Image')
-        });
+        that.addToDragNBar(element, elementParams);
       });
     });
 
@@ -1263,6 +1376,13 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
       hideFields.push('displayAsButton');
       hideFields.push('buttonSize');
     }
+    else if (type === "H5P.Shape") {
+      hideFields.push('solution');
+      hideFields.push('alwaysDisplayComments');
+      hideFields.push('backgroundOpacity');
+      hideFields.push('displayAsButton');
+      hideFields.push('buttonSize');
+    }
 
     // Only display goToSlide field for goToSlide elements
     self.hideFields(elementFields, hideFields);
@@ -1512,11 +1632,7 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
   }).appendTo($wrapper);
 
   if (that.dnb) {
-    that.addToDragNBar(element, elementParams, {
-      disableResize: elementParams.displayAsButton,
-      lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-      cornerLock: (type === 'H5P.Image')
-    });
+    that.addToDragNBar(element, elementParams);
   }
 
   // Open form dialog when double clicking element
@@ -1551,11 +1667,28 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
  *
  * @param {Object} element
  * @param {Object} elementParams
- * @param {Object} options
  * @returns {H5P.DragNBarElement}
  */
-H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elementParams, options) {
+H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elementParams) {
   var self = this;
+
+  var type = (elementParams.action ? elementParams.action.library.split(' ')[0] : null);
+
+  const options = {
+    disableResize: elementParams.displayAsButton,
+    lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
+    cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
+  };
+
+  if (type === 'H5P.Shape') {
+    options.minSize = 3;
+    if (elementParams.action.params.type == 'vertical-line') {
+      options.directionLock = "vertical";
+    }
+    else if (elementParams.action.params.type == 'horizontal-line') {
+      options.directionLock = "horizontal";
+    }
+  }
 
   var clipboardData = H5P.DragNBar.clipboardify(H5PEditor.CoursePresentation.clipboardKey, elementParams, 'action');
   var dnbElement = self.dnb.add(element.$wrapper, clipboardData, options);
@@ -1715,8 +1848,12 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     resizable: false,
     width: '90%',
     maxHeight: H5P.jQuery('.h5p-coursepresentation-editor').innerHeight(),
-    position: {my: 'top', at: 'top', of: '.h5p-coursepresentation-editor'},
-    dialogClass: "h5p-dialog-no-close",
+    position: {
+      my: 'top',
+      at: 'top',
+      of: (machineName === 'H5P.Shape') ? '.h5p-slide.h5p-current' : '.h5p-coursepresentation-editor'
+    },
+    dialogClass: (machineName === 'H5P.Shape' ? ' h5p-dialog-shape ' : '') + "h5p-dialog-no-close",
     appendTo: '.h5p-course-presentation',
     buttons: [
       {
@@ -1799,14 +1936,22 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 };
 
 /**
+* Redraw element.
 *
+* @param {jQuery} $wrapper Element container to be redrawn.
+* @param {object} element Element data.
+* @param {object} elementParams Element parameters.
+* @param {number} [repeat] Counter for redrawing if necessary.
 */
-H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, element, elementParams) {
+H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, element, elementParams, repeat) {
   var elementIndex = $wrapper.index();
   var slideIndex = this.cp.$current.index();
   var elementsParams = this.params.slides[slideIndex].elements;
   var elements = this.elements[slideIndex];
   var elementInstances = this.cp.elementInstances[slideIndex];
+
+  // Determine how many elements still need redrawal after this one
+  repeat = (typeof repeat === 'undefined') ? elements.length - 1 - elementIndex : repeat;
 
   if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
       elementParams.action.params.graphMode === 'pieChart') {
@@ -1839,10 +1984,21 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
   }
 
   var that = this;
-  setTimeout(function () {
-    // Put focus back on element
-    that.dnb.focus($element);
-  }, 1);
+  if (repeat === elements.length - 1 - elementIndex) {
+    setTimeout(function () {
+      // Put focus back on element
+      that.dnb.focus($element);
+    }, 1);
+  }
+
+  /*
+   * Reset to previous element order, otherwise the initially redrawn element
+   * would be put on top instead of remaining at the original z position.
+   */
+  if (repeat > 0) {
+    repeat--;
+    this.redrawElement(elements[elementIndex].$wrapper, elements[elementIndex], elementsParams[elementIndex], repeat);
+  }
 };
 
 /**
