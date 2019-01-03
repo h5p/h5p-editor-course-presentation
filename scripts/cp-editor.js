@@ -1847,14 +1847,14 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     draggable: false,
     resizable: false,
     width: '90%',
-    maxHeight: H5P.jQuery('.h5p-coursepresentation-editor').innerHeight(),
+    maxHeight: this.parent.$libraryWrapper.innerHeight(),
     position: {
       my: 'top',
       at: 'top',
-      of: (machineName === 'H5P.Shape') ? '.h5p-slide.h5p-current' : '.h5p-coursepresentation-editor'
+      of: (machineName === 'H5P.Shape') ? this.$editor.find('.h5p-slide.h5p-current') : this.parent.$libraryWrapper
     },
     dialogClass: (machineName === 'H5P.Shape' ? ' h5p-dialog-shape ' : '') + "h5p-dialog-no-close",
-    appendTo: '.h5p-course-presentation',
+    appendTo: this.$editor,
     buttons: [
       {
         text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
