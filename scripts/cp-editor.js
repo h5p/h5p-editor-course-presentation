@@ -206,8 +206,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
 
   this.cp.$boxWrapper.add(this.cp.$boxWrapper.find('.h5p-presentation-wrapper:first')).css('overflow', 'visible');
 
-  var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
-  return this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
+  const element = this.cp.children[slideIndex].addChild(elementParams);
+  return this.cp.attachElement(elementParams, element.instance, this.cp.$current, slideIndex);
 };
 
 /**
@@ -962,11 +962,12 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   this.elements.splice(index, 0, []);
   this.cp.elementInstances.splice(index, 0, []);
   this.cp.elementsAttached.splice(index, 0, []);
+  const slide = this.cp.addChild(slideParams, index);
 
   // Add slide with elements
-  var $slide = H5P.jQuery(H5P.CoursePresentation.createSlide(slideParams)).insertAfter(this.cp.$current);
+  slide.getElement().insertAfter(this.cp.$current);
   that.trigger('addedSlide', index);
-  this.cp.addElements(slideParams, $slide, index);
+  slide.appendElements();
 
   this.cp.updateKeywordMenuFromSlides();
   this.initKeywordMenu();
@@ -1053,6 +1054,8 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   // Update the list of element instances
   this.cp.elementInstances.splice(index, 1);
   this.cp.elementsAttached.splice(index, 1);
+
+  this.cp.removeChild(index);
 
   this.cp.updateKeywordMenuFromSlides();
   this.initKeywordMenu();
@@ -1192,6 +1195,7 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
   this.swapCollectionIndex(this.elements, index, newIndex);
   this.swapCollectionIndex(this.cp.elementInstances, index, newIndex);
   this.swapCollectionIndex(this.cp.elementsAttached, index, newIndex);
+  this.cp.moveChild(index, newIndex);
 
   this.updateNavigationLine(newIndex);
   H5P.ContinuousText.Engine.run(this);
@@ -1730,6 +1734,8 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     // Re-order elements in the same fashion
     self.elements[slideIndex].splice(oldZ, 1);
     self.elements[slideIndex].push(element);
+
+    self.cp.children[slideIndex].moveChild(oldZ, self.cp.children[slideIndex].children.length - 1);
   });
 
   dnbElement.contextMenu.on('contextMenuSendToBack', function () {
@@ -1754,6 +1760,8 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     // Re-order elements in the same fashion
     self.elements[slideIndex].splice(oldZ, 1);
     self.elements[slideIndex].unshift(element);
+
+    self.cp.children[slideIndex].moveChild(oldZ, 0);
   });
 
   return dnbElement;
@@ -1801,6 +1809,7 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
   this.elements[slideIndex].splice(elementIndex, 1);
   this.cp.elementInstances[slideIndex].splice(elementIndex, 1);
   this.params.slides[slideIndex].elements.splice(elementIndex, 1);
+  this.cp.children[slideIndex].removeChild(elementIndex);
 
   $wrapper.remove();
 
@@ -1958,6 +1967,9 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
     elementParams.width = elementParams.height / this.slideRatio;
   }
 
+  // Remove Element instance from Slide
+  this.cp.children[slideIndex].removeChild(elementIndex);
+
   // Remove instance of lib:
   elementInstances.splice(elementIndex, 1);
 
@@ -1971,7 +1983,7 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
 
   // Update visuals
   $wrapper.remove();
-  var instance = this.cp.addElement(elementParams, this.cp.$current, slideIndex);
+  var instance = this.cp.children[slideIndex].addChild(elementParams).instance;
   var $element = this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
 
   // Make sure we're inside the container
