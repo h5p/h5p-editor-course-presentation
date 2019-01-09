@@ -52,6 +52,9 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
       var newHeight = parseFloat(window.getComputedStyle(that.cp.$current[0]).height);
       var change = (newHeight - oldHeight) / newHeight;
 
+      // Account for the progress bar that was removed
+      that.slideRatio = H5PEditor.CoursePresentation.RATIO_SURFACE;
+
       // Update elements
       that.updateElementSizes(1 - change);
     });
@@ -225,6 +228,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
   // Create new presentation.
   var presentationParams = (this.parent instanceof ns.Library ? this.parent.params.params : this.parent.params);
+  if (presentationParams && presentationParams.override && presentationParams.override.activeSurface === true) {
+    this.slideRatio = H5PEditor.CoursePresentation.RATIO_SURFACE;
+  }
   this.cp = new H5P.CoursePresentation(presentationParams, H5PEditor.contentId, {cpEditor: this});
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
@@ -2125,6 +2131,10 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
     }
   }
 };
+
+/** @constant {Number} */
+H5PEditor.CoursePresentation.RATIO_SURFACE = 16 / 9;
+
 
 // Tell the editor what widget we are.
 H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
