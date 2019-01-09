@@ -1850,17 +1850,19 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
   }
 
+  const $parentContainer = (this.parent instanceof ns.Library ? this.parent.$libraryWrapper : this.parent.$form.children('.tree'));
+
   // Display dialog with form
   element.$form.dialog({
     modal: true,
     draggable: false,
     resizable: false,
     width: '90%',
-    maxHeight: this.parent.$libraryWrapper.innerHeight(),
+    maxHeight: $parentContainer.innerHeight(),
     position: {
       my: 'top',
       at: 'top',
-      of: (machineName === 'H5P.Shape') ? this.$editor.find('.h5p-slide.h5p-current') : this.parent.$libraryWrapper
+      of: (machineName === 'H5P.Shape') ? this.$editor.find('.h5p-slide.h5p-current') : $parentContainer
     },
     dialogClass: (machineName === 'H5P.Shape' ? ' h5p-dialog-shape ' : '') + "h5p-dialog-no-close",
     appendTo: this.$editor,
