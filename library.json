@@ -1,13 +1,8 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-<<<<<<< HEAD
-  "minorVersion": 20,
-  "patchVersion": 5,
-=======
   "minorVersion": 21,
   "patchVersion": 0,
->>>>>>> HFP-2325-new-default-bgcolor
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel",
