@@ -1447,6 +1447,10 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
         library.children[0].changes.push(function (params) {
           self.setImageSize(element, elementParams, params);
         });
+      } else if (library.children[0].field.type === 'video') {
+        library.children[0].changes.push(function (params) {
+          self.setVideoSize(elementParams, params);
+        });
       }
 
       // Determine library options for this subcontent library
@@ -1505,6 +1509,40 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
 
   // Calculate new width
   elementParams.width = (elementParams.height * (fileParams.width / fileParams.height)) / this.slideRatio;
+};
+
+/**
+ * Help set size for new videos and keep aspect ratio.
+ *
+ * @param {object} element
+ * @param {object} elementParams
+ * @param {object} fileParams
+ */
+H5PEditor.CoursePresentation.prototype.setVideoSize = function (elementParams, fileParams) {
+  if (fileParams === undefined || fileParams.aspectRatio === undefined) {
+    return;
+  }
+
+  var aspectRatio;
+  switch (fileParams.aspectRatio) {
+    case "4:3":
+      aspectRatio = 3/4;
+      break;
+    case "1.85:1":
+      aspectRatio = 1/1.85;
+      break;
+    case "2.4:1":
+    case "2.39:1":
+      aspectRatio = 1/2.39;
+      break;
+    case "16:9":
+    default:
+      aspectRatio = 9/16;
+      break;
+  }
+
+  // Calculate new height
+  elementParams.height = (elementParams.width * aspectRatio) * this.slideRatio;
 };
 
 /**
