@@ -162,6 +162,12 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
           elementParams.width = 50;
           elementParams.height = 50;
           break;
+
+        case 'H5P.Video':
+        case 'H5P.InteractiveVideo':
+          elementParams.width = 48;
+          elementParams.height = 27;
+          break;
       }
     }
 
@@ -1519,30 +1525,15 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
  * @param {object} fileParams
  */
 H5PEditor.CoursePresentation.prototype.setVideoSize = function (elementParams, fileParams) {
-  if (fileParams === undefined || fileParams.aspectRatio === undefined) {
+  if( fileParams === undefined){
     return;
   }
-
-  var aspectRatio;
-  switch (fileParams.aspectRatio) {
-    case "4:3":
-      aspectRatio = 3/4;
-      break;
-    case "1.85:1":
-      aspectRatio = 1/1.85;
-      break;
-    case "2.4:1":
-    case "2.39:1":
-      aspectRatio = 1/2.39;
-      break;
-    case "16:9":
-    default:
-      aspectRatio = 9/16;
-      break;
+  if (fileParams.hasOwnProperty('aspectRatio') !== true) {
+    fileParams.aspectRatio = '16:9';
   }
 
-  // Calculate new height
-  elementParams.height = (elementParams.width * aspectRatio) * this.slideRatio;
+  const ratioParts = String(fileParams.aspectRatio).split(':');
+  elementParams.height = (elementParams.width * (ratioParts.length === 1 ? fileParams.aspectRatio : (ratioParts[1] / ratioParts[0]))) * this.slideRatio;
 };
 
 /**
