@@ -164,9 +164,13 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
           break;
 
         case 'H5P.Video':
+          elementParams.width = 50;
+          elementParams.height = 50.5553;
+          break;
+
         case 'H5P.InteractiveVideo':
-          elementParams.width = 48;
-          elementParams.height = 27;
+          elementParams.width = 50;
+          elementParams.height = 64.5536;
           break;
       }
     }
