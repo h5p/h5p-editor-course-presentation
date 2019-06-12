@@ -60,17 +60,12 @@
   cursor: auto;
 }
 
-.h5p-dragnbar-li:first-child {
+.h5peditor-dragnbar > .h5p-dragnbar-ul > .h5p-dragnbar-li:first-child {
   border-left: 0;
   border-top-left-radius: 0.5em;
 }
 
-.h5p-dragnbar-li:last-child {
-  border-right: 0;
-  border-top-right-radius: 0.5em;
-}
-
-.h5p-dragnbar-li:last-child {
+.h5peditor-dragnbar > .h5p-dragnbar-ul > .h5p-dragnbar-li:last-child {
   border-right: 0;
   border-top-right-radius: 0.5em;
 }
@@ -140,6 +135,20 @@
   color: #494949;
   font-size: 1.1em;
   vertical-align: top;
+}
+
+.h5p-dragnbar-shape-button:before,
+.h5p-dragnbar-shape-rectangle-button:before,
+.h5p-dragnbar-shape-circle-button:before,
+.h5p-dragnbar-shape-horizontal-line-button:before,
+.h5p-dragnbar-shape-vertical-line-button:before {
+  font-family: 'H5PFontIcons';
+  color: #494949;
+  font-size: 1em;
+  vertical-align: top;
+}
+.h5p-dragnbar-shape-button:before {
+  font-size: 1.5em;
 }
 .h5p-dragnbar-more-button {
   width: 0.7em;
@@ -217,6 +226,21 @@
 }
 .h5p-dragnbar-dialogcards-button:before {
   content: "\e900";
+}
+.h5p-dragnbar-shape-button:before {
+  content: "\e91c";
+}
+.h5p-dragnbar-shape-rectangle-button:before {
+  content: "\e91f";
+}
+.h5p-dragnbar-shape-circle-button:before {
+  content: "\e91d";
+}
+.h5p-dragnbar-shape-vertical-line-button:before {
+  content: "\e920";
+}
+.h5p-dragnbar-shape-horizontal-line-button:before {
+  content: "\e91e";
 }
 
 .h5p-dragnbar-li-ul {
@@ -375,4 +399,29 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
 /*Paste button overrides. Be careful, so we only hit the CP's drag-n-bar */
 .h5p-course-presentation > .h5p-wrapper > .h5peditor-dragnbar .h5p-dragnbar-paste-button {
   border: none;
+}
+
+.h5p-course-presentation .h5p-element.focused .h5p-element-outer.h5p-shape-outer-element {
+  outline-offset: 1px;
+}
+
+.h5p-course-presentation .ui-dialog-content > .library > .libwrap.h5p-shape-editor {
+  margin: 0;
+}
+
+.h5p-course-presentation .h5p-shape-editor .field-name-type {
+  display: none;
+}
+
+.h5p-course-presentation .h5p-shape-editor .h5p-editor-widget-show-when {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.h5p-course-presentation .h5p-shape-editor .content > div:first-child {
+  border-top: 0;
+}
+
+.h5p-course-presentation .h5p-shape-editor .h5peditor-required:after {
+  display: none;
 }
