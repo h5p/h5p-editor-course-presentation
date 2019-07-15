@@ -87,12 +87,12 @@
     {
       "machineName": "H5P.Audio",
       "majorVersion": 1,
-      "minorVersion": 3
+      "minorVersion": 4
     },
     {
       "machineName": "H5P.Blanks",
       "majorVersion": 1,
-      "minorVersion": 11
+      "minorVersion": 12
     },
     {
       "machineName": "H5P.SingleChoiceSet",
@@ -102,12 +102,12 @@
     {
       "machineName": "H5P.MultiChoice",
       "majorVersion": 1,
-      "minorVersion": 13
+      "minorVersion": 14
     },
     {
       "machineName": "H5P.TrueFalse",
       "majorVersion": 1,
-      "minorVersion": 5
+      "minorVersion": 6
     },
     {
       "machineName": "H5P.DragQuestion",
@@ -127,7 +127,7 @@
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 20
+      "minorVersion": 21
     },
     {
       "machineName": "H5P.CoursePresentation",
@@ -157,7 +157,7 @@
     {
       "machineName": "H5P.Dialogcards",
       "majorVersion": 1,
-      "minorVersion": 7
+      "minorVersion": 8
     },
     {
       "machineName": "H5PEditor.ColorSelector",
