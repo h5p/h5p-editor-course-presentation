@@ -15,8 +15,10 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   H5P.DragNBar.FormManager.call(this, parent, {
     defaultTitle: 'Course Presentation',
     doneButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
-    deleteButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'remove')
-  });
+    deleteButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
+    enterFullscreenButtonLabel: 'Enter fullscreen',
+    exitFullscreenButtonLabel: 'Exit fullscreen'
+  }, 'coursepresentation');
 
   if (params === undefined) {
     params = {
@@ -1984,7 +1986,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
   // Determine if library is already loaded
   let isLoaded = false;
-  if (libraryField.currentLibrary === undefined) {
+  if (libraryField.currentLibrary === undefined && libraryField.change !== undefined) {
     libraryField.change(function () {
       isLoaded = true;
       if (that.isFormOpen()) {
@@ -1996,8 +1998,14 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     isLoaded = true;
   }
 
+  let customTitle, customIconId;
+  if (elementParams.action === undefined) {
+    customTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'goToSlide');
+    customIconId = 'gotoslide';
+  }
+
   // Open a new form pane with the element form
-  that.openForm(libraryField, element.$form[0]);
+  that.openForm(libraryField, element.$form[0], null, customTitle, customIconId);
 
   // Deselect any elements
   if (that.dnb !== undefined) {
