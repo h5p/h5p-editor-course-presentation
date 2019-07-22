@@ -272,7 +272,7 @@
   height: 100%;
 }
 
-.h5p-coursepresentation-editor .field.field-name-extraTitle {
+.h5p-coursepresentation-editor .tree > .field.field-name-extraTitle {
   margin-bottom: 3em;
 }
 
