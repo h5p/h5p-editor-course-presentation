@@ -1,5 +1,6 @@
 .h5peditor-form .field.coursepresentation {
   position: relative;
+  margin-top: 6%;
 }
 
 .h5p-course-presentation .h5p-wrapper {
@@ -270,10 +271,6 @@
   top: 0;
   width: 100%;
   height: 100%;
-}
-
-.h5p-coursepresentation-editor .field.field-name-extraTitle {
-  margin-bottom: 3em;
 }
 
 .h5p-coursepresentation-editor .h5p-course-presentation .h5p-element {
