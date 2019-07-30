@@ -1,5 +1,7 @@
 .h5peditor-form .field.coursepresentation {
   position: relative;
+}
+.field.coursepresentation > .h5peditor-label-wrapper {
   margin-top: 6%;
 }
 
