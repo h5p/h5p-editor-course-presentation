@@ -18,7 +18,9 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     doneButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
     deleteButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
     enterFullscreenButtonLabel: 'Enter fullscreen',
-    exitFullscreenButtonLabel: 'Exit fullscreen'
+    exitFullscreenButtonLabel: 'Exit fullscreen',
+    expandBreadcrumbButtonLabel: 'Expand breadcrumb',
+    collapseBreadcrumbButtonLabel: 'Collapse breadcrumb'
   }, 'coursepresentation');
 
   if (params === undefined) {
