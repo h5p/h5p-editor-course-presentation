@@ -754,6 +754,7 @@ H5PEditor.CoursePresentation.prototype.validate = function () {
 
   // Distribute CT text across elements
   H5P.ContinuousText.Engine.run(this);
+  this.trigger('validate');
   return valid;
 };
 
