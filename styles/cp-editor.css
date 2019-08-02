@@ -1,4 +1,5 @@
-.h5peditor-form .field.coursepresentation {
+.h5peditor-form .field.coursepresentation,
+.editor.h5p-course-presentation {
   position: relative;
 }
 .field.coursepresentation > .h5peditor-label-wrapper {
