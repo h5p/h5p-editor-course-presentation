@@ -35,6 +35,12 @@
     "ok": "OK",
     "slide": "Lehekülg",
     "opacity": "Läbipaistvus",
-    "goToSlide": "Mine leheküljele"
+    "goToSlide": "Mine leheküljele",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

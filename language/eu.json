@@ -35,6 +35,12 @@
     "ok": "Ados",
     "slide": "Diapositiba",
     "opacity": "Opakutasuna",
-    "goToSlide": "Joan diapositibara"
+    "goToSlide": "Joan diapositibara",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

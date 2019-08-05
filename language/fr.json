@@ -35,6 +35,12 @@
     "ok": "OK",
     "slide": "Diapositive",
     "opacity": "Opacité",
-    "goToSlide": "Aller à la diapositive"
+    "goToSlide": "Aller à la diapositive",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

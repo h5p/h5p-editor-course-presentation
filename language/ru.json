@@ -35,6 +35,12 @@
     "ok": "OK",
     "slide": "Слайд",
     "opacity": "Непрозрачность",
-    "goToSlide": "Перейти к слайду"
+    "goToSlide": "Перейти к слайду",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

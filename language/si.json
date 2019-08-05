@@ -35,6 +35,12 @@
     "ok": "V redu",
     "slide": "Slide",
     "opacity": "Prosojnost",
-    "goToSlide": "Pojdi na prosojnico"
+    "goToSlide": "Pojdi na prosojnico",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

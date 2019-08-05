@@ -35,6 +35,12 @@
     "ok":"OK",
     "slide":"Skjermbilete",
     "opacity":"Opasitet",
-    "goToSlide": "Gå til skjermbilete"
+    "goToSlide": "Gå til skjermbilete",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }
