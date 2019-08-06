@@ -37,5 +37,13 @@
     "slide": "Página",
     "opacity": "Opacidad",
     "goToSlide": "Ir a página"
+    "defaultTitle": "Presentación del Curso",
+    "proceedButtonLabel": "Proceder a guardar",
+    "enterFullscreenButtonLabel": "Pasar a pantalla completa",
+    "exitFullscreenButtonLabel": "Salir de pantalla completa",
+    "expandBreadcrumbButtonLabel": "Regresar",
+    "collapseBreadcrumbButtonLabel": "Cerrar Navegación"
   }
+  }
+}
 }
