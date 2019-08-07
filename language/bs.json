@@ -9,7 +9,6 @@
     "insertElement": ":type Klikni i povuci do željenog mjesta",
     "newKeyword": "Nova ključna riječ",
     "save": "Save",
-    "removeElement": "Obriši ovaj element",
     "confirmRemoveElement": "Jeste li sigurni da želite obrisati ovaj element?",
     "cancel": "Otkaži",
     "done": "Gotovo",
@@ -36,6 +35,12 @@
     "ok": "OK",
     "slide": "Slide",
     "opacity": "Zamućenost",
-    "goToSlide": "Go to slide"
+    "goToSlide": "Go to slide",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

@@ -9,7 +9,6 @@
     "insertElement": "Cliquer ou glisser pour ajouter :type",
     "newKeyword": "Nouveau mot-clé",
     "save": "Enregistrer",
-    "removeElement": "Supprimer cet élément",
     "confirmRemoveElement": "Êtes-vous sûr de vouloir supprimer cet élément ?",
     "cancel": "Annuler",
     "done": "Valider",
@@ -36,6 +35,12 @@
     "ok": "OK",
     "slide": "Diapositive",
     "opacity": "Opacité",
-    "goToSlide": "Aller à la diapositive"
+    "goToSlide": "Aller à la diapositive",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

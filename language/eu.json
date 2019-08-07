@@ -9,7 +9,6 @@
     "insertElement": "Klikatu eta arrastatu kokalekura :type",
     "newKeyword": "Gako-hitz berria",
     "save": "Gorde",
-    "removeElement": "Kendu elementu hau",
     "confirmRemoveElement": "Ziur zaude kendu nahi duzula elementu hau?",
     "cancel": "Utzi",
     "done": "Egina",
@@ -36,6 +35,12 @@
     "ok": "Ados",
     "slide": "Diapositiba",
     "opacity": "Opakutasuna",
-    "goToSlide": "Joan diapositibara"
+    "goToSlide": "Joan diapositibara",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

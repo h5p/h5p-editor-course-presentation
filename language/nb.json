@@ -9,11 +9,10 @@
     "insertElement":"Klikk og dra for å plassere :type",
     "newKeyword":"Nytt nøkkelord",
     "save":"Lagre",
-    "removeElement":"Slett dette elementet",
     "confirmRemoveElement":"Er du sikker på at du vil slette dette elementet?",
     "cancel":"Avbryt",
     "done":"Ferdig",
-    "remove":"Fjern",
+    "remove":"Slett",
     "edit":"Rediger",
     "keywordsTip":"Dra inn nøkkelord",
     "popupTitle":"Rediger :type",
@@ -36,6 +35,12 @@
     "ok":"OK",
     "slide": "Slide",
     "opacity":"Opasitet",
-    "goToSlide": "Gå til slide"
+    "goToSlide": "Gå til slide",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

@@ -9,7 +9,6 @@
     "insertElement": "Vstavi element",
     "newKeyword": "Nova ključna beseda",
     "save": "Save",
-    "removeElement": "Odstrani element",
     "confirmRemoveElement": "Potrdi odstranitev elementa",
     "cancel": "Prekliči",
     "done": "Urejeno",
@@ -36,6 +35,12 @@
     "ok": "V redu",
     "slide": "Slide",
     "opacity": "Prosojnost",
-    "goToSlide": "Pojdi na prosojnico"
+    "goToSlide": "Pojdi na prosojnico",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

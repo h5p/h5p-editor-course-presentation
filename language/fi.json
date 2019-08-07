@@ -9,7 +9,6 @@
     "insertElement": "Klikkaa ja raahaa paikalle :type",
     "newKeyword": "Uusi avainsana",
     "save": "Tallenna",
-    "removeElement": "Poista tämä elementti",
     "confirmRemoveElement": "Oletko varma että haluat poistaa tämän elementin?",
     "cancel": "Peruuta",
     "done": "Valmis",
@@ -36,6 +35,12 @@
     "ok": "OK",
     "slide": "Dia",
     "opacity": "Sisällysluettelon läpinäkyvyys",
-    "goToSlide": "Siirry dialle"
+    "goToSlide": "Siirry dialle",
+    "defaultTitle": "Course Presentation",
+    "proceedButtonLabel": "Proceed to save",
+    "enterFullscreenButtonLabel": "Enter fullscreen",
+    "exitFullscreenButtonLabel": "Exit fullscreen",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }
