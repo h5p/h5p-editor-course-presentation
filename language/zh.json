@@ -37,9 +37,6 @@
     "opacity": "不透明度",
     "goToSlide": "移至投影片",
     "defaultTitle": "Course Presentation",
-    "proceedButtonLabel": "Proceed to save",
-    "enterFullscreenButtonLabel": "Enter fullscreen",
-    "exitFullscreenButtonLabel": "Exit fullscreen",
     "expandBreadcrumbButtonLabel": "Go back",
     "collapseBreadcrumbButtonLabel": "Close navigation"
   }

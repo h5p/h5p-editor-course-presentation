@@ -37,9 +37,6 @@
     "opacity": "Transparens",
     "goToSlide": "Gå till slide",
     "defaultTitle": "Course Presentation",
-    "proceedButtonLabel": "Proceed to save",
-    "enterFullscreenButtonLabel": "Enter fullscreen",
-    "exitFullscreenButtonLabel": "Exit fullscreen",
     "expandBreadcrumbButtonLabel": "Go back",
     "collapseBreadcrumbButtonLabel": "Close navigation"
   }

@@ -14,11 +14,8 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   var that = this;
   H5P.DragNBar.FormManager.call(this, parent, {
     defaultTitle: H5PEditor.t('H5PEditor.CoursePresentation', 'defaultTitle'),
-    proceedButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'proceedButtonLabel'),
     doneButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
     deleteButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
-    enterFullscreenButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'enterFullscreenButtonLabel'),
-    exitFullscreenButtonLabel:  H5PEditor.t('H5PEditor.CoursePresentation', 'exitFullscreenButtonLabel'),
     expandBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'expandBreadcrumbButtonLabel'),
     collapseBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'collapseBreadcrumbButtonLabel')
   }, 'coursepresentation');

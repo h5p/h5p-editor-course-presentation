@@ -37,9 +37,6 @@
     "opacity": "Deckkraft",
     "goToSlide": "Gehe zu Folie",
     "defaultTitle": "Course Presentation",
-    "proceedButtonLabel": "Proceed to save",
-    "enterFullscreenButtonLabel": "Enter fullscreen",
-    "exitFullscreenButtonLabel": "Exit fullscreen",
     "expandBreadcrumbButtonLabel": "Go back",
     "collapseBreadcrumbButtonLabel": "Close navigation"
   }
