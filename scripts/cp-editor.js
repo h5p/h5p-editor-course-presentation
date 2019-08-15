@@ -1420,11 +1420,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     '$form': H5P.jQuery('<div/>')
   };
 
-  // Find title for form (used by popup dialog)
-  self.findElementTitle(type, function (title) {
-    element.$form.attr('title', H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': title}));
-  });
-
   // Render element fields
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
@@ -1586,31 +1581,6 @@ H5PEditor.CoursePresentation.prototype.showFields = function (elementFields, fie
     if (!found) {
       field.widget = 'none';
     }
-  }
-};
-
-/**
- * Find the title for the given element type.
- *
- * @param {String} type Element type
- * @param {Function} next Called when we've found the title
- */
-H5PEditor.CoursePresentation.prototype.findElementTitle = function (type, next) {
-  var self = this;
-
-  if (type === 'goToSlide') {
-    // Find field label
-    var slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
-    var elements = H5PEditor.CoursePresentation.findField('elements', slides.field.fields);
-    var field = H5PEditor.CoursePresentation.findField(type, elements.field.fields);
-    next(field.label);
-  }
-  else if (type.substring(0,4) === 'H5P.') {
-    self.findLibraryTitle(type, next);
-  }
-  else {
-    // Generic
-    next(H5PEditor.t('H5PEditor.CoursePresentation', 'element'));
   }
 };
 
