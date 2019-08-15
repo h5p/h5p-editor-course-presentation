@@ -9,14 +9,12 @@
     "insertElement": "Klikatu eta arrastatu kokalekura :type",
     "newKeyword": "Gako-hitz berria",
     "save": "Gorde",
-    "removeElement": "Kendu elementu hau",
     "confirmRemoveElement": "Ziur zaude kendu nahi duzula elementu hau?",
     "cancel": "Utzi",
     "done": "Egina",
     "remove": "Kendu",
     "edit": "Editatu",
     "keywordsTip": "Arrastatu gako-hitzak goiko bi botoiak erabiliz.",
-    "popupTitle": "Editatu :type",
     "loading": "Kargatzen...",
     "slides": "Diapositibak",
     "element": "Elementua",
@@ -36,6 +34,8 @@
     "ok": "Ados",
     "slide": "Diapositiba",
     "opacity": "Opakutasuna",
-    "goToSlide": "Joan diapositibara"
+    "goToSlide": "Joan diapositibara",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }
