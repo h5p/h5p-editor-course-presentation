@@ -9,14 +9,12 @@
     "insertElement": "Klicken und an die gewünschte Stelle ziehen, um :type zu platzieren",
     "newKeyword": "Neues Stichwort",
     "save": "Speichern",
-    "removeElement": "Dieses Element löschen",
     "confirmRemoveElement": "Dieses Element wirklich löschen?",
     "cancel": "Abbrechen",
     "done": "Fertig",
     "remove": "Entfernen",
     "edit": "Bearbeiten",
     "keywordsTip": "Ziehe Stichworte mit Hilfe der beiden oberen Buttons hinein.",
-    "popupTitle": ":type bearbeiten",
     "loading": "Lädt...",
     "element": "Element",
     "resetToDefault": "Auf Standard zurücksetzen",
@@ -36,6 +34,8 @@
     "ok": "Ok",
     "slide": "Folie",
     "opacity": "Deckkraft",
-    "goToSlide": "Gehe zu Folie"
+    "goToSlide": "Gehe zu Folie",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

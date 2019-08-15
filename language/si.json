@@ -9,14 +9,12 @@
     "insertElement": "Vstavi element",
     "newKeyword": "Nova ključna beseda",
     "save": "Save",
-    "removeElement": "Odstrani element",
     "confirmRemoveElement": "Potrdi odstranitev elementa",
     "cancel": "Prekliči",
     "done": "Urejeno",
     "remove": "Odstrani",
     "edit": "Uredi",
     "keywordsTip": "Namig ključne besede",
-    "popupTitle": "Pop-up naslov",
     "loading": "Nalagam",
     "element": "Element",
     "resetToDefault": "Ponastavi",
@@ -36,6 +34,8 @@
     "ok": "V redu",
     "slide": "Slide",
     "opacity": "Prosojnost",
-    "goToSlide": "Pojdi na prosojnico"
+    "goToSlide": "Pojdi na prosojnico",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

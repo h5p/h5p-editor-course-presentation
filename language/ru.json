@@ -9,14 +9,12 @@
     "insertElement": "Нажмите и перетащите на место :type",
     "newKeyword": "Новое ключевое слово",
     "save": "Сохранить",
-    "removeElement": "Удалить этот элемент",
     "confirmRemoveElement": "Вы уверены, что хотите удалить этот элемент?",
     "cancel": "Отмена",
     "done": "Готово",
     "remove": "Удалить",
     "edit": "Изменить",
     "keywordsTip": "Перетащите ключевые слова, используя две кнопки выше.",
-    "popupTitle": "Изменить :type",
     "loading": "Загрузка...",
     "slides": "Слайды",
     "element": "Элемент",
@@ -36,6 +34,8 @@
     "ok": "OK",
     "slide": "Слайд",
     "opacity": "Непрозрачность",
-    "goToSlide": "Перейти к слайду"
+    "goToSlide": "Перейти к слайду",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

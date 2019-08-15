@@ -9,14 +9,12 @@
     "insertElement": "點擊或拖曳以添加 :type",
     "newKeyword": "新增關鍵字",
     "save": "儲存",
-    "removeElement": "移除此元素",
     "confirmRemoveElement": "確定要移除這個元素？",
     "cancel": "取消",
     "done": "完成",
     "remove": "移除",
     "edit": "編輯",
     "keywordsTip": "關鍵字提示",
-    "popupTitle": "編輯 :type",
     "loading": "正在加載…",
     "element": "元素",
     "resetToDefault": "重置成預設值",
@@ -36,6 +34,8 @@
     "ok": "確定",
     "slide": "投影片",
     "opacity": "不透明度",
-    "goToSlide": "移至投影片"
+    "goToSlide": "移至投影片",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

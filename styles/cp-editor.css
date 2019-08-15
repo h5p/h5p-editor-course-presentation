@@ -1,5 +1,8 @@
-.h5peditor-form .field.coursepresentation {
+.h5peditor-form .field.coursepresentation,
+.editor.h5p-course-presentation {
   position: relative;
+}
+.field.coursepresentation > .h5peditor-label-wrapper {
   margin-top: 6%;
 }
 
@@ -487,17 +490,6 @@
   display: none;
 }
 
-.h5p-coursepresentation-editor .field-name-displayAsButton {
-  float: left;
-  margin-top: 0;
-}
-
-.h5p-coursepresentation-editor .field-name-buttonSize {
-  float: left;
-  margin-top: -0.7em;
-  margin-left: 3em;
-}
-
 .h5p-coursepresentation-editor .field-name-buttonSize label {
   display: inline-block;
   margin-right: 0.5em;
@@ -505,4 +497,18 @@
 
 .h5p-coursepresentation-editor .h5p-hidden {
   visibility: hidden;
+}
+
+.h5p-coursepresentation-editor > .h5peditor-semi-fullscreen .form-manager-head.form-manager-footer {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  width: 918px;
+  margin: auto;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  padding: 0 20px 20px;
+  box-sizing: content-box;
 }

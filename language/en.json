@@ -9,14 +9,12 @@
     "insertElement": "Click and drag to place :type",
     "newKeyword": "New keyword",
     "save": "Save",
-    "removeElement": "Remove this element",
-    "confirmRemoveElement": "Are you sure you wish to remove this element?",
+    "confirmRemoveElement": "Are you sure you wish to delete this element?",
     "cancel": "Cancel",
     "done": "Done",
-    "remove": "Remove",
+    "remove": "Delete",
     "edit": "Edit",
     "keywordsTip": "Drag in keywords using the two buttons above.",
-    "popupTitle": "Edit :type",
     "loading": "Loading...",
     "slides": "Slides",
     "element": "Element",
@@ -36,6 +34,8 @@
     "ok": "OK",
     "slide": "Slide",
     "opacity": "Opacity",
-    "goToSlide": "Go to slide"
+    "goToSlide": "Go to slide",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }

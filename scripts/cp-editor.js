@@ -12,7 +12,12 @@ var H5PEditor = H5PEditor || {};
  */
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   var that = this;
-  H5P.EventDispatcher.call(this);
+  H5P.DragNBar.FormManager.call(this, parent, {
+    doneButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
+    deleteButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
+    expandBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'expandBreadcrumbButtonLabel'),
+    collapseBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'collapseBreadcrumbButtonLabel')
+  }, 'coursepresentation');
 
   if (params === undefined) {
     params = {
@@ -79,7 +84,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   });
 };
 
-H5PEditor.CoursePresentation.prototype = Object.create(H5P.EventDispatcher.prototype);
+H5PEditor.CoursePresentation.prototype = Object.create(H5P.DragNBar.FormManager.prototype);
 H5PEditor.CoursePresentation.prototype.constructor = H5PEditor.CoursePresentation;
 
 /**
@@ -745,6 +750,7 @@ H5PEditor.CoursePresentation.prototype.validate = function () {
 
   // Distribute CT text across elements
   H5P.ContinuousText.Engine.run(this);
+  this.trigger('validate');
   return valid;
 };
 
@@ -752,6 +758,7 @@ H5PEditor.CoursePresentation.prototype.validate = function () {
  * Remove this item.
  */
 H5PEditor.CoursePresentation.prototype.remove = function () {
+  this.trigger('remove');
   if (this.dnb !== undefined) {
     this.dnb.remove();
   }
@@ -1412,11 +1419,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     '$form': H5P.jQuery('<div/>')
   };
 
-  // Find title for form (used by popup dialog)
-  self.findElementTitle(type, function (title) {
-    element.$form.attr('title', H5PEditor.t('H5PEditor.CoursePresentation', 'popupTitle', {':type': title}));
-  });
-
   // Render element fields
   H5PEditor.processSemanticsChunk(elementFields, elementParams, element.$form, self);
   element.children = self.children;
@@ -1578,31 +1580,6 @@ H5PEditor.CoursePresentation.prototype.showFields = function (elementFields, fie
     if (!found) {
       field.widget = 'none';
     }
-  }
-};
-
-/**
- * Find the title for the given element type.
- *
- * @param {String} type Element type
- * @param {Function} next Called when we've found the title
- */
-H5PEditor.CoursePresentation.prototype.findElementTitle = function (type, next) {
-  var self = this;
-
-  if (type === 'goToSlide') {
-    // Find field label
-    var slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
-    var elements = H5PEditor.CoursePresentation.findField('elements', slides.field.fields);
-    var field = H5PEditor.CoursePresentation.findField(type, elements.field.fields);
-    next(field.label);
-  }
-  else if (type.substring(0,4) === 'H5P.') {
-    self.findLibraryTitle(type, next);
-  }
-  else {
-    // Generic
-    next(H5PEditor.t('H5PEditor.CoursePresentation', 'element'));
   }
 };
 
@@ -1889,99 +1866,124 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
   }
 
-  const $parentContainer = (this.parent instanceof ns.Library ? this.parent.$libraryWrapper : this.parent.$form.children('.tree'));
+  /**
+   * The user has clicked delete, remove the element.
+   * @private
+   */
+  const handleFormremove = function (e) {
+    e.preventRemove = !confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'));
+    if (e.preventRemove) {
+      return;
+    }
+    that.removeElement(element, $wrapper, isContinuousText);
+    that.dnb.blurAll();
+    that.dnb.preventPaste = false;
+  };
+  that.on('formremove', handleFormremove);
 
-  // Display dialog with form
-  element.$form.dialog({
-    modal: true,
-    draggable: false,
-    resizable: false,
-    width: '90%',
-    maxHeight: $parentContainer.innerHeight(),
-    position: {
-      my: 'top',
-      at: 'top',
-      of: (machineName === 'H5P.Shape') ? this.$editor.find('.h5p-slide.h5p-current') : $parentContainer
-    },
-    dialogClass: (machineName === 'H5P.Shape' ? ' h5p-dialog-shape ' : '') + "h5p-dialog-no-close",
-    appendTo: this.$editor,
-    buttons: [
-      {
-        text: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
-        class: 'h5p-remove',
-        click: function () {
-          if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
-            return;
-          }
-          if (H5PEditor.Html) {
-            H5PEditor.Html.removeWysiwyg();
-          }
-          element.$form.dialog('close');
-          that.removeElement(element, $wrapper, isContinuousText);
-          that.dnb.blurAll();
-          that.dnb.preventPaste = false;
-        }
-      },
-      {
-        text: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
-        class: 'h5p-done',
-        click: function () {
-          // Validate / save children
-          for (var i = 0; i < element.children.length; i++) {
-            element.children[i].validate();
-          }
+  /**
+   * The user is done editing, save and update the display.
+   * @private
+   */
+  const handleFormdone = function () {
+    // Validate / save children
+    for (var i = 0; i < element.children.length; i++) {
+      element.children[i].validate();
+    }
 
-          if (isContinuousText) {
-            // Store complete CT on slide 0
-            that.params.ct = that.ct.params.action.params.text;
+    if (isContinuousText) {
+      // Store complete CT on slide 0
+      that.params.ct = that.ct.params.action.params.text;
 
-            // Split up text and place into CT elements
-            H5P.ContinuousText.Engine.run(that);
+      // Split up text and place into CT elements
+      H5P.ContinuousText.Engine.run(that);
 
-            setTimeout(function () {
-              // Put focus back on ct element
-              that.dnb.focus($wrapper);
-            }, 1);
-          }
-          else {
-            that.redrawElement($wrapper, element, elementParams);
-          }
+      setTimeout(function () {
+        // Put focus back on ct element
+        that.dnb.focus($wrapper);
+      }, 1);
+    }
+    else {
+      that.redrawElement($wrapper, element, elementParams);
+    }
 
-          if (H5PEditor.Html) {
-            H5PEditor.Html.removeWysiwyg();
-          }
-          element.$form.dialog('close');
-          that.dnb.preventPaste = false;
-        }
+    that.dnb.preventPaste = false;
+  }
+  that.on('formdone', handleFormdone);
+
+  /**
+   * The form pane is fully displayed.
+   * @private
+   */
+  const handleFormopened = function () {
+    if (isLoaded) {
+      focusFirstField();
+    }
+  }
+  that.on('formopened', handleFormopened);
+
+  /**
+   * Remove event listeners on form close
+   * @private
+   */
+  const handleFormclose = function () {
+    that.off('formremove', handleFormremove);
+    that.off('formdone', handleFormdone);
+    that.off('formclose', handleFormclose);
+    that.off('formopened', handleFormopened);
+  };
+  that.on('formclose', handleFormclose);
+
+  const libraryField = H5PEditor.findField('action', element);
+
+  /**
+   * Focus the first field of the form.
+   * Should be triggered when library is loaded + form is opened.
+   *
+   * @private
+   */
+  var focusFirstField = function () {
+    // Find the first ckeditor or texteditor field that is not hidden.
+    // h5p-editor dialog is copyright dialog
+    // h5p-dialog-box is IVs video choose dialog
+    H5P.jQuery('.ckeditor, .h5peditor-text', libraryField.$myField)
+      .not('.h5p-editor-dialog .ckeditor, ' +
+      '.h5p-editor-dialog .h5peditor-text, ' +
+      '.h5p-dialog-box .ckeditor, ' +
+      '.h5p-dialog-box .h5peditor-text', libraryField.$myField)
+      .eq(0)
+      .focus();
+  };
+
+  // Determine if library is already loaded
+  let isLoaded = false;
+  if (libraryField.currentLibrary === undefined && libraryField.change !== undefined) {
+    libraryField.change(function () {
+      isLoaded = true;
+      if (that.isFormOpen()) {
+        focusFirstField();
       }
-    ]
-  });
+    });
+  }
+  else {
+    isLoaded = true;
+  }
 
+  let customTitle, customIconId;
+  if (elementParams.action === undefined) {
+    customTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'goToSlide');
+    customIconId = 'gotoslide';
+  }
+
+  // Open a new form pane with the element form
+  that.openForm(libraryField, element.$form[0], null, customTitle, customIconId);
+
+  // Deselect any elements
   if (that.dnb !== undefined) {
     that.dnb.preventPaste = true;
     setTimeout(function () {
       that.dnb.blurAll();
     }, 0);
-  }
-
-  var library = element.children[4];
-  var focusFirstField = function () {
-    // Find the first ckeditor or texteditor field that is not hidden.
-    // h5p-editor dialog is copyright dialog
-    // h5p-dialog-box is IVs video choose dialog
-    H5P.jQuery('.ckeditor, .h5peditor-text', library.$myField)
-      .not('.h5p-editor-dialog .ckeditor, ' +
-      '.h5p-editor-dialog .h5peditor-text, ' +
-      '.h5p-dialog-box .ckeditor, ' +
-      '.h5p-dialog-box .h5peditor-text', library.$myField)
-      .eq(0)
-      .focus();
-  };
-  if (library instanceof ns.Library && library.currentLibrary === undefined) {
-    library.change(focusFirstField);
-  }
-  else {
-    focusFirstField();
   }
 };
 
