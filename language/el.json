@@ -9,14 +9,12 @@
     "insertElement":"Κάντε κλικ και σύρετε για να τοποθετήσετε :type",
     "newKeyword":"Νέα λέξη-κλειδί",
     "save":"Αποθήκευση",
-    "removeElement":"Αφαίρεση στοιχείου",
     "confirmRemoveElement":"Είστε σίγουρος ότι θέλετε να αφαιρέσετε αυτό το στοιχείο;",
     "cancel":"Ακύρωση",
     "done":"Ολοκλήρωση",
     "remove":"Αφαίρεση",
     "edit":"Επεξεργασία",
     "keywordsTip":"Σύρετε λέξεις-κλειδιά χρησιμοποιώντας τα δυο κουμπιά παραπάνω.",
-    "popupTitle":"Επεξεργασία :type",
     "loading":"Φόρτωση...",
     "slides": "Διαφάνειες",
     "element":"Στοιχείο",
@@ -36,6 +34,8 @@
     "ok":"OK",
     "slide": "Διαφάνεια",
     "opacity":"Διαφάνεια",
-    "goToSlide": "Μετάβαση σε διαφάνεια"
+    "goToSlide": "Μετάβαση σε διαφάνεια",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }
