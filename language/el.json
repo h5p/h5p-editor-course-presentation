@@ -31,11 +31,11 @@
     "showTitles":"Εμφάνιση τίτλων",
     "alwaysShow":"Εμφάνιση πάντα",
     "autoHide":"Αυτόματη απόκρυψη",
-    "ok":"OK",
+    "ok": "OK",
     "slide": "Διαφάνεια",
     "opacity":"Διαφάνεια",
     "goToSlide": "Μετάβαση σε διαφάνεια",
-    "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "expandBreadcrumbButtonLabel": "Πίσω",
+    "collapseBreadcrumbButtonLabel": "Κλείσιμο πλοήγησης"
   }
 }
