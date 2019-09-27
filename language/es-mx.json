@@ -9,14 +9,12 @@
     "insertElement": "Clic y arrastrar para colocar :type",
     "newKeyword": "Nueva palabra clave",
     "save": "Guardar",
-    "removeElement": "Quitar este elemento",
     "confirmRemoveElement": "¿Está seguro de querer quitar este elemento?",
     "cancel": "Cancelar",
     "done": "Hecho",
     "remove": "Quitar",
     "edit": "Editar",
     "keywordsTip": "Arrastrar palabras clave usando los dos botones superiores.",
-    "popupTitle": "Editar :type",
     "loading": "Cargando...",
     "slides": "Páginas",
     "element": "Elemento",
@@ -36,6 +34,8 @@
     "ok": "OK",
     "slide": "Página",
     "opacity": "Opacidad",
-    "goToSlide": "Ir a página"
+    "goToSlide": "Ir a página",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }
