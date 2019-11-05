@@ -35,7 +35,7 @@
     "slide": "Folie",
     "opacity": "Deckkraft",
     "goToSlide": "Gehe zu Folie",
-    "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "expandBreadcrumbButtonLabel": "Gehe zurück",
+    "collapseBreadcrumbButtonLabel": "Navigation schließen"
   }
 }
