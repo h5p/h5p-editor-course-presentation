@@ -20,7 +20,7 @@
     "element": "Элемент",
     "resetToDefault": "Сбросить по умолчанию",
     "resetToTemplate": "Сбросить к шаблону",
-    "slideBackground": "Фон слайда",
+    "slideBackground": "Фоновый цвет слайда",
     "setImageBackground": "Фоновое изображение",
     "setColorFillBackground": "Цвет заливки фона",
     "activeSurfaceWarning": "Вы уверены, что хотите активировать активный режим поверхности? Это действие не может быть отменено.",
@@ -35,7 +35,7 @@
     "slide": "Слайд",
     "opacity": "Непрозрачность",
     "goToSlide": "Перейти к слайду",
-    "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "expandBreadcrumbButtonLabel": "Вернуться назад",
+    "collapseBreadcrumbButtonLabel": "Закрыть навигацию"
   }
 }
