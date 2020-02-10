@@ -1,4 +1,4 @@
-﻿{
+{
   "libraryStrings": {
     "confirmDeleteSlide": "Наистина ли искате да изтриете този слайд?",
     "sortSlide": "Преместване на слайда :dir",
@@ -9,14 +9,12 @@
     "insertElement": "Кликнете и плъзнете, за да поставите: тип",
     "newKeyword": "Нова ключова дума",
     "save": "Запазване",
-    "removeElement": "Премахване на този елемент",
     "confirmRemoveElement": "Сигурни ли сте, че искате да премахнете този елемент?",
     "cancel": "Отказ",
     "done": "Завършено",
     "remove": "Премахване",
     "edit": "Редактиране",
     "keywordsTip": "Плъзнете в ключовите думи като използате двата бутона по-горе.",
-    "popupTitle": "Редактиране:тип",
     "loading": "Зареждане...",
     "slides": "Слайдове",
     "element": "елемент",
@@ -36,6 +34,8 @@
     "ok": "OK",
     "slide": "Слайд",
     "opacity": "Непрозрачност",
-    "goToSlide": "Отиди към слайда"
+    "goToSlide": "Отиди към слайда",
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }
