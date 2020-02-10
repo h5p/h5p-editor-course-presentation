@@ -233,10 +233,6 @@
   left: -2px;
 }
 
-.h5p-course-presentation .h5p-element {
-  border: 1px solid transparent;
-}
-
 .h5p-course-presentation .h5p-element:focus,
 .h5p-course-presentation .h5p-element.focused {
   outline: 0;
