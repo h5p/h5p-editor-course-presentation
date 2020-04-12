@@ -31,11 +31,11 @@
     "showTitles": "Mostrar títulos",
     "alwaysShow": "Mostrar siempre",
     "autoHide": "Auto ocultar",
-    "ok": "OK",
+    "ok": "Ok",
     "slide": "Página",
     "opacity": "Opacidad",
     "goToSlide": "Ir a página",
-    "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "expandBreadcrumbButtonLabel": "Regresar",
+    "collapseBreadcrumbButtonLabel": "Cerrar navegación"
   }
 }
