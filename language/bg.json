@@ -35,7 +35,7 @@
     "slide": "Слайд",
     "opacity": "Непрозрачност",
     "goToSlide": "Отиди към слайда",
-    "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "expandBreadcrumbButtonLabel": "Върни се",
+    "collapseBreadcrumbButtonLabel": "Затваряне на навигацията"
   }
 }
