@@ -23,8 +23,10 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     params = {
       slides: [{
         elements: [],
-        keywords: []
-      }]
+        keywords: [],
+        aspectRatio: "4-3"
+      }],
+      defaultAspectRatio: "4-3"
     };
 
     setValue(field, params);
@@ -273,7 +275,8 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     $background: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'backgroundSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-background"></a>'),
     $sortLeft: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>'),
     $sortRight: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>'),
-    $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>')
+    $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>'),
+    $setAspectRatio: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'setAspectRatio') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-aspect-ratio"></a>')
   };
   this.slideControls = slideControls;
 
@@ -283,8 +286,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     slideControls.$background,
     slideControls.$sortLeft,
     slideControls.$sortRight,
-    slideControls.$delete
-  ]).appendTo(this.cp.$wrapper)
+    slideControls.$delete,
+    slideControls.$setAspectRatio
+  ]).appendTo(this.cp.$footer.children('.h5p-footer-right-adjusted:first'))
     .children('a:first')
     .click(function () {
       that.addSlide();
@@ -325,6 +329,33 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
       }
       that.updateSlidesSidebar();
       return false;
+    })
+    .next()
+    .click(function(){
+      const slide = that.cp.slides[that.cp.$current.index()];
+      switch(slide.aspectRatio){
+        case "16-9":
+          that.cp.slides.forEach(slide => slide.aspectRatio = "9-16");
+          that.cp.defaultAspectRatio = "9-16"
+          break;
+        case "9-16":
+          that.cp.slides.forEach(slide => slide.aspectRatio = "4-3");
+          that.cp.defaultAspectRatio = "4-3"
+          break;
+        case "4-3":
+          that.cp.slides.forEach(slide => slide.aspectRatio = "3-4");
+          that.cp.defaultAspectRatio = "3-4"
+          break;
+        case "3-4":
+          that.cp.slides.forEach(slide => slide.aspectRatio = "16-9");
+          that.cp.defaultAspectRatio = "16-9"
+          break;
+        default:
+          that.cp.slides.forEach(slide => slide.aspectRatio = "16-9");
+          that.cp.defaultAspectRatio = "16-9"
+          break;
+      }
+      that.cp.resize();
     });
 
   if (this.cp.activeSurface) {
@@ -790,6 +821,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
             '<input type="checkbox"/>' +
             H5PEditor.t('H5PEditor.CoursePresentation', 'showTitles') +
           '</label>' +
+          '<label class="h5p-keywords-portrait"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'portrait') + '</label>' +
           '<label class="h5p-keywords-always"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'alwaysShow') + '</label>' +
           '<label class="h5p-keywords-hide"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'autoHide') + '</label>' +
           '<label class="h5p-keywords-opacity"><input type="text"/> % ' + H5PEditor.t('H5PEditor.CoursePresentation', 'opacity') + '</label>' +
@@ -976,7 +1008,8 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
     // Set new slide params
     slideParams = {
       elements: [],
-      keywords: []
+      keywords: [],
+      aspectRatio: that.cp.defaultAspectRatio
     };
   }
 
@@ -2168,7 +2201,7 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
 };
 
 /** @constant {Number} */
-H5PEditor.CoursePresentation.RATIO_SURFACE = 16 / 9;
+H5PEditor.CoursePresentation.RATIO_SURFACE = 9/16; //16 / 9;
 
 
 // Tell the editor what widget we are.
