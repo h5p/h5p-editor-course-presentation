@@ -332,29 +332,14 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     })
     .next()
     .click(function(){
-      const slide = that.cp.slides[that.cp.$current.index()];
-      switch(slide.aspectRatio){
-        case "16-9":
-          that.cp.slides.forEach(slide => slide.aspectRatio = "9-16");
-          that.cp.defaultAspectRatio = "9-16"
-          break;
-        case "9-16":
-          that.cp.slides.forEach(slide => slide.aspectRatio = "4-3");
-          that.cp.defaultAspectRatio = "4-3"
-          break;
-        case "4-3":
-          that.cp.slides.forEach(slide => slide.aspectRatio = "3-4");
-          that.cp.defaultAspectRatio = "3-4"
-          break;
-        case "3-4":
-          that.cp.slides.forEach(slide => slide.aspectRatio = "16-9");
-          that.cp.defaultAspectRatio = "16-9"
-          break;
-        default:
-          that.cp.slides.forEach(slide => slide.aspectRatio = "16-9");
-          that.cp.defaultAspectRatio = "16-9"
-          break;
-      }
+    	const aspectRatios = ["16-9", "9-16", "4-3", "3-4"];
+        const slide = that.cp.slides[that.cp.$current.index()];
+        const currentAspectRatioIndex = aspectRatios.indexOf(that.cp.defaultAspectRatio);
+        const nextAspectRatioIndex = (currentAspectRatioIndex + 1) % aspectRatios.length;
+        const nextAspectRatio = aspectRatios[nextAspectRatioIndex];
+        
+        that.cp.slides.forEach(slide => slide.aspectRatio = nextAspectRatio);
+        that.cp.defaultAspectRatio = "nextAspectRatio;
       that.cp.resize();
     });
 
