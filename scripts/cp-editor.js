@@ -339,7 +339,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
         const nextAspectRatio = aspectRatios[nextAspectRatioIndex];
         
         that.cp.slides.forEach(slide => slide.aspectRatio = nextAspectRatio);
-        that.cp.defaultAspectRatio = "nextAspectRatio;
+        that.cp.defaultAspectRatio = nextAspectRatio;
       that.cp.resize();
     });
 
@@ -2186,7 +2186,7 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
 };
 
 /** @constant {Number} */
-H5PEditor.CoursePresentation.RATIO_SURFACE = 9/16; //16 / 9;
+H5PEditor.CoursePresentation.RATIO_SURFACE = 16 / 9;
 
 
 // Tell the editor what widget we are.
