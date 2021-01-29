@@ -7,7 +7,7 @@
 }
 
 .h5p-course-presentation .h5p-wrapper {
-  height: 440px;
+  height: 740px;
 }
 
 .h5p-course-presentation .h5p-footer {
@@ -18,8 +18,7 @@
   position: absolute;
   right: 0.25em;
   border-radius: 0.5em;
-  bottom: -0.7em;
-  font-size: 1.3em;
+  font-size: 1.5em;
   border-top: 0;
   text-shadow: 0 0 1em #fff;
 }
@@ -45,7 +44,7 @@
   position: relative;
   color: #292929;
   line-height: 0.8;
-  height: 0.9em;
+  height: 1em;
   border-radius: 0.1em;
   border: solid 0.042em #ffffff;
   padding: 0.25em 0.2em;
@@ -161,6 +160,11 @@
 
 .h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-add:before {
   content: "\e990";
+}
+
+.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-aspect-ratio:before {
+  font-family: 'H5PFontAwesome4';
+  content: "\f079";
 }
 
 .h5p-course-presentation .h5p-keywordcontrols-button:hover {
