@@ -23,8 +23,10 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     params = {
       slides: [{
         elements: [],
-        keywords: []
-      }]
+        keywords: [],
+        aspectRatio: "4-3"
+      }],
+      defaultAspectRatio: "4-3"
     };
 
     setValue(field, params);
@@ -273,7 +275,8 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     $background: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'backgroundSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-background"></a>'),
     $sortLeft: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>'),
     $sortRight: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>'),
-    $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>')
+    $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>'),
+    $setAspectRatio: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'setAspectRatio') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-aspect-ratio"></a>')
   };
   this.slideControls = slideControls;
 
@@ -283,8 +286,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     slideControls.$background,
     slideControls.$sortLeft,
     slideControls.$sortRight,
-    slideControls.$delete
-  ]).appendTo(this.cp.$wrapper)
+    slideControls.$delete,
+    slideControls.$setAspectRatio
+  ]).appendTo(this.cp.$footer.children('.h5p-footer-right-adjusted:first'))
     .children('a:first')
     .click(function () {
       that.addSlide();
@@ -325,6 +329,18 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
       }
       that.updateSlidesSidebar();
       return false;
+    })
+    .next()
+    .click(function(){
+    	const aspectRatios = ["16-9", "9-16", "4-3", "3-4"];
+        const slide = that.cp.slides[that.cp.$current.index()];
+        const currentAspectRatioIndex = aspectRatios.indexOf(that.cp.defaultAspectRatio);
+        const nextAspectRatioIndex = (currentAspectRatioIndex + 1) % aspectRatios.length;
+        const nextAspectRatio = aspectRatios[nextAspectRatioIndex];
+        
+        that.cp.slides.forEach(slide => slide.aspectRatio = nextAspectRatio);
+        that.cp.defaultAspectRatio = nextAspectRatio;
+      that.cp.resize();
     });
 
   if (this.cp.activeSurface) {
@@ -790,6 +806,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
             '<input type="checkbox"/>' +
             H5PEditor.t('H5PEditor.CoursePresentation', 'showTitles') +
           '</label>' +
+          '<label class="h5p-keywords-portrait"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'portrait') + '</label>' +
           '<label class="h5p-keywords-always"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'alwaysShow') + '</label>' +
           '<label class="h5p-keywords-hide"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'autoHide') + '</label>' +
           '<label class="h5p-keywords-opacity"><input type="text"/> % ' + H5PEditor.t('H5PEditor.CoursePresentation', 'opacity') + '</label>' +
@@ -976,7 +993,8 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
     // Set new slide params
     slideParams = {
       elements: [],
-      keywords: []
+      keywords: [],
+      aspectRatio: that.cp.defaultAspectRatio
     };
   }
 
