@@ -1,20 +1,20 @@
 .h5peditor-form .field.coursepresentation,
-.editor.h5p-course-presentation {
+.editor.h5p-interaktivtavle {
   position: relative;
 }
 .field.coursepresentation > .h5peditor-label-wrapper {
   margin-top: 6%;
 }
 
-.h5p-course-presentation .h5p-wrapper {
+.h5p-interaktivtavle .h5p-wrapper {
   height: 740px;
 }
 
-.h5p-course-presentation .h5p-footer {
+.h5p-interaktivtavle .h5p-footer {
   line-height: 3.1em;
 }
 
-.h5p-course-presentation .h5p-slidecontrols {
+.h5p-interaktivtavle .h5p-slidecontrols {
   position: absolute;
   right: 0.25em;
   border-radius: 0.5em;
@@ -23,7 +23,7 @@
   text-shadow: 0 0 1em #fff;
 }
 
-.h5p-course-presentation .h5p-keywordcontrols {
+.h5p-interaktivtavle .h5p-keywordcontrols {
   border-top: 0;
   text-shadow: 0 0 1em #fff;
   float: left;
@@ -33,12 +33,12 @@
   width: auto;
 }
 
-.h5p-course-presentation .h5p-dragnbar-li:before {
+.h5p-interaktivtavle .h5p-dragnbar-li:before {
   top: 100%;
   font-size: 0.585em;
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button {
+.h5p-interaktivtavle .h5p-slidecontrols-button {
   display: block;
   float: left;
   position: relative;
@@ -51,12 +51,12 @@
   margin: 0.25em 0.12em;
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button:hover {
+.h5p-interaktivtavle .h5p-slidecontrols-button:hover {
   box-shadow: 0 0 0.208em 0.042em #dcdcdc;
   border: solid 0.042em #d8d8d8;
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button:hover:after {
+.h5p-interaktivtavle .h5p-slidecontrols-button:hover:after {
   content: attr(aria-label);
   font-size: 0.45em;
   background-color: rgba(0, 0, 0, 0.9);
@@ -73,7 +73,7 @@
   pointer-events: none;
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button:before {
+.h5p-interaktivtavle .h5p-slidecontrols-button:before {
   font-family: 'H5PFontIcons';
   color: #494949;
 
@@ -82,7 +82,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button {
+.h5p-interaktivtavle .h5p-keywordcontrols-button {
   width: auto;
   line-height: 1.5em;
   padding: 0.25em 0.5em;
@@ -98,13 +98,13 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button:hover {
+.h5p-interaktivtavle .h5p-keywordcontrols-button:hover {
   text-decoration: none;
   background-color: #d0dfd0;
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-background.active,
-.h5p-course-presentation .h5p-keywordcontrols-button:hover {
+.h5p-interaktivtavle .h5p-slidecontrols-button.h5p-slidecontrols-button-background.active,
+.h5p-interaktivtavle .h5p-keywordcontrols-button:hover {
   background: rgb(204,204,204); /* Old browsers */
   background: -moz-linear-gradient(top,  rgba(204,204,204,1) 12%, rgba(240,240,240,1) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(12%,rgba(204,204,204,1)), color-stop(100%,rgba(240,240,240,1))); /* Chrome,Safari4+ */
@@ -115,71 +115,71 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-9 */
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button:after {
+.h5p-interaktivtavle .h5p-keywordcontrols-button:after {
   font-family: 'H5PFontAwesome4';
   content: "\f057";
   margin-left: 0.4em;
   color: #c33f62;
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button:first-child {
+.h5p-interaktivtavle .h5p-keywordcontrols-button:first-child {
   border-top-left-radius: 0.5em;
   border-bottom-left-radius: 0.5em;
   border-left: none;
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button:first-child {
+.h5p-interaktivtavle .h5p-keywordcontrols-button:first-child {
   border-top-right-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
   border-right: none;
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-background {
+.h5p-interaktivtavle .h5p-slidecontrols-button.h5p-slidecontrols-button-background {
   position: relative;
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-clone:before {
+.h5p-interaktivtavle .h5p-slidecontrols-button.h5p-slidecontrols-button-clone:before {
   content: "\e919";
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-background:before {
+.h5p-interaktivtavle .h5p-slidecontrols-button.h5p-slidecontrols-button-background:before {
   content: "\e91a";
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-sort-left:before {
+.h5p-interaktivtavle .h5p-slidecontrols-button.h5p-slidecontrols-button-sort-left:before {
   content: "\e987";
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-sort-right:before {
+.h5p-interaktivtavle .h5p-slidecontrols-button.h5p-slidecontrols-button-sort-right:before {
   content: "\e988";
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-delete:before {
+.h5p-interaktivtavle .h5p-slidecontrols-button.h5p-slidecontrols-button-delete:before {
   content: "\e989";
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-add:before {
+.h5p-interaktivtavle .h5p-slidecontrols-button.h5p-slidecontrols-button-add:before {
   content: "\e990";
 }
 
-.h5p-course-presentation .h5p-slidecontrols-button.h5p-slidecontrols-button-aspect-ratio:before {
+.h5p-interaktivtavle .h5p-slidecontrols-button.h5p-slidecontrols-button-aspect-ratio:before {
   font-family: 'H5PFontAwesome4';
   content: "\f079";
 }
 
-.h5p-course-presentation .h5p-keywordcontrols-button:hover {
+.h5p-interaktivtavle .h5p-keywordcontrols-button:hover {
   background-color: #edd1de;
 }
-.h5p-course-presentation .h5p-keywords-wrapper [role="menuitem"] {
+.h5p-interaktivtavle .h5p-keywords-wrapper [role="menuitem"] {
   position: relative;
 }
-.h5p-course-presentation .h5p-keywords-wrapper [role="menuitem"].h5p-editing {
+.h5p-interaktivtavle .h5p-keywords-wrapper [role="menuitem"].h5p-editing {
   box-shadow: inset 0px 0px 50px -18px rgba(0,0,0,0.3);
 }
-.h5p-course-presentation .h5p-placeholder {
+.h5p-interaktivtavle .h5p-placeholder {
   list-style: none;
 }
-.h5p-course-presentation .h5p-keywords-wrapper textarea {
+.h5p-interaktivtavle .h5p-keywords-wrapper textarea {
   resize: none;
   background: none;
   overflow: hidden;
@@ -193,40 +193,40 @@
   font-family: H5PDroidSans, sans-serif;
   word-break: break-all;
 }
-.h5p-course-presentation .h5p-keywords-wrapper .h5p-current span {
+.h5p-interaktivtavle .h5p-keywords-wrapper .h5p-current span {
   cursor: pointer;
 }
-.h5p-course-presentation .h5p-keywords-wrapper .h5p-current span:hover {
+.h5p-interaktivtavle .h5p-keywords-wrapper .h5p-current span:hover {
   color: #000;
 }
-.h5p-course-presentation .joubel-icon-edit,
-.h5p-course-presentation .joubel-icon-cancel {
+.h5p-interaktivtavle .joubel-icon-edit,
+.h5p-interaktivtavle .joubel-icon-cancel {
   position: absolute;
   font-size: 1.75em;
   line-height: inherit;
   top: 0.8em;
 }
-.h5p-course-presentation .joubel-icon-edit,
-.h5p-course-presentation .joubel-icon-cancel {
+.h5p-interaktivtavle .joubel-icon-edit,
+.h5p-interaktivtavle .joubel-icon-cancel {
   right: 0.7em;
 }
-.h5p-course-presentation .joubel-icon-edit:focus .h5p-icon-circle:before,
-.h5p-course-presentation .joubel-icon-cancel:focus .h5p-icon-circle:before {
+.h5p-interaktivtavle .joubel-icon-edit:focus .h5p-icon-circle:before,
+.h5p-interaktivtavle .joubel-icon-cancel:focus .h5p-icon-circle:before {
   outline: -webkit-focus-ring-color auto 5px;
 }
-.h5p-course-presentation .h5p-moving {
+.h5p-interaktivtavle .h5p-moving {
   position: absolute;
   cursor: move;
 }
-.h5p-course-presentation .slideination {
+.h5p-interaktivtavle .slideination {
   height: 9.09%;
 }
-.editor.h5p-course-presentation .h5p-press-to-go {
+.editor.h5p-interaktivtavle .h5p-press-to-go {
   position: relative;
   box-sizing: border-box;
   border: 2px solid rgba(255,255,255,0.7);
 }
-.editor.h5p-course-presentation .h5p-press-to-go:before {
+.editor.h5p-interaktivtavle .h5p-press-to-go:before {
   content: " ";
   display: block;
   position: absolute;
@@ -237,20 +237,20 @@
   left: -2px;
 }
 
-.h5p-course-presentation .h5p-element:focus,
-.h5p-course-presentation .h5p-element.focused {
+.h5p-interaktivtavle .h5p-element:focus,
+.h5p-interaktivtavle .h5p-element.focused {
   outline: 0;
 }
 
-.h5p-course-presentation .h5p-element:focus .h5p-element-outer,
-.h5p-course-presentation .h5p-element.focused .h5p-element-outer {
+.h5p-interaktivtavle .h5p-element:focus .h5p-element-outer,
+.h5p-interaktivtavle .h5p-element.focused .h5p-element-outer {
   outline: 1px solid #0099ff;
 }
-.h5p-course-presentation .h5p-element > div {
+.h5p-interaktivtavle .h5p-element > div {
   z-index: 1;
 }
 
-.h5p-course-presentation .h5p-element-remove {
+.h5p-interaktivtavle .h5p-element-remove {
   position: absolute;
   width: 1em;
   height: 1em;
@@ -264,11 +264,11 @@
   opacity: 0.5;
   filter: alpha(opacity = 50);
 }
-.h5p-course-presentation .h5p-element-remove:hover {
+.h5p-interaktivtavle .h5p-element-remove:hover {
   opacity: 0.9;
   filter: alpha(opacity = 90);
 }
-.h5p-course-presentation .h5p-element-overlay {
+.h5p-interaktivtavle .h5p-element-overlay {
   position: absolute;
   left: 0;
   top: 0;
@@ -276,63 +276,63 @@
   height: 100%;
 }
 
-.h5p-coursepresentation-editor .h5p-course-presentation .h5p-element {
+.h5p-coursepresentation-editor .h5p-interaktivtavle .h5p-element {
   overflow: visible;
 }
 
-.h5p-course-presentation .h5p-dialog-no-close .ui-dialog-titlebar-close {
+.h5p-interaktivtavle .h5p-dialog-no-close .ui-dialog-titlebar-close {
   display: none;
 }
 
-.h5p-course-presentation .h5p-dialog-shape {
+.h5p-interaktivtavle .h5p-dialog-shape {
   max-width: 500px;
 }
 
-.h5p-course-presentation .h5p-dialog-shape .ui-dialog-buttonpane {
+.h5p-interaktivtavle .h5p-dialog-shape .ui-dialog-buttonpane {
   margin-top: 1em;
   border-top: 1px solid #d0d0d1;
   background-color: #eee;
 }
 
-.h5p-course-presentation .ui-widget-header {
+.h5p-interaktivtavle .ui-widget-header {
   background: none;
   border: none;
 }
 
-.h5p-course-presentation .ui-dialog-buttonpane {
+.h5p-interaktivtavle .ui-dialog-buttonpane {
   border: none;
   margin-top: 0;
   padding: 0.25em 0.5em;
 }
-.h5p-course-presentation .ui-dialog {
+.h5p-interaktivtavle .ui-dialog {
   border-radius: 0;
   padding: 0;
 }
-.h5p-course-presentation .ui-dialog-titlebar {
+.h5p-interaktivtavle .ui-dialog-titlebar {
   padding: 0.5em 0.75em;
   border-bottom: 1px solid #eee;
   border-radius: 0;
 }
-.h5p-course-presentation .ui-dialog-content {
+.h5p-interaktivtavle .ui-dialog-content {
   padding: 0.75em 0.75em 0;
 }
-.h5p-course-presentation .ui-dialog-content > .field.library {
+.h5p-interaktivtavle .ui-dialog-content > .field.library {
   padding: 0;
   border: 0;
   margin: 0;
 }
 
 /* Add some margin before metadata title in popups */
-.h5p-course-presentation .ui-dialog-content > .library > .libwrap {
+.h5p-interaktivtavle .ui-dialog-content > .library > .libwrap {
   margin-top: 1em;
 }
 
-.h5p-course-presentation .ui-resizable-se {
+.h5p-interaktivtavle .ui-resizable-se {
   bottom: -5px;
   right: -5px;
 }
 
-.h5p-course-presentation .h5p-keywords-tip {
+.h5p-interaktivtavle .h5p-keywords-tip {
   width: 12.3em;
   position: absolute;
   top: 0;
@@ -348,14 +348,14 @@
 .h5p-add-keyword {
   cursor: pointer;
 }
-.h5p-course-presentation .h5p-multichoice > .h5p-show-solution, .h5p-course-presentation .h5p-element .h5p-hidden-solution-btn {
+.h5p-interaktivtavle .h5p-multichoice > .h5p-show-solution, .h5p-interaktivtavle .h5p-element .h5p-hidden-solution-btn {
   display: block;
 }
-.h5p-course-presentation .ui-widget,
-.h5p-course-presentation .ui-widget input,
-.h5p-course-presentation .ui-widget select,
-.h5p-course-presentation .ui-widget textarea,
-.h5p-course-presentation .ui-widget button {
+.h5p-interaktivtavle .ui-widget,
+.h5p-interaktivtavle .ui-widget input,
+.h5p-interaktivtavle .ui-widget select,
+.h5p-interaktivtavle .ui-widget textarea,
+.h5p-interaktivtavle .ui-widget button {
   font-size: 1em;
   font-family: 'Open Sans', sans-serif;
 }
@@ -442,14 +442,14 @@
   transform: none;
 }
 
-.h5p-coursepresentation-editor .h5p-course-presentation a.h5p-element-button:focus {
+.h5p-coursepresentation-editor .h5p-interaktivtavle a.h5p-element-button:focus {
   -webkit-box-shadow: 0.15em 0.25em 0.25em 0 #191919;
   -moz-box-shadow: 0.15em 0.25em 0.25em 0 #191919;
   box-shadow: 0.15em 0.25em 0.25em 0 #191919;
 }
 
-.h5p-coursepresentation-editor .h5p-course-presentation .h5p-element.h5p-element-button-wrapper:focus,
-.h5p-coursepresentation-editor .h5p-course-presentation .h5p-element.h5p-element-button-wrapper.focused {
+.h5p-coursepresentation-editor .h5p-interaktivtavle .h5p-element.h5p-element-button-wrapper:focus,
+.h5p-coursepresentation-editor .h5p-interaktivtavle .h5p-element.h5p-element-button-wrapper.focused {
   border: 0;
 }
 
@@ -465,8 +465,8 @@
   position: relative;
   margin: 0 1px;
 }
-.editor.h5p-course-presentation .h5p-progressbar .h5p-progressbar-part,
-.editor.h5p-course-presentation .h5p-progressbar .h5p-progressbar-part-show {
+.editor.h5p-interaktivtavle .h5p-progressbar .h5p-progressbar-part,
+.editor.h5p-interaktivtavle .h5p-progressbar .h5p-progressbar-part-show {
   transition: transform 0.3s linear;
 }
 

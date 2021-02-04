@@ -54,7 +54,7 @@
   padding: 0.5em;
 }
 
-.h5p-course-presentation a.h5p-slide-selector-option:focus {
+.h5p-interaktivtavle a.h5p-slide-selector-option:focus {
   outline: rgb(94, 158, 214) auto 5px;
 }
 
