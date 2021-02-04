@@ -276,7 +276,7 @@
   height: 100%;
 }
 
-.h5p-coursepresentation-editor .h5p-interaktivtavle .h5p-element {
+.h5p-interaktivtavle-editor .h5p-interaktivtavle .h5p-element {
   overflow: visible;
 }
 
@@ -428,28 +428,28 @@
   color: #9b9b9b;
 }
 
-.h5p-coursepresentation-editor .h5p-element.h5p-element-button-wrapper.focused {
+.h5p-interaktivtavle-editor .h5p-element.h5p-element-button-wrapper.focused {
   outline: 1px solid #0099ff;
   outline-offset: -1px;
 }
 
-.h5p-coursepresentation-editor .h5p-element.h5p-element-button-wrapper .h5p-element-button {
+.h5p-interaktivtavle-editor .h5p-element.h5p-element-button-wrapper .h5p-element-button {
   transition: none;
 }
 
-.h5p-coursepresentation-editor .h5p-element.h5p-element-button-wrapper .h5p-element-button:hover {
+.h5p-interaktivtavle-editor .h5p-element.h5p-element-button-wrapper .h5p-element-button:hover {
   -webkit-transform: none;
   transform: none;
 }
 
-.h5p-coursepresentation-editor .h5p-interaktivtavle a.h5p-element-button:focus {
+.h5p-interaktivtavle-editor .h5p-interaktivtavle a.h5p-element-button:focus {
   -webkit-box-shadow: 0.15em 0.25em 0.25em 0 #191919;
   -moz-box-shadow: 0.15em 0.25em 0.25em 0 #191919;
   box-shadow: 0.15em 0.25em 0.25em 0 #191919;
 }
 
-.h5p-coursepresentation-editor .h5p-interaktivtavle .h5p-element.h5p-element-button-wrapper:focus,
-.h5p-coursepresentation-editor .h5p-interaktivtavle .h5p-element.h5p-element-button-wrapper.focused {
+.h5p-interaktivtavle-editor .h5p-interaktivtavle .h5p-element.h5p-element-button-wrapper:focus,
+.h5p-interaktivtavle-editor .h5p-interaktivtavle .h5p-element.h5p-element-button-wrapper.focused {
   border: 0;
 }
 
@@ -457,11 +457,11 @@
   display: none;
 }
 
-.h5p-coursepresentation-editor .h5p-progressbar {
+.h5p-interaktivtavle-editor .h5p-progressbar {
   background-color: #fff;
 }
 
-.h5p-coursepresentation-editor .h5p-progressbar-part {
+.h5p-interaktivtavle-editor .h5p-progressbar-part {
   position: relative;
   margin: 0 1px;
 }
@@ -470,36 +470,36 @@
   transition: transform 0.3s linear;
 }
 
-.h5p-coursepresentation-editor .h5p-progressbar-part:first-child {
+.h5p-interaktivtavle-editor .h5p-progressbar-part:first-child {
   margin-left: 0;
 }
 
-.h5p-coursepresentation-editor .h5p-progressbar-part:last-child {
+.h5p-interaktivtavle-editor .h5p-progressbar-part:last-child {
   margin-right: 0;
 }
 
-.h5p-coursepresentation-editor .h5p-progressbar-part-selected {
+.h5p-interaktivtavle-editor .h5p-progressbar-part-selected {
   z-index: 1;
 }
 
-.h5p-coursepresentation-editor .h5p-progressbar-part:not(.h5p-progressbar-part-selected) {
+.h5p-interaktivtavle-editor .h5p-progressbar-part:not(.h5p-progressbar-part-selected) {
   background: #999;
 }
 
-.h5p-coursepresentation-editor .h5p-hidden2 {
+.h5p-interaktivtavle-editor .h5p-hidden2 {
   display: none;
 }
 
-.h5p-coursepresentation-editor .field-name-buttonSize label {
+.h5p-interaktivtavle-editor .field-name-buttonSize label {
   display: inline-block;
   margin-right: 0.5em;
 }
 
-.h5p-coursepresentation-editor .h5p-hidden {
+.h5p-interaktivtavle-editor .h5p-hidden {
   visibility: hidden;
 }
 
-.h5p-coursepresentation-editor > .h5peditor-semi-fullscreen .form-manager-head.form-manager-footer {
+.h5p-interaktivtavle-editor > .h5peditor-semi-fullscreen .form-manager-head.form-manager-footer {
   position: relative;
   top: auto;
   left: auto;
