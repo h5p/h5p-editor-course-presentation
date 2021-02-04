@@ -39,7 +39,7 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 }
 
-.h5p-coursepresentation-editor .h5p-dragnbar-li {
+.h5p-interaktivtavle-editor .h5p-dragnbar-li {
   position: relative;
 }
 
@@ -397,31 +397,31 @@ ul:not(.h5p-dragnbar-li-ul) > .h5p-dragnbar-li > a.h5p-dragnbar-dialogcards-butt
 }
 
 /*Paste button overrides. Be careful, so we only hit the CP's drag-n-bar */
-.h5p-course-presentation > .h5p-wrapper > .h5peditor-dragnbar .h5p-dragnbar-paste-button {
+.h5p-interaktivtavle > .h5p-wrapper > .h5peditor-dragnbar .h5p-dragnbar-paste-button {
   border: none;
 }
 
-.h5p-course-presentation .h5p-element.focused .h5p-element-outer.h5p-shape-outer-element {
+.h5p-interaktivtavle .h5p-element.focused .h5p-element-outer.h5p-shape-outer-element {
   outline-offset: 1px;
 }
 
-.h5p-course-presentation .ui-dialog-content > .library > .libwrap.h5p-shape-editor {
+.h5p-interaktivtavle .ui-dialog-content > .library > .libwrap.h5p-shape-editor {
   margin: 0;
 }
 
-.h5p-course-presentation .h5p-shape-editor .field-name-type {
+.h5p-interaktivtavle .h5p-shape-editor .field-name-type {
   display: none;
 }
 
-.h5p-course-presentation .h5p-shape-editor .h5p-editor-widget-show-when {
+.h5p-interaktivtavle .h5p-shape-editor .h5p-editor-widget-show-when {
   margin-top: 0;
   margin-bottom: 0;
 }
 
-.h5p-course-presentation .h5p-shape-editor .content > div:first-child {
+.h5p-interaktivtavle .h5p-shape-editor .content > div:first-child {
   border-top: 0;
 }
 
-.h5p-course-presentation .h5p-shape-editor .h5peditor-required:after {
+.h5p-interaktivtavle .h5p-shape-editor .h5peditor-required:after {
   display: none;
 }
