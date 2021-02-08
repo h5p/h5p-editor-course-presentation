@@ -366,7 +366,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 };
 
 /**
- * Circles through the array of aspect ratios and picks the next in line.
+ * Cycles through the array of aspect ratios and picks the next in line.
  * Will wrap around when reaching the end of the aspect ratio list.
  */
 H5PEditor.CoursePresentation.prototype.nextRatio = function() {
