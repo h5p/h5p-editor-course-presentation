@@ -87,23 +87,32 @@ H5PEditor.CoursePresentation.AspectRatioSelector = (function () {
 
     /**
      * 
-     * @param {RatioView} ratioObj 
+     * @param {RatioView} ratioObj
      * @param {boolean} isChecked
+     * @param {number} index
      */
-    createRatioButton(ratioObj, isChecked) {
+    createRatioButton(ratioObj, isChecked, index) {
+      const container = document.createElement('div');
+      container.className = 'aspect-ratio-modal-ratio-radio-container';
+
+      const radioId = `aspect-ratio-modal-ratio-${index}`;
+
       const radio = document.createElement('input');
       radio.type = 'radio';
       radio.addEventListener('change', () => this.setRatio(ratioObj));
       radio.checked = isChecked;
       radio.className = 'aspect-ratio-modal-ratio-radio';
       radio.name = 'aspect-ratio-modal-ratio';
+      radio.id = radioId;
+      container.appendChild(radio);
 
       const label = document.createElement('label');
       label.innerHTML = ratioObj.illustration;
       label.className = 'aspect-ratio-modal-ratio';
-      label.appendChild(radio);
+      label.setAttribute('for', radioId);
+      container.appendChild(label);
 
-      return label;
+      return container;
     }
 
     /**
@@ -147,7 +156,7 @@ H5PEditor.CoursePresentation.AspectRatioSelector = (function () {
       ratioContainer.className = 'aspect-ratio-modal-ratios';
 
       this.availableRatios
-        .map((ratio, index) => this.createRatioButton(ratio, index === 0))
+        .map((ratio, index) => this.createRatioButton(ratio, index === 0, index))
         .map((button) => ratioContainer.appendChild(button));
 
       modal.appendChild(ratioContainer);

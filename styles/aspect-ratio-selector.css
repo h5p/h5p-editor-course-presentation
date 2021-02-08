@@ -32,15 +32,6 @@
   padding: 1rem 0;
 }
 
-.aspect-ratio-modal-ratio {
-  display: flex;
-  flex-direction: column;
-  margin: 1.5rem;
-  max-width: 10rem;
-  text-align: center;
-  width: calc(50% - 3rem);
-}
-
 .aspect-ratio-modal-illustration-container {
   display: flex;
   flex-direction: column;
@@ -53,11 +44,32 @@
   position: relative;
 }
 
+.aspect-ratio-modal-ratio-radio-container {
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 1.5rem;
+  max-width: 12.5rem;
+  text-align: center;
+  width: calc(50% - 3rem);
+}
+
 .aspect-ratio-modal-ratio-radio {
   display: block;
-  margin-top: 1rem;
+  margin-top: -1.5rem; /* This moves the radio seemingly inside the label, even though they are siblings */
+  position: relative; /* This is necessary to move the radio higher than the label in z space */
   text-align: center;
   width: 100%;
+}
+
+.aspect-ratio-modal-ratio {
+  display: flex;
+  flex-grow: 1;
+  padding: 1rem 2rem 3rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.aspect-ratio-modal-ratio-radio:checked + .aspect-ratio-modal-ratio {
+  background-color: #d8f0fb;
 }
 
 .aspect-ratio-modal-illustration-label {
