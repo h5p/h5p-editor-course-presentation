@@ -132,12 +132,12 @@ H5PEditor.CoursePresentation.AspectRatioSelector = (function () {
 
       const heading = document.createElement('h1');
       heading.className = 'aspect-ratio-modal-title';
-      heading.textContent = H5PEditor.t('H5PEditor.InteraktivTavle', 'aspect-ratio-title');
+      heading.textContent = H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioTitle');
 
       const subHeading = document.createElement('p');
       subHeading.setAttribute('role', 'doc-subtitle');
       subHeading.className = 'aspect-ratio-modal-subtitle';
-      subHeading.textContent = H5PEditor.t('H5PEditor.InteraktivTavle', 'aspect-ratio-subtitle');
+      subHeading.textContent = H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioSubtitle');
 
       modalHeader.appendChild(heading);
       modalHeader.appendChild(subHeading);
@@ -159,7 +159,7 @@ H5PEditor.CoursePresentation.AspectRatioSelector = (function () {
       submitButton.type = 'button';
       submitButton.className = 'aspect-ratio-submit-button';
       submitButton.addEventListener('click', () => this.onSubmitClick());
-      submitButton.textContent = H5PEditor.t('H5PEditor.InteraktivTavle', 'aspect-ratio-submit');
+      submitButton.textContent = H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioSubmit');
 
       modalFooter.appendChild(submitButton);
       modal.appendChild(modalFooter);

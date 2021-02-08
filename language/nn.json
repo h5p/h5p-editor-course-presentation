@@ -35,7 +35,12 @@
     "slide":"Skjermbilete",
     "opacity":"Opasitet",
     "goToSlide": "Gå til skjermbilete",
-    "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "expandBreadcrumbButtonLabel": "Gå tilbake",
+    "collapseBreadcrumbButtonLabel": "Lukk navigasjon",
+    "aspectRatioPortrait": "Ståande",
+    "aspectRatioLandscape": "Liggande",
+    "aspectRatioTitle": "Velg format for din presentasjon",
+    "aspectRatioSubtitle": "[Missing translation aspectRatioSubtitle]",
+    "aspectRatioSubmit": "Lag presentasjon"
   }
 }

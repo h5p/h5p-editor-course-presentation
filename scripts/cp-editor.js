@@ -43,11 +43,11 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   parent.ready(function () {
     const aspectRatioSelector = new H5PEditor.CoursePresentation.AspectRatioSelector([{
         ratio: "4-3",
-        label: H5PEditor.t('H5PEditor.InteraktivTavle', 'landscape'),
+        label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioLandscape'),
       },
       {
         ratio: "3-4",
-        label: H5PEditor.t('H5PEditor.InteraktivTavle', 'portrait'),
+        label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioPortrait'),
       },
     ], (newRatio) => that.setRatio(newRatio.ratio));
     aspectRatioSelector.show();

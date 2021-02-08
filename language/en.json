@@ -36,6 +36,11 @@
     "opacity": "Opacity",
     "goToSlide": "Go to slide",
     "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "collapseBreadcrumbButtonLabel": "Close navigation",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "[Missing translation aspectRatioSubtitle]",
+    "aspectRatioSubmit": "Create presentation"
   }
 }

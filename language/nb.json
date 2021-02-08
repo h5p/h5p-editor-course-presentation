@@ -35,7 +35,12 @@
     "slide": "Slide",
     "opacity":"Opasitet",
     "goToSlide": "Gå til slide",
-    "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "expandBreadcrumbButtonLabel": "Gå tilbake",
+    "collapseBreadcrumbButtonLabel": "Lukk navigasjon",
+    "aspectRatioPortrait": "Stående",
+    "aspectRatioLandscape": "Liggende",
+    "aspectRatioTitle": "Velg format for din presentasjon",
+    "aspectRatioSubtitle": "[Missing translation aspectRatioSubtitle]",
+    "aspectRatioSubmit": "Lag presentasjon"
   }
 }
