@@ -22,6 +22,9 @@
     },
     {
       "path": "scripts/bg-selector.js"
+    },
+    {
+      "path": "scripts/aspect-ratio-selector.js"
     }
   ],
   "preloadedCss": [
@@ -33,6 +36,9 @@
     },
     {
       "path": "styles/bg-selector.css"
+    },
+    {
+      "path": "styles/aspect-ratio-selector.css"
     },
     {
       "path": "styles/toolbar.css"
