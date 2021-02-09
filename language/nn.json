@@ -40,7 +40,7 @@
     "aspectRatioPortrait": "Ståande",
     "aspectRatioLandscape": "Liggande",
     "aspectRatioTitle": "Velg format for din presentasjon",
-    "aspectRatioSubtitle": "[Missing translation aspectRatioSubtitle]",
+    "aspectRatioSubtitle": "Formatet gjelder for alle skjermbilete og kan endrast under innstillinger",
     "aspectRatioSubmit": "Lag presentasjon"
   }
 }

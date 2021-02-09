@@ -40,7 +40,7 @@
     "aspectRatioPortrait": "Portrait",
     "aspectRatioLandscape": "Landscape",
     "aspectRatioTitle": "Choose presentation format",
-    "aspectRatioSubtitle": "[Missing translation aspectRatioSubtitle]",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides and can be changed in behavioral settings",
     "aspectRatioSubmit": "Create presentation"
   }
 }
