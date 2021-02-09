@@ -18,15 +18,16 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     expandBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.InteraktivTavle', 'expandBreadcrumbButtonLabel'),
     collapseBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.InteraktivTavle', 'collapseBreadcrumbButtonLabel')
   }, 'coursepresentation');
-
-  if (params === undefined) {
+  
+  const isNewPresentation = params === undefined;
+  if (isNewPresentation) {
     params = {
       slides: [{
         elements: [],
         keywords: [],
-        aspectRatio: "4-3"
+        aspectRatio: this.defaultAspectRatio
       }],
-      defaultAspectRatio: "4-3"
+      defaultAspectRatio: this.defaultAspectRatio
     };
 
     setValue(field, params);
@@ -41,6 +42,20 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 
   this.passReadies = true;
   parent.ready(function () {
+    if (isNewPresentation) {
+      const aspectRatioSelector = new H5PEditor.CoursePresentation.AspectRatioSelector([{
+          ratio: "4-3",
+          label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioLandscape'),
+        },
+        {
+          ratio: "3-4",
+          label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioPortrait'),
+        },
+      ], (newRatio) => that.setRatio(newRatio.ratio));
+
+      aspectRatioSelector.show();
+    }
+
     that.passReadies = false;
 
     // Active surface mode
@@ -85,6 +100,9 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     that.dnb.setCanPaste(canPaste);
   });
 };
+
+H5PEditor.CoursePresentation.allAspectRatios = ['4-3', '3-4', '16-9', '9-16'];
+H5PEditor.CoursePresentation.prototype.defaultAspectRatio = H5PEditor.CoursePresentation.allAspectRatios[0];
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.DragNBar.FormManager.prototype);
 H5PEditor.CoursePresentation.prototype.constructor = H5PEditor.CoursePresentation;
@@ -332,15 +350,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     })
     .next()
     .click(function(){
-    	const aspectRatios = ["16-9", "9-16", "4-3", "3-4"];
-        const slide = that.cp.slides[that.cp.$current.index()];
-        const currentAspectRatioIndex = aspectRatios.indexOf(that.cp.defaultAspectRatio);
-        const nextAspectRatioIndex = (currentAspectRatioIndex + 1) % aspectRatios.length;
-        const nextAspectRatio = aspectRatios[nextAspectRatioIndex];
-
-        that.cp.slides.forEach(slide => slide.aspectRatio = nextAspectRatio);
-        that.cp.defaultAspectRatio = nextAspectRatio;
-      that.cp.resize();
+    	that.nextRatio();
     });
 
   if (this.cp.activeSurface) {
@@ -358,6 +368,31 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
   this.updateSlidesSidebar();
 };
+
+/**
+ * Cycles through the array of aspect ratios and picks the next in line.
+ * Will wrap around when reaching the end of the aspect ratio list.
+ */
+H5PEditor.CoursePresentation.prototype.nextRatio = function() {
+  const aspectRatios = H5PEditor.CoursePresentation.allAspectRatios;
+  const currentAspectRatioIndex = aspectRatios.indexOf(this.cp.defaultAspectRatio);
+  const nextAspectRatioIndex = (currentAspectRatioIndex + 1) % aspectRatios.length;
+  const nextAspectRatio = aspectRatios[nextAspectRatioIndex];
+
+  this.setRatio(nextAspectRatio);
+}
+
+/**
+ * Sets the given ratio to every slide in the course presentation.
+ * Will also change the default aspect ratio that is used for new slides.
+ * 
+ * @param {string} ratio 
+ */
+H5PEditor.CoursePresentation.prototype.setRatio = function (ratio) {
+  this.cp.slides.forEach(slide => slide.aspectRatio = ratio);
+  this.cp.defaultAspectRatio = ratio;
+  this.cp.resize(); 
+}
 
 /**
  * Add Drag and Drop button group.
@@ -2187,7 +2222,6 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
 
 /** @constant {Number} */
 H5PEditor.CoursePresentation.RATIO_SURFACE = 16 / 9;
-
 
 // Tell the editor what widget we are.
 H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
