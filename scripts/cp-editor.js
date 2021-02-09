@@ -18,8 +18,9 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     expandBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.InteraktivTavle', 'expandBreadcrumbButtonLabel'),
     collapseBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.InteraktivTavle', 'collapseBreadcrumbButtonLabel')
   }, 'coursepresentation');
-
-  if (params === undefined) {
+  
+  const isNewPresentation = params === undefined;
+  if (isNewPresentation) {
     params = {
       slides: [{
         elements: [],
@@ -41,16 +42,19 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 
   this.passReadies = true;
   parent.ready(function () {
-    const aspectRatioSelector = new H5PEditor.CoursePresentation.AspectRatioSelector([{
-        ratio: "4-3",
-        label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioLandscape'),
-      },
-      {
-        ratio: "3-4",
-        label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioPortrait'),
-      },
-    ], (newRatio) => that.setRatio(newRatio.ratio));
-    aspectRatioSelector.show();
+    if (isNewPresentation) {
+      const aspectRatioSelector = new H5PEditor.CoursePresentation.AspectRatioSelector([{
+          ratio: "4-3",
+          label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioLandscape'),
+        },
+        {
+          ratio: "3-4",
+          label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioPortrait'),
+        },
+      ], (newRatio) => that.setRatio(newRatio.ratio));
+
+      aspectRatioSelector.show();
+    }
 
     that.passReadies = false;
 
