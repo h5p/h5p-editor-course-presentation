@@ -351,6 +351,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .next()
     .click(function(){
     	that.nextRatio();
+      return false;
     });
 
   if (this.cp.activeSurface) {
