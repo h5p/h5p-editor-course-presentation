@@ -294,7 +294,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     $sortLeft: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>'),
     $sortRight: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>'),
     $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>'),
-    $setAspectRatio: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'setAspectRatio') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-aspect-ratio"></a>')
   };
   this.slideControls = slideControls;
 
@@ -305,7 +304,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     slideControls.$sortLeft,
     slideControls.$sortRight,
     slideControls.$delete,
-    slideControls.$setAspectRatio
   ]).appendTo(this.cp.$footer.children('.h5p-footer-right-adjusted:first'))
     .children('a:first')
     .click(function () {
@@ -347,11 +345,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
       }
       that.updateSlidesSidebar();
       return false;
-    })
-    .next()
-    .click(function(){
-    	that.nextRatio();
-      return false;
     });
 
   if (this.cp.activeSurface) {
@@ -369,19 +362,6 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
   this.updateSlidesSidebar();
 };
-
-/**
- * Cycles through the array of aspect ratios and picks the next in line.
- * Will wrap around when reaching the end of the aspect ratio list.
- */
-H5PEditor.CoursePresentation.prototype.nextRatio = function() {
-  const aspectRatios = H5PEditor.CoursePresentation.allAspectRatios;
-  const currentAspectRatioIndex = aspectRatios.indexOf(this.cp.defaultAspectRatio);
-  const nextAspectRatioIndex = (currentAspectRatioIndex + 1) % aspectRatios.length;
-  const nextAspectRatio = aspectRatios[nextAspectRatioIndex];
-
-  this.setRatio(nextAspectRatio);
-}
 
 /**
  * Sets the given ratio to every slide in the course presentation.
