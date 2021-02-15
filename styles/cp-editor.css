@@ -162,11 +162,6 @@
   content: "\e990";
 }
 
-.h5p-interaktivtavle .h5p-slidecontrols-button.h5p-slidecontrols-button-aspect-ratio:before {
-  font-family: 'H5PFontAwesome4';
-  content: "\f079";
-}
-
 .h5p-interaktivtavle .h5p-keywordcontrols-button:hover {
   background-color: #edd1de;
 }
