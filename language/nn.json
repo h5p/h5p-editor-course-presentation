@@ -40,7 +40,7 @@
     "aspectRatioPortrait": "Ståande",
     "aspectRatioLandscape": "Liggande",
     "aspectRatioTitle": "Velg format for din presentasjon",
-    "aspectRatioSubtitle": "Formatet gjelder for alle skjermbilete og kan endrast under innstillinger for oppførsel",
+    "aspectRatioSubtitle": "Formatet gjelder for alle skjermbilete. Formatet kan ikkje endrast i ettertid.",
     "aspectRatioSubmit": "Lag presentasjon"
   }
 }
