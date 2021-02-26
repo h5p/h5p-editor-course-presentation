@@ -279,7 +279,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
   // Add drag and drop menu bar.
   that.initializeDNB();
-
+  
   // Find BG selector fields and init slide selector
   var globalBackgroundField = H5PEditor.CoursePresentation.findField('globalBackgroundSelector', this.field.fields);
   var slideFields = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
@@ -461,6 +461,18 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     height: 14.09
   };
 
+  const shapeButtonBaseArrowRight = {
+    title: '',
+    width: 10.00,
+    height: 5.00
+  };
+
+  const shapeButtonBaseArrowUp = {
+    title: '',
+    width: 5.00,
+    height: 10.00
+  };
+
   const shapeButtonBase1D = {
     params: {
       line: {
@@ -504,6 +516,63 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           type: 'circle'
         }
       }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, {
+        id: 'shape-triangle',
+        params: {
+          type: 'triangle',
+          svgpolygon: {
+            fillColor: 'rgb(255,255,255)',
+            borderColor: 'rgb(0,0,0)'
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, {
+        id: 'shape-pentagon',
+        params: {
+          type: 'pentagon',
+          svgpolygon: {
+            fillColor: 'rgb(255,255,255)',
+            borderColor: 'rgb(0,0,0)'
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, {
+        id: 'shape-hexagon',
+        params: {
+          type: 'hexagon',
+          svgpolygon: {
+            fillColor: 'rgb(255,255,255)',
+            borderColor: 'rgb(0,0,0)'
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, {
+        id: 'shape-cube',
+        params: {
+          type: 'cube',
+          svg3d: {
+            borderColor: ''
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, {
+        id: 'shape-cylinder',
+        params: {
+          type: 'cylinder',
+          svg3d: {
+            borderColor: ''
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, {
+        id: 'shape-cone',
+        params: {
+          type: 'cone',
+          svg3d: {
+            borderColor: ''
+          }
+        }
+      }),
       H5P.jQuery.extend(true, {}, shapeButtonBase, shapeButtonBase1D, {
         id: 'shape-horizontal-line',
         params: {
@@ -514,6 +583,69 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         id: 'shape-vertical-line',
         params: {
           type: 'vertical-line'
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBaseArrowRight, {
+        id: 'shape-long-arrow-right',
+        params: {
+          type: 'long-arrow-right',
+          svg: {
+            fillColor: ''
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBaseArrowRight, {
+        id: 'shape-long-arrow-left',
+        params: {
+          type: 'long-arrow-left',
+          svg: {
+            fillColor: ''
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBaseArrowUp, {
+        id: 'shape-long-arrow-up',
+        params: {
+          type: 'long-arrow-up',
+          svg: {
+            fillColor: ''
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBaseArrowUp, {
+        id: 'shape-long-arrow-down',
+        params: {
+          type: 'long-arrow-down',
+          svg: {
+            fillColor: ''
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBaseArrowRight, {
+        id: 'shape-arrows-alt-h',
+        params: {
+          type: 'arrows-alt-h',
+          svg: {
+            fillColor: ''
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBaseArrowUp, {
+        id: 'shape-arrows-alt-v',
+        params: {
+          type: 'arrows-alt-v',
+          svg: {
+            fillColor: ''
+          }
+        }
+      }),
+      H5P.jQuery.extend(true, {}, shapeButtonBase, {
+        id: 'shape-arrows-alt',
+        params: {
+          type: 'arrows-alt',
+          svg: {
+            fillColor: ''
+          }
         }
       })
     ]
