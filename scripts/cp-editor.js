@@ -551,6 +551,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         params: {
           type: 'cube',
           svg3d: {
+            fillColor: 'white',
             borderColor: ''
           }
         }
@@ -560,6 +561,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         params: {
           type: 'cylinder',
           svg3d: {
+            fillColor: 'white',
             borderColor: ''
           }
         }
@@ -569,6 +571,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         params: {
           type: 'cone',
           svg3d: {
+            fillColor: 'white',
             borderColor: ''
           }
         }
