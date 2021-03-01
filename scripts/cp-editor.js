@@ -2139,8 +2139,6 @@ H5PEditor.CoursePresentation.prototype.fitElement = function ($element, elementP
     style.top = elementParams.y + '%';
   }
 
-  console.log("applying style:");
-  console.log(style);
   // Apply style
   $element.css(style);
 };
