@@ -1561,7 +1561,6 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
 
   //Normalizse
   if(elementParams.width > elementParams.height){
-    //reduce width to fit
     elementParams.width = (elementParams.width / element.$wrapper.innerWidth()) * 100;
     elementParams.height = elementParams.width * (1/fileRatio)
   } else {
