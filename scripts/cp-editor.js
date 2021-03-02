@@ -1558,15 +1558,33 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
 
   // Calculate new width
   elementParams.width = elementParams.height * fileRatio;
+  console.log("prenormalization");
+  console.log(elementParams);
 
   //Normalizse
-  if(elementParams.width > elementParams.height){
-    elementParams.width = (elementParams.width / element.$wrapper.innerWidth()) * 100;
-    elementParams.height = elementParams.width * (1/fileRatio)
-  } else {
-    elementParams.height = (elementParams.height / element.$wrapper.innerHeight()) * 100;
-    elementParams.width = elementParams.height * fileRatio;
+  // if(elementParams.width > elementParams.height){
+  //   elementParams.width = (elementParams.width / element.$wrapper.innerWidth()) * 100;
+  //   elementParams.height = elementParams.width * (1/fileRatio)
+  // } else {
+  //   elementParams.height = (elementParams.height / element.$wrapper.innerHeight()) * 100;
+  //   elementParams.width = elementParams.height * fileRatio;
+  // }
+
+  if(elementParams.width > element.$wrapper.innerWidth()){
+    elementParams.height = (element.$wrapper.innerWidth() * elementParams.height) / elementParams.width;
+    elementParams.width = element.$wrapper.innerWidth();
   }
+
+  if(elementParams.height > element.$wrapper.innerHeight()){
+    elementParams.width = (element.$wrapper.innerHeight() * elementParams.width) / elementParams.height;
+    elementParams.height = element.$wrapper.innerHeight();
+  }
+  
+  elementParams.width = (elementParams.width / element.$wrapper.innerWidth()) * 100;
+  elementParams.height = (elementParams.height / element.$wrapper.innerHeight()) * 100;
+
+  console.log("post-normalization");
+  console.log(elementParams);
 };
 
 /**
