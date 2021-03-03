@@ -1671,14 +1671,17 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
 
   // Avoid to small images
   var minSize = parseInt(element.$wrapper.css('font-size')) +
-                element.$wrapper.outerHeight() -
-                element.$wrapper.innerHeight();
+                element.$wrapper.outerWidth() -
+                element.$wrapper.innerWidth();
+
+  var fileRatio = fileParams.width / fileParams.height;
 
   // Use minSize
-  if (fileParams.width < minSize) {
-    fileParams.width = minSize;
+  if (fileParams.width < minSize){
+    fileParams.height = minSize * fileRatio;
   }
-  if (fileParams.height < minSize) {
+
+  if (fileParams.height < minSize){
     fileParams.height = minSize;
   }
 
@@ -1689,7 +1692,22 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
   }
 
   // Calculate new width
-  elementParams.width = (elementParams.height * (fileParams.width / fileParams.height)) / this.slideRatio;
+  elementParams.width = elementParams.height * fileRatio;
+  console.log("prenormalization");
+  console.log(elementParams);
+
+  if(elementParams.width > element.$wrapper.innerWidth()){
+    elementParams.height = (element.$wrapper.innerWidth() * elementParams.height) / elementParams.width;
+    elementParams.width = element.$wrapper.innerWidth();
+  }
+
+  if(elementParams.height > element.$wrapper.innerHeight()){
+    elementParams.width = (element.$wrapper.innerHeight() * elementParams.width) / elementParams.height;
+    elementParams.height = element.$wrapper.innerHeight();
+  }
+  
+  elementParams.width = (elementParams.width / element.$wrapper.innerWidth()) * 100;
+  elementParams.height = (elementParams.height / element.$wrapper.innerHeight()) * 100;
 };
 
 /**
