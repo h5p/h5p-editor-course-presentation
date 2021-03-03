@@ -1582,9 +1582,6 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
   
   elementParams.width = (elementParams.width / element.$wrapper.innerWidth()) * 100;
   elementParams.height = (elementParams.height / element.$wrapper.innerHeight()) * 100;
-
-  console.log("post-normalization");
-  console.log(elementParams);
 };
 
 /**
