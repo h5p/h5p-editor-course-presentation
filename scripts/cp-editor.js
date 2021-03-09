@@ -1725,8 +1725,10 @@ H5PEditor.CoursePresentation.prototype.setVideoSize = function (elementParams, f
     fileParams.aspectRatio = '16:9';
   }
 
+  const cpRatio = this.cp.$current.innerWidth() / this.cp.$current.innerHeight();
+
   const ratioParts = String(fileParams.aspectRatio).split(':');
-  elementParams.height = (elementParams.width * (ratioParts.length === 1 ? fileParams.aspectRatio : (ratioParts[1] / ratioParts[0]))) * this.slideRatio;
+  elementParams.height = (elementParams.width * (ratioParts.length === 1 ? fileParams.aspectRatio : (ratioParts[1] / ratioParts[0]))) * cpRatio;
 };
 
 /**
