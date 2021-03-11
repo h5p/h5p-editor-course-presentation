@@ -679,9 +679,20 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       buttons.splice(5, 0, {
         id: 'gotoslide',
         title: H5PEditor.t('H5PEditor.InteraktivTavle', 'goToSlide'),
-        createElement: function () {
-          return that.addElement('GoToSlide');
-        }
+        createElement: () =>
+          that.addElement(
+            'H5P.Shape 1.0', 
+            undefined, 
+            {
+              type: 'rectangle',
+              displayAsAnchor: true,
+              title: '',
+              shape: {
+                borderStyle: 'none',
+                fillColor: 'transparent',
+              },
+            }
+          ),
       });
     }
 
