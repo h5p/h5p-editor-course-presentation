@@ -685,7 +685,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
             undefined, 
             {
               type: 'rectangle',
-              displayAsAnchor: true,
+              showAsHotspot: true,
               title: '',
               shape: {
                 borderStyle: 'none',
