@@ -18,7 +18,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     expandBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.InteraktivTavle', 'expandBreadcrumbButtonLabel'),
     collapseBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.InteraktivTavle', 'collapseBreadcrumbButtonLabel')
   }, 'coursepresentation');
-  
+
   const isNewPresentation = params === undefined;
   if (isNewPresentation) {
     params = {
@@ -366,13 +366,13 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 /**
  * Sets the given ratio to every slide in the course presentation.
  * Will also change the default aspect ratio that is used for new slides.
- * 
- * @param {string} ratio 
+ *
+ * @param {string} ratio
  */
 H5PEditor.CoursePresentation.prototype.setRatio = function (ratio) {
   this.cp.slides.forEach(slide => slide.aspectRatio = ratio);
   this.cp.defaultAspectRatio = ratio;
-  this.cp.resize(); 
+  this.cp.resize();
 }
 
 /**
@@ -1604,17 +1604,48 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   // Show or hide button size dropdown depending on display as button checkbox
   element.$form.find('.field-name-displayAsButton').each(function () { // TODO: Use showWhen in semantics.json instead…
     var buttonSizeField = ns.$(this).parent().find('.field-name-buttonSize');
-
+    var buttonUseIconField = ns.$(this).parent().find('.field-name-useButtonIcon');
+    var buttonColorField = ns.$(this).parent().find('.field-name-buttonColor');
+    var buttonIconSelectField = ns.$(this).parent().find('.field-name-buttonIcon');
+console.log(buttonColorField)
     if (!ns.$(this).find("input")[0].checked) {
       buttonSizeField.addClass("h5p-hidden2");
+      buttonUseIconField.addClass("h5p-hidden2");
+      buttonColorField.addClass("h5p-hidden2");
+      buttonIconSelectField.addClass("h5p-hidden2");
     }
 
     ns.$(this).find("input").change(function (e) {
       if (e.target.checked) {
         buttonSizeField.removeClass("h5p-hidden2");
+        buttonUseIconField.removeClass("h5p-hidden2");
+        buttonColorField.removeClass("h5p-hidden2");
+        if(buttonUseIconField.find("input")[0].checked) {
+          buttonIconSelectField.removeClass("h5p-hidden2");
+      }
       }
       else {
         buttonSizeField.addClass("h5p-hidden2");
+        buttonUseIconField.addClass("h5p-hidden2");
+        buttonColorField.addClass("h5p-hidden2");
+        buttonIconSelectField.addClass("h5p-hidden2");
+      }
+    });
+  });
+
+  element.$form.find('.field-name-useButtonIcon').each(function () { // TODO: Use showWhen in semantics.json instead…
+    var buttonIconSelectField = ns.$(this).parent().find('.field-name-buttonIcon');
+
+    if (!ns.$(this).find("input")[0].checked) {
+      buttonIconSelectField.addClass("h5p-hidden2");
+    }
+
+    ns.$(this).find("input").change(function (e) {
+      if (e.target.checked) {
+        buttonIconSelectField.removeClass("h5p-hidden2");
+      }
+      else {
+        buttonIconSelectField.addClass("h5p-hidden2");
       }
     });
   });
