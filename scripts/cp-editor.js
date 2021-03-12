@@ -644,15 +644,6 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
             fillColor: ''
           }
         }
-      }),
-      H5P.jQuery.extend(true, {}, shapeButtonBase, {
-        id: 'shape-arrows-alt',
-        params: {
-          type: 'arrows-alt',
-          svg: {
-            fillColor: ''
-          }
-        }
       })
     ]
   };
