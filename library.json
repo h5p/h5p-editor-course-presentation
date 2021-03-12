@@ -1,8 +1,8 @@
 {
   "title": "Interaktiv Tavle Editor",
   "majorVersion": 1,
-  "minorVersion": 22,
-  "patchVersion": 5,
+  "minorVersion": 23,
+  "patchVersion": 0,
   "runnable": 0,
   "machineName": "H5PEditor.InteraktivTavle",
   "author": "Joubel",
@@ -63,7 +63,7 @@
     {
       "machineName": "H5P.Shape",
       "majorVersion": 1,
-      "minorVersion": 0
+      "minorVersion": 1
     },
     {
       "machineName": "H5P.AdvancedText",
