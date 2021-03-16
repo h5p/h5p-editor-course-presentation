@@ -6,8 +6,12 @@
   margin-top: 6%;
 }
 
+/**
+ * {1} 75% of the width, thus making the aspect ratio 4:3
+ */
 .h5p-interaktivtavle .h5p-wrapper {
-  height: 740px;
+  height: 0;
+  padding-top: 75%; /* {1} */
 }
 
 .h5p-interaktivtavle .h5p-footer {
@@ -411,6 +415,10 @@
 }
 .h5peditor .h5p-active-surface .h5p-box-wrapper {
   height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 .h5peditor .h5p-active-surface .h5p-slidecontrols {
   bottom: -1.9em;
