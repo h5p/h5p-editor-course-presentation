@@ -184,6 +184,11 @@
       "machineName": "H5P.Chart",
       "majorVersion": 1,
       "minorVersion": 2
+    },
+    {
+      "machineName": "H5PEditor.ImageRadioGroup",
+      "majorVersion": 1,
+      "minorVersion": 0
     }
   ]
 }
