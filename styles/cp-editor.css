@@ -16,6 +16,8 @@
 
 .h5p-interaktivtavle .h5p-footer {
   line-height: 3.1em;
+  position: relative;
+  z-index: 2;
 }
 
 .h5p-interaktivtavle .h5p-slidecontrols {
