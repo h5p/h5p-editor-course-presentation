@@ -18,11 +18,13 @@
  * {1} The height of the navigation line + the height of the footer
  */
  .h5peditor-form .h5p-interaktivtavle .h5p-cp-navigation {
-  margin-top: -2.2em; /* {1} */
+  margin-top: -3.5em; /* {1} */
 }
 
 .h5p-interaktivtavle .h5p-footer {
+  font-size: 0.85em;
   line-height: 3.1em;
+  height: 3.1em;
   position: relative;
   z-index: 2;
 }
@@ -31,7 +33,7 @@
   position: absolute;
   right: 0.25em;
   border-radius: 0.5em;
-  font-size: 1.5em;
+  font-size: 1.6em;
   border-top: 0;
   text-shadow: 0 0 1em #fff;
 }
