@@ -209,7 +209,8 @@
 .h5p-dragnbar-shape-circle-button:before,
 .h5p-dragnbar-shape-horizontal-line-button:before,
 .h5p-dragnbar-shape-vertical-line-button:before,
-.h5p-dragnbar-shape-done-button:before
+.h5p-dragnbar-shape-done-button:before,
+.h5p-dragnbar-gotoslide-button:before
  {
   font-family: 'H5PFontIcons';
   color: #494949;
@@ -318,7 +319,7 @@
   font-size: 1.4em;
 }
 .h5p-dragnbar-gotoslide-button:before {
-  content: "\e602";
+  content: "\e929";
 }
 .h5p-dragnbar-singlechoiceset-button:before {
   content: "\e993";
