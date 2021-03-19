@@ -671,8 +671,9 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
         id: 'gotoslide',
         title: H5PEditor.t('H5PEditor.InteraktivTavle', 'goToSlide'),
         createElement: () =>
-          that.addElement(
-            'H5P.Shape 1.0', 
+        that.addElement(
+            // TODO: Add build system and get the shape version from `library.json` build time
+            'H5P.Shape 1.1', 
             undefined, 
             {
               type: 'rectangle',
@@ -1660,6 +1661,7 @@ console.log(buttonColorField)
   var library = element.children[4];
   if (!(library instanceof H5PEditor.None)) {
     var libraryChange = function () {
+      console.log({library,children: library.children})
       if (library.children[0].field.type === 'image') {
         library.children[0].changes.push(function (params) {
           self.setImageSize(element, elementParams, params);
