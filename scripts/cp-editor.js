@@ -147,10 +147,10 @@ H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRati
  *
  * @param {string|object} library Content type or parameters
  * @param {object} [options] Override the default options
+ * @param {object} [instanceParameters] Override the default instance parameters
  * @returns {object}
  */
-H5PEditor.CoursePresentation.prototype.addElement = function (library, options) {
-  options = options || {};
+H5PEditor.CoursePresentation.prototype.addElement = function (library, options = {}, instanceParameters = {}) {
   var elementParams;
   if (!(library instanceof String || typeof library === 'string')) {
     elementParams = library;
@@ -162,7 +162,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
       x: 30,
       y: 30,
       width: 40,
-      height: 40
+      height: 40,
     };
 
     if (library === 'GoToSlide') {
@@ -171,7 +171,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
     else {
       elementParams.action = (options.action ? options.action : {
         library: library,
-        params: {}
+        params: instanceParameters
       });
       elementParams.action.subContentId = H5P.createUUID();
 
@@ -213,6 +213,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
     elementParams.pasted = true;
   }
 
+  elementParams = {...elementParams, ...instanceParameters};
+  
   var slideIndex = this.cp.$current.index();
   var slideParams = this.params.slides[slideIndex];
 
@@ -245,6 +247,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
   this.cp.$boxWrapper.add(this.cp.$boxWrapper.find('.h5p-presentation-wrapper:first')).css('overflow', 'visible');
 
   const element = this.cp.children[slideIndex].addChild(elementParams);
+
   return this.cp.attachElement(elementParams, element.instance, this.cp.$current, slideIndex);
 };
 
@@ -667,9 +670,20 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       buttons.splice(5, 0, {
         id: 'gotoslide',
         title: H5PEditor.t('H5PEditor.InteraktivTavle', 'goToSlide'),
-        createElement: function () {
-          return that.addElement('GoToSlide');
-        }
+        createElement: () =>
+          that.addElement(
+            'H5P.Shape 1.0', 
+            undefined, 
+            {
+              type: 'rectangle',
+              showAsHotspot: true,
+              title: '',
+              shape: {
+                borderStyle: 'none',
+                fillColor: 'transparent',
+              },
+            }
+          ),
       });
     }
 
@@ -1556,7 +1570,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     self.showFields(elementFields, ['title', 'goToSlide', 'goToSlideType', 'invisible']);
   }
   else {
-    var hideFields = ['title', 'goToSlide', 'goToSlideType', 'invisible'];
+    var hideFields = ['invisible'];
 
     if (type === 'H5P.ContinuousText' || type === 'H5P.Audio') {
       // Continuous Text or Go To Slide cannot be displayed as a button
@@ -1715,8 +1729,6 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
 
   // Calculate new width
   elementParams.width = elementParams.height * fileRatio;
-  console.log("prenormalization");
-  console.log(elementParams);
 
   if(elementParams.width > element.$wrapper.innerWidth()){
     elementParams.height = (element.$wrapper.innerWidth() * elementParams.height) / elementParams.width;
@@ -2074,7 +2086,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
   if (machineName === 'H5P.InteractiveVideo') {
     // Recreate IV form, workaround for Youtube API not firing
     // onStateChange when IV is reopened.
-    element = that.generateForm(elementParams, 'H5P.InteractiveVideo');
+    element = that.generateForm(elementParams, machineName);
   }
 
   /**
