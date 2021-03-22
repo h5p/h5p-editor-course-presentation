@@ -1,0 +1,26 @@
+{
+  "name": "h5p-editor-course-presentation",
+  "version": "1.0.0",
+  "description": "H5P Editor Course Presentation ==========",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NDLANO/h5p-editor-course-presentation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NDLANO/h5p-editor-course-presentation/issues"
+  },
+  "homepage": "https://github.com/NDLANO/h5p-editor-course-presentation#readme",
+  "devDependencies": {
+    "glob": "^7.1.6",
+    "webpack": "^5.27.1",
+    "webpack-cli": "^4.5.0"
+  }
+}
