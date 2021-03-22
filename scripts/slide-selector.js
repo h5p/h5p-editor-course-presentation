@@ -68,7 +68,7 @@ export default (function ($, EventDispatcher) {
       var templateString = H5PEditor.t('H5PEditor.CoursePresentation', 'template');
       var currentSlideString = H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlide');
       $globalContent = createSlideSelector(templateString, true);
-      console.log({BackgroundSelector})
+
       globalBackground = new BackgroundSelector($slides.children())
         .addBgSelector(globalFields, params, $globalContent, {isVisible: true})
         .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'templateDescription', {':currentSlide': currentSlideString}))

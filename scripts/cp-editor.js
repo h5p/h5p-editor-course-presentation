@@ -1621,7 +1621,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     var buttonUseIconField = ns.$(this).parent().find('.field-name-useButtonIcon');
     var buttonColorField = ns.$(this).parent().find('.field-name-buttonColor');
     var buttonIconSelectField = ns.$(this).parent().find('.field-name-buttonIcon');
-console.log(buttonColorField)
+
     if (!ns.$(this).find("input")[0].checked) {
       buttonSizeField.addClass("h5p-hidden2");
       buttonUseIconField.addClass("h5p-hidden2");
@@ -1669,7 +1669,6 @@ console.log(buttonColorField)
   var library = element.children[4];
   if (!(library instanceof H5PEditor.None)) {
     var libraryChange = function () {
-      console.log({library,children: library.children})
       if (library.children[0].field.type === 'image') {
         library.children[0].changes.push(function (params) {
           self.setImageSize(element, elementParams, params);
