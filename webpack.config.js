@@ -4,10 +4,10 @@ module.exports = {
   mode: 'production',
   entry: [
     './scripts/cp-editor.js',
-    './disposable-boolean.js',
+    './scripts/disposable-boolean.js',
   ],
   output: {
-    filename: '[name].js',
+    filename: 'cp-editor.js',
     path: `${__dirname}/dist`,
   },
 };

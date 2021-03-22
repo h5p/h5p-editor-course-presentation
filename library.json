@@ -12,7 +12,7 @@
   },
   "preloadedJs": [
     {
-      "path": "dist/main.js"
+      "path": "dist/cp-editor.js"
     }
   ],
   "preloadedCss": [
