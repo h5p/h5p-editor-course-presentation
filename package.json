@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch"
+    "start": "webpack --watch",
+    "build": "cross-env NODE_ENV='production' webpack -p",
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/NDLANO/h5p-editor-course-presentation#readme",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "glob": "^7.1.6",
     "webpack": "^5.27.1",
     "webpack-cli": "^4.5.0"

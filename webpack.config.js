@@ -1,7 +1,7 @@
 const glob = require('glob');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: [
     './scripts/cp-editor.js',
     './scripts/disposable-boolean.js',
