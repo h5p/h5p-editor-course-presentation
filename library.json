@@ -12,19 +12,7 @@
   },
   "preloadedJs": [
     {
-      "path": "scripts/disposable-boolean.js"
-    },
-    {
-      "path": "scripts/cp-editor.js"
-    },
-    {
-      "path": "scripts/slide-selector.js"
-    },
-    {
-      "path": "scripts/bg-selector.js"
-    },
-    {
-      "path": "scripts/aspect-ratio-selector.js"
+      "path": "dist/main.js"
     }
   ],
   "preloadedCss": [
