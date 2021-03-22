@@ -1,4 +1,4 @@
-H5PEditor.CoursePresentation.AspectRatioSelector = (function () {
+export default (function () {
   /**
    * Used for IDEs that can format html template strings.
    * `String.raw` doesn't actually do anything.

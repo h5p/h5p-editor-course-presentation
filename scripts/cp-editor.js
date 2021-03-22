@@ -1,5 +1,8 @@
+import SlideSelector from './slide-selector';
+import AspectRatioSelector from './aspect-ratio-selector';
+
 /*global H5P,ns*/
-var H5PEditor = H5PEditor || {};
+var H5PEditor = window.H5PEditor || {};
 
 /**
  * Create a field for the form.
@@ -43,7 +46,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.passReadies = true;
   parent.ready(function () {
     if (isNewPresentation) {
-      const aspectRatioSelector = new H5PEditor.CoursePresentation.AspectRatioSelector([{
+      const aspectRatioSelector = new AspectRatioSelector([{
           ratio: "4-3",
           label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioLandscape'),
         },
@@ -286,7 +289,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   // Find BG selector fields and init slide selector
   var globalBackgroundField = H5PEditor.CoursePresentation.findField('globalBackgroundSelector', this.field.fields);
   var slideFields = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
-  this.backgroundSelector = new H5PEditor.CoursePresentation.SlideSelector(that, that.cp.$slidesWrapper, globalBackgroundField, slideFields, that.params)
+  this.backgroundSelector = new SlideSelector(that, that.cp.$slidesWrapper, globalBackgroundField, slideFields, that.params)
     .appendTo($settingsWrapper);
 
   // Add and bind slide controls.
@@ -2401,4 +2404,4 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
 H5PEditor.CoursePresentation.RATIO_SURFACE = 16 / 9;
 
 // Tell the editor what widget we are.
-H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
+window.H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
