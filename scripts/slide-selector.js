@@ -1,4 +1,6 @@
-H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
+import BackgroundSelector from './bg-selector';
+
+export default (function ($, EventDispatcher) {
 
   /**
    * Create a Slide Selector with background settings
@@ -66,7 +68,8 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
       var templateString = H5PEditor.t('H5PEditor.CoursePresentation', 'template');
       var currentSlideString = H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlide');
       $globalContent = createSlideSelector(templateString, true);
-      globalBackground = new H5PEditor.CoursePresentation.BackgroundSelector($slides.children())
+
+      globalBackground = new BackgroundSelector($slides.children())
         .addBgSelector(globalFields, params, $globalContent, {isVisible: true})
         .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'templateDescription', {':currentSlide': currentSlideString}))
         .addResetButton();
@@ -198,12 +201,12 @@ H5PEditor.CoursePresentation.SlideSelector = (function ($, EventDispatcher) {
      * @private
      * @param {jQuery} $wrapper Element the single slide will be attached to
      * @param {number} idx Index single slide will be inserted at
-     * @returns {H5PEditor.CoursePresentation.BackgroundSelector} Background selector that was created
+     * @returns {BackgroundSelector} Background selector that was created
      */
     var initSingleSlide = function ($wrapper, idx) {
       var slideParams = params.slides[idx];
 
-      var singleSlide = new H5PEditor.CoursePresentation.BackgroundSelector($slides.children().eq(idx), true);
+      var singleSlide = new BackgroundSelector($slides.children().eq(idx), true);
 
       // Trigger fallback to global background when single slide is removed
       globalBackground.setBackgroundSlides($slides.children());

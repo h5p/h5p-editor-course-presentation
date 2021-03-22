@@ -1,9 +1,9 @@
-H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher) {
+export default (function ($, EventDispatcher) {
 
   /**
    * Create a Background Selector.
    *
-   * @class H5PEditor.CoursePresentation.BackgroundSelector
+   * @class BackgroundSelector
    * @extends H5P.EventDispatcher Allows pub/sub
    * @param {jQuery} $backgroundSlides Elements to paint
    * @param {boolean} [isSingleSlide] Background selector is for a single element
@@ -217,7 +217,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
      * Add reset button for resetting background slides
      *
      * @param {string} [text] Optional text for reset button
-     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     * @returns {BackgroundSelector}
      */
     self.addResetButton = function (text) {
       text = text || H5PEditor.t('H5PEditor.CoursePresentation', 'resetToDefault');
@@ -248,7 +248,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
      * Set description at the top of the background selector
      *
      * @param {string} description
-     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     * @returns {BackgroundSelector}
      */
     self.setDescription = function (description) {
       $descriptionField.html(description);
@@ -276,7 +276,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
      * Set target elements for background operations
      *
      * @param {jQuery} $newBackgroundSlides Target elements
-     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     * @returns {BackgroundSelector}
      */
     self.setBackgroundSlides = function ($newBackgroundSlides) {
       $backgroundSlides = $newBackgroundSlides;
@@ -286,7 +286,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
     /**
      * Remove background selector element, used when deleting slides.
      *
-     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     * @returns {BackgroundSelector}
      */
     self.removeElement = function () {
       if ($bgSelector) {
@@ -298,7 +298,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
     /**
      * Update color picker in Radio Selector, used when changing slides.
      *
-     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     * @returns {BackgroundSelector}
      */
     self.updateColorPicker = function () {
       getRadioSelector().reflow();
@@ -316,7 +316,7 @@ H5PEditor.CoursePresentation.BackgroundSelector = (function ($, EventDispatcher)
      * Set selected index in Radio Selector.
      *
      * @param {number} index New index for Radio Selector
-     * @returns {H5PEditor.CoursePresentation.BackgroundSelector}
+     * @returns {BackgroundSelector}
      */
     self.setSelectedIndex = function (index) {
       getRadioSelector().setSelectedIndex(index);
