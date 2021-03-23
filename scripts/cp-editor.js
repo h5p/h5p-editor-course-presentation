@@ -1,5 +1,6 @@
 import SlideSelector from './slide-selector';
 import AspectRatioSelector from './aspect-ratio-selector';
+import { getLibraryDependencyVersion } from './utils';
 
 /*global H5P,ns*/
 var H5PEditor = window.H5PEditor || {};
@@ -670,13 +671,18 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     // Add go to slide button
     var goToSlide = H5PEditor.CoursePresentation.findField('goToSlide', elementFields);
     if (goToSlide) {
+      that.shapeLibVersion = that.shapeLibVersion || getLibraryDependencyVersion('H5P.Shape');
+      const shapeLibNotLoaded = !that.shapeLibVersion;
+      if (shapeLibNotLoaded) {
+        console.warn('H5P.Shape is not listed as a preloaded dependency in `library.json`');
+      }
+      
       buttons.splice(5, 0, {
         id: 'gotoslide',
         title: H5PEditor.t('H5PEditor.InteraktivTavle', 'goToSlide'),
         createElement: () =>
-        that.addElement(
-            // TODO: Add build system and get the shape version from `library.json` build time
-            'H5P.Shape 1.1', 
+          that.addElement(
+            `H5P.Shape ${that.shapeLibVersion}`, 
             undefined, 
             {
               type: 'rectangle',
