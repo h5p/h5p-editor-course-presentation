@@ -1,6 +1,6 @@
 // @ts-check
 
-import libraryJson from '../library.json';
+import libraryJson from "../library.json";
 
 /**
  * Parse `library.json` to find version number of given dependency
