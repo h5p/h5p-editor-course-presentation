@@ -9,7 +9,9 @@ import libraryJson from '../library.json';
  * @return {string}
  */
 export function getLibraryDependencyVersion(libraryName) {
-  const dependency = libraryJson.preloadedDependencies.find(dependency => dependency.machineName === libraryName);
+  const dependency = libraryJson.preloadedDependencies.find(
+    (dependency) => dependency.machineName === libraryName
+  );
 
   if (!dependency) {
     return;
