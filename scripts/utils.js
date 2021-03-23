@@ -1,6 +1,6 @@
 // @ts-check
 
-import libraryJson from '../library.json';
+import { preloadedDependencies } from "../library.json";
 
 /**
  * Parse `library.json` to find version number of given dependency
@@ -9,7 +9,9 @@ import libraryJson from '../library.json';
  * @return {string}
  */
 export function getLibraryDependencyVersion(libraryName) {
-  const dependency = libraryJson.preloadedDependencies.find(dependency => dependency.machineName === libraryName);
+  const dependency = preloadedDependencies.find(
+    (dependency) => dependency.machineName === libraryName
+  );
 
   if (!dependency) {
     return;
