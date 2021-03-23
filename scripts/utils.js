@@ -3,7 +3,8 @@
 import libraryJson from '../library.json';
 
 /**
- * 
+ * Parse `library.json` to find version number of given dependency
+ *
  * @param {string} libraryName
  * @return {string}
  */
