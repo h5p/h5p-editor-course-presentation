@@ -316,6 +316,7 @@
 }
 .h5p-dragnbar-gotoslide-button:before {
   content: "\e929";
+  font-size: 1.2em;
 }
 .h5p-dragnbar-singlechoiceset-button:before {
   content: "\e993";
