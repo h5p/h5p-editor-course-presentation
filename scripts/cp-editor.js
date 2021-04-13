@@ -1,6 +1,7 @@
 import SlideSelector from './slide-selector';
 import AspectRatioSelector from './aspect-ratio-selector';
 import { getLibraryDependencyVersion } from './utils';
+import { alterDisplayAsButton } from './semantics-utils';
 
 /*global H5P,ns*/
 var H5PEditor = window.H5PEditor || {};
@@ -1621,37 +1622,9 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     element.$form.css('padding-top', '0');
   }
 
-  // Show or hide button size dropdown depending on display as button checkbox
-  element.$form.find('.field-name-displayAsButton').each(function () { // TODO: Use showWhen in semantics.json instead…
-    var buttonSizeField = ns.$(this).parent().find('.field-name-buttonSize');
-    var buttonUseIconField = ns.$(this).parent().find('.field-name-useButtonIcon');
-    var buttonColorField = ns.$(this).parent().find('.field-name-buttonColor');
-    var buttonIconSelectField = ns.$(this).parent().find('.field-name-buttonIcon');
+  alterDisplayAsButton(element, ns.$);
 
-    if (!ns.$(this).find("input")[0].checked) {
-      buttonSizeField.addClass("h5p-hidden2");
-      buttonUseIconField.addClass("h5p-hidden2");
-      buttonColorField.addClass("h5p-hidden2");
-      buttonIconSelectField.addClass("h5p-hidden2");
-    }
 
-    ns.$(this).find("input").change(function (e) {
-      if (e.target.checked) {
-        buttonSizeField.removeClass("h5p-hidden2");
-        buttonUseIconField.removeClass("h5p-hidden2");
-        buttonColorField.removeClass("h5p-hidden2");
-        if(buttonUseIconField.find("input")[0].checked) {
-          buttonIconSelectField.removeClass("h5p-hidden2");
-      }
-      }
-      else {
-        buttonSizeField.addClass("h5p-hidden2");
-        buttonUseIconField.addClass("h5p-hidden2");
-        buttonColorField.addClass("h5p-hidden2");
-        buttonIconSelectField.addClass("h5p-hidden2");
-      }
-    });
-  });
 
   element.$form.find('.field-name-useButtonIcon').each(function () { // TODO: Use showWhen in semantics.json instead…
     var buttonIconSelectField = ns.$(this).parent().find('.field-name-buttonIcon');
