@@ -1,7 +1,11 @@
 import SlideSelector from './slide-selector';
 import AspectRatioSelector from './aspect-ratio-selector';
 import { getLibraryDependencyVersion } from './utils';
-import { alterDisplayAsButton } from './semantics-utils';
+import {
+  alterDisplayAsButtonSemantics,
+  alterDisplayAsHotspotSemantics,
+  alterHotspotGotoSemantics
+} from './semantics-utils';
 
 /*global H5P,ns*/
 var H5PEditor = window.H5PEditor || {};
@@ -1622,9 +1626,9 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     element.$form.css('padding-top', '0');
   }
 
-  alterDisplayAsButton(element, ns.$);
-
-
+  alterDisplayAsButtonSemantics(element, ns.$);
+  alterDisplayAsHotspotSemantics(element, ns.$);
+  alterHotspotGotoSemantics(element, ns.$);
 
   element.$form.find('.field-name-useButtonIcon').each(function () { // TODO: Use showWhen in semantics.json instead…
     var buttonIconSelectField = ns.$(this).parent().find('.field-name-buttonIcon');
