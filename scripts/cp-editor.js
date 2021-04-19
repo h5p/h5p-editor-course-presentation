@@ -1,11 +1,12 @@
 import SlideSelector from './slide-selector';
 import AspectRatioSelector from './aspect-ratio-selector';
-import { getLibraryDependencyVersion } from './utils';
+import { getLibraryDependencyVersion, hotspotParams } from './utils';
 import {
   alterDisplayAsButtonSemantics,
   alterDisplayAsHotspotSemantics,
   alterHotspotGotoSemantics
 } from './semantics-utils';
+import { ASM_TASK_BUTTONS_ID, createActiveSurfaceModeAnswerButtons } from './active-surface-mode-utils';
 
 /*global H5P,ns*/
 var H5PEditor = window.H5PEditor || {};
@@ -50,7 +51,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   this.slideRatio = 1.9753;
 
   this.passReadies = true;
-  parent.ready(function () {
+  parent.ready(() => {
     if (isNewPresentation) {
       const aspectRatioSelector = new AspectRatioSelector([{
           ratio: "4-3",
@@ -60,35 +61,16 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
           ratio: "3-4",
           label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioPortrait'),
         },
-      ], (newRatio) => that.setRatio(newRatio.ratio));
+      ], (newRatio) => this.setRatio(newRatio.ratio));
 
       aspectRatioSelector.show();
     }
 
-    that.passReadies = false;
+    this.passReadies = false;
 
     // Active surface mode
-    var activeSurfaceCheckbox = H5PEditor.findField('override/activeSurface', parent);
-    activeSurfaceCheckbox.on('checked', function () {
-      // Make note of current height
-      var oldHeight = parseFloat(window.getComputedStyle(that.cp.$current[0]).height);
-
-      // Enable adjustments
-      that.cp.$container.addClass('h5p-active-surface');
-
-      // Remove navigation
-      that.cp.$progressbar.remove();
-
-      // Find change in %
-      var newHeight = parseFloat(window.getComputedStyle(that.cp.$current[0]).height);
-      var change = (newHeight - oldHeight) / newHeight;
-
-      // Account for the progress bar that was removed
-      that.slideRatio = H5PEditor.CoursePresentation.RATIO_SURFACE;
-
-      // Update elements
-      that.updateElementSizes(1 - change);
-    });
+    const activeSurfaceCheckbox = H5PEditor.findField('override/activeSurface', parent);
+    activeSurfaceCheckbox.on('checked', this.activateActiveSurfaceMode.bind(this));
   });
 
   if (H5PEditor.InteractiveVideo !== undefined) {
@@ -290,7 +272,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
 
   // Add drag and drop menu bar.
-  that.initializeDNB();
+  this.initializeDNB(false);
   
   // Find BG selector fields and init slide selector
   var globalBackgroundField = H5PEditor.CoursePresentation.findField('globalBackgroundSelector', this.field.fields);
@@ -393,18 +375,15 @@ H5PEditor.CoursePresentation.prototype.setRatio = function (ratio) {
  * @param {H5P.Library} library Library for which a button will be added.
  * @param {object} options Options.
  */
-H5PEditor.CoursePresentation.prototype.addDNBButton = function (library, options) {
-  var that = this;
+H5PEditor.CoursePresentation.prototype.createDNBButton = function (library, options, params) {
   options = options || {};
-  var id = library.name.split('.')[1].toLowerCase();
+  const id = options.id || library.name.split('.')[1].toLowerCase();
 
   return {
-    id: options.id || id,
+    id,
     title: (options.title === undefined) ? library.title : options.title,
-    createElement: function () {
-      // Mind the functions's context
-      return that.addElement(library.uberName, H5P.jQuery.extend(true, {}, options));
-    }
+    createElement: () => 
+      this.addElement(library.uberName, H5P.jQuery.extend(true, {}, options), params),
   };
 };
 
@@ -415,33 +394,29 @@ H5PEditor.CoursePresentation.prototype.addDNBButton = function (library, options
  * @param {object} groupData Data for the group.
  * @return {object} Button group.
  */
-H5PEditor.CoursePresentation.prototype.addDNBButtonGroup = function (library, groupData) {
-  var that = this;
-  var id = library.name.split('.')[1].toLowerCase();
+H5PEditor.CoursePresentation.prototype.createDNBButtonGroup = function (library, groupData, options = {}) {
+  const id = options.customId || library.name.split('.')[1].toLowerCase();
 
   const buttonGroup = {
-    id: id,
+    id,
     title: groupData.dropdown.title || library.title,
     titleGroup: groupData.dropdown.titleGroup,
     type: 'group',
-    buttons: []
+    buttons: groupData.buttons.map((button) => {
+      const options = {
+        id: button.id,
+        title: button.title,
+        width: button.width,
+        height: button.height,
+        action: {
+          library: library.uberName,
+          params: button.params || {},
+        },
+      };
+  
+      return this.createDNBButton(library, options, button.params);
+    }),
   };
-
-  // Add buttons to button group
-  groupData.buttons.forEach(function (button) {
-    const options = {
-      id: button.id,
-      title: button.title,
-      width: button.width,
-      height: button.height,
-      action: {
-        library: library.uberName,
-        params: button.params || {}
-      }
-    };
-
-    buttonGroup.buttons.push(that.addDNBButton(library, options));
-  });
 
   return buttonGroup;
 };
@@ -459,13 +434,25 @@ H5PEditor.CoursePresentation.prototype.setContainerEm = function (containerEm) {
  *
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
-  var that = this;
-
+H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitialize) {
+  const that = this;
+  
+  const existingDragNBar = document.querySelector('.h5p-dragnbar');
+  const hasBeenInitialized = !!existingDragNBar;
+  
+  if (hasBeenInitialized) {
+    if (forceReinitialize) {
+      existingDragNBar.parentElement.removeChild(existingDragNBar);
+    }
+    else {
+      return;
+    }
+  }
+  
   this.$bar = H5PEditor.$('<div class="h5p-dragnbar">' + H5PEditor.t('H5PEditor.InteraktivTavle', 'loading') + '</div>').insertBefore(this.cp.$boxWrapper);
-  var slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
-  var elementFields = H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields;
-  var action = H5PEditor.CoursePresentation.findField('action', elementFields);
+  const slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
+  const elementFields = H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields;
+  const action = H5PEditor.CoursePresentation.findField('action', elementFields);
 
   const shapeButtonBase = {
     title: '',
@@ -507,7 +494,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
   };
 
   // Ideally, this would not be built here
-  const dropdownMenus = [];
+  const dropdownMenus = {};
   dropdownMenus['shape'] = {
     dropdown: {
       id: 'shape'
@@ -657,56 +644,64 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     ]
   };
 
-  H5PEditor.LibraryListCache.getLibraries(action.options, function (libraries) {
-    that.libraries = libraries;
-    var buttons = [];
-    for (var i = 0; i < libraries.length; i++) {
-      if (libraries[i].restricted !== true) {
+  dropdownMenus[ASM_TASK_BUTTONS_ID] = createActiveSurfaceModeAnswerButtons();
+
+  H5PEditor.LibraryListCache.getLibraries(action.options, (libraries) => {
+    this.libraries = libraries;
+    const buttons = [];
+
+    for (const library of libraries) {
+      if (library.restricted !== true) {
         // Insert button or buttongroup
-        const libraryId = libraries[i].name.split('.')[1].toLowerCase();
-        if (dropdownMenus[libraryId] === undefined) {
-          buttons.push(that.addDNBButton(libraries[i]));
+        const libraryId = library.name.split('.')[1].toLowerCase();
+
+        const libraryHasDropdown = !!dropdownMenus[libraryId];
+        if (libraryHasDropdown) {
+          buttons.push(that.createDNBButtonGroup(library, dropdownMenus[libraryId]));
         }
         else {
-          buttons.push(that.addDNBButtonGroup(libraries[i], dropdownMenus[libraryId]));
+          buttons.push(that.createDNBButton(library));
         }
       }
     }
 
     // Add go to slide button
-    var goToSlide = H5PEditor.CoursePresentation.findField('goToSlide', elementFields);
+    const goToSlide = H5PEditor.CoursePresentation.findField('goToSlide', elementFields);
     if (goToSlide) {
-      that.shapeLibVersion = that.shapeLibVersion || getLibraryDependencyVersion('H5P.Shape');
-      const shapeLibNotLoaded = !that.shapeLibVersion;
-      if (shapeLibNotLoaded) {
-        console.warn('H5P.Shape is not listed as a preloaded dependency in `library.json`');
-      }
-      
       buttons.splice(5, 0, {
         id: 'gotoslide',
         title: H5PEditor.t('H5PEditor.InteraktivTavle', 'goToSlide'),
-        createElement: () =>
-          that.addElement(
-            `H5P.Shape ${that.shapeLibVersion}`, 
+        createElement: () => this.addElement(
+            `H5P.Shape ${this.getShapeLibraryVersion()}`,
             undefined, 
             {
-              type: 'rectangle',
-              showAsHotspot: true,
-              title: '',
-              shape: {
-                borderStyle: 'none',
-                fillColor: 'transparent',
-              },
-            }
+              ...hotspotParams,
+            },
           ),
       });
     }
 
-    that.dnb = new H5P.DragNBar(buttons, that.cp.$current, that.$editor, {$blurHandlers: that.cp.$boxWrapper, libraries: libraries});
+    const showTaskButtons = this.cp.activeSurface;
+    if (showTaskButtons) {
+      const h5pShapeLib = libraries.find(library => library.name === "H5P.Shape");
+      buttons.splice(
+        0,
+        0,
+        this.createDNBButtonGroup(
+          h5pShapeLib,
+          dropdownMenus[ASM_TASK_BUTTONS_ID],
+          {
+            customId: ASM_TASK_BUTTONS_ID,
+          },
+        ),
+      );
+    }
 
-    that.$dnbContainer = that.cp.$current;
-    that.dnb.dnr.snap = 10;
-    that.dnb.dnr.setContainerEm(that.containerEm);
+    this.dnb = new H5P.DragNBar(buttons, this.cp.$current, this.$editor, {$blurHandlers: this.cp.$boxWrapper, libraries: libraries});
+
+    this.$dnbContainer = this.cp.$current;
+    this.dnb.dnr.snap = 10;
+    this.dnb.dnr.setContainerEm(this.containerEm);
 
     // Register all attached elements with dnb
     that.elements.forEach(function (slide, slideIndex) {
@@ -716,10 +711,10 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       });
     });
 
-    var reflowLoop;
-    var reflowInterval = 250;
-    var reflow = function () {
-      H5P.ContinuousText.Engine.run(that);
+    let reflowLoop;
+    const reflowInterval = 250;
+    const reflow = () => {
+      H5P.ContinuousText.Engine.run(this);
       reflowLoop = setTimeout(reflow, reflowInterval);
     };
 
@@ -866,6 +861,40 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     // Trigger event
     that.trigger('librariesReady');
   });
+};
+
+H5PEditor.CoursePresentation.prototype.getShapeLibraryVersion = function() {
+  this._shapeLibVersion = this._shapeLibVersion || getLibraryDependencyVersion('H5P.Shape');
+  const shapeLibNotLoaded = !this._shapeLibVersion;
+  if (shapeLibNotLoaded) {
+    console.warn('H5P.Shape is not listed as a preloaded dependency in `library.json`');
+  }
+
+  return this._shapeLibVersion;
+};
+
+H5PEditor.CoursePresentation.prototype.activateActiveSurfaceMode = function () {
+  const oldHeight = parseFloat(window.getComputedStyle(this.cp.$current[0]).height);
+
+  // Enable adjustments
+  this.cp.$container.addClass('h5p-active-surface');
+
+  // Remove navigation
+  this.cp.$progressbar.remove();
+
+  // Find change in %
+  var newHeight = parseFloat(window.getComputedStyle(this.cp.$current[0]).height);
+  var change = (newHeight - oldHeight) / newHeight;
+
+  // Account for the progress bar that was removed
+  this.slideRatio = H5PEditor.CoursePresentation.RATIO_SURFACE;
+
+  // Update elements
+  this.updateElementSizes(1 - change);
+
+  this.cp.activeSurface = true;
+
+  this.initializeDNB(true);
 };
 
 /**
@@ -1191,27 +1220,20 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
   this.cp.nextSlide();
 };
 
+/** 
+ * Update slides with solutions.
+ */
 H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
-  var that = this;
-  // Update slides with solutions.
-  var hasSolutionArray = [];
-  this.cp.slides.forEach(function (instanceArray, slideNumber) {
-    var isTaskWithSolution = false;
+  const hasSolutionArray = this.cp.slides.map((instanceArray, slideIndex) => {
+    const slideElements = this.cp.elementInstances[slideIndex];
+    
+    const isTaskWithSolution =
+      slideElements &&
+      slideElements.some((elementInstance) =>
+        this.cp.checkForSolutions(elementInstance),
+      );
 
-    if (that.cp.elementInstances[slideNumber] !== undefined && that.cp.elementInstances[slideNumber].length) {
-      that.cp.elementInstances[slideNumber].forEach(function (elementInstance) {
-        if (that.cp.checkForSolutions(elementInstance)) {
-          isTaskWithSolution = true;
-        }
-      });
-    }
-
-    if (isTaskWithSolution) {
-      hasSolutionArray.push([[isTaskWithSolution]]);
-    }
-    else {
-      hasSolutionArray.push([]);
-    }
+    return isTaskWithSolution ? [true] : [];
   });
 
   // Update progressbar and footer
