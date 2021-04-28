@@ -127,7 +127,6 @@
 .h5p-dragnbar-audio-button:before,
 .h5p-dragnbar-video-button:before,
 .h5p-dragnbar-more-button:before,
-.h5p-dragnbar-appearin-button:before,
 .h5p-dragnbar-interactivevideo-button:before,
 .h5p-dragnbar-chart-button:before {
   font-family: 'H5PFontAwesome4';
@@ -166,9 +165,6 @@
 }
 .h5p-dragnbar-video-button:before {
   content: "\f008";
-}
-.h5p-dragnbar-appearin-button:before {
-  content: "\f086";
 }
 .h5p-dragnbar-more-button:before {
   content: "\f142";
