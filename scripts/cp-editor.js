@@ -110,15 +110,21 @@ H5PEditor.CoursePresentation.clipboardKey = 'H5PEditor.InteraktivTavle';
  * @param {number} heightRatio
  */
 H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRatio) {
-  var $slides = this.cp.$slidesWrapper.children();
+  const $slides = this.cp.$slidesWrapper.children();
 
   // Go through all slides
-  for (var i = 0; i < this.params.slides.length; i++) {
-    var slide = this.params.slides[i];
-    var $slideElements = $slides.eq(i).children();
+  for (let i = 0; i < this.params.slides.length; i++) {
+    const slide = this.params.slides[i];
+    
+    const noElementsInSlide = !slide.elements || slide.elements.length < 1;
+    if (noElementsInSlide) {
+      continue;
+    }
 
-    for (var j = 0; j < slide.elements.length; j++) {
-      var element = slide.elements[j];
+    const $slideElements = $slides.eq(i).children();
+    
+    for (let j = 0; j < slide.elements.length; j++) {
+      const element = slide.elements[j];
 
       // Update params
       element.height *= heightRatio;
@@ -375,6 +381,7 @@ H5PEditor.CoursePresentation.prototype.setRatio = function (ratio) {
  *
  * @param {H5P.Library} library Library for which a button will be added.
  * @param {object} options Options.
+ * @param {object} params Custom semantics params
  */
 H5PEditor.CoursePresentation.prototype.createDNBButton = function (library, options, params) {
   options = options || {};
@@ -393,14 +400,29 @@ H5PEditor.CoursePresentation.prototype.createDNBButton = function (library, opti
  *
  * @param {H5P.Library} library Library for which a button will be added.
  * @param {object} groupData Data for the group.
- * @return {object} Button group.
+ * @param {object} [options]
+ * @param {string} [options.title]
+ * @param {string} [options.titleGroup]
+ * @param {string} [options.customId]
+ * @return {{
+ *   id: string;
+ *   title: string;
+ *   titleGroup: string;
+ *   type: string;
+ *   width: number;
+ *   height: number;
+ *   buttons: Array;
+ * }} Button group.
  */
 H5PEditor.CoursePresentation.prototype.createDNBButtonGroup = function (library, groupData, options = {}) {
   const id = options.customId || library.name.split('.')[1].toLowerCase();
 
+
+  console.log({groupData})
+
   const buttonGroup = {
     id,
-    title: groupData.dropdown.title || library.title,
+    title: options.title || groupData.dropdown.title || library.title,
     titleGroup: groupData.dropdown.titleGroup,
     type: 'group',
     buttons: groupData.buttons.map((button) => {
@@ -415,7 +437,11 @@ H5PEditor.CoursePresentation.prototype.createDNBButtonGroup = function (library,
         },
       };
   
-      return this.createDNBButton(library, options, button.params);
+      const b = this.createDNBButton(library, options, button.params);
+
+      console.log({b})
+      
+      return b;
     }),
   };
 
@@ -432,8 +458,6 @@ H5PEditor.CoursePresentation.prototype.setContainerEm = function (containerEm) {
 
 /**
  * Initialize the drag and drop menu bar.
- *
- * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitialize) {
   const that = this;
@@ -693,6 +717,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
           dropdownMenus[ASM_TASK_BUTTONS_ID],
           {
             customId: ASM_TASK_BUTTONS_ID,
+            title: H5PEditor.t('H5PEditor.InteraktivTavle', 'answerHotspot'),
           },
         ),
       );
@@ -1622,10 +1647,26 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   var slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
   var elementFields = H5PEditor.$.extend(true, [], H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields);
 
+  const isAnswerHotspot = !!elementParams.answerType;
+
   // Manipulate semantics into only using a given set of fields
   if (type === 'goToSlide') {
     // Hide all others
-    self.showFields(elementFields, ['title', 'goToSlide', 'goToSlideType', 'invisible']);
+    this.showFields(elementFields, ['title', 'goToSlide', 'goToSlideType', 'invisible']);
+  } else if (isAnswerHotspot) {
+    this.hideFields(
+      elementFields,
+      [
+        'invisible',
+        'solution',
+        'alwaysDisplayComments',
+        'backgroundOpacity',
+        'displayAsButton',
+        'buttonSize',
+        'buttonColor',
+        'useButtonIcon',
+        'buttonIcon',
+    ]);
   }
   else {
     var hideFields = ['invisible'];

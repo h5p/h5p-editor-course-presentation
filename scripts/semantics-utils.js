@@ -76,7 +76,7 @@ export function alterDisplayAsHotspotSemantics(element, $) {
     const $displayAsButtonField = $parent.find(".field-name-displayAsButton");
     const $displayAsHotspotCheckbox = $hotspotButtonField.find("input");
 
-    const displayElementAsHotspot = $displayAsHotspotCheckbox.get(0).checked;
+    const displayElementAsHotspot = ($displayAsHotspotCheckbox.get(0) && $displayAsHotspotCheckbox.get(0).checked);
     if (displayElementAsHotspot) {
       hideFields($displayAsButtonField);
     }
@@ -100,10 +100,9 @@ export function alterHotspotGotoSemantics(element, $) {
     const $parent = $hotspotButtonField.parent();
 
     const $hotspotTypeSelect = $parent.find(".field-name-goToSlideType");
-    const currentType = $hotspotTypeSelect.get(0).value || $hotspotTypeSelect.find("[selected]").attr("value");
+    const currentType = ($hotspotTypeSelect.get(0) && $hotspotTypeSelect.get(0).value) || $hotspotTypeSelect.find("[selected]").attr("value");
 
     if (!currentType) {
-      console.dir(element.$form.get(0))
       return;
     }
     
