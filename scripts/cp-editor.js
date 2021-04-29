@@ -154,6 +154,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
       y: 30,
       width: 40,
       height: 40,
+      transform: 'translate(0px, 0px) rotate(0deg)'
     };
 
     if (library === 'GoToSlide') {
@@ -748,6 +749,26 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
       var elementInstance = that.cp.elementInstances[that.cp.$current.index()][that.dnb.$element.index()];
       H5P.trigger(elementInstance, 'resize');
     });
+
+    // Update params when dragging has stopped
+    that.dnb.stopDragCallback = function (newTransform, $element) {
+      var params = that.params.slides[that.cp.$current.index()].elements[$element.index()];
+      params.transform = newTransform;
+    };
+
+    // Update params when resizing has stopped
+    that.dnb.stopResizeCallback = function (newWidth, newHeight, newTransform, $element) {
+      var params = that.params.slides[that.cp.$current.index()].elements[$element.index()];
+      params.width = parseFloat(newWidth) / (that.cp.$current.innerWidth() / 100);
+      params.height = parseFloat(newHeight) / (that.cp.$current.innerHeight() / 100);
+      params.transform = newTransform;
+    };
+
+    // Update params when rotation has stopped
+    that.dnb.stopRotationCallback = function (newTransform, $element) {
+      var params = that.params.slides[that.cp.$current.index()].elements[$element.index()];
+      params.transform = newTransform;
+    };
 
     // Update params when the element is dropped.
     that.dnb.stopMovingCallback = function (x, y) {
@@ -1949,6 +1970,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
 
   var clipboardData = H5P.DragNBar.clipboardify(H5PEditor.CoursePresentation.clipboardKey, elementParams, 'action');
   var dnbElement = self.dnb.add(element.$wrapper, clipboardData, options);
+
   dnbElement.contextMenu.on('contextMenuEdit', function () {
     self.showElementForm(element, element.$wrapper, elementParams);
   });
