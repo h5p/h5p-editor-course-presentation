@@ -403,7 +403,7 @@ H5PEditor.CoursePresentation.prototype.createDNBButton = function (library, opti
  * @param {object} [options]
  * @param {string} [options.title]
  * @param {string} [options.titleGroup]
- * @param {string} [options.customId]
+ * @param {string} [options.id]
  * @return {{
  *   id: string;
  *   title: string;
@@ -415,10 +415,7 @@ H5PEditor.CoursePresentation.prototype.createDNBButton = function (library, opti
  * }} Button group.
  */
 H5PEditor.CoursePresentation.prototype.createDNBButtonGroup = function (library, groupData, options = {}) {
-  const id = options.customId || library.name.split('.')[1].toLowerCase();
-
-
-  console.log({groupData})
+  const id = options.id || library.name.split('.')[1].toLowerCase();
 
   const buttonGroup = {
     id,
@@ -437,11 +434,7 @@ H5PEditor.CoursePresentation.prototype.createDNBButtonGroup = function (library,
         },
       };
   
-      const b = this.createDNBButton(library, options, button.params);
-
-      console.log({b})
-      
-      return b;
+      return this.createDNBButton(library, options, button.params);
     }),
   };
 
@@ -716,7 +709,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
           h5pShapeLib,
           dropdownMenus[ASM_TASK_BUTTONS_ID],
           {
-            customId: ASM_TASK_BUTTONS_ID,
+            id: ASM_TASK_BUTTONS_ID,
             title: H5PEditor.t('H5PEditor.InteraktivTavle', 'answerHotspot'),
           },
         ),
