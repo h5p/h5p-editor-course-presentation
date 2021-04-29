@@ -764,8 +764,10 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
     // Update params when resizing has stopped
     that.dnb.stopResizeCallback = function (newWidth, newHeight, newTransform, $element) {
       var params = that.params.slides[that.cp.$current.index()].elements[$element.index()];
-      params.width = parseFloat(newWidth) / (that.cp.$current.innerWidth() / 100);
-      params.height = parseFloat(newHeight) / (that.cp.$current.innerHeight() / 100);
+      params.x = ((parseFloat(that.dnb.$element.css('left')) / that.cp.$current.innerWidth()) * 100);
+      params.y = ((parseFloat(that.dnb.$element.css('top')) / that.cp.$current.innerHeight()) * 100);
+      params.width = parseFloat(newWidth);
+      params.height = parseFloat(newHeight);
       params.transform = newTransform;
     };
 
