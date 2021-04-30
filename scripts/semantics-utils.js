@@ -103,7 +103,6 @@ export function alterHotspotGotoSemantics(element, $) {
     const currentType = $hotspotTypeSelect.get(0).value || $hotspotTypeSelect.find("[selected]").attr("value");
 
     if (!currentType) {
-      console.dir(element.$form.get(0))
       return;
     }
     
