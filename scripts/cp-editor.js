@@ -64,6 +64,8 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
       ], (newRatio) => this.setRatio(newRatio.ratio));
 
       aspectRatioSelector.show();
+    } else {
+      this.updateSlideRatio(this.cp.defaultAspectRatio);
     }
 
     this.passReadies = false;
@@ -215,6 +217,9 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
   
   var slideIndex = this.cp.$current.index();
   var slideParams = this.params.slides[slideIndex];
+
+  const elementAspectRatio = 4 / 3;
+  elementParams.height = elementParams.height * this.slideRatio / elementAspectRatio;
 
   if (slideParams.elements === undefined) {
     // No previous elements
@@ -368,12 +373,28 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
  * Sets the given ratio to every slide in the course presentation.
  * Will also change the default aspect ratio that is used for new slides.
  *
- * @param {string} ratio
+ * @param {"4-3" | "3-4"} ratio
  */
 H5PEditor.CoursePresentation.prototype.setRatio = function (ratio) {
   this.cp.slides.forEach(slide => slide.aspectRatio = ratio);
   this.cp.defaultAspectRatio = ratio;
+  this.updateSlideRatio(ratio);
+  
   this.cp.resize();
+}
+
+/**
+ * Updates the slide ratio field
+ *
+ * @param {"4-3" | "3-4"} ratio
+ */
+H5PEditor.CoursePresentation.prototype.updateSlideRatio = function (ratio) {  
+  if (!ratio) {
+    return;
+  }
+  
+  const [widthRatio, heightRatio] = ratio.split("-").map(num => parseInt(num));
+  this.slideRatio = widthRatio / heightRatio;
 }
 
 /**
@@ -777,8 +798,10 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
     // Update params when resizing has stopped
     that.dnb.stopResizeCallback = function (newWidth, newHeight, newTransform, $element) {
       var params = that.params.slides[that.cp.$current.index()].elements[$element.index()];
-      params.width = parseFloat(newWidth) / (that.cp.$current.innerWidth() / 100);
-      params.height = parseFloat(newHeight) / (that.cp.$current.innerHeight() / 100);
+      params.x = ((parseFloat(that.dnb.$element.css('left')) / that.cp.$current.innerWidth()) * 100);
+      params.y = ((parseFloat(that.dnb.$element.css('top')) / that.cp.$current.innerHeight()) * 100);
+      params.width = parseFloat(newWidth);
+      params.height = parseFloat(newHeight);
       params.transform = newTransform;
     };
 
@@ -2289,17 +2312,19 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 * @param {number} [repeat] Counter for redrawing if necessary.
 */
 H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, element, elementParams, repeat) {
-  var elementIndex = $wrapper.index();
-  var slideIndex = this.cp.$current.index();
-  var elementsParams = this.params.slides[slideIndex].elements;
-  var elements = this.elements[slideIndex];
-  var elementInstances = this.cp.elementInstances[slideIndex];
+  const elementIndex = $wrapper.index();
+  const slideIndex = this.cp.$current.index();
+  const elementsParams = this.params.slides[slideIndex].elements;
+  const elements = this.elements[slideIndex];
+  const elementInstances = this.cp.elementInstances[slideIndex];
 
   // Determine how many elements still need redrawal after this one
   repeat = (typeof repeat === 'undefined') ? elements.length - 1 - elementIndex : repeat;
 
-  if (elementParams.action && elementParams.action.library.split(' ')[0] === 'H5P.Chart' &&
-      elementParams.action.params.graphMode === 'pieChart') {
+  const isPieChart = elementParams.action 
+    && elementParams.action.library.split(' ')[0] === 'H5P.Chart'
+    && elementParams.action.params.graphMode === 'pieChart';
+  if (isPieChart) {
     elementParams.width = elementParams.height / this.slideRatio;
   }
 
@@ -2319,8 +2344,8 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
 
   // Update visuals
   $wrapper.remove();
-  var instance = this.cp.children[slideIndex].addChild(elementParams).instance;
-  var $element = this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
+  let instance = this.cp.children[slideIndex].addChild(elementParams).instance;
+  const $element = this.cp.attachElement(elementParams, instance, this.cp.$current, slideIndex);
 
   // Make sure we're inside the container
   this.fitElement($element, elementParams);
@@ -2358,16 +2383,14 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
  * @param {Object} elementParams
  */
 H5PEditor.CoursePresentation.prototype.fitElement = function ($element, elementParams) {
-  var self = this;
+  const sizeNPosition = this.dnb.getElementSizeNPosition($element);
+  const updated = H5P.DragNBar.fitElementInside(sizeNPosition);
 
-  var sizeNPosition = self.dnb.getElementSizeNPosition($element);
-  var updated = H5P.DragNBar.fitElementInside(sizeNPosition);
-
-  var pW = (sizeNPosition.containerWidth / 100);
-  var pH = (sizeNPosition.containerHeight / 100);
+  const pW = (sizeNPosition.containerWidth / 100);
+  const pH = (sizeNPosition.containerHeight / 100);
 
   // Set the updated properties
-  var style = {};
+  const style = {};
 
   if (updated.width !== undefined) {
     elementParams.width = updated.width / pW;
