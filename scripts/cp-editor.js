@@ -790,6 +790,19 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
       params.width = parseFloat(newWidth);
       params.height = parseFloat(newHeight);
       params.transform = newTransform;
+
+      // Resizing the video-element when dragging the control-box attached to the video-element
+      const newWidthAbsolute = (parseFloat(newWidth) / 100) * that.cp.$current.innerWidth();
+      const newHeightAbsolute = (parseFloat(newHeight) / 100) * that.cp.$current.innerHeight();
+      const isVideo = params.action && params.action.library.split(' ')[0] === 'H5P.Video';
+      if(isVideo) {
+        const $videoElement = $element.find('.h5p-video').children();
+        $videoElement
+          .css({width: newWidthAbsolute + 'px', height: newHeightAbsolute + 'px'})
+        
+        const iFrame = $videoElement.find('iframe');
+        iFrame.attr('width', newWidthAbsolute).attr('height', newHeightAbsolute);
+      }
     };
 
     // Update params when rotation has stopped
