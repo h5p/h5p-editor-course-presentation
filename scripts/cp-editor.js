@@ -150,21 +150,25 @@ H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRati
  * @returns {object}
  */
 H5PEditor.CoursePresentation.prototype.addElement = function (library, options = {}, instanceParameters = {}) {
-  var elementParams;
+  let elementParams;
   if (!(library instanceof String || typeof library === 'string')) {
     elementParams = library;
   }
 
-  if (!elementParams) {
+  let elementAspectRatio = 4 / 3;
+
+  const isNewElement = !elementParams;
+  if (isNewElement) {
     // Create default start parameters
     elementParams = {
       x: 30,
       y: 30,
       width: 40,
-      height: 40,
+      height: undefined,
       transform: 'translate(0px, 0px) rotate(0deg)'
     };
 
+    
     if (library === 'GoToSlide') {
       elementParams.goToSlide = 1;
     }
@@ -178,48 +182,54 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
       const libraryName = library.split(' ')[0];
       switch (libraryName) {
         case 'H5P.Audio':
-          elementParams.width = 2.577632696;
-          elementParams.height = 5.091753604;
+          elementParams.width = 5;
+          elementAspectRatio = 1 / 1;
           elementParams.action.params.fitToWrapper = true;
           break;
 
         case 'H5P.DragQuestion':
           elementParams.width = 50;
-          elementParams.height = 50;
           break;
 
         case 'H5P.Video':
           elementParams.width = 50;
-          elementParams.height = 50.5553;
           break;
 
         case 'H5P.InteractiveVideo':
           elementParams.width = 50;
-          elementParams.height = 64.5536;
+          elementAspectRatio = 1 / 1;
           break;
       }
     }
 
-    if (options.width && options.height && !options.displayAsButton) {
+    const hasSizeOverride = options.width && options.height;
+    if (hasSizeOverride && !options.displayAsButton) {
       // Use specified size
       elementParams.width = options.width;
       elementParams.height = options.height * this.slideRatio;
     }
+
     if (options.displayAsButton) {
       elementParams.displayAsButton = true;
     }
   }
+
   if (options.pasted) {
     elementParams.pasted = true;
   }
 
-  elementParams = {...elementParams, ...instanceParameters};
+  elementParams = {
+    ...elementParams,
+    ...instanceParameters,
+  };
   
   const slideIndex = this.cp.$current.index();
   const slideParams = this.params.slides[slideIndex];
 
-  const elementAspectRatio = 4 / 3;
-  elementParams.height = elementParams.height * this.slideRatio / elementAspectRatio;
+  const footerHeight = 35;
+  const wrapperHeight = this.cp.$wrapper.get(0).getBoundingClientRect().height;
+  const footerShareOfTotalHeight = footerHeight / wrapperHeight;
+  elementParams.height = elementParams.height || elementParams.width * (this.slideRatio + footerShareOfTotalHeight) / elementAspectRatio;
 
   if (slideParams.elements === undefined) {
     // No previous elements
