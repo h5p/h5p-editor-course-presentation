@@ -175,7 +175,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
       });
       elementParams.action.subContentId = H5P.createUUID();
 
-      var libraryName = library.split(' ')[0];
+      const libraryName = library.split(' ')[0];
       switch (libraryName) {
         case 'H5P.Audio':
           elementParams.width = 2.577632696;
@@ -215,8 +215,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
 
   elementParams = {...elementParams, ...instanceParameters};
   
-  var slideIndex = this.cp.$current.index();
-  var slideParams = this.params.slides[slideIndex];
+  const slideIndex = this.cp.$current.index();
+  const slideParams = this.params.slides[slideIndex];
 
   const elementAspectRatio = 4 / 3;
   elementParams.height = elementParams.height * this.slideRatio / elementAspectRatio;
@@ -226,13 +226,13 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
     slideParams.elements = [elementParams];
   }
   else {
-    var containerStyle = window.getComputedStyle(this.dnb.$container[0]);
-    var containerWidth = parseFloat(containerStyle.width);
-    var containerHeight = parseFloat(containerStyle.height);
+    const containerStyle = window.getComputedStyle(this.dnb.$container[0]);
+    const containerWidth = parseFloat(containerStyle.width);
+    const containerHeight = parseFloat(containerStyle.height);
 
     // Make sure we don't overlap another element
-    var pToPx = containerWidth / 100;
-    var pos = {
+    const pToPx = containerWidth / 100;
+    const pos = {
       x: elementParams.x * pToPx,
       y: (elementParams.y * pToPx) / this.slideRatio
     };
