@@ -2,6 +2,16 @@
 
 import libraryJson from "../library.json";
 
+export const hotspotParams = {
+  type: "rectangle",
+  showAsHotspot: true,
+  title: "",
+  shape: {
+    borderStyle: "none",
+    fillColor: "transparent",
+  },
+};
+
 /**
  * Parse `library.json` to find version number of given dependency
  *
