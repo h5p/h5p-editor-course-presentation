@@ -730,22 +730,19 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
       });
     }
 
-    const showTaskButtons = this.cp.activeSurface;
-    if (showTaskButtons) {
-      const h5pShapeLib = libraries.find(library => library.name === "H5P.Shape");
-      buttons.splice(
-        0,
-        0,
-        this.createDNBButtonGroup(
-          h5pShapeLib,
-          dropdownMenus[ASM_TASK_BUTTONS_ID],
-          {
-            id: ASM_TASK_BUTTONS_ID,
-            title: H5PEditor.t('H5PEditor.InteraktivTavle', 'answerHotspot'),
-          },
-        ),
-      );
-    }
+    const h5pShapeLib = libraries.find(library => library.name === "H5P.Shape");
+    buttons.splice(
+      0,
+      0,
+      this.createDNBButtonGroup(
+        h5pShapeLib,
+        dropdownMenus[ASM_TASK_BUTTONS_ID],
+        {
+          id: ASM_TASK_BUTTONS_ID,
+          title: H5PEditor.t('H5PEditor.InteraktivTavle', 'answerHotspot'),
+        },
+      ),
+    );
 
     this.dnb = new H5P.DragNBar(buttons, this.cp.$current, this.$editor, {$blurHandlers: this.cp.$boxWrapper, libraries: libraries});
 
