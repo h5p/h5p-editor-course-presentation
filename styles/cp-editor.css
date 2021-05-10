@@ -500,3 +500,10 @@
   padding: 0 20px 20px;
   box-sizing: content-box;
 }
+
+/**
+ * {1} This needs to be greater than the editor form's footer bar's z-index.
+ */
+.h5peditor .field.video .h5p-add-dialog {
+  z-index: 4; /* {1} */
+}
