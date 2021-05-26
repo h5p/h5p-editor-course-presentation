@@ -142,6 +142,38 @@ H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRati
 };
 
 /**
+ * Compute true slide aspect ratio,
+ * based on set aspect ratio and footer height
+ * 
+ * @returns {number}
+ */
+H5PEditor.CoursePresentation.prototype.getTrueSlideAspectRatio = function () {
+  const footerHeight = this.slideRatio > 1 ? 95 : 50;
+  const wrapperHeight = this.cp.$wrapper.get(0).getBoundingClientRect().height;
+  const footerShareOfTotalHeight = footerHeight / wrapperHeight;
+  
+  return this.slideRatio + footerShareOfTotalHeight;  
+}
+
+/**
+ * Get element's default aspect ratio, based on library name
+ * 
+ * @param {string} libraryName 
+ * @returns {number}
+ */
+H5PEditor.CoursePresentation.prototype.getDefaultElementAspectRatio = function(libraryName) {
+  let elementAspectRatio = 4 / 3;
+  switch (libraryName) {
+    case 'H5P.Audio':
+    case 'H5P.InteractiveVideo':
+      elementAspectRatio = 1 / 1;
+      break;
+  }
+  
+  return elementAspectRatio;
+}
+
+/**
  * Add an element to the current slide and params.
  *
  * @param {string|object} library Content type or parameters
@@ -155,7 +187,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
     elementParams = library;
   }
 
-  let elementAspectRatio = 4 / 3;
+  const libraryName = library.split(' ')[0];
+  const elementAspectRatio = this.getDefaultElementAspectRatio(libraryName);
 
   const isNewElement = !elementParams;
   if (isNewElement) {
@@ -168,7 +201,6 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
       transform: 'translate(0px, 0px) rotate(0deg)'
     };
 
-
     if (library === 'GoToSlide') {
       elementParams.goToSlide = 1;
     }
@@ -179,14 +211,12 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
       });
       elementParams.action.subContentId = H5P.createUUID();
 
-      const libraryName = library.split(' ')[0];
       switch (libraryName) {
         case 'H5P.Audio':
           elementParams.width = 5;
-          elementAspectRatio = 1 / 1;
           elementParams.action.params.fitToWrapper = true;
           break;
-
+      
         case 'H5P.DragQuestion':
           elementParams.width = 50;
           break;
@@ -197,7 +227,6 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
 
         case 'H5P.InteractiveVideo':
           elementParams.width = 50;
-          elementAspectRatio = 1 / 1;
           break;
       }
     }
@@ -226,10 +255,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
   const slideIndex = this.cp.$current.index();
   const slideParams = this.params.slides[slideIndex];
 
-  const footerHeight = 35;
-  const wrapperHeight = this.cp.$wrapper.get(0).getBoundingClientRect().height;
-  const footerShareOfTotalHeight = footerHeight / wrapperHeight;
-  elementParams.height = elementParams.height || elementParams.width * (this.slideRatio + footerShareOfTotalHeight) / elementAspectRatio;
+  const trueAspectRatio = this.getTrueSlideAspectRatio();
+  elementParams.height = elementParams.height || elementParams.width * trueAspectRatio / elementAspectRatio;
 
   if (slideParams.elements === undefined) {
     // No previous elements
@@ -2238,7 +2265,22 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       }, 1);
     }
     else {
-      this.redrawElement($wrapper, element, elementParams);
+      // Wait until form is actually closed until calculating aspect ratio based on wrapper size
+      window.requestAnimationFrame(() => {
+        const defaultElementAspectRatio = this.getDefaultElementAspectRatio(machineName);
+        const trueSlideAspectRatio = this.getTrueSlideAspectRatio();
+        const elementHasDefaultSize = elementParams.width === 40 && elementParams.height === elementParams.width * trueSlideAspectRatio / defaultElementAspectRatio;
+
+        const isImage = machineName === 'H5P.Image';
+        if (elementHasDefaultSize && isImage) {
+          const imageAspectRatio = elementParams.action.params.file && (elementParams.action.params.file.width / elementParams.action.params.file.height);
+          if (imageAspectRatio) {
+            elementParams.height = elementParams.width * (1 / imageAspectRatio) * trueSlideAspectRatio;
+          }
+        }
+        
+        this.redrawElement($wrapper, element, elementParams);
+      });
     }
 
     this.dnb.preventPaste = false;
@@ -2249,7 +2291,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
    * The form pane is fully displayed.
    * @private
    */
-  const handleFormopened = () => {
+  const handleFormopened = (event) => {
     if (isLoaded) {
       focusFirstField();
     }
