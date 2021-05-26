@@ -168,7 +168,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
       transform: 'translate(0px, 0px) rotate(0deg)'
     };
 
-    
+
     if (library === 'GoToSlide') {
       elementParams.goToSlide = 1;
     }
@@ -2179,8 +2179,6 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
  * @returns {undefined}
  */
 H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wrapper, elementParams) {
-  var that = this;
-
   // Determine element type
   var machineName;
   if (elementParams.action !== undefined) {
@@ -2189,39 +2187,39 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
   // Special case for Continuous Text
   var isContinuousText = (machineName === 'H5P.ContinuousText');
-  if (isContinuousText && that.ct) {
+  if (isContinuousText && this.ct) {
     // Get CT text from storage
-    that.ct.element.$form.find('.text .ckeditor').first().html(that.params.ct);
-    that.ct.params.action.params.text = that.params.ct;
+    this.ct.element.$form.find('.text .ckeditor').first().html(this.params.ct);
+    this.ct.params.action.params.text = this.params.ct;
   }
 
   // Disable guided tour for IV
   if (machineName === 'H5P.InteractiveVideo') {
     // Recreate IV form, workaround for Youtube API not firing
     // onStateChange when IV is reopened.
-    element = that.generateForm(elementParams, machineName);
+    element = this.generateForm(elementParams, machineName);
   }
 
   /**
    * The user has clicked delete, remove the element.
    * @private
    */
-  const handleFormremove = function (e) {
+  const handleFormremove = (e) => {
     e.preventRemove = !confirm(H5PEditor.t('H5PEditor.InteraktivTavle', 'confirmRemoveElement'));
     if (e.preventRemove) {
       return;
     }
-    that.removeElement(element, $wrapper, isContinuousText);
-    that.dnb.blurAll();
-    that.dnb.preventPaste = false;
+    this.removeElement(element, $wrapper, isContinuousText);
+    this.dnb.blurAll();
+    this.dnb.preventPaste = false;
   };
-  that.on('formremove', handleFormremove);
+  this.on('formremove', handleFormremove);
 
   /**
    * The user is done editing, save and update the display.
    * @private
    */
-  const handleFormdone = function () {
+  const handleFormdone = () => {
     // Validate / save children
     for (var i = 0; i < element.children.length; i++) {
       element.children[i].validate();
@@ -2229,46 +2227,46 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
     if (isContinuousText) {
       // Store complete CT on slide 0
-      that.params.ct = that.ct.params.action.params.text;
+      this.params.ct = this.ct.params.action.params.text;
 
       // Split up text and place into CT elements
-      H5P.ContinuousText.Engine.run(that);
+      H5P.ContinuousText.Engine.run(this);
 
       setTimeout(function () {
         // Put focus back on ct element
-        that.dnb.focus($wrapper);
+        this.dnb.focus($wrapper);
       }, 1);
     }
     else {
-      that.redrawElement($wrapper, element, elementParams);
+      this.redrawElement($wrapper, element, elementParams);
     }
 
-    that.dnb.preventPaste = false;
+    this.dnb.preventPaste = false;
   }
-  that.on('formdone', handleFormdone);
+  this.on('formdone', handleFormdone);
 
   /**
    * The form pane is fully displayed.
    * @private
    */
-  const handleFormopened = function () {
+  const handleFormopened = () => {
     if (isLoaded) {
       focusFirstField();
     }
   }
-  that.on('formopened', handleFormopened);
+  this.on('formopened', handleFormopened);
 
   /**
    * Remove event listeners on form close
    * @private
    */
-  const handleFormclose = function () {
-    that.off('formremove', handleFormremove);
-    that.off('formdone', handleFormdone);
-    that.off('formclose', handleFormclose);
-    that.off('formopened', handleFormopened);
+  const handleFormclose = () => {
+    this.off('formremove', handleFormremove);
+    this.off('formdone', handleFormdone);
+    this.off('formclose', handleFormclose);
+    this.off('formopened', handleFormopened);
   };
-  that.on('formclose', handleFormclose);
+  this.on('formclose', handleFormclose);
 
   const libraryField = H5PEditor.findField('action', element);
 
@@ -2278,15 +2276,17 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
    *
    * @private
    */
-  var focusFirstField = function () {
+  var focusFirstField = () => {
     // Find the first ckeditor or texteditor field that is not hidden.
     // h5p-editor dialog is copyright dialog
     // h5p-dialog-box is IVs video choose dialog
     H5P.jQuery('.ckeditor, .h5peditor-text', libraryField.$myField)
-      .not('.h5p-editor-dialog .ckeditor, ' +
-      '.h5p-editor-dialog .h5peditor-text, ' +
-      '.h5p-dialog-box .ckeditor, ' +
-      '.h5p-dialog-box .h5peditor-text', libraryField.$myField)
+      .not(`
+        .h5p-editor-dialog .ckeditor,
+        .h5p-editor-dialog .h5peditor-text,
+        .h5p-dialog-box .ckeditor,
+        .h5p-dialog-box .h5peditor-text`
+        ,libraryField.$myField)
       .eq(0)
       .focus();
   };
@@ -2294,9 +2294,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
   // Determine if library is already loaded
   let isLoaded = false;
   if (libraryField.currentLibrary === undefined && libraryField.change !== undefined) {
-    libraryField.change(function () {
+    libraryField.change(() => {
       isLoaded = true;
-      if (that.isFormOpen()) {
+      if (this.isFormOpen()) {
         focusFirstField();
       }
     });
@@ -2312,13 +2312,13 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
   }
 
   // Open a new form pane with the element form
-  that.openForm(libraryField, element.$form[0], null, customTitle, customIconId);
+  this.openForm(libraryField, element.$form[0], null, customTitle, customIconId);
 
   // Deselect any elements
-  if (that.dnb !== undefined) {
-    that.dnb.preventPaste = true;
-    setTimeout(function () {
-      that.dnb.blurAll();
+  if (this.dnb !== undefined) {
+    this.dnb.preventPaste = true;
+    setTimeout(() => {
+      this.dnb.blurAll();
     }, 0);
   }
 };
@@ -2376,11 +2376,10 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
     H5P.trigger(instance, 'resize');
   }
 
-  var that = this;
   if (repeat === elements.length - 1 - elementIndex) {
-    setTimeout(function () {
+    setTimeout(() => {
       // Put focus back on element
-      that.dnb.focus($element);
+      this.dnb.focus($element);
     }, 1);
   }
 
