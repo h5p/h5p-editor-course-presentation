@@ -1953,6 +1953,13 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       '.h5p-dialog-box .h5peditor-text', libraryField.$myField)
       .eq(0)
       .focus();
+
+    // GotoSlide is not library therefore require separate focus
+    if (libraryField.$myField === undefined) {
+      H5P.jQuery('.h5p-coursepresentation-editor .form-manager-slidein .h5peditor-text')
+      .eq(0)
+      .focus();
+    }
   };
 
   // Determine if library is already loaded
