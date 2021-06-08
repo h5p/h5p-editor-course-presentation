@@ -1,5 +1,7 @@
 // @ts-check
 
+/** @typedef {any} jQuery */
+
 /**
  * Show and hide fields based on the `displayAsButton` setting
  *
@@ -94,6 +96,10 @@ export function alterDisplayAsHotspotSemantics(element, $) {
   });
 }
 
+/**
+ * @param {*} element
+ * @param {jQuery} $
+ */
 export function alterHotspotGotoSemantics(element, $) {
   const $hotspotButtonFields = element.$form.find(".field-name-showAsHotspot");
 
@@ -127,13 +133,17 @@ export function alterHotspotGotoSemantics(element, $) {
    */
   function updateHotspotConnectedFields(hotspotType, $parent) {
     const $specificSlideInput = $parent.find(".field-name-goToSlide");
-    const $dialogVideoInput = $parent.find(".field-name-dialogVideo");
+    const $dialogAudioInput = $parent.find(".field-name-dialogAudio");
+    const $dialogHeaderTypeGroup = $parent.find(
+      ".h5p-radio-selector-dialogHeaderContent"
+    );
     const $dialogContentInput = $parent.find(".field-name-dialogContent");
 
     const hotspotConnectedFields = [
       $specificSlideInput,
       $dialogContentInput,
-      $dialogVideoInput,
+      $dialogAudioInput,
+      $dialogHeaderTypeGroup,
     ];
 
     showFields(...hotspotConnectedFields);
@@ -145,8 +155,11 @@ export function alterHotspotGotoSemantics(element, $) {
 
     const isDialogWindow = hotspotType === "information-dialog";
     if (!isDialogWindow) {
-      hideFields($dialogVideoInput);
-      hideFields($dialogContentInput);
+      hideFields(
+        $dialogAudioInput,
+        $dialogContentInput,
+        $dialogHeaderTypeGroup
+      );
     }
   }
 }
