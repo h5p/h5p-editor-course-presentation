@@ -1720,7 +1720,6 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     this.hideFields(
       elementFields,
       [
-        'invisible',
         'solution',
         'alwaysDisplayComments',
         'backgroundOpacity',
@@ -1732,7 +1731,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     ]);
   }
   else {
-    var hideFields = ['invisible'];
+    var hideFields = [];
 
     if (type === 'H5P.ContinuousText' || type === 'H5P.Audio') {
       // Continuous Text or Go To Slide cannot be displayed as a button
