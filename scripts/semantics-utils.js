@@ -132,12 +132,14 @@ export function alterHotspotGotoSemantics(element, $) {
    * @param {jQuery} $parent
    */
   function updateHotspotConnectedFields(hotspotType, $parent) {
-    const $specificSlideInput = $parent.find(".field-name-goToSlide");
-    const $dialogAudioInput = $parent.find(".field-name-dialogAudio");
+    const findField = (/** @type {string} */ name) => $parent.find(`.field-name-${name}`);
+    
+    const $specificSlideInput = findField("goToSlide");
+    const $dialogAudioInput = findField("dialogAudio");
     const $dialogHeaderTypeGroup = $parent.find(
       ".h5p-radio-selector-dialogHeaderContent"
     );
-    const $dialogContentInput = $parent.find(".field-name-dialogContent");
+    const $dialogContentInput = findField("dialogContent");
 
     const hotspotConnectedFields = [
       $specificSlideInput,
