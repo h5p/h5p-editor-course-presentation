@@ -2240,7 +2240,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     if (e.preventRemove) {
       return;
     }
-    console.log('removing');
     this.removeElement(element, $wrapper, isContinuousText);
     this.dnb.blurAll();
     this.dnb.preventPaste = false;
