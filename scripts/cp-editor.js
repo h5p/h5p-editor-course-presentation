@@ -2240,6 +2240,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     if (e.preventRemove) {
       return;
     }
+    console.log('removing');
     this.removeElement(element, $wrapper, isContinuousText);
     this.dnb.blurAll();
     this.dnb.preventPaste = false;
@@ -2273,7 +2274,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       window.requestAnimationFrame(() => {
         const defaultElementAspectRatio = this.getDefaultElementAspectRatio(machineName);
         const trueSlideAspectRatio = this.getTrueSlideAspectRatio();
-        const elementHasDefaultSize = elementParams.width === 40 && elementParams.height === elementParams.width * trueSlideAspectRatio / defaultElementAspectRatio;
+        const elementHasDefaultSize = elementParams.width === this.defaultElementWidthOfContainerInPercent && elementParams.height === elementParams.width * trueSlideAspectRatio / defaultElementAspectRatio;
 
         const isImage = machineName === 'H5P.Image';
         if (elementHasDefaultSize && isImage) {
