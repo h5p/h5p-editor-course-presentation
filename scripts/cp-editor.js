@@ -1842,7 +1842,7 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
   if (fileParams === undefined || fileParams.width === undefined || fileParams.height === undefined) {
     return;
   }
-
+  
   // Avoid to small images
   var minSize = parseInt(element.$wrapper.css('font-size')) +
                 element.$wrapper.outerWidth() -
@@ -2277,7 +2277,15 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
             elementParams.height = elementParams.width * (1 / imageAspectRatio) * trueSlideAspectRatio;
           }
         }
-        
+        if(isImage) {
+          const containerStyle = window.getComputedStyle(this.dnb.$container[0]);
+          const containerWidth = parseFloat(containerStyle.width);
+          const containerHeight = parseFloat(containerStyle.height);
+          if(elementParams.action.params.file.width < containerWidth * 0.4) {
+            elementParams.width = (elementParams.action.params.file.width / containerWidth) * 100;
+            elementParams.height = (elementParams.action.params.file.height / containerHeight) * 100;
+          }
+        }
         this.redrawElement($wrapper, element, elementParams);
       });
     }
