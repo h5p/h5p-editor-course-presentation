@@ -49,6 +49,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   // Elements holds a mix of forms and params, not element instances
   this.elements = [];
   this.slideRatio = 1.9753;
+  this.defaultElementWidthOfContainerInPercent = 40;
 
   this.passReadies = true;
   parent.ready(() => {
@@ -200,7 +201,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
     elementParams = {
       x: 30,
       y: 30,
-      width: 40,
+      width: this.defaultElementWidthOfContainerInPercent,
       height: undefined,
       transform: 'translate(0px, 0px) rotate(0deg)'
     };
@@ -2272,7 +2273,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       window.requestAnimationFrame(() => {
         const defaultElementAspectRatio = this.getDefaultElementAspectRatio(machineName);
         const trueSlideAspectRatio = this.getTrueSlideAspectRatio();
-        const elementHasDefaultSize = elementParams.width === 40 && elementParams.height === elementParams.width * trueSlideAspectRatio / defaultElementAspectRatio;
+        const elementHasDefaultSize = elementParams.width === this.defaultElementWidthOfContainerInPercent && elementParams.height === elementParams.width * trueSlideAspectRatio / defaultElementAspectRatio;
 
         const isImage = machineName === 'H5P.Image';
         if (elementHasDefaultSize && isImage) {
@@ -2281,7 +2282,22 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
             elementParams.height = elementParams.width * (1 / imageAspectRatio) * trueSlideAspectRatio;
           }
         }
-        
+        if(isImage) {
+          const containerStyle = window.getComputedStyle(this.dnb.$container[0]);
+          const containerWidth = parseFloat(containerStyle.width);
+          const containerHeight = parseFloat(containerStyle.height);
+          const imageAspectRatio = elementParams.action.params.file && (elementParams.action.params.file.width / elementParams.action.params.file.height);
+          if(imageAspectRatio){
+            if(elementParams.action.params.file.width < containerWidth * this.defaultElementWidthOfContainerInPercent/100) {
+              if(elementParams.width == this.defaultElementWidthOfContainerInPercent) {
+                const initialImageWidthPercent = (elementParams.action.params.file.width / containerWidth) * 100;
+                const initialImageHeightPercent = (elementParams.action.params.file.height / containerHeight) * 100;
+                elementParams.width = initialImageWidthPercent;
+                elementParams.height = initialImageHeightPercent;
+              }
+            }
+          }
+        }
         this.redrawElement($wrapper, element, elementParams);
       });
     }
