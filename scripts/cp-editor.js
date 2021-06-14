@@ -183,11 +183,15 @@ H5PEditor.CoursePresentation.prototype.getDefaultElementAspectRatio = function(l
  */
 H5PEditor.CoursePresentation.prototype.addElement = function (library, options = {}, instanceParameters = {}) {
   let elementParams;
+  let libraryName;
+  
   if (!(library instanceof String || typeof library === 'string')) {
     elementParams = library;
+    libraryName = library.action.library.split(' ')[0];
+  } else {
+    libraryName = library.split(' ')[0];
   }
 
-  const libraryName = library.split(' ')[0];
   const elementAspectRatio = this.getDefaultElementAspectRatio(libraryName);
 
   const isNewElement = !elementParams;
