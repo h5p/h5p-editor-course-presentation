@@ -201,7 +201,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
     elementParams = {
       x: 30,
       y: 30,
-      width: 40,
+      width: this.defaultElementWidthOfContainerInPercent,
       height: undefined,
       transform: 'translate(0px, 0px) rotate(0deg)'
     };
@@ -2286,9 +2286,16 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
           const containerStyle = window.getComputedStyle(this.dnb.$container[0]);
           const containerWidth = parseFloat(containerStyle.width);
           const containerHeight = parseFloat(containerStyle.height);
-          if(elementParams.action.params.file.width < containerWidth * this.defaultElementWidthOfContainerInPercent/100) {
-            elementParams.width = (elementParams.action.params.file.width / containerWidth) * 100;
-            elementParams.height = (elementParams.action.params.file.height / containerHeight) * 100;
+          const imageAspectRatio = elementParams.action.params.file && (elementParams.action.params.file.width / elementParams.action.params.file.height);
+          if(imageAspectRatio){
+            if(elementParams.action.params.file.width < containerWidth * this.defaultElementWidthOfContainerInPercent/100) {
+              if(elementParams.width == this.defaultElementWidthOfContainerInPercent) {
+                const initialImageWidthPercent = (elementParams.action.params.file.width / containerWidth) * 100;
+                const initialImageHeightPercent = (elementParams.action.params.file.height / containerHeight) * 100;
+                elementParams.width = initialImageWidthPercent;
+                elementParams.height = initialImageHeightPercent;
+              }
+            }
           }
         }
         this.redrawElement($wrapper, element, elementParams);
