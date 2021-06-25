@@ -16,6 +16,7 @@
     "edit": "Uredi",
     "keywordsTip": "Pomoć za ključne riječi.",
     "loading": "Učitava se...",
+    "slides": "Slajdovides",
     "element": "Element",
     "resetToDefault": "Vratiti na zadane postavke",
     "resetToTemplate": "Vratiti na zadane postavke templejta",
@@ -27,7 +28,6 @@
     "templateDescription": "Biće primjenjeno za sve slajdove, a ne samo za \":currentSlide\" ",
     "currentSlide": "Trenutni slajd",
     "currentSlideDescription": "Biće primjenjeno samo na ovaj slajd, dok će svi drugi slajdovi u \":template\" ostati nepromjenjeni.",
-    "slides": "SliSlajdovides",
     "showTitles": "Prikaži nazive",
     "alwaysShow": "Uvijek prikaži",
     "autoHide": "Uvijek sakrij",
@@ -35,7 +35,15 @@
     "slide": "Slide",
     "opacity": "Zamućenost",
     "goToSlide": "Hotspot",
+    "answerHotspot": "Answer hotspots",
+    "answerHotspotTrue": "Correct answer",
+    "answerHotspotFalse": "Incorrect answer",
     "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "collapseBreadcrumbButtonLabel": "Close navigation",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides. It can not be changed later on.",
+    "aspectRatioSubmit": "Create presentation"
   }
 }

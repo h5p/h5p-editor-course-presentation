@@ -171,7 +171,8 @@
 .h5p-dragnbar-shape-arrows-alt-h-button::before,
 .h5p-dragnbar-shape-arrows-alt-v-button::before,
 .h5p-dragnbar-shape-arrows-alt-button::before,
-.h5p-dragnbar-shape-thumbs-up-button::before
+.h5p-dragnbar-shape-thumbs-up-button::before,
+.h5p-dragnbar-summary-page-button-button::before
  {
   font-family: 'H5PFontAwesome4';
   color: #494949;
@@ -328,6 +329,9 @@
 }
 .h5p-dragnbar-no-button-button::before {
   content: "\e92a";
+} 
+.h5p-dragnbar-summary-page-button-button::before {
+  content: "\f005";
 }
 
 .h5p-dragnbar-li-ul {

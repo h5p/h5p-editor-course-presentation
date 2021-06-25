@@ -11,12 +11,12 @@ export function createActiveSurfaceModeAnswerButtons() {
     buttons: [
       createTransparentHotspotButton("yes-button", "true"),
       createTransparentHotspotButton("no-button", "false"),
+      createGoToSummaryPageHotspotButton(),
     ],
   };
 }
 
 /**
- *
  * @param {string} id
  * @param {"true" | "false"} answerType
  */
@@ -29,6 +29,18 @@ function createTransparentHotspotButton(id, answerType) {
       ...hotspotParams,
       answerType,
       goToSlideType: "none",
+    },
+  };
+}
+
+function createGoToSummaryPageHotspotButton() {
+  return {
+    id: "summary-page-button",
+    // @ts-expect-error H5PEditor is globally available
+    title: H5PEditor.t('H5PEditor.InteraktivTavle', `goToSummarySlide`),
+    params: {
+      ...hotspotParams,
+      goToSlideType: "go-to-summary-slide",
     },
   };
 }
