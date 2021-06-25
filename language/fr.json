@@ -16,6 +16,7 @@
     "edit": "Editer",
     "keywordsTip": "Astuce mot-clé",
     "loading": "Chargement...",
+    "slides": "Diapositives",
     "element": "Element",
     "resetToDefault": "Réinitialiser à la valeur par défault",
     "resetToTemplate": "Réinitialiser à la valeur du modèle",
@@ -27,7 +28,6 @@
     "templateDescription": "Sera appliqué à toutes les diapositives non personnalisées par les réglages de \":currentSlide\".",
     "currentSlide": "Cette diapositive",
     "currentSlideDescription": "Sera appliqué uniquement à cette diapositive, et remplacera tout réglage de \":template\".",
-    "slides": "Diapositives",
     "showTitles": "Afficher les titres",
     "alwaysShow": "Toujours afficher",
     "autoHide": "Masquer automatiquement",
@@ -35,7 +35,15 @@
     "slide": "Diapositive",
     "opacity": "Opacité",
     "goToSlide": "Aller à la diapositive",
+    "answerHotspot": "Answer hotspots",
+    "answerHotspotTrue": "Correct answer",
+    "answerHotspotFalse": "Incorrect answer",
     "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "collapseBreadcrumbButtonLabel": "Close navigation",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides. It can not be changed later on.",
+    "aspectRatioSubmit": "Create presentation"
   }
 }

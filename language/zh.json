@@ -16,6 +16,7 @@
     "edit": "編輯",
     "keywordsTip": "關鍵字提示",
     "loading": "正在加載…",
+    "slides": "投影片",
     "element": "元素",
     "resetToDefault": "重置成預設值",
     "resetToTemplate": "重置成範本",
@@ -27,7 +28,6 @@
     "templateDescription": "將套用於所有非自訂投影片 \":currentSlide\".",
     "currentSlide": "當前投影片",
     "currentSlideDescription": "僅套用於此幻燈片，並將覆蓋任何設置 \":template\".",
-    "slides": "投影片",
     "showTitles": "顯示標題",
     "alwaysShow": "永遠顯示",
     "autoHide": "自動隱藏",
@@ -35,7 +35,15 @@
     "slide": "投影片",
     "opacity": "不透明度",
     "goToSlide": "移至投影片",
+    "answerHotspot": "Answer hotspots",
+    "answerHotspotTrue": "Correct answer",
+    "answerHotspotFalse": "Incorrect answer",
     "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "collapseBreadcrumbButtonLabel": "Close navigation",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides. It can not be changed later on.",
+    "aspectRatioSubmit": "Create presentation"
   }
 }
