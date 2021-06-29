@@ -128,7 +128,7 @@ export function alterHotspotGotoSemantics(element, $) {
   });
 
   /**
-   * @param {"specified" | "next" | "previous" | "information-dialog"} hotspotType
+   * @param {"specified" | "next" | "previous" | "information-dialog"} hotspotType
    * @param {jQuery} $parent
    */
   function updateHotspotConnectedFields(hotspotType, $parent) {

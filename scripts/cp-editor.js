@@ -119,7 +119,7 @@ H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRati
   for (let i = 0; i < this.params.slides.length; i++) {
     const slide = this.params.slides[i];
     
-    const noElementsInSlide = !slide.elements || slide.elements.length < 1;
+    const noElementsInSlide = !slide.elements || slide.elements.length < 1;
     if (noElementsInSlide) {
       continue;
     }
@@ -261,7 +261,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
   const slideParams = this.params.slides[slideIndex];
 
   const trueAspectRatio = this.getTrueSlideAspectRatio();
-  elementParams.height = elementParams.height || elementParams.width * trueAspectRatio / elementAspectRatio;
+  elementParams.height = elementParams.height || elementParams.width * trueAspectRatio / elementAspectRatio;
 
   if (slideParams.elements === undefined) {
     // No previous elements
@@ -415,7 +415,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
  * Sets the given ratio to every slide in the course presentation.
  * Will also change the default aspect ratio that is used for new slides.
  *
- * @param {"4-3" | "3-4"} ratio
+ * @param {"4-3" | "3-4"} ratio
  */
 H5PEditor.CoursePresentation.prototype.setRatio = function (ratio) {
   this.cp.slides.forEach(slide => slide.aspectRatio = ratio);
@@ -428,7 +428,7 @@ H5PEditor.CoursePresentation.prototype.setRatio = function (ratio) {
 /**
  * Updates the slide ratio field
  *
- * @param {"4-3" | "3-4"} ratio
+ * @param {"4-3" | "3-4"} ratio
  */
 H5PEditor.CoursePresentation.prototype.updateSlideRatio = function (ratio) {  
   if (!ratio) {
@@ -477,8 +477,8 @@ H5PEditor.CoursePresentation.prototype.createDNBButton = function (library, opti
  *   buttons: Array;
  * }} Button group.
  */
-H5PEditor.CoursePresentation.prototype.createDNBButtonGroup = function (library, groupData, options = {}) {
-  const id = options.id || library.name.split('.')[1].toLowerCase();
+H5PEditor.CoursePresentation.prototype.createDNBButtonGroup = function (library, groupData, options = {}) {
+  const id = options.id || library.name.split('.')[1].toLowerCase();
 
   const buttonGroup = {
     id,
@@ -2294,6 +2294,54 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
                 const initialImageHeightPercent = (elementParams.action.params.file.height / containerHeight) * 100;
                 elementParams.width = initialImageWidthPercent;
                 elementParams.height = initialImageHeightPercent;
+              }
+            }
+          }
+        }
+        const isAdvancedText = machineName === 'H5P.AdvancedText';
+        if(isAdvancedText) {
+          if(elementParams.width == this.defaultElementWidthOfContainerInPercent) {
+            const text = elementParams.action.params.text;
+            if(text !== undefined) {
+              const lengthText = text.length;
+              const numberOfParagraphs = text.split('<p>').length - 1;
+              const numberOfListElements = text.split('<li>').length - 1;
+              const elementAspectRatio = this.getDefaultElementAspectRatio('H5P.AdvancedText');
+
+              const shortTextLength = 150;
+              const longTextLength = 300;
+
+              if(numberOfParagraphs + numberOfListElements == 1 && lengthText < shortTextLength) {
+                elementParams.width = this.defaultElementWidthOfContainerInPercent;
+                elementParams.height = (elementParams.width * trueSlideAspectRatio / elementAspectRatio) / 4;
+              }
+              else if(numberOfParagraphs + numberOfListElements == 1 && lengthText >= shortTextLength && lengthText < longTextLength) {
+                elementParams.width = this.defaultElementWidthOfContainerInPercent;
+                elementParams.height = (elementParams.width * trueSlideAspectRatio / elementAspectRatio) / 2;
+              }
+              else if(numberOfParagraphs + numberOfListElements == 1 && lengthText >= longTextLength) {
+                elementParams.width = this.defaultElementWidthOfContainerInPercent;
+                elementParams.height = (elementParams.width * trueSlideAspectRatio / elementAspectRatio);
+              }
+              else if(numberOfParagraphs + numberOfListElements == 2 && lengthText < longTextLength ) {
+                elementParams.width = this.defaultElementWidthOfContainerInPercent;
+                elementParams.height = (elementParams.width * trueSlideAspectRatio / elementAspectRatio) / 2;
+              }
+              else if(numberOfParagraphs + numberOfListElements == 2 && lengthText >= longTextLength) {
+                elementParams.width = this.defaultElementWidthOfContainerInPercent;
+                elementParams.height = (elementParams.width * trueSlideAspectRatio / elementAspectRatio);
+              }
+              else if(numberOfParagraphs + numberOfListElements == 3 && lengthText < shortTextLength) {
+                elementParams.width = this.defaultElementWidthOfContainerInPercent;
+                elementParams.height = (elementParams.width * trueSlideAspectRatio / elementAspectRatio) / 2;
+              }
+              else if(numberOfParagraphs + numberOfListElements == 3 && lengthText >= shortTextLength) {
+                elementParams.width = this.defaultElementWidthOfContainerInPercent;
+                elementParams.height = (elementParams.width * trueSlideAspectRatio / elementAspectRatio);
+              }
+              else if(numberOfParagraphs + numberOfListElements > 3) {
+                elementParams.width = this.defaultElementWidthOfContainerInPercent;
+                elementParams.height = (elementParams.width * trueSlideAspectRatio / elementAspectRatio);
               }
             }
           }

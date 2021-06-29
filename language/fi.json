@@ -35,7 +35,15 @@
     "slide": "Dia",
     "opacity": "Sisällysluettelon läpinäkyvyys",
     "goToSlide": "Siirry dialle",
+    "answerHotspot": "Answer hotspots",
+    "answerHotspotTrue": "Correct answer",
+    "answerHotspotFalse": "Incorrect answer",
     "expandBreadcrumbButtonLabel": "Paluu",
-    "collapseBreadcrumbButtonLabel": "Sulje navigointi"
+    "collapseBreadcrumbButtonLabel": "Sulje navigointi",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides. It can not be changed later on.",
+    "aspectRatioSubmit": "Create presentation"
   }
 }
