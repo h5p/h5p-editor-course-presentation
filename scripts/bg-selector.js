@@ -51,8 +51,8 @@ export default (function ($, EventDispatcher) {
 
     // Labels for radio buttons
     var radioLabels = [
-      H5PEditor.t('H5PEditor.InteraktivTavle', 'setImageBackground', {}),
-      H5PEditor.t('H5PEditor.InteraktivTavle', 'setColorFillBackground', {})
+      H5PEditor.t('H5PEditor.CoursePresentation', 'setImageBackground', {}),
+      H5PEditor.t('H5PEditor.CoursePresentation', 'setColorFillBackground', {})
     ];
 
     /**
@@ -220,7 +220,7 @@ export default (function ($, EventDispatcher) {
      * @returns {BackgroundSelector}
      */
     self.addResetButton = function (text) {
-      text = text || H5PEditor.t('H5PEditor.InteraktivTavle', 'resetToDefault');
+      text = text || H5PEditor.t('H5PEditor.CoursePresentation', 'resetToDefault');
 
       $resetButton = $('<button>', {
         'html': text,

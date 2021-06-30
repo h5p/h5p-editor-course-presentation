@@ -42,7 +42,7 @@ ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
       }
 
       var $input = $element.find('input').on('change', function () {
-        if (confirm(H5PEditor.t('H5PEditor.InteraktivTavle', 'activeSurfaceWarning'))) {
+        if (confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'activeSurfaceWarning'))) {
           checked = $input.is(':checked');
           setValue(field, checked);
           $input.attr('disabled', true);
