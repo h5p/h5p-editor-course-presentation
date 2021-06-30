@@ -34,7 +34,7 @@ export default (function ($, EventDispatcher) {
     // DOM elements
     var $popup = $('<div class="h5p-background-selector">');
     var $title = $('<div class="h5p-background-selector-title">')
-      .html(H5PEditor.t('H5PEditor.InteraktivTavle', 'slideBackground', {}))
+      .html(H5PEditor.t('H5PEditor.CoursePresentation', 'slideBackground', {}))
       .appendTo($popup);
     $('<div>', {
       class: 'h5p-background-selector-close',
@@ -65,21 +65,21 @@ export default (function ($, EventDispatcher) {
     var initBgSelectors = function () {
 
       // Global bg selector
-      var templateString = H5PEditor.t('H5PEditor.InteraktivTavle', 'template');
-      var currentSlideString = H5PEditor.t('H5PEditor.InteraktivTavle', 'currentSlide');
+      var templateString = H5PEditor.t('H5PEditor.CoursePresentation', 'template');
+      var currentSlideString = H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlide');
       $globalContent = createSlideSelector(templateString, true);
 
       globalBackground = new BackgroundSelector($slides.children())
         .addBgSelector(globalFields, params, $globalContent, {isVisible: true})
-        .setDescription(H5PEditor.t('H5PEditor.InteraktivTavle', 'templateDescription', {':currentSlide': currentSlideString}))
+        .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'templateDescription', {':currentSlide': currentSlideString}))
         .addResetButton();
 
       // Single slide bg selector
       $slideContent = createSlideSelector(currentSlideString, false);
       $slides.children().each(function (idx) {
         initSingleSlide($slideContent, idx)
-          .setDescription(H5PEditor.t('H5PEditor.InteraktivTavle', 'currentSlideDescription', {':template': templateString}))
-          .addResetButton(H5PEditor.t('H5PEditor.InteraktivTavle', 'resetToTemplate'));
+          .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlideDescription', {':template': templateString}))
+          .addResetButton(H5PEditor.t('H5PEditor.CoursePresentation', 'resetToTemplate'));
       });
 
       // Select single slide if first slide has single slide options
@@ -146,10 +146,10 @@ export default (function ($, EventDispatcher) {
       // Must sanitize params before processing semantics
       sanitizeSlideParams(newSlideIndex);
       initSingleSlide($slideContent, newSlideIndex)
-        .setDescription(H5PEditor.t('H5PEditor.InteraktivTavle', 'currentSlideDescription', {
-          ':template': H5PEditor.t('H5PEditor.InteraktivTavle', 'template')
+        .setDescription(H5PEditor.t('H5PEditor.CoursePresentation', 'currentSlideDescription', {
+          ':template': H5PEditor.t('H5PEditor.CoursePresentation', 'template')
         }))
-        .addResetButton(H5PEditor.t('H5PEditor.InteraktivTavle', 'resetToTemplate'));
+        .addResetButton(H5PEditor.t('H5PEditor.CoursePresentation', 'resetToTemplate'));
 
       // Change to selected radio button
       var selectedIndex = singleSlides[newSlideIndex - 1].getSelectedIndex();

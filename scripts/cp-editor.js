@@ -23,10 +23,10 @@ var H5PEditor = window.H5PEditor || {};
 H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   var that = this;
   H5P.DragNBar.FormManager.call(this, parent, {
-    doneButtonLabel: H5PEditor.t('H5PEditor.InteraktivTavle', 'done'),
-    deleteButtonLabel: H5PEditor.t('H5PEditor.InteraktivTavle', 'remove'),
-    expandBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.InteraktivTavle', 'expandBreadcrumbButtonLabel'),
-    collapseBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.InteraktivTavle', 'collapseBreadcrumbButtonLabel')
+    doneButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
+    deleteButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
+    expandBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'expandBreadcrumbButtonLabel'),
+    collapseBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'collapseBreadcrumbButtonLabel')
   }, 'coursepresentation');
 
   const isNewPresentation = params === undefined;
@@ -56,11 +56,11 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     if (isNewPresentation) {
       const aspectRatioSelector = new AspectRatioSelector([{
           ratio: "4-3",
-          label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioLandscape'),
+          label: H5PEditor.t('H5PEditor.CoursePresentation', 'aspectRatioLandscape'),
         },
         {
           ratio: "3-4",
-          label: H5PEditor.t('H5PEditor.InteraktivTavle', 'aspectRatioPortrait'),
+          label: H5PEditor.t('H5PEditor.CoursePresentation', 'aspectRatioPortrait'),
         },
       ], (newRatio) => this.setRatio(newRatio.ratio));
 
@@ -105,7 +105,7 @@ H5PEditor.CoursePresentation.prototype.constructor = H5PEditor.CoursePresentatio
  * Must be changed if the semantics for the elements changes.
  * @type {string}
  */
-H5PEditor.CoursePresentation.clipboardKey = 'H5PEditor.InteraktivTavle';
+H5PEditor.CoursePresentation.clipboardKey = 'H5PEditor.CoursePresentation';
 
 /**
  * Will change the size of all elements using the given ratio.
@@ -314,7 +314,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   if (presentationParams && presentationParams.override && presentationParams.override.activeSurface === true) {
     this.slideRatio = H5PEditor.CoursePresentation.RATIO_SURFACE;
   }
-  this.cp = new H5P.InteraktivTavle(presentationParams, H5PEditor.contentId, {cpEditor: this});
+  this.cp = new H5P.CoursePresentation(presentationParams, H5PEditor.contentId, {cpEditor: this});
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
     this.cp.trigger('resize');
@@ -336,12 +336,12 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
 
   // Add and bind slide controls.
   var slideControls = {
-    $add: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a>'),
-    $clone: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>'),
-    $background: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'backgroundSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-background"></a>'),
-    $sortLeft: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>'),
-    $sortRight: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>'),
-    $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>'),
+    $add: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a>'),
+    $clone: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>'),
+    $background: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'backgroundSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-background"></a>'),
+    $sortLeft: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>'),
+    $sortRight: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>'),
+    $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>'),
   };
   this.slideControls = slideControls;
 
@@ -530,7 +530,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
     }
   }
   
-  this.$bar = H5PEditor.$('<div class="h5p-dragnbar">' + H5PEditor.t('H5PEditor.InteraktivTavle', 'loading') + '</div>').insertBefore(this.cp.$boxWrapper);
+  this.$bar = H5PEditor.$('<div class="h5p-dragnbar">' + H5PEditor.t('H5PEditor.CoursePresentation', 'loading') + '</div>').insertBefore(this.cp.$boxWrapper);
   const slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
   const elementFields = H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields;
   const action = H5PEditor.CoursePresentation.findField('action', elementFields);
@@ -751,7 +751,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
     if (goToSlide) {
       buttons.splice(5, 0, {
         id: 'gotoslide',
-        title: H5PEditor.t('H5PEditor.InteraktivTavle', 'goToSlide'),
+        title: H5PEditor.t('H5PEditor.CoursePresentation', 'goToSlide'),
         createElement: () => this.addElement(
             `H5P.Shape ${this.getShapeLibraryVersion()}`,
             undefined, 
@@ -771,7 +771,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
         dropdownMenus[ASM_TASK_BUTTONS_ID],
         {
           id: ASM_TASK_BUTTONS_ID,
-          title: H5PEditor.t('H5PEditor.InteraktivTavle', 'answerHotspot'),
+          title: H5PEditor.t('H5PEditor.CoursePresentation', 'answerHotspot'),
         },
       ),
     );
@@ -1112,20 +1112,20 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   that.$keywordsDNB = H5PEditor.$(
     '<ul class="h5p-dragnbar-ul h5p-dragnbar-left">' +
       '<li class="h5p-slides-menu">' +
-        '<div title="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'slides') + '" class="h5p-dragnbar-keywords" role="button" tabindex="0">' +
-          '<span>' + H5PEditor.t('H5PEditor.InteraktivTavle', 'slides') + '</span>' +
+        '<div title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'slides') + '" class="h5p-dragnbar-keywords" role="button" tabindex="0">' +
+          '<span>' + H5PEditor.t('H5PEditor.CoursePresentation', 'slides') + '</span>' +
         '</div>' +
         '<div class="h5p-keywords-dropdown">' +
           '<label class="h5p-keywords-enable">' +
             '<input type="checkbox"/>' +
-            H5PEditor.t('H5PEditor.InteraktivTavle', 'showTitles') +
+            H5PEditor.t('H5PEditor.CoursePresentation', 'showTitles') +
           '</label>' +
-          '<label class="h5p-keywords-portrait"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.InteraktivTavle', 'portrait') + '</label>' +
-          '<label class="h5p-keywords-always"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.InteraktivTavle', 'alwaysShow') + '</label>' +
-          '<label class="h5p-keywords-hide"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.InteraktivTavle', 'autoHide') + '</label>' +
-          '<label class="h5p-keywords-opacity"><input type="text"/> % ' + H5PEditor.t('H5PEditor.InteraktivTavle', 'opacity') + '</label>' +
+          '<label class="h5p-keywords-portrait"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'portrait') + '</label>' +
+          '<label class="h5p-keywords-always"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'alwaysShow') + '</label>' +
+          '<label class="h5p-keywords-hide"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'autoHide') + '</label>' +
+          '<label class="h5p-keywords-opacity"><input type="text"/> % ' + H5PEditor.t('H5PEditor.CoursePresentation', 'opacity') + '</label>' +
           '<div class="h5peditor-button h5peditor-button-textual importance-low" role="button" tabindex="0" aria-disabled="false">' +
-            H5PEditor.t('H5PEditor.InteraktivTavle', 'ok') +
+            H5PEditor.t('H5PEditor.CoursePresentation', 'ok') +
           '</div>' +
         '</div>' +
       '</li>' +
@@ -1367,7 +1367,7 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var isRemovingDnbContainer = this.cp.$current.index() === this.$dnbContainer.index();
 
   // Confirm
-  if (!confirm(H5PEditor.t('H5PEditor.InteraktivTavle', 'confirmDeleteSlide'))) {
+  if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmDeleteSlide'))) {
     return false;
   }
 
@@ -1450,7 +1450,7 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
     $keyword.find('.joubel-icon-edit').remove();
 
     var $editIcon = H5PEditor.$(
-      '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'edit') + '" tabindex="0">' +
+      '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
         '<span class="h5p-icon-circle"></span>' +
         '<span class="h5p-icon-pencil"></span>' +
       '</a>'
@@ -1602,7 +1602,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   }
 
   var $delete = H5PEditor.$(
-    '<a href="#" class="joubel-icon-cancel" title="' + H5PEditor.t('H5PEditor.InteraktivTavle', 'cancel') + '">' +
+    '<a href="#" class="joubel-icon-cancel" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cancel') + '">' +
       '<span class="h5p-icon-circle"></span>' +
       '<span class="h5p-icon-cross"></span>' +
     '</a>');
@@ -2085,7 +2085,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
   element.$wrapper.find('*').attr('tabindex', '-1');
 
   dnbElement.contextMenu.on('contextMenuRemove', function () {
-    if (!confirm(H5PEditor.t('H5PEditor.InteraktivTavle', 'confirmRemoveElement'))) {
+    if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
       return;
     }
     if (H5PEditor.Html) {
@@ -2236,7 +2236,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
    * @private
    */
   const handleFormremove = (e) => {
-    e.preventRemove = !confirm(H5PEditor.t('H5PEditor.InteraktivTavle', 'confirmRemoveElement'));
+    e.preventRemove = !confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'));
     if (e.preventRemove) {
       return;
     }
@@ -2416,7 +2416,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
   let customTitle, customIconId;
   if (elementParams.action === undefined) {
-    customTitle = H5PEditor.t('H5PEditor.InteraktivTavle', 'goToSlide');
+    customTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'goToSlide');
     customIconId = 'gotoslide';
   }
 
