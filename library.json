@@ -1,8 +1,8 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 22,
-  "patchVersion": 2,
+  "minorVersion": 24,
+  "patchVersion": 5,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel",
@@ -12,16 +12,7 @@
   },
   "preloadedJs": [
     {
-      "path": "scripts/disposable-boolean.js"
-    },
-    {
-      "path": "scripts/cp-editor.js"
-    },
-    {
-      "path": "scripts/slide-selector.js"
-    },
-    {
-      "path": "scripts/bg-selector.js"
+      "path": "dist/cp-editor.js"
     }
   ],
   "preloadedCss": [
@@ -33,6 +24,9 @@
     },
     {
       "path": "styles/bg-selector.css"
+    },
+    {
+      "path": "styles/aspect-ratio-selector.css"
     },
     {
       "path": "styles/toolbar.css"
@@ -47,7 +41,7 @@
     {
       "machineName": "H5P.DragNBar",
       "majorVersion": 1,
-      "minorVersion": 5
+      "minorVersion": 6
     },
     {
       "machineName": "H5P.Image",
@@ -57,7 +51,7 @@
     {
       "machineName": "H5P.Shape",
       "majorVersion": 1,
-      "minorVersion": 0
+      "minorVersion": 1
     },
     {
       "machineName": "H5P.AdvancedText",
@@ -132,7 +126,7 @@
     {
       "machineName": "H5P.CoursePresentation",
       "majorVersion": 1,
-      "minorVersion": 22
+      "minorVersion": 24
     },
     {
       "machineName": "H5P.MarkTheWords",
@@ -166,6 +160,16 @@
     },
     {
       "machineName": "H5P.FontIcons",
+      "majorVersion": 1,
+      "minorVersion": 0
+    },
+    {
+      "machineName": "H5P.Chart",
+      "majorVersion": 1,
+      "minorVersion": 2
+    },
+    {
+      "machineName": "H5PEditor.ImageRadioGroup",
       "majorVersion": 1,
       "minorVersion": 0
     }

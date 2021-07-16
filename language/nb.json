@@ -16,6 +16,7 @@
     "edit": "Rediger",
     "keywordsTip": "Dra inn nøkkelord",
     "loading": "Laster...",
+    "slides": "Slides",
     "element": "Element",
     "resetToDefault": "Tilbakestill",
     "resetToTemplate": "Tilbakestill til mal",
@@ -27,15 +28,22 @@
     "templateDescription": "Innstillinger vil bli satt i alle slides some ikke er overskrevet av \":currentSlide\" innstillinger.",
     "currentSlide": "Denne sliden",
     "currentSlideDescription": "Innstillinger vil bli satt kun i denne sliden, og vil overskrive \":template\" innstillinger.",
-    "slides": "Slides",
     "showTitles": "Vis titler",
     "alwaysShow": "Alltid vis",
     "autoHide": "Skjul automatisk",
     "ok": "OK",
     "slide": "Slide",
     "opacity": "Opasitet",
-    "goToSlide": "Gå til slide",
+    "goToSlide": "Aktivt felt",
+    "answerHotspot": "Aktive felt som riktige og gale svar",
+    "answerHotspotTrue": "Riktig svar",
+    "answerHotspotFalse": "Galt svar",
     "expandBreadcrumbButtonLabel": "Gå tilbake",
-    "collapseBreadcrumbButtonLabel": "Lukk navigasjon"
+    "collapseBreadcrumbButtonLabel": "Lukk navigasjon",
+    "aspectRatioPortrait": "Stående",
+    "aspectRatioLandscape": "Liggende",
+    "aspectRatioTitle": "Velg format for din presentasjon",
+    "aspectRatioSubtitle": "Formatet gjelder for alle slides. Formatet kan ikke endres i ettertid.",
+    "aspectRatioSubmit": "Lag presentasjon"
   }
 }

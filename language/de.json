@@ -16,6 +16,7 @@
     "edit": "Bearbeiten",
     "keywordsTip": "Ziehe Stichworte mit Hilfe der beiden oberen Buttons hinein.",
     "loading": "Lädt...",
+    "slides": "Folien",
     "element": "Element",
     "resetToDefault": "Auf Standard zurücksetzen",
     "resetToTemplate": "Auf Folienmaster zurücksetzen",
@@ -27,7 +28,6 @@
     "templateDescription": "Gilt für alle Folien, für die keine gesonderte Einstellung unter \":currentSlide\" vorgenommen wurde.",
     "currentSlide": "Diese Folie",
     "currentSlideDescription": "Gilt nur für diese Folie und macht die Einstellungen unter \":template\" für sie bedeutungslos.",
-    "slides": "Folien",
     "showTitles": "Folientitel anzeigen",
     "alwaysShow": "Immer anzeigen",
     "autoHide": "Automatisch verbergen",
@@ -35,7 +35,15 @@
     "slide": "Folie",
     "opacity": "Deckkraft",
     "goToSlide": "Gehe zu Folie",
+    "answerHotspot": "Answer hotspots",
+    "answerHotspotTrue": "Correct answer",
+    "answerHotspotFalse": "Incorrect answer",
     "expandBreadcrumbButtonLabel": "Zurück",
-    "collapseBreadcrumbButtonLabel": "Navigation schließen"
+    "collapseBreadcrumbButtonLabel": "Navigation schließen",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides. It can not be changed later on.",
+    "aspectRatioSubmit": "Create presentation"
   }
 }

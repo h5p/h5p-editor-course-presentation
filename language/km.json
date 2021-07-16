@@ -35,7 +35,15 @@
     "slide": "ស្លាយ",
     "opacity": "កម្រិតថ្លា",
     "goToSlide": "ទៅកាន់ស្លាយ",
+    "answerHotspot": "Answer hotspots",
+    "answerHotspotTrue": "Correct answer",
+    "answerHotspotFalse": "Incorrect answer",
     "expandBreadcrumbButtonLabel": "ត្រឡប់ក្រោយ",
-    "collapseBreadcrumbButtonLabel": "បិទផ្ទាំងផ្លាស់ទី"
+    "collapseBreadcrumbButtonLabel": "បិទផ្ទាំងផ្លាស់ទី",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides. It can not be changed later on.",
+    "aspectRatioSubmit": "Create presentation"
   }
 }

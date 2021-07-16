@@ -34,8 +34,17 @@
     "ok": "OK",
     "slide": "Slide",
     "opacity": "Opacity",
-    "goToSlide": "Go to slide",
+    "goToSlide": "Hotspot",
+    "answerHotspot": "Answer hotspots",
+    "answerHotspotTrue": "Correct answer",
+    "answerHotspotFalse": "Incorrect answer",
+    "goToSummarySlide": "Go to summary slide hotspot",
     "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "collapseBreadcrumbButtonLabel": "Close navigation",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides. It can not be changed later on.",
+    "aspectRatioSubmit": "Create presentation"
   }
 }

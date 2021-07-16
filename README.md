@@ -1,7 +1,22 @@
-H5P Editor Course Presentation
-==========
+# H5P Editor Course Presentation
 
 Makes it easier to create course presentations.
+
+## Development
+
+First install [Node](https://nodejs.org/) dependencies.
+
+```bash
+npm install
+```
+
+When developing or checking out branches, use this to have it constantly build your changes:
+
+```bash
+npm run watch # Listen to file changes and automatically rebuild
+```
+
+Then reload your browser to see the changes.
 
 ## License
 

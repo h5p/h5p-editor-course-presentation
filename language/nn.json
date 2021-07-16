@@ -34,8 +34,16 @@
     "ok":"OK",
     "slide":"Skjermbilete",
     "opacity":"Opasitet",
-    "goToSlide": "Gå til skjermbilete",
-    "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "goToSlide": "Aktivt felt",
+    "answerHotspot": "Riktige og gale aktive felt",
+    "answerHotspotTrue": "Riktig svar",
+    "answerHotspotFalse": "Galt svar",
+    "expandBreadcrumbButtonLabel": "Gå tilbake",
+    "collapseBreadcrumbButtonLabel": "Lukk navigasjon",
+    "aspectRatioPortrait": "Ståande",
+    "aspectRatioLandscape": "Liggande",
+    "aspectRatioTitle": "Velg format for din presentasjon",
+    "aspectRatioSubtitle": "Formatet gjelder for alle skjermbilete. Formatet kan ikkje endrast i ettertid.",
+    "aspectRatioSubmit": "Lag presentasjon"
   }
 }

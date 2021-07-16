@@ -35,7 +35,15 @@
     "slide": "Diapositiba",
     "opacity": "Opakutasuna",
     "goToSlide": "Joan diapositibara",
+    "answerHotspot": "Answer hotspots",
+    "answerHotspotTrue": "Correct answer",
+    "answerHotspotFalse": "Incorrect answer",
     "expandBreadcrumbButtonLabel": "Joan atzera",
-    "collapseBreadcrumbButtonLabel": "Itxi nabigazioa"
+    "collapseBreadcrumbButtonLabel": "Itxi nabigazioa",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides. It can not be changed later on.",
+    "aspectRatioSubmit": "Create presentation"
   }
 }

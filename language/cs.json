@@ -35,7 +35,15 @@
     "slide": "Snímek",
     "opacity": "Průhlednost",
     "goToSlide": "Přejít na snímek",
+    "answerHotspot": "Answer hotspots",
+    "answerHotspotTrue": "Correct answer",
+    "answerHotspotFalse": "Incorrect answer",
     "expandBreadcrumbButtonLabel": "Jít zpět",
-    "collapseBreadcrumbButtonLabel": "Zavřít navigaci"
+    "collapseBreadcrumbButtonLabel": "Zavřít navigaci",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides. It can not be changed later on.",
+    "aspectRatioSubmit": "Create presentation"
   }
 }

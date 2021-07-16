@@ -35,7 +35,15 @@
     "slide": "Diapositiva",
     "opacity": "Opacitat",
     "goToSlide": "Ves a la diapositiva",
+    "answerHotspot": "Answer hotspots",
+    "answerHotspotTrue": "Correct answer",
+    "answerHotspotFalse": "Incorrect answer",
     "expandBreadcrumbButtonLabel": "Enrere",
-    "collapseBreadcrumbButtonLabel": "Tanca la navegació"
+    "collapseBreadcrumbButtonLabel": "Tanca la navegació",
+    "aspectRatioPortrait": "Portrait",
+    "aspectRatioLandscape": "Landscape",
+    "aspectRatioTitle": "Choose presentation format",
+    "aspectRatioSubtitle": "The aspect ratio applies to all slides. It can not be changed later on.",
+    "aspectRatioSubmit": "Create presentation"
   }
 }

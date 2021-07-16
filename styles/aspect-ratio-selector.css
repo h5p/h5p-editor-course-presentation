@@ -1,0 +1,94 @@
+.aspect-ratio-modal-container {
+  background-color: rgba(0, 0, 0, 0.3);
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+.aspect-ratio-modal {
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  left: 50%;
+  max-width: 31.25rem;
+  padding: 1.5rem 2rem;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 2rem);
+}
+
+.aspect-ratio-modal-header {
+  text-align: center;
+}
+
+.aspect-ratio-modal-ratios {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: -1.5rem;
+  padding: 1rem 0;
+}
+
+.aspect-ratio-modal-illustration-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.aspect-ratio-modal-illustration {
+  border: 2px solid currentColor;
+  position: relative;
+}
+
+.aspect-ratio-modal-ratio-radio-container {
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 1.5rem;
+  max-width: 12.5rem;
+  text-align: center;
+  width: calc(50% - 3rem);
+}
+
+.aspect-ratio-modal-ratio-radio {
+  display: block;
+  margin-top: -1.5rem; /* This moves the radio seemingly inside the label, even though they are siblings */
+  position: relative; /* This is necessary to move the radio higher than the label in z space */
+  text-align: center;
+  width: 100%;
+}
+
+.aspect-ratio-modal-ratio {
+  display: flex;
+  flex-grow: 1;
+  padding: 1rem 2rem 3rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.aspect-ratio-modal-ratio-radio:checked + .aspect-ratio-modal-ratio {
+  background-color: #d8f0fb;
+}
+
+.aspect-ratio-modal-illustration-label {
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+}
+
+.aspect-ratio-modal-footer {
+  text-align: center;
+}
+
+.aspect-ratio-submit-button {
+  background-color: #dedede;
+  border: none;
+  border-radius: 0;
+  margin: 2rem 0 1rem;
+  padding: 0.5rem 0.75rem;
+}
