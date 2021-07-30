@@ -648,7 +648,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           that.dnb.focus(that.addElement(pasted.specific, options));
         }
         else {
-          this.showConfirmationDialog({
+          that.showConfirmationDialog({
             headerText: H5PEditor.t('core', 'pasteError'),
             dialogText: H5PEditor.t('H5P.DragNBar', 'unableToPaste'),
             confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok')
@@ -667,7 +667,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           that.dnb.focus(that.addElement(pasted.generic.library, options));
         }
         else {
-          this.showConfirmationDialog({
+          that.showConfirmationDialog({
             headerText: H5PEditor.t('core', 'pasteError'),
             dialogText: H5PEditor.t('H5P.DragNBar', 'unableToPaste'),
             confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok')
@@ -1733,7 +1733,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
   element.$wrapper.find('*').attr('tabindex', '-1');
 
   dnbElement.contextMenu.on('contextMenuRemove', function () {
-    const confirmationDialog = this.showConfirmationDialog({
+    const confirmationDialog = self.showConfirmationDialog({
       headerText: H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'),
       cancelText: H5PEditor.t('H5PEditor.CoursePresentation', 'cancel'),
       confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok'),
