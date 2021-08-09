@@ -1899,17 +1899,23 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       cancelText: H5PEditor.t('H5PEditor.CoursePresentation', 'cancel'),
       confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok'),
     });
+    e.preventRemove = true;
+
 
     confirmationDialog.on('canceled', () => {
       return;
     });
 
     confirmationDialog.on('confirmed', () => {
+      that.currentlyDeletingElement = true;
+      that.getFormManager().closeFormUntil(0);
       that.removeElement(element, $wrapper, isContinuousText);
       that.dnb.blurAll();
       that.dnb.preventPaste = false;
+      that.currentlyDeletingElement = false;
     });
   };
+
   that.on('formremove', handleFormremove);
 
   /**
@@ -1934,7 +1940,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
         that.dnb.focus($wrapper);
       }, 1);
     }
-    else {
+    else if (!that.currentlyDeletingElement) {
       that.redrawElement($wrapper, element, elementParams);
     }
 
