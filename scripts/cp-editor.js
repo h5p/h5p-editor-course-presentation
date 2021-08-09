@@ -1901,7 +1901,6 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     });
     e.preventRemove = true;
 
-
     confirmationDialog.on('canceled', () => {
       return;
     });
