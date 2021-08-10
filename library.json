@@ -2,7 +2,7 @@
   "title": "Course Presentation Editor",
   "majorVersion": 1,
   "minorVersion": 22,
-  "patchVersion": 2,
+  "patchVersion": 4,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel",
@@ -146,11 +146,6 @@
     },
     {
       "machineName": "H5P.TwitterUserFeed",
-      "majorVersion": 1,
-      "minorVersion": 0
-    },
-    {
-      "machineName": "H5P.AppearIn",
       "majorVersion": 1,
       "minorVersion": 0
     },
