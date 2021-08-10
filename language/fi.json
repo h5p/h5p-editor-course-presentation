@@ -35,7 +35,7 @@
     "slide": "Dia",
     "opacity": "Sisällysluettelon läpinäkyvyys",
     "goToSlide": "Siirry dialle",
-    "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "expandBreadcrumbButtonLabel": "Paluu",
+    "collapseBreadcrumbButtonLabel": "Sulje navigointi"
   }
 }

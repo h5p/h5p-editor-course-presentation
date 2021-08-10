@@ -294,6 +294,10 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .next()
     .click(function () {
       var newSlide = H5P.cloneObject(that.params.slides[that.cp.$current.index()], true);
+
+      // Set new subContentId for cloned contents
+      that.resetSubContentId(newSlide.elements);
+
       newSlide.keywords = [];
       that.addSlide(newSlide);
       H5P.ContinuousText.Engine.run(that);
@@ -341,6 +345,30 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   });
 
   this.updateSlidesSidebar();
+};
+
+/**
+ * Recursively reset all subContentIds.
+ *
+ * @param {object} params Parameters to parse.
+ */
+H5PEditor.CoursePresentation.prototype.resetSubContentId = function (params) {
+  const that = this;
+
+  if (Array.isArray(params)) {
+    params.forEach(function (param) {
+      that.resetSubContentId(param);
+    });
+  }
+  else if (typeof params === 'object') {
+    if (params.library && params.subContentId) {
+      params.subContentId = H5P.createUUID();
+    }
+
+    for (param in params) {
+      that.resetSubContentId(params[param]);
+    }
+  }
 };
 
 /**
@@ -1989,6 +2017,13 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       '.h5p-dialog-box .h5peditor-text', libraryField.$myField)
       .eq(0)
       .focus();
+
+    // GotoSlide is not library therefore require separate focus
+    if (libraryField.$myField === undefined) {
+      H5P.jQuery('.h5p-coursepresentation-editor .form-manager-slidein .h5peditor-text')
+      .eq(0)
+      .focus();
+    }
   };
 
   // Determine if library is already loaded
