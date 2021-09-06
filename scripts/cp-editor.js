@@ -22,7 +22,7 @@ var H5PEditor = window.H5PEditor || {};
  */
 H5PEditor.NDLACoursePresentation = function (parent, field, params, setValue) {
   var that = this;
-  H5P.DragNBar.FormManager.call(this, parent, {
+  H5P.NDLADragNBar.FormManager.call(this, parent, {
     doneButtonLabel: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'done'),
     deleteButtonLabel: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'remove'),
     expandBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'expandBreadcrumbButtonLabel'),
@@ -98,7 +98,7 @@ H5PEditor.NDLACoursePresentation = function (parent, field, params, setValue) {
 H5PEditor.NDLACoursePresentation.allAspectRatios = ['4-3', '3-4', '16-9', '9-16'];
 H5PEditor.NDLACoursePresentation.prototype.defaultAspectRatio = H5PEditor.NDLACoursePresentation.allAspectRatios[0];
 
-H5PEditor.NDLACoursePresentation.prototype = Object.create(H5P.DragNBar.FormManager.prototype);
+H5PEditor.NDLACoursePresentation.prototype = Object.create(H5P.NDLADragNBar.FormManager.prototype);
 H5PEditor.NDLACoursePresentation.prototype.constructor = H5PEditor.NDLACoursePresentation;
 
 /**
@@ -314,7 +314,7 @@ H5PEditor.NDLACoursePresentation.prototype.appendTo = function ($wrapper) {
   if (presentationParams && presentationParams.override && presentationParams.override.activeSurface === true) {
     this.slideRatio = H5PEditor.NDLACoursePresentation.RATIO_SURFACE;
   }
-  this.cp = new H5P.CoursePresentation(presentationParams, H5PEditor.contentId, {cpEditor: this});
+  this.cp = new H5P.NDLACoursePresentation(presentationParams, H5PEditor.contentId, {cpEditor: this});
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
     this.cp.trigger('resize');
@@ -762,7 +762,24 @@ H5PEditor.NDLACoursePresentation.prototype.initializeDNB = function (forceReinit
       });
     }
 
-    const h5pShapeLib = libraries.find(library => library.name === "H5P.NDLAShape");
+    let h5pShapeLib = libraries.find(library => library.name === "H5P.NDLAShape");
+    if(h5pShapeLib === undefined){
+      h5pShapeLib = {
+        uberName: "H5P.NDLAShape 1.1",
+        name: "H5P.NDLAShape",
+        title: "Shape", 
+        majorVersion: 1,
+        minorVersion: 1,
+        runnable: 0,
+        restricted: false,
+        tutorialUrl: null, 
+        metadataSettings: {}
+      };
+    }
+
+
+
+
     buttons.splice(
       0,
       0,
@@ -776,7 +793,7 @@ H5PEditor.NDLACoursePresentation.prototype.initializeDNB = function (forceReinit
       ),
     );
 
-    this.dnb = new H5P.DragNBar(buttons, this.cp.$current, this.$editor, {$blurHandlers: this.cp.$boxWrapper, libraries: libraries});
+    this.dnb = new H5P.NDLADragNBar(buttons, this.cp.$current, this.$editor, {$blurHandlers: this.cp.$boxWrapper, libraries: libraries});
 
     this.$dnbContainer = this.cp.$current;
     this.dnb.dnr.snap = 10;
@@ -944,7 +961,7 @@ H5PEditor.NDLACoursePresentation.prototype.initializeDNB = function (forceReinit
           that.dnb.focus(that.addElement(pasted.specific, options));
         }
         else {
-          alert(H5PEditor.t('H5P.DragNBar', 'unableToPaste'));
+          alert(H5PEditor.t('H5P.NDLADragNBar', 'unableToPaste'));
         }
       }
       else if (pasted.generic) {
@@ -959,7 +976,7 @@ H5PEditor.NDLACoursePresentation.prototype.initializeDNB = function (forceReinit
           that.dnb.focus(that.addElement(pasted.generic.library, options));
         }
         else {
-          alert(H5PEditor.t('H5P.DragNBar', 'unableToPaste'));
+          alert(H5PEditor.t('H5P.NDLADragNBar', 'unableToPaste'));
         }
       }
     });
@@ -2053,7 +2070,7 @@ H5PEditor.NDLACoursePresentation.prototype.processElement = function (elementPar
  *
  * @param {Object} element
  * @param {Object} elementParams
- * @returns {H5P.DragNBarElement}
+ * @returns {H5P.NDLADragNBarElement}
  */
 H5PEditor.NDLACoursePresentation.prototype.addToDragNBar = function (element, elementParams) {
   var self = this;
@@ -2076,7 +2093,7 @@ H5PEditor.NDLACoursePresentation.prototype.addToDragNBar = function (element, el
     }
   }
 
-  var clipboardData = H5P.DragNBar.clipboardify(H5PEditor.NDLACoursePresentation.clipboardKey, elementParams, 'action');
+  var clipboardData = H5P.NDLADragNBar.clipboardify(H5PEditor.NDLACoursePresentation.clipboardKey, elementParams, 'action');
   var dnbElement = self.dnb.add(element.$wrapper, clipboardData, options);
 
   dnbElement.contextMenu.on('contextMenuEdit', function () {
@@ -2512,7 +2529,7 @@ H5PEditor.NDLACoursePresentation.prototype.redrawElement = function ($wrapper, e
  */
 H5PEditor.NDLACoursePresentation.prototype.fitElement = function ($element, elementParams) {
   const sizeNPosition = this.dnb.getElementSizeNPosition($element);
-  const updated = H5P.DragNBar.fitElementInside(sizeNPosition);
+  const updated = H5P.NDLADragNBar.fitElementInside(sizeNPosition);
 
   const pW = (sizeNPosition.containerWidth / 100);
   const pH = (sizeNPosition.containerHeight / 100);
