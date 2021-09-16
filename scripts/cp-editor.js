@@ -2239,15 +2239,15 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
 };
 
 /**
-   * Add confirmation dialog
-   * @param {object} dialogOptions Dialog options.
-   * @returns {HTMLElement} confirmationDialog 
-   */
+ * Add confirmation dialog
+ * @param {object} dialogOptions Dialog options.
+ * @returns {HTMLElement} confirmationDialog
+ */
 H5PEditor.CoursePresentation.prototype.showConfirmationDialog = function (dialogOptions) {
   const confirmationDialog = new H5P.ConfirmationDialog(dialogOptions)
     .appendTo(document.body);
 
-  confirmationDialog.show();
+  confirmationDialog.show(this.$item.offset().top);
   return confirmationDialog;
 };
 
