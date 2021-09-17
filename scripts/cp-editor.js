@@ -753,7 +753,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
         id: 'gotoslide',
         title: H5PEditor.t('H5PEditor.CoursePresentation', 'goToSlide'),
         createElement: () => this.addElement(
-            `H5P.Shape ${this.getShapeLibraryVersion()}`,
+            `H5P.NDLAShape ${this.getShapeLibraryVersion()}`,
             undefined, 
             {
               ...hotspotParams,
@@ -762,7 +762,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
       });
     }
 
-    const h5pShapeLib = libraries.find(library => library.name === "H5P.Shape");
+    const h5pShapeLib = libraries.find(library => library.name === "H5P.NDLAShape");
     buttons.splice(
       0,
       0,
@@ -978,10 +978,10 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
 };
 
 H5PEditor.CoursePresentation.prototype.getShapeLibraryVersion = function() {
-  this._shapeLibVersion = this._shapeLibVersion || getLibraryDependencyVersion('H5P.Shape');
+  this._shapeLibVersion = this._shapeLibVersion || getLibraryDependencyVersion('H5P.NDLAShape');
   const shapeLibNotLoaded = !this._shapeLibVersion;
   if (shapeLibNotLoaded) {
-    console.warn('H5P.Shape is not listed as a preloaded dependency in `library.json`');
+    console.warn('H5P.NDLAShape is not listed as a preloaded dependency in `library.json`');
   }
 
   return this._shapeLibVersion;
@@ -1743,7 +1743,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
       hideFields.push('displayAsButton');
       hideFields.push('buttonSize');
     }
-    else if (type === "H5P.Shape") {
+    else if (type === "H5P.NDLAShape") {
       hideFields.push(
         'solution',
         'alwaysDisplayComments',
@@ -2062,11 +2062,11 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
 
   const options = {
     disableResize: elementParams.displayAsButton,
-    lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
-    cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
+    lock: (type === 'H5P.NDLAChart' && elementParams.action.params.graphMode === 'pieChart'),
+    cornerLock: (type === 'H5P.Image' || type === 'H5P.NDLAShape')
   };
 
-  if (type === 'H5P.Shape') {
+  if (type === 'H5P.NDLAShape') {
     options.minSize = 3;
     if (elementParams.action.params.type == 'vertical-line') {
       options.directionLock = "vertical";
@@ -2451,7 +2451,7 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
   repeat = (typeof repeat === 'undefined') ? elements.length - 1 - elementIndex : repeat;
 
   const isPieChart = elementParams.action 
-    && elementParams.action.library.split(' ')[0] === 'H5P.Chart'
+    && elementParams.action.library.split(' ')[0] === 'H5P.NDLAChart'
     && elementParams.action.params.graphMode === 'pieChart';
   if (isPieChart) {
     elementParams.width = elementParams.height / this.slideRatio;

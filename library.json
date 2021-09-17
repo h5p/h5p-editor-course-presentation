@@ -2,7 +2,7 @@
   "title": "Course Presentation Editor",
   "majorVersion": 1,
   "minorVersion": 24,
-  "patchVersion": 5,
+  "patchVersion": 6,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel",
@@ -49,7 +49,7 @@
       "minorVersion": 1
     },
     {
-      "machineName": "H5P.Shape",
+      "machineName": "H5P.NDLAShape",
       "majorVersion": 1,
       "minorVersion": 1
     },
@@ -164,7 +164,7 @@
       "minorVersion": 0
     },
     {
-      "machineName": "H5P.Chart",
+      "machineName": "H5P.NDLAChart",
       "majorVersion": 1,
       "minorVersion": 2
     },
