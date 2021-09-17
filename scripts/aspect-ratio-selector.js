@@ -141,12 +141,12 @@ export default (function () {
 
       const heading = document.createElement('h1');
       heading.className = 'aspect-ratio-modal-title';
-      heading.textContent = H5PEditor.t('H5PEditor.CoursePresentation', 'aspectRatioTitle');
+      heading.textContent = H5PEditor.t('H5PEditor.NDLACoursePresentation', 'aspectRatioTitle');
 
       const subHeading = document.createElement('p');
       subHeading.setAttribute('role', 'doc-subtitle');
       subHeading.className = 'aspect-ratio-modal-subtitle';
-      subHeading.textContent = H5PEditor.t('H5PEditor.CoursePresentation', 'aspectRatioSubtitle');
+      subHeading.textContent = H5PEditor.t('H5PEditor.NDLACoursePresentation', 'aspectRatioSubtitle');
 
       modalHeader.appendChild(heading);
       modalHeader.appendChild(subHeading);
@@ -168,7 +168,7 @@ export default (function () {
       submitButton.type = 'button';
       submitButton.className = 'aspect-ratio-submit-button';
       submitButton.addEventListener('click', () => this.onSubmitClick());
-      submitButton.textContent = H5PEditor.t('H5PEditor.CoursePresentation', 'aspectRatioSubmit');
+      submitButton.textContent = H5PEditor.t('H5PEditor.NDLACoursePresentation', 'aspectRatioSubmit');
 
       modalFooter.appendChild(submitButton);
       modal.appendChild(modalFooter);

@@ -20,13 +20,13 @@ var H5PEditor = window.H5PEditor || {};
  * @param {function} setValue
  * @returns {H5PEditor.Text}
  */
-H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
+H5PEditor.NDLACoursePresentation = function (parent, field, params, setValue) {
   var that = this;
-  H5P.DragNBar.FormManager.call(this, parent, {
-    doneButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'done'),
-    deleteButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'remove'),
-    expandBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'expandBreadcrumbButtonLabel'),
-    collapseBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.CoursePresentation', 'collapseBreadcrumbButtonLabel')
+  H5P.NDLADragNBar.FormManager.call(this, parent, {
+    doneButtonLabel: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'done'),
+    deleteButtonLabel: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'remove'),
+    expandBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'expandBreadcrumbButtonLabel'),
+    collapseBreadcrumbButtonLabel: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'collapseBreadcrumbButtonLabel')
   }, 'coursepresentation');
 
   const isNewPresentation = params === undefined;
@@ -56,11 +56,11 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     if (isNewPresentation) {
       const aspectRatioSelector = new AspectRatioSelector([{
           ratio: "4-3",
-          label: H5PEditor.t('H5PEditor.CoursePresentation', 'aspectRatioLandscape'),
+          label: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'aspectRatioLandscape'),
         },
         {
           ratio: "3-4",
-          label: H5PEditor.t('H5PEditor.CoursePresentation', 'aspectRatioPortrait'),
+          label: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'aspectRatioPortrait'),
         },
       ], (newRatio) => this.setRatio(newRatio.ratio));
 
@@ -95,24 +95,24 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
   });
 };
 
-H5PEditor.CoursePresentation.allAspectRatios = ['4-3', '3-4', '16-9', '9-16'];
-H5PEditor.CoursePresentation.prototype.defaultAspectRatio = H5PEditor.CoursePresentation.allAspectRatios[0];
+H5PEditor.NDLACoursePresentation.allAspectRatios = ['4-3', '3-4', '16-9', '9-16'];
+H5PEditor.NDLACoursePresentation.prototype.defaultAspectRatio = H5PEditor.NDLACoursePresentation.allAspectRatios[0];
 
-H5PEditor.CoursePresentation.prototype = Object.create(H5P.DragNBar.FormManager.prototype);
-H5PEditor.CoursePresentation.prototype.constructor = H5PEditor.CoursePresentation;
+H5PEditor.NDLACoursePresentation.prototype = Object.create(H5P.NDLADragNBar.FormManager.prototype);
+H5PEditor.NDLACoursePresentation.prototype.constructor = H5PEditor.NDLACoursePresentation;
 
 /**
  * Must be changed if the semantics for the elements changes.
  * @type {string}
  */
-H5PEditor.CoursePresentation.clipboardKey = 'H5PEditor.CoursePresentation';
+H5PEditor.NDLACoursePresentation.clipboardKey = 'H5PEditor.NDLACoursePresentation';
 
 /**
  * Will change the size of all elements using the given ratio.
  *
  * @param {number} heightRatio
  */
-H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRatio) {
+H5PEditor.NDLACoursePresentation.prototype.updateElementSizes = function (heightRatio) {
   const $slides = this.cp.$slidesWrapper.children();
 
   // Go through all slides
@@ -148,7 +148,7 @@ H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRati
  * 
  * @returns {number}
  */
-H5PEditor.CoursePresentation.prototype.getTrueSlideAspectRatio = function () {
+H5PEditor.NDLACoursePresentation.prototype.getTrueSlideAspectRatio = function () {
   const footerHeight = this.slideRatio > 1 ? 95 : 50;
   const wrapperHeight = this.cp.$wrapper.get(0).getBoundingClientRect().height;
   const footerShareOfTotalHeight = footerHeight / wrapperHeight;
@@ -162,7 +162,7 @@ H5PEditor.CoursePresentation.prototype.getTrueSlideAspectRatio = function () {
  * @param {string} libraryName 
  * @returns {number}
  */
-H5PEditor.CoursePresentation.prototype.getDefaultElementAspectRatio = function(libraryName) {
+H5PEditor.NDLACoursePresentation.prototype.getDefaultElementAspectRatio = function(libraryName) {
   let elementAspectRatio = 4 / 3;
   switch (libraryName) {
     case 'H5P.Audio':
@@ -182,7 +182,7 @@ H5PEditor.CoursePresentation.prototype.getDefaultElementAspectRatio = function(l
  * @param {object} [instanceParameters] Override the default instance parameters
  * @returns {object}
  */
-H5PEditor.CoursePresentation.prototype.addElement = function (library, options = {}, instanceParameters = {}) {
+H5PEditor.NDLACoursePresentation.prototype.addElement = function (library, options = {}, instanceParameters = {}) {
   let elementParams;
   let libraryName;
   
@@ -302,7 +302,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options =
  * @param {type} $wrapper
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
+H5PEditor.NDLACoursePresentation.prototype.appendTo = function ($wrapper) {
   var that = this;
 
   this.$item = H5PEditor.$(this.createHtml()).appendTo($wrapper);
@@ -312,9 +312,9 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   // Create new presentation.
   var presentationParams = (this.parent instanceof ns.Library ? this.parent.params.params : this.parent.params);
   if (presentationParams && presentationParams.override && presentationParams.override.activeSurface === true) {
-    this.slideRatio = H5PEditor.CoursePresentation.RATIO_SURFACE;
+    this.slideRatio = H5PEditor.NDLACoursePresentation.RATIO_SURFACE;
   }
-  this.cp = new H5P.CoursePresentation(presentationParams, H5PEditor.contentId, {cpEditor: this});
+  this.cp = new H5P.NDLACoursePresentation(presentationParams, H5PEditor.contentId, {cpEditor: this});
   this.cp.attach(this.$editor);
   if (this.cp.$wrapper.is(':visible')) {
     this.cp.trigger('resize');
@@ -329,19 +329,19 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.initializeDNB(false);
   
   // Find BG selector fields and init slide selector
-  var globalBackgroundField = H5PEditor.CoursePresentation.findField('globalBackgroundSelector', this.field.fields);
-  var slideFields = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
+  var globalBackgroundField = H5PEditor.NDLACoursePresentation.findField('globalBackgroundSelector', this.field.fields);
+  var slideFields = H5PEditor.NDLACoursePresentation.findField('slides', this.field.fields);
   this.backgroundSelector = new SlideSelector(that, that.cp.$slidesWrapper, globalBackgroundField, slideFields, that.params)
     .appendTo($settingsWrapper);
 
   // Add and bind slide controls.
   var slideControls = {
-    $add: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a>'),
-    $clone: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>'),
-    $background: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'backgroundSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-background"></a>'),
-    $sortLeft: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>'),
-    $sortRight: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>'),
-    $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>'),
+    $add: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'newSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-add"></a>'),
+    $clone: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'cloneSlide') + '" class="h5p-clone-slide h5p-slidecontrols-button h5p-slidecontrols-button-clone"></a>'),
+    $background: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'backgroundSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-background"></a>'),
+    $sortLeft: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>'),
+    $sortRight: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>'),
+    $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>'),
   };
   this.slideControls = slideControls;
 
@@ -417,7 +417,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
  *
  * @param {"4-3" | "3-4"} ratio
  */
-H5PEditor.CoursePresentation.prototype.setRatio = function (ratio) {
+H5PEditor.NDLACoursePresentation.prototype.setRatio = function (ratio) {
   this.cp.slides.forEach(slide => slide.aspectRatio = ratio);
   this.cp.defaultAspectRatio = ratio;
   this.updateSlideRatio(ratio);
@@ -430,7 +430,7 @@ H5PEditor.CoursePresentation.prototype.setRatio = function (ratio) {
  *
  * @param {"4-3" | "3-4"} ratio
  */
-H5PEditor.CoursePresentation.prototype.updateSlideRatio = function (ratio) {  
+H5PEditor.NDLACoursePresentation.prototype.updateSlideRatio = function (ratio) {  
   if (!ratio) {
     return;
   }
@@ -446,7 +446,7 @@ H5PEditor.CoursePresentation.prototype.updateSlideRatio = function (ratio) {
  * @param {object} options Options.
  * @param {object} params Custom semantics params
  */
-H5PEditor.CoursePresentation.prototype.createDNBButton = function (library, options, params) {
+H5PEditor.NDLACoursePresentation.prototype.createDNBButton = function (library, options, params) {
   options = options || {};
   const id = options.id || library.name.split('.')[1].toLowerCase();
 
@@ -477,7 +477,7 @@ H5PEditor.CoursePresentation.prototype.createDNBButton = function (library, opti
  *   buttons: Array;
  * }} Button group.
  */
-H5PEditor.CoursePresentation.prototype.createDNBButtonGroup = function (library, groupData, options = {}) {
+H5PEditor.NDLACoursePresentation.prototype.createDNBButtonGroup = function (library, groupData, options = {}) {
   const id = options.id || library.name.split('.')[1].toLowerCase();
 
   const buttonGroup = {
@@ -504,7 +504,7 @@ H5PEditor.CoursePresentation.prototype.createDNBButtonGroup = function (library,
   return buttonGroup;
 };
 
-H5PEditor.CoursePresentation.prototype.setContainerEm = function (containerEm) {
+H5PEditor.NDLACoursePresentation.prototype.setContainerEm = function (containerEm) {
   this.containerEm = containerEm;
 
   if (this.dnb !== undefined && this.dnb.dnr !== undefined) {
@@ -515,7 +515,7 @@ H5PEditor.CoursePresentation.prototype.setContainerEm = function (containerEm) {
 /**
  * Initialize the drag and drop menu bar.
  */
-H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitialize) {
+H5PEditor.NDLACoursePresentation.prototype.initializeDNB = function (forceReinitialize) {
   const that = this;
   
   const existingDragNBar = document.querySelector('.h5p-dragnbar');
@@ -530,10 +530,10 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
     }
   }
   
-  this.$bar = H5PEditor.$('<div class="h5p-dragnbar">' + H5PEditor.t('H5PEditor.CoursePresentation', 'loading') + '</div>').insertBefore(this.cp.$boxWrapper);
-  const slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
-  const elementFields = H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields;
-  const action = H5PEditor.CoursePresentation.findField('action', elementFields);
+  this.$bar = H5PEditor.$('<div class="h5p-dragnbar">' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'loading') + '</div>').insertBefore(this.cp.$boxWrapper);
+  const slides = H5PEditor.NDLACoursePresentation.findField('slides', this.field.fields);
+  const elementFields = H5PEditor.NDLACoursePresentation.findField('elements', slides.field.fields).field.fields;
+  const action = H5PEditor.NDLACoursePresentation.findField('action', elementFields);
 
   const shapeButtonBase = {
     title: '',
@@ -747,11 +747,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
     }
 
     // Add go to slide button
-    const goToSlide = H5PEditor.CoursePresentation.findField('goToSlide', elementFields);
+    const goToSlide = H5PEditor.NDLACoursePresentation.findField('goToSlide', elementFields);
     if (goToSlide) {
       buttons.splice(5, 0, {
         id: 'gotoslide',
-        title: H5PEditor.t('H5PEditor.CoursePresentation', 'goToSlide'),
+        title: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'goToSlide'),
         createElement: () => this.addElement(
             `H5P.NDLAShape ${this.getShapeLibraryVersion()}`,
             undefined, 
@@ -762,7 +762,25 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
       });
     }
 
-    const h5pShapeLib = libraries.find(library => library.name === "H5P.NDLAShape");
+
+    let h5pShapeLib = libraries.find(library => library.name === "H5P.NDLAShape");
+    if(h5pShapeLib === undefined){
+      h5pShapeLib = {
+        uberName: "H5P.NDLAShape 1.1",
+        name: "H5P.NDLAShape",
+        title: "Shape", 
+        majorVersion: 1,
+        minorVersion: 1,
+        runnable: 0,
+        restricted: false,
+        tutorialUrl: null, 
+        metadataSettings: {}
+      };
+    }
+
+
+
+
     buttons.splice(
       0,
       0,
@@ -771,12 +789,12 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
         dropdownMenus[ASM_TASK_BUTTONS_ID],
         {
           id: ASM_TASK_BUTTONS_ID,
-          title: H5PEditor.t('H5PEditor.CoursePresentation', 'answerHotspot'),
+          title: H5PEditor.t('H5PEditor.NDLACoursePresentation', 'answerHotspot'),
         },
       ),
     );
 
-    this.dnb = new H5P.DragNBar(buttons, this.cp.$current, this.$editor, {$blurHandlers: this.cp.$boxWrapper, libraries: libraries});
+    this.dnb = new H5P.NDLADragNBar(buttons, this.cp.$current, this.$editor, {$blurHandlers: this.cp.$boxWrapper, libraries: libraries});
 
     this.$dnbContainer = this.cp.$current;
     this.dnb.dnr.snap = 10;
@@ -927,7 +945,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
         pasted: true
       };
 
-      if (pasted.from === H5PEditor.CoursePresentation.clipboardKey) {
+      if (pasted.from === H5PEditor.NDLACoursePresentation.clipboardKey) {
         // Pasted content comes from the same version of CP
 
         if (!pasted.generic) {
@@ -944,7 +962,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
           that.dnb.focus(that.addElement(pasted.specific, options));
         }
         else {
-          alert(H5PEditor.t('H5P.DragNBar', 'unableToPaste'));
+          alert(H5PEditor.t('H5P.NDLADragNBar', 'unableToPaste'));
         }
       }
       else if (pasted.generic) {
@@ -959,7 +977,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
           that.dnb.focus(that.addElement(pasted.generic.library, options));
         }
         else {
-          alert(H5PEditor.t('H5P.DragNBar', 'unableToPaste'));
+          alert(H5PEditor.t('H5P.NDLADragNBar', 'unableToPaste'));
         }
       }
     });
@@ -977,7 +995,7 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function (forceReinitiali
   });
 };
 
-H5PEditor.CoursePresentation.prototype.getShapeLibraryVersion = function() {
+H5PEditor.NDLACoursePresentation.prototype.getShapeLibraryVersion = function() {
   this._shapeLibVersion = this._shapeLibVersion || getLibraryDependencyVersion('H5P.NDLAShape');
   const shapeLibNotLoaded = !this._shapeLibVersion;
   if (shapeLibNotLoaded) {
@@ -987,7 +1005,7 @@ H5PEditor.CoursePresentation.prototype.getShapeLibraryVersion = function() {
   return this._shapeLibVersion;
 };
 
-H5PEditor.CoursePresentation.prototype.activateActiveSurfaceMode = function () {
+H5PEditor.NDLACoursePresentation.prototype.activateActiveSurfaceMode = function () {
   const oldHeight = parseFloat(window.getComputedStyle(this.cp.$current[0]).height);
 
   // Enable adjustments
@@ -1001,7 +1019,7 @@ H5PEditor.CoursePresentation.prototype.activateActiveSurfaceMode = function () {
   var change = (newHeight - oldHeight) / newHeight;
 
   // Account for the progress bar that was removed
-  this.slideRatio = H5PEditor.CoursePresentation.RATIO_SURFACE;
+  this.slideRatio = H5PEditor.NDLACoursePresentation.RATIO_SURFACE;
 
   // Update elements
   this.updateElementSizes(1 - change);
@@ -1017,9 +1035,9 @@ H5PEditor.CoursePresentation.prototype.activateActiveSurfaceMode = function () {
  * @param {Object} [clipboard] Clipboard data.
  * @return {boolean} True, if clipboard can be pasted.
  */
-H5PEditor.CoursePresentation.prototype.canPaste = function (clipboard) {
+H5PEditor.NDLACoursePresentation.prototype.canPaste = function (clipboard) {
   if (clipboard) {
-    if (clipboard.from === H5PEditor.CoursePresentation.clipboardKey &&
+    if (clipboard.from === H5PEditor.NDLACoursePresentation.clipboardKey &&
         (!clipboard.generic || this.supported(clipboard.generic.library))) {
       // Content comes from the same version of CP
       // Non generic part = must be content like gotoslide or similar
@@ -1037,14 +1055,14 @@ H5PEditor.CoursePresentation.prototype.canPaste = function (clipboard) {
 /**
  * Create HTML for the field.
  */
-H5PEditor.CoursePresentation.prototype.createHtml = function () {
+H5PEditor.NDLACoursePresentation.prototype.createHtml = function () {
   return H5PEditor.createFieldMarkup(this.field, '<div class="editor"></div>');
 };
 
 /**
  * Validate the current field.
  */
-H5PEditor.CoursePresentation.prototype.validate = function () {
+H5PEditor.NDLACoursePresentation.prototype.validate = function () {
   // Validate all form elements
   var valid = true;
   var firstCT = true;
@@ -1087,7 +1105,7 @@ H5PEditor.CoursePresentation.prototype.validate = function () {
 /**
  * Remove this item.
  */
-H5PEditor.CoursePresentation.prototype.remove = function () {
+H5PEditor.NDLACoursePresentation.prototype.remove = function () {
   this.trigger('remove');
   if (this.dnb !== undefined) {
     this.dnb.remove();
@@ -1106,26 +1124,26 @@ H5PEditor.CoursePresentation.prototype.remove = function () {
  *
  * @returns {undefined} Nothing
  */
-H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
+H5PEditor.NDLACoursePresentation.prototype.initKeywordInteractions = function () {
   var that = this;
   // Add our own menu to the drag and drop menu bar.
   that.$keywordsDNB = H5PEditor.$(
     '<ul class="h5p-dragnbar-ul h5p-dragnbar-left">' +
       '<li class="h5p-slides-menu">' +
-        '<div title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'slides') + '" class="h5p-dragnbar-keywords" role="button" tabindex="0">' +
-          '<span>' + H5PEditor.t('H5PEditor.CoursePresentation', 'slides') + '</span>' +
+        '<div title="' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'slides') + '" class="h5p-dragnbar-keywords" role="button" tabindex="0">' +
+          '<span>' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'slides') + '</span>' +
         '</div>' +
         '<div class="h5p-keywords-dropdown">' +
           '<label class="h5p-keywords-enable">' +
             '<input type="checkbox"/>' +
-            H5PEditor.t('H5PEditor.CoursePresentation', 'showTitles') +
+            H5PEditor.t('H5PEditor.NDLACoursePresentation', 'showTitles') +
           '</label>' +
-          '<label class="h5p-keywords-portrait"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'portrait') + '</label>' +
-          '<label class="h5p-keywords-always"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'alwaysShow') + '</label>' +
-          '<label class="h5p-keywords-hide"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.CoursePresentation', 'autoHide') + '</label>' +
-          '<label class="h5p-keywords-opacity"><input type="text"/> % ' + H5PEditor.t('H5PEditor.CoursePresentation', 'opacity') + '</label>' +
+          '<label class="h5p-keywords-portrait"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'portrait') + '</label>' +
+          '<label class="h5p-keywords-always"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'alwaysShow') + '</label>' +
+          '<label class="h5p-keywords-hide"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'autoHide') + '</label>' +
+          '<label class="h5p-keywords-opacity"><input type="text"/> % ' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'opacity') + '</label>' +
           '<div class="h5peditor-button h5peditor-button-textual importance-low" role="button" tabindex="0" aria-disabled="false">' +
-            H5PEditor.t('H5PEditor.CoursePresentation', 'ok') +
+            H5PEditor.t('H5PEditor.NDLACoursePresentation', 'ok') +
           '</div>' +
         '</div>' +
       '</li>' +
@@ -1278,7 +1296,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
 /**
  * Initiates the keyword menu
  */
-H5PEditor.CoursePresentation.prototype.initKeywordMenu = function () {
+H5PEditor.NDLACoursePresentation.prototype.initKeywordMenu = function () {
   var that = this;
   // Keyword events
   var keywordClick = function (event) {
@@ -1300,7 +1318,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordMenu = function () {
  * @param {object} slideParams
  * @returns {undefined} Nothing
  */
-H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
+H5PEditor.NDLACoursePresentation.prototype.addSlide = function (slideParams) {
   var that = this;
 
   if (slideParams === undefined) {
@@ -1337,7 +1355,7 @@ H5PEditor.CoursePresentation.prototype.addSlide = function (slideParams) {
 /** 
  * Update slides with solutions.
  */
-H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
+H5PEditor.NDLACoursePresentation.prototype.updateNavigationLine = function (index) {
   const hasSolutionArray = this.cp.slides.map((instanceArray, slideIndex) => {
     const slideElements = this.cp.elementInstances[slideIndex];
     
@@ -1361,13 +1379,13 @@ H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
  *
  * @returns {Boolean} Indicates success
  */
-H5PEditor.CoursePresentation.prototype.removeSlide = function () {
+H5PEditor.NDLACoursePresentation.prototype.removeSlide = function () {
   var index = this.cp.$current.index();
   var $remove = this.cp.$current.add(this.cp.$currentKeyword);
   var isRemovingDnbContainer = this.cp.$current.index() === this.$dnbContainer.index();
 
   // Confirm
-  if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmDeleteSlide'))) {
+  if (!confirm(H5PEditor.t('H5PEditor.NDLACoursePresentation', 'confirmDeleteSlide'))) {
     return false;
   }
 
@@ -1420,7 +1438,7 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
  *
  * @param {number} direction 1 for next, -1 for prev.
  */
-H5PEditor.CoursePresentation.prototype.animateNavigationLine = function (direction) {
+H5PEditor.NDLACoursePresentation.prototype.animateNavigationLine = function (direction) {
   var that = this;
 
   var $selectedProgressPart = that.cp.$progressbar.find('.h5p-progressbar-part-selected');
@@ -1437,7 +1455,7 @@ H5PEditor.CoursePresentation.prototype.animateNavigationLine = function (directi
 /**
  * Update the slides sidebar
  */
-H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
+H5PEditor.NDLACoursePresentation.prototype.updateSlidesSidebar = function () {
   var self = this;
   var $keywords = this.cp.$keywords.children();
 
@@ -1450,7 +1468,7 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
     $keyword.find('.joubel-icon-edit').remove();
 
     var $editIcon = H5PEditor.$(
-      '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'edit') + '" tabindex="0">' +
+      '<a href="#" class="joubel-icon-edit h5p-hidden" title="' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'edit') + '" tabindex="0">' +
         '<span class="h5p-icon-circle"></span>' +
         '<span class="h5p-icon-pencil"></span>' +
       '</a>'
@@ -1501,7 +1519,7 @@ H5PEditor.CoursePresentation.prototype.updateSlidesSidebar = function () {
  * @param {int} direction 1 for next, -1 for prev.
  * @returns {Boolean} Indicates success.
  */
-H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction) {
+H5PEditor.NDLACoursePresentation.prototype.sortSlide = function ($element, direction) {
   if (!$element.length) {
     return false;
   }
@@ -1562,7 +1580,7 @@ H5PEditor.CoursePresentation.prototype.sortSlide = function ($element, direction
  * @param {number} firstIndex First index that will be swapped
  * @param {number} secondIndex Second index that will be swapped
  */
-H5PEditor.CoursePresentation.prototype.swapCollectionIndex = function (collection, firstIndex, secondIndex) {
+H5PEditor.NDLACoursePresentation.prototype.swapCollectionIndex = function (collection, firstIndex, secondIndex) {
   var temp = collection[firstIndex];
   collection[firstIndex] = collection[secondIndex];
   collection[secondIndex] = temp;
@@ -1574,7 +1592,7 @@ H5PEditor.CoursePresentation.prototype.swapCollectionIndex = function (collectio
  * @param {jQuery} $current
  * @param {jQuery} $other
  */
-H5PEditor.CoursePresentation.prototype.swapIndexes = function ($current, $other) {
+H5PEditor.NDLACoursePresentation.prototype.swapIndexes = function ($current, $other) {
   var currentIndex = $current.attr('data-index');
   var otherIndex = $other.attr('data-index');
   $current.attr('data-index', otherIndex);
@@ -1587,7 +1605,7 @@ H5PEditor.CoursePresentation.prototype.swapIndexes = function ($current, $other)
  * @param {H5PEditor.$} $span Keyword wrapper.
  * @returns {unresolved} Nothing
  */
-H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
+H5PEditor.NDLACoursePresentation.prototype.editKeyword = function ($span) {
   var that = this;
 
   var $li = $span.parent();
@@ -1602,7 +1620,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
   }
 
   var $delete = H5PEditor.$(
-    '<a href="#" class="joubel-icon-cancel" title="' + H5PEditor.t('H5PEditor.CoursePresentation', 'cancel') + '">' +
+    '<a href="#" class="joubel-icon-cancel" title="' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'cancel') + '">' +
       '<span class="h5p-icon-circle"></span>' +
       '<span class="h5p-icon-cross"></span>' +
     '</a>');
@@ -1663,7 +1681,7 @@ H5PEditor.CoursePresentation.prototype.editKeyword = function ($span) {
  * @param {number} slideIndex
  * @param {string} oldTitle
  */
-H5PEditor.CoursePresentation.prototype.updateKeyword = function (keyword, slideIndex, oldTitle) {
+H5PEditor.NDLACoursePresentation.prototype.updateKeyword = function (keyword, slideIndex, oldTitle) {
   var that = this;
   var hasTitle = true;
 
@@ -1700,7 +1718,7 @@ H5PEditor.CoursePresentation.prototype.updateKeyword = function (keyword, slideI
  * @param {String} type
  * @returns {Object}
  */
-H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, type) {
+H5PEditor.NDLACoursePresentation.prototype.generateForm = function (elementParams, type) {
   var self = this;
 
   if (type === 'H5P.ContinuousText' && self.ct) {
@@ -1712,8 +1730,8 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   }
 
   // Get semantics for the elements field
-  var slides = H5PEditor.CoursePresentation.findField('slides', this.field.fields);
-  var elementFields = H5PEditor.$.extend(true, [], H5PEditor.CoursePresentation.findField('elements', slides.field.fields).field.fields);
+  var slides = H5PEditor.NDLACoursePresentation.findField('slides', this.field.fields);
+  var elementFields = H5PEditor.$.extend(true, [], H5PEditor.NDLACoursePresentation.findField('elements', slides.field.fields).field.fields);
 
   const isAnswerHotspot = !!elementParams.answerType;
 
@@ -1814,7 +1832,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
       }
 
       // Determine library options for this subcontent library
-      var libraryOptions = H5PEditor.CoursePresentation.findField('action', elementFields).options;
+      var libraryOptions = H5PEditor.NDLACoursePresentation.findField('action', elementFields).options;
       if (libraryOptions.length > 0 && typeof libraryOptions[0] === 'object') {
         libraryOptions = libraryOptions.filter(function (option) {
           return option.name.split(' ')[0] === type;
@@ -1843,7 +1861,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
  * @param {object} elementParams
  * @param {object} fileParams
  */
-H5PEditor.CoursePresentation.prototype.setImageSize = function (element, elementParams, fileParams) {
+H5PEditor.NDLACoursePresentation.prototype.setImageSize = function (element, elementParams, fileParams) {
   if (fileParams === undefined || fileParams.width === undefined || fileParams.height === undefined) {
     return;
   }
@@ -1894,7 +1912,7 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
  * @param {object} elementParams
  * @param {object} fileParams
  */
-H5PEditor.CoursePresentation.prototype.setVideoSize = function (elementParams, fileParams) {
+H5PEditor.NDLACoursePresentation.prototype.setVideoSize = function (elementParams, fileParams) {
   if( fileParams === undefined){
     return;
   }
@@ -1914,10 +1932,10 @@ H5PEditor.CoursePresentation.prototype.setVideoSize = function (elementParams, f
  * @param {Object[]} elementFields
  * @param {String[]} fields
  */
-H5PEditor.CoursePresentation.prototype.hideFields = function (elementFields, fields) {
+H5PEditor.NDLACoursePresentation.prototype.hideFields = function (elementFields, fields) {
   // Find and hide fields in list
   for (var i = 0; i < fields.length; i++) {
-    var field = H5PEditor.CoursePresentation.findField(fields[i], elementFields);
+    var field = H5PEditor.NDLACoursePresentation.findField(fields[i], elementFields);
     if (field) {
       field.widget = 'none';
     }
@@ -1930,7 +1948,7 @@ H5PEditor.CoursePresentation.prototype.hideFields = function (elementFields, fie
  * @param {Object[]} elementFields
  * @param {String[]} fields
  */
-H5PEditor.CoursePresentation.prototype.showFields = function (elementFields, fields) {
+H5PEditor.NDLACoursePresentation.prototype.showFields = function (elementFields, fields) {
   // Find and hide all fields not in list
   for (var i = 0; i < elementFields.length; i++) {
     var field = elementFields[i];
@@ -1955,7 +1973,7 @@ H5PEditor.CoursePresentation.prototype.showFields = function (elementFields, fie
 * @param {String} type Library name
 * @param {Function} next Called when we've found the title
 */
-H5PEditor.CoursePresentation.prototype.findLibraryTitle = function (library, next) {
+H5PEditor.NDLACoursePresentation.prototype.findLibraryTitle = function (library, next) {
   var self = this;
 
   /** @private */
@@ -1986,7 +2004,7 @@ H5PEditor.CoursePresentation.prototype.findLibraryTitle = function (library, nex
  * @param {Object} elementInstance
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.processElement = function (elementParams, $wrapper, slideIndex, elementInstance) {
+H5PEditor.NDLACoursePresentation.prototype.processElement = function (elementParams, $wrapper, slideIndex, elementInstance) {
   var that = this;
 
   // Detect type
@@ -2053,9 +2071,9 @@ H5PEditor.CoursePresentation.prototype.processElement = function (elementParams,
  *
  * @param {Object} element
  * @param {Object} elementParams
- * @returns {H5P.DragNBarElement}
+ * @returns {H5P.NDLADragNBarElement}
  */
-H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elementParams) {
+H5PEditor.NDLACoursePresentation.prototype.addToDragNBar = function (element, elementParams) {
   var self = this;
 
   var type = (elementParams.action ? elementParams.action.library.split(' ')[0] : null);
@@ -2076,7 +2094,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     }
   }
 
-  var clipboardData = H5P.DragNBar.clipboardify(H5PEditor.CoursePresentation.clipboardKey, elementParams, 'action');
+  var clipboardData = H5P.NDLADragNBar.clipboardify(H5PEditor.NDLACoursePresentation.clipboardKey, elementParams, 'action');
   var dnbElement = self.dnb.add(element.$wrapper, clipboardData, options);
 
   dnbElement.contextMenu.on('contextMenuEdit', function () {
@@ -2085,7 +2103,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
   element.$wrapper.find('*').attr('tabindex', '-1');
 
   dnbElement.contextMenu.on('contextMenuRemove', function () {
-    if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
+    if (!confirm(H5PEditor.t('H5PEditor.NDLACoursePresentation', 'confirmRemoveElement'))) {
       return;
     }
     if (H5PEditor.Html) {
@@ -2158,7 +2176,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
  * @param {Boolean} isContinuousText
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapper, isContinuousText) {
+H5PEditor.NDLACoursePresentation.prototype.removeElement = function (element, $wrapper, isContinuousText) {
   var slideIndex = this.cp.$current.index();
   var elementIndex = $wrapper.index();
 
@@ -2209,7 +2227,7 @@ H5PEditor.CoursePresentation.prototype.removeElement = function (element, $wrapp
  * @param {object} element Params
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wrapper, elementParams) {
+H5PEditor.NDLACoursePresentation.prototype.showElementForm = function (element, $wrapper, elementParams) {
   // Determine element type
   var machineName;
   if (elementParams.action !== undefined) {
@@ -2236,7 +2254,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
    * @private
    */
   const handleFormremove = (e) => {
-    e.preventRemove = !confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'));
+    e.preventRemove = !confirm(H5PEditor.t('H5PEditor.NDLACoursePresentation', 'confirmRemoveElement'));
     if (e.preventRemove) {
       return;
     }
@@ -2416,7 +2434,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 
   let customTitle, customIconId;
   if (elementParams.action === undefined) {
-    customTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'goToSlide');
+    customTitle = H5PEditor.t('H5PEditor.NDLACoursePresentation', 'goToSlide');
     customIconId = 'gotoslide';
   }
 
@@ -2440,7 +2458,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
 * @param {object} elementParams Element parameters.
 * @param {number} [repeat] Counter for redrawing if necessary.
 */
-H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, element, elementParams, repeat) {
+H5PEditor.NDLACoursePresentation.prototype.redrawElement = function ($wrapper, element, elementParams, repeat) {
   const elementIndex = $wrapper.index();
   const slideIndex = this.cp.$current.index();
   const elementsParams = this.params.slides[slideIndex].elements;
@@ -2510,9 +2528,9 @@ H5PEditor.CoursePresentation.prototype.redrawElement = function ($wrapper, eleme
  * @param {H5P.jQuery} $element
  * @param {Object} elementParams
  */
-H5PEditor.CoursePresentation.prototype.fitElement = function ($element, elementParams) {
+H5PEditor.NDLACoursePresentation.prototype.fitElement = function ($element, elementParams) {
   const sizeNPosition = this.dnb.getElementSizeNPosition($element);
-  const updated = H5P.DragNBar.fitElementInside(sizeNPosition);
+  const updated = H5P.NDLADragNBar.fitElementInside(sizeNPosition);
 
   const pW = (sizeNPosition.containerWidth / 100);
   const pH = (sizeNPosition.containerHeight / 100);
@@ -2548,7 +2566,7 @@ H5PEditor.CoursePresentation.prototype.fitElement = function ($element, elementP
 * @param {Boolean} [maxTwo] Return after two elements have been found
 * @returns {{Object[]|Object}}
 */
-H5PEditor.CoursePresentation.prototype.getCTs = function (firstOnly, maxTwo) {
+H5PEditor.NDLACoursePresentation.prototype.getCTs = function (firstOnly, maxTwo) {
   var self = this;
 
   var CTs = [];
@@ -2587,7 +2605,7 @@ H5PEditor.CoursePresentation.prototype.getCTs = function (firstOnly, maxTwo) {
  * @param {function} ready
  * @returns {undefined}
  */
-H5PEditor.CoursePresentation.prototype.ready = function (ready) {
+H5PEditor.NDLACoursePresentation.prototype.ready = function (ready) {
   if (this.passReadies) {
     this.parent.ready(ready);
   }
@@ -2603,7 +2621,7 @@ H5PEditor.CoursePresentation.prototype.ready = function (ready) {
  * @param {Array} fields collection to look in
  * @returns {Object} field object
  */
-H5PEditor.CoursePresentation.findField = function (name, fields) {
+H5PEditor.NDLACoursePresentation.findField = function (name, fields) {
   for (var i = 0; i < fields.length; i++) {
     if (fields[i].name === name) {
       return fields[i];
@@ -2612,7 +2630,7 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
 };
 
 /** @constant {Number} */
-H5PEditor.CoursePresentation.RATIO_SURFACE = 16 / 9;
+H5PEditor.NDLACoursePresentation.RATIO_SURFACE = 16 / 9;
 
 // Tell the editor what widget we are.
-window.H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
+window.H5PEditor.widgets.coursepresentation = H5PEditor.NDLACoursePresentation;
