@@ -762,6 +762,7 @@ H5PEditor.NDLACoursePresentation.prototype.initializeDNB = function (forceReinit
       });
     }
 
+
     let h5pShapeLib = libraries.find(library => library.name === "H5P.NDLAShape");
     if(h5pShapeLib === undefined){
       h5pShapeLib = {
@@ -2079,7 +2080,7 @@ H5PEditor.NDLACoursePresentation.prototype.addToDragNBar = function (element, el
 
   const options = {
     disableResize: elementParams.displayAsButton,
-    lock: (type === 'H5P.Chart' && elementParams.action.params.graphMode === 'pieChart'),
+    lock: (type === 'H5P.NDLAChart' && elementParams.action.params.graphMode === 'pieChart'),
     cornerLock: (type === 'H5P.Image' || type === 'H5P.NDLAShape')
   };
 
@@ -2468,7 +2469,7 @@ H5PEditor.NDLACoursePresentation.prototype.redrawElement = function ($wrapper, e
   repeat = (typeof repeat === 'undefined') ? elements.length - 1 - elementIndex : repeat;
 
   const isPieChart = elementParams.action 
-    && elementParams.action.library.split(' ')[0] === 'H5P.Chart'
+    && elementParams.action.library.split(' ')[0] === 'H5P.NDLAChart'
     && elementParams.action.params.graphMode === 'pieChart';
   if (isPieChart) {
     elementParams.width = elementParams.height / this.slideRatio;
