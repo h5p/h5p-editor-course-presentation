@@ -112,40 +112,40 @@
 }
 
 /* SVG */
-.h5p-dragnbar-shape-triangle-button::before {
+.h5p-dragnbar-shape-triangle-button::before,  .h5p-dragnbar-ndlashape-triangle-button::before{
   content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 600 600'%3E%3Cpolygon points='300,20 20,580 580,580' style='fill:rgb(255,255,255);stroke:rgb(0,0,0);stroke-width:30;;'/%3E%3C/svg%3E");
   color: #494949;
   font-size: 1.1em;
   vertical-align: top;
 }
-.h5p-dragnbar-shape-pentagon-button::before {
+.h5p-dragnbar-shape-pentagon-button::before, .h5p-dragnbar-ndlashape-pentagon-button::before {
   content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 600 600'%3E%3Cpolygon points='300,20 20,200 100,580 500,580 580,200' style='fill:rgb(255,255,255);stroke:rgb(0,0,0);stroke-width:30;;'/%3E%3C/svg%3E");
   color: #494949;
   font-size: 1.1em;
   vertical-align: top;
 }
-.h5p-dragnbar-shape-hexagon-button::before {
+.h5p-dragnbar-shape-hexagon-button::before, .h5p-dragnbar-ndlashape-hexagon-button::before{
   content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 600 600'%3E%3Cpolygon points='560,300 450,560 150,560 40,300 150,40 450,40' style='fill:rgb(255,255,255);stroke:rgb(0,0,0);stroke-width:30;;'/%3E%3C/svg%3E");
   color: #494949;
   font-size: 1.1em;
   vertical-align: top;
 }
 
-.h5p-dragnbar-shape-cylinder-button::before {
+.h5p-dragnbar-shape-cylinder-button::before, .h5p-dragnbar-ndlashape-cylinder-button::before {
   content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='80 0 355 512'%3E%3Cg fill='rgb(0,0,0)'%3E%3Cpath d='M425.621,38.187C414.763,1.216,272.789,0,256,0S97.237,1.216,86.379,38.187c-0.64,1.387-1.045,2.859-1.045,4.48v426.667 c0,1.621,0.405,3.093,1.045,4.48C97.237,510.784,239.211,512,256,512s158.763-1.216,169.621-38.187 c0.64-1.387,1.045-2.859,1.045-4.48V42.667C426.667,41.045,426.261,39.573,425.621,38.187z M256,21.333 c87.723,0,137.685,13.248,148.075,21.333C393.685,50.752,343.723,64,256,64S118.315,50.752,107.925,42.667 C118.315,34.581,168.277,21.333,256,21.333z M405.333,467.989c-6.101,7.851-56.448,22.677-149.333,22.677 c-93.995,0-144.619-15.211-149.333-21.333V65.429C149.312,84.544,242.603,85.333,256,85.333s106.688-0.789,149.333-19.904V467.989 z'/%3E%3C/g%3E%3C/svg%3E%0A");
   color: #494949;
   font-size: 1.1em;
   vertical-align: top;
 }
 
-.h5p-dragnbar-shape-cube-button::before {
+.h5p-dragnbar-shape-cube-button::before, .h5p-dragnbar-ndlashape-cube-button::before {
   content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 512 512'%3E%3Cg fill='rgb(0,0,0)'%3E%3Cpath d='M511.531,8.384c-0.128-0.576-0.128-1.195-0.363-1.749c-1.088-2.645-3.179-4.736-5.824-5.824 c-0.555-0.235-1.152-0.213-1.749-0.363C502.869,0.299,502.144,0,501.333,0H160c-0.619,0-1.173,0.256-1.771,0.363 c-0.768,0.128-1.557,0.149-2.283,0.448c-1.323,0.555-2.496,1.323-3.499,2.325L3.115,152.469c-0.085,0.085-0.107,0.213-0.213,0.299 c-0.853,0.917-1.6,1.963-2.091,3.136C0.277,157.248,0,158.635,0,160.043v341.291C0,507.221,4.779,512,10.667,512H352 c1.387,0,2.773-0.277,4.075-0.832c1.195-0.491,2.219-1.237,3.157-2.091c0.085-0.085,0.213-0.107,0.299-0.192l149.333-149.333 c0.981-0.981,1.771-2.176,2.304-3.477c0.299-0.747,0.341-1.515,0.469-2.304c0.107-0.597,0.363-1.152,0.363-1.771V10.667 C512,9.856,511.701,9.131,511.531,8.384z M341.333,490.667h-320v-320h320V490.667z M347.584,149.333H36.416l128-128h311.168 L347.584,149.333z M490.667,347.584l-128,128V164.416l128-128V347.584z'/%3E%3C/g%3E%3C/svg%3E%0A");
   color: #494949;
   font-size: 1.1em;
   vertical-align: top;
 }
 
-.h5p-dragnbar-shape-cone-button::before {
+.h5p-dragnbar-shape-cone-button::before, .h5p-dragnbar-ndlashape-cone-button::before {
   content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='80 0 350 512'%3E%3Cg fill='rgb(0,0,0)'%3E%3Cpath d='M426.624,469.269c0-0.043-0.021-0.064-0.021-0.107c0-0.597-0.235-1.131-0.32-1.707c-0.107-0.576-0.043-1.152-0.235-1.707 l-0.192-0.555c-0.043-0.128-0.085-0.235-0.128-0.363l-0.448-1.301c-0.256-0.683-0.363-1.387-0.704-2.048L266.069,7.061 c-0.085-0.235-0.256-0.384-0.341-0.597c-0.256-0.64-0.661-1.173-1.045-1.749c-0.384-0.576-0.747-1.173-1.237-1.664 c-0.448-0.448-1.003-0.789-1.536-1.152c-0.619-0.427-1.195-0.832-1.877-1.109c-0.192-0.085-0.341-0.256-0.555-0.32 c-0.469-0.171-0.96-0.107-1.451-0.192C257.365,0.149,256.747,0,256.064,0c-0.832,0-1.621,0.149-2.411,0.341 c-0.384,0.085-0.768,0.021-1.152,0.171c-0.171,0.064-0.277,0.192-0.448,0.256c-0.789,0.32-1.472,0.789-2.176,1.28 c-0.448,0.32-0.917,0.597-1.301,0.981c-0.533,0.533-0.939,1.152-1.344,1.813c-0.363,0.533-0.725,1.045-0.96,1.621 c-0.085,0.213-0.277,0.363-0.341,0.597L87.339,461.504c-0.341,0.64-0.448,1.323-0.683,1.984l-0.789,2.24 c-0.235,0.661-0.171,1.323-0.277,2.005c-0.064,0.512-0.299,0.96-0.299,1.515c0,0.107,0.064,0.213,0.064,0.32 c0.021,0.661,0.213,1.28,0.363,1.92c0.171,0.896,0.341,1.771,0.725,2.603c11.669,36.629,152.768,37.824,169.515,37.824 c16.768,0,158.101-1.195,169.557-37.909c0.064-0.128,0.107-0.277,0.171-0.427c0.192-0.427,0.213-0.896,0.363-1.344 c0.256-0.896,0.512-1.771,0.555-2.709c0-0.043,0.021-0.085,0.021-0.128C426.603,469.333,426.624,469.312,426.624,469.269z M255.957,42.944l139.435,399.701c-45.739-15.381-126.976-16.064-139.413-16.064c-12.437,0-93.696,0.683-139.435,16.064 L255.957,42.944z M255.957,490.56c-91.285,0.021-141.269-14.272-148.437-20.715c8.384-8,58.176-21.952,148.437-21.952 c91.285,0,141.269,14.272,148.437,20.715C396.011,476.608,346.219,490.56,255.957,490.56z'/%3E%3C/g%3E%3C/svg%3E%0A");
   color: #494949;
   font-size: 1.1em;
@@ -162,6 +162,7 @@
 .h5p-dragnbar-twitteruserfeed-button::before,
 .h5p-dragnbar-interactivevideo-button::before,
 .h5p-dragnbar-chart-button::before,
+.h5p-dragnbar-ndlachart-button::before,
 .h5p-dragnbar-shape-user-button::before,
 .h5p-dragnbar-shape-wheelchair-button::before,
 .h5p-dragnbar-shape-long-arrow-right-button::before,
@@ -172,6 +173,16 @@
 .h5p-dragnbar-shape-arrows-alt-v-button::before,
 .h5p-dragnbar-shape-arrows-alt-button::before,
 .h5p-dragnbar-shape-thumbs-up-button::before,
+.h5p-dragnbar-ndlashape-user-button::before,
+.h5p-dragnbar-ndlashape-wheelchair-button::before,
+.h5p-dragnbar-ndlashape-long-arrow-right-button::before,
+.h5p-dragnbar-ndlashape-long-arrow-left-button::before,
+.h5p-dragnbar-ndlashape-long-arrow-up-button::before,
+.h5p-dragnbar-ndlashape-long-arrow-down-button::before,
+.h5p-dragnbar-ndlashape-arrows-alt-h-button::before,
+.h5p-dragnbar-ndlashape-arrows-alt-v-button::before,
+.h5p-dragnbar-ndlashape-arrows-alt-button::before,
+.h5p-dragnbar-ndlashape-thumbs-up-button::before,
 .h5p-dragnbar-summary-page-button-button::before
  {
   font-family: 'H5PFontAwesome4';
@@ -186,6 +197,12 @@
 .h5p-dragnbar-shape-horizontal-line-button::before,
 .h5p-dragnbar-shape-vertical-line-button::before,
 .h5p-dragnbar-shape-done-button::before,
+.h5p-dragnbar-ndlashape-button::before,
+.h5p-dragnbar-ndlashape-rectangle-button::before,
+.h5p-dragnbar-ndlashape-circle-button::before,
+.h5p-dragnbar-ndlashape-horizontal-line-button::before,
+.h5p-dragnbar-ndlashape-vertical-line-button::before,
+.h5p-dragnbar-ndlashape-done-button::before,
 .h5p-dragnbar-gotoslide-button::before,
 .h5p-dragnbar-task-buttons-button::before,
 .h5p-dragnbar-yes-button-button::before,
@@ -229,34 +246,37 @@
 .h5p-dragnbar-chart-button::before {
   content: "\f200";
 }
-.h5p-dragnbar-shape-user-button::before {
+.h5p-dragnbar-ndlachart-button::before {
+  content: "\f200";
+}
+.h5p-dragnbar-shape-user-button::before, .h5p-dragnbar-ndlashape-user-button::before {
   content: "\f051";
 }
-.h5p-dragnbar-shape-wheelchair-button::before {
+.h5p-dragnbar-shape-wheelchair-button::before, .h5p-dragnbar-ndlashape-wheelchair-button::before {
   content: "\f193";
 }
-.h5p-dragnbar-shape-long-arrow-right-button::before {
+.h5p-dragnbar-shape-long-arrow-right-button::before, .h5p-dragnbar-ndlashape-long-arrow-right-button::before {
   content: "\f178";
 }
-.h5p-dragnbar-shape-long-arrow-left-button::before {
+.h5p-dragnbar-shape-long-arrow-left-button::before, .h5p-dragnbar-ndlashape-long-arrow-left-button::before {
   content: "\f177";
 }
-.h5p-dragnbar-shape-long-arrow-up-button::before {
+.h5p-dragnbar-shape-long-arrow-up-button::before, .h5p-dragnbar-ndlashape-long-arrow-up-button::before {
   content: "\f176";
 }
-.h5p-dragnbar-shape-long-arrow-down-button::before {
+.h5p-dragnbar-shape-long-arrow-down-button::before, .h5p-dragnbar-ndlashape-long-arrow-down-button::before {
   content: "\f175";
 }
-.h5p-dragnbar-shape-arrows-alt-h-button::before {
+.h5p-dragnbar-shape-arrows-alt-h-button::before, .h5p-dragnbar-ndlashape-arrows-alt-h-button::before {
   content: "\f07e";
 }
-.h5p-dragnbar-shape-arrows-alt-v-button::before {
+.h5p-dragnbar-shape-arrows-alt-v-button::before, .h5p-dragnbar-ndlashape-arrows-alt-v-button::before {
   content: "\f07d";
 }
-.h5p-dragnbar-shape-arrows-alt-button::before {
+.h5p-dragnbar-shape-arrows-alt-button::before, .h5p-dragnbar-ndlashape-arrows-alt-button::before {
   content: "\f047";
 }
-.h5p-dragnbar-shape-thumbs-up-button::before {
+.h5p-dragnbar-shape-thumbs-up-button::before, .h5p-dragnbar-ndlashape-thumbs-up-button::before {
   content: "\f164";
 }
 /* H5P specific icons */
@@ -302,23 +322,23 @@
 .h5p-dragnbar-dialogcards-button::before {
   content: "\e900";
 }
-.h5p-dragnbar-shape-button::before {
+.h5p-dragnbar-shape-button::before, .h5p-dragnbar-ndlashape-button::before {
   content: "\e91c";
   font-size: 1.5em;
 }
-.h5p-dragnbar-shape-rectangle-button::before {
+.h5p-dragnbar-shape-rectangle-button::before, .h5p-dragnbar-ndlashape-rectangle-button::before {
   content: "\e91f";
 }
-.h5p-dragnbar-shape-circle-button::before {
+.h5p-dragnbar-shape-circle-button::before, .h5p-dragnbar-ndlashape-circle-button::before {
   content: "\e91d";
 }
-.h5p-dragnbar-shape-vertical-line-button::before {
+.h5p-dragnbar-shape-vertical-line-button::before, .h5p-dragnbar-ndlashape-vertical-line-button::before {
   content: "\e920";
 }
-.h5p-dragnbar-shape-horizontal-line-button::before {
+.h5p-dragnbar-shape-horizontal-line-button::before, .h5p-dragnbar-ndlashape-horizontal-line-button::before {
   content: "\e91e";
 }
-.h5p-dragnbar-shape-done-button::before {
+.h5p-dragnbar-shape-done-button::before, .h5p-dragnbar-ndlashape-done-button::before {
   content: "\e924";
 }
 .h5p-dragnbar-task-buttons-button::before {
