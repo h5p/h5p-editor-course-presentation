@@ -48,7 +48,7 @@ ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
           confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok'),
         }).appendTo(document.body);
 
-        confirmationDialog.show();
+        confirmationDialog.show($element.offset().top);
 
         confirmationDialog.on('confirmed', () => {
           checked = $input.is(':checked');
