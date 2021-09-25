@@ -576,9 +576,9 @@ H5PEditor.NDLACoursePresentation.prototype.initializeDNB = function (forceReinit
 
   // Ideally, this would not be built here
   const dropdownMenus = {};
-  dropdownMenus['shape'] = {
+  dropdownMenus['ndlashape'] = {
     dropdown: {
-      id: 'shape'
+      id: 'ndlashape'
     },
     buttons: [
       H5P.jQuery.extend(true, {}, shapeButtonBase, shapeButtonBase2D, {
