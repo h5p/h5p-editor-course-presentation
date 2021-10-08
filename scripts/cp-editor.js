@@ -76,9 +76,9 @@ H5PEditor.NDLACoursePresentation = function (parent, field, params, setValue) {
     activeSurfaceCheckbox.on('checked', this.activateActiveSurfaceMode.bind(this));
   });
 
-  if (H5PEditor.InteractiveVideo !== undefined) {
+  if (H5PEditor.NDLAInteractiveVideo !== undefined) {
     // Disable IV's guided tour within CP
-    H5PEditor.InteractiveVideo.disableGuidedTour();
+    H5PEditor.NDLAInteractiveVideo.disableGuidedTour();
   }
 
   // Update paste button
@@ -166,7 +166,7 @@ H5PEditor.NDLACoursePresentation.prototype.getDefaultElementAspectRatio = functi
   let elementAspectRatio = 4 / 3;
   switch (libraryName) {
     case 'H5P.Audio':
-    case 'H5P.InteractiveVideo':
+    case 'H5P.NDLAInteractiveVideo':
       elementAspectRatio = 1 / 1;
       break;
   }
@@ -230,7 +230,7 @@ H5PEditor.NDLACoursePresentation.prototype.addElement = function (library, optio
           elementParams.width = 50;
           break;
 
-        case 'H5P.InteractiveVideo':
+        case 'H5P.NDLAInteractiveVideo':
           elementParams.width = 50;
           break;
       }
