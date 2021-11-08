@@ -322,12 +322,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     })
     .next()
     .click(function () {
-      var removeIndex = that.cp.$current.index();
-      var removed = that.removeSlide();
-      if (removed !== false) {
-        that.trigger('removeSlide', removeIndex);
-      }
-      that.updateSlidesSidebar();
+      that.removeSlide();
       return false;
     });
 
@@ -1130,6 +1125,9 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
     $remove.remove();
 
     H5P.ContinuousText.Engine.run(this);
+
+    that.trigger('removeSlide', index);
+    that.updateSlidesSidebar();
   });
 };
 
