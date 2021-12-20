@@ -507,3 +507,11 @@
 .h5peditor .field.video .h5p-add-dialog {
   z-index: 4; /* {1} */
 }
+
+/**
+ * {1} Hide form manager head created by H5P Core. Remove if the NDLA prefix is ever removed
+ *     (https://github.com/h5p/h5p-editor-php-library/blob/c886fa6ded498bbe0148e9484f9b1534facc264e/scripts/h5peditor-form.js#L36-L43)
+ */
+.h5p-ndlacoursepresentation-editor .h5peditor-form-manager-head {
+  display: none !important; /* {1} */
+}
