@@ -177,6 +177,13 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
           elementParams.width = 50;
           elementParams.height = 64.5536;
           break;
+
+        case 'H5P.AudioRecorder':
+          elementParams.y = 11;
+          elementParams.width = 41.89;
+          elementParams.height = 78;
+          elementParams.backgroundOpacity = 100;
+          break;
       }
     }
 
