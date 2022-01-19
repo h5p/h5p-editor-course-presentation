@@ -1,8 +1,8 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 22,
-  "patchVersion": 6,
+  "minorVersion": 23,
+  "patchVersion": 0,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel",
@@ -92,7 +92,7 @@
     {
       "machineName": "H5P.Blanks",
       "majorVersion": 1,
-      "minorVersion": 12
+      "minorVersion": 13
     },
     {
       "machineName": "H5P.SingleChoiceSet",
@@ -102,17 +102,17 @@
     {
       "machineName": "H5P.MultiChoice",
       "majorVersion": 1,
-      "minorVersion": 14
+      "minorVersion": 15
     },
     {
       "machineName": "H5P.TrueFalse",
       "majorVersion": 1,
-      "minorVersion": 6
+      "minorVersion": 7
     },
     {
       "machineName": "H5P.DragQuestion",
       "majorVersion": 1,
-      "minorVersion": 13
+      "minorVersion": 14
     },
     {
       "machineName": "H5P.Summary",
@@ -127,22 +127,22 @@
     {
       "machineName": "H5P.InteractiveVideo",
       "majorVersion": 1,
-      "minorVersion": 22
+      "minorVersion": 23
     },
     {
       "machineName": "H5P.CoursePresentation",
       "majorVersion": 1,
-      "minorVersion": 22
+      "minorVersion": 23
     },
     {
       "machineName": "H5P.MarkTheWords",
       "majorVersion": 1,
-      "minorVersion": 9
+      "minorVersion": 10
     },
     {
       "machineName": "H5P.DragText",
       "majorVersion": 1,
-      "minorVersion": 8
+      "minorVersion": 9
     },
     {
       "machineName": "H5P.TwitterUserFeed",
@@ -152,7 +152,7 @@
     {
       "machineName": "H5P.Dialogcards",
       "majorVersion": 1,
-      "minorVersion": 8
+      "minorVersion": 9
     },
     {
       "machineName": "H5P.AudioRecorder",
