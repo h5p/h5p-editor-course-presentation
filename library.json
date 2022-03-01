@@ -104,11 +104,6 @@
       "minorVersion": 6
     },
     {
-      "machineName": "H5P.NDLADragQuestion",
-      "majorVersion": 1,
-      "minorVersion": 13
-    },
-    {
       "machineName": "H5P.Summary",
       "majorVersion": 1,
       "minorVersion": 10

@@ -221,10 +221,6 @@ H5PEditor.NDLACoursePresentation.prototype.addElement = function (library, optio
           elementParams.width = 5;
           elementParams.action.params.fitToWrapper = true;
           break;
-      
-        case 'H5P.DragQuestion':
-          elementParams.width = 50;
-          break;
 
         case 'H5P.Video':
           elementParams.width = 50;
