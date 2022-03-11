@@ -30,12 +30,8 @@ export function alterDisplayAsButtonSemantics(element, $) {
       const buttonColorField = $parent.find(".field-name-buttonColor");
       const buttonIconSelectField = $parent.find(".field-name-buttonIcon");
 
-      const hotspotButtonField = $parent.find(".field-name-showAsHotspot");
-
       const displayElementAsButton = $displayAsButtonCheckbox[0].checked;
-      if (displayElementAsButton) {
-        hideFields(hotspotButtonField);
-      } else {
+      if (!displayElementAsButton) {
         hideFields(
           buttonSizeField,
           buttonUseIconField,
@@ -48,7 +44,6 @@ export function alterDisplayAsButtonSemantics(element, $) {
         const checkbox = e.target;
         if (checkbox.checked) {
           showFields(buttonSizeField, buttonUseIconField, buttonColorField);
-          hideFields(hotspotButtonField);
 
           if (buttonUseIconField.find("input")[0].checked) {
             showFields(buttonIconSelectField);
@@ -60,8 +55,6 @@ export function alterDisplayAsButtonSemantics(element, $) {
             buttonColorField,
             buttonIconSelectField
           );
-
-          showFields(hotspotButtonField);
         }
       });
     }

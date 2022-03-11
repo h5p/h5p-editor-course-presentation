@@ -1134,7 +1134,6 @@ H5PEditor.NDLACoursePresentation.prototype.initKeywordInteractions = function ()
             '<input type="checkbox"/>' +
             H5PEditor.t('H5PEditor.NDLACoursePresentation', 'showTitles') +
           '</label>' +
-          '<label class="h5p-keywords-portrait"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'portrait') + '</label>' +
           '<label class="h5p-keywords-always"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'alwaysShow') + '</label>' +
           '<label class="h5p-keywords-hide"><input type="checkbox"/>' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'autoHide') + '</label>' +
           '<label class="h5p-keywords-opacity"><input type="text"/> % ' + H5PEditor.t('H5PEditor.NDLACoursePresentation', 'opacity') + '</label>' +
@@ -1794,6 +1793,15 @@ H5PEditor.NDLACoursePresentation.prototype.generateForm = function (elementParam
   alterDisplayAsButtonSemantics(element, ns.$);
   alterDisplayAsHotspotSemantics(element, ns.$);
   alterHotspotGotoSemantics(element, ns.$);
+  
+  if (type === "H5P.NDLAShape") {
+    element.$form.find('.field-name-showAsHotspot').each(function () { // TODO: Use showWhen in semantics.json instead…
+      var buttonIconSelectField = ns.$(this).parent().find('.field-name-showAsHotspot');
+  
+        buttonIconSelectField.removeClass("h5p-hidden2");
+
+    });
+  }
 
   element.$form.find('.field-name-useButtonIcon').each(function () { // TODO: Use showWhen in semantics.json instead…
     var buttonIconSelectField = ns.$(this).parent().find('.field-name-buttonIcon');
