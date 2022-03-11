@@ -74,6 +74,9 @@ export function alterDisplayAsHotspotSemantics(element, $) {
     const displayElementAsHotspot =
       $displayAsHotspotCheckbox.get(0) &&
       $displayAsHotspotCheckbox.get(0).checked;
+    
+    hideFields($hotspotButtonField);
+    
     if (displayElementAsHotspot) {
       hideFields($displayAsButtonField);
     }
