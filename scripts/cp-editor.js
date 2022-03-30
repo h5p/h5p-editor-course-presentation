@@ -1133,8 +1133,9 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 
     H5P.ContinuousText.Engine.run(this);
 
-    that.trigger('removeSlide', index);
-    that.updateSlidesSidebar();
+    this.trigger('removeSlide', index);
+    this.updateSlidesSidebar();
+    
   });
 };
 
