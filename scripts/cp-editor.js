@@ -1579,10 +1579,11 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
  * @param {object} fileParams
  */
 H5PEditor.CoursePresentation.prototype.setVideoSize = function (elementParams, fileParams) {
-  if( fileParams === undefined){
+  if (!fileParams){
     return;
   }
-  if (fileParams.hasOwnProperty('aspectRatio') !== true) {
+
+  if (!fileParams.aspectRatio) {
     fileParams.aspectRatio = '16:9';
   }
 
