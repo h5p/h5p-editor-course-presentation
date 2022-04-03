@@ -1135,7 +1135,6 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 
     this.trigger('removeSlide', index);
     this.updateSlidesSidebar();
-    
   });
 };
 
