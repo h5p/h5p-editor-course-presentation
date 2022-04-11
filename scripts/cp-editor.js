@@ -1133,8 +1133,8 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
 
     H5P.ContinuousText.Engine.run(this);
 
-    that.trigger('removeSlide', index);
-    that.updateSlidesSidebar();
+    this.trigger('removeSlide', index);
+    this.updateSlidesSidebar();
   });
 };
 
@@ -1579,10 +1579,11 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
  * @param {object} fileParams
  */
 H5PEditor.CoursePresentation.prototype.setVideoSize = function (elementParams, fileParams) {
-  if( fileParams === undefined){
+  if (!fileParams){
     return;
   }
-  if (fileParams.hasOwnProperty('aspectRatio') !== true) {
+
+  if (!fileParams.aspectRatio) {
     fileParams.aspectRatio = '16:9';
   }
 
