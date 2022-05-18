@@ -127,6 +127,7 @@
 .h5p-dragnbar-audio-button:before,
 .h5p-dragnbar-video-button:before,
 .h5p-dragnbar-more-button:before,
+.h5p-dragnbar-twitteruserfeed-button:before,
 .h5p-dragnbar-audiorecorder-button:before,
 .h5p-dragnbar-interactivevideo-button:before,
 .h5p-dragnbar-chart-button:before {
@@ -166,6 +167,9 @@
 }
 .h5p-dragnbar-video-button:before {
   content: "\f008";
+}
+.h5p-dragnbar-twitteruserfeed-button:before {
+  content: "\f099";
 }
 .h5p-dragnbar-audiorecorder-button:before {
   content: "\f130";
