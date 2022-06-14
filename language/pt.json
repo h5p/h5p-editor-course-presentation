@@ -6,16 +6,16 @@
     "removeSlide": "Apagar slide",
     "cloneSlide": "Duplicar slide",
     "newSlide": "Adicionar novo slide",
-    "insertElement": "Clique e arraste para ajustar :type",
+    "insertElement": "Click and drag to place :type",
     "newKeyword": "Nova palavra-chave",
     "save": "Guardar",
     "confirmRemoveElement": "Tem a certeza de que pretende apagar este elemento?",
-    "cancel": "Cancelar",
-    "done": "Concluído",
-    "remove": "Apagar",
+    "cancel": "Cancel",
+    "done": "Done",
+    "remove": "Delete",
     "edit": "Editar",
     "keywordsTip": "Arrastrar palavras-chave usando os dois botões acima.",
-    "loading": "A carregar...",
+    "loading": "Loading...",
     "slides": "Diapositivos",
     "element": "Elemento",
     "resetToDefault": "Reiniciar para predefinição",
@@ -35,7 +35,7 @@
     "slide": "Slide",
     "opacity": "Opacidade",
     "goToSlide": "Ir para o slide",
-    "expandBreadcrumbButtonLabel": "Voltar",
-    "collapseBreadcrumbButtonLabel": "Fechar navegação"
+    "expandBreadcrumbButtonLabel": "Go back",
+    "collapseBreadcrumbButtonLabel": "Close navigation"
   }
 }
