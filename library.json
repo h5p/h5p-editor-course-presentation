@@ -1,10 +1,10 @@
 {
-  "title": "Course Presentation Editor",
+  "title": "NDLA Interactive Board Editor",
   "majorVersion": 1,
   "minorVersion": 24,
-  "patchVersion": 5,
+  "patchVersion": 17,
   "runnable": 0,
-  "machineName": "H5PEditor.CoursePresentation",
+  "machineName": "H5PEditor.NDLACoursePresentation",
   "author": "Joubel",
   "coreApi": {
     "majorVersion": 1,
@@ -39,7 +39,7 @@
       "minorVersion": 5
     },
     {
-      "machineName": "H5P.DragNBar",
+      "machineName": "H5P.NDLADragNBar",
       "majorVersion": 1,
       "minorVersion": 6
     },
@@ -49,7 +49,7 @@
       "minorVersion": 1
     },
     {
-      "machineName": "H5P.Shape",
+      "machineName": "H5P.NDLAShape",
       "majorVersion": 1,
       "minorVersion": 1
     },
@@ -104,11 +104,6 @@
       "minorVersion": 6
     },
     {
-      "machineName": "H5P.DragQuestion",
-      "majorVersion": 1,
-      "minorVersion": 13
-    },
-    {
       "machineName": "H5P.Summary",
       "majorVersion": 1,
       "minorVersion": 10
@@ -119,12 +114,12 @@
       "minorVersion": 3
     },
     {
-      "machineName": "H5P.InteractiveVideo",
+      "machineName": "H5P.NDLAInteractiveVideo",
       "majorVersion": 1,
       "minorVersion": 22
     },
     {
-      "machineName": "H5P.CoursePresentation",
+      "machineName": "H5P.NDLACoursePresentation",
       "majorVersion": 1,
       "minorVersion": 24
     },
@@ -154,22 +149,22 @@
       "minorVersion": 2
     },
     {
-      "machineName": "H5PEditor.RadioSelector",
+      "machineName": "H5PEditor.NDLARadioSelector",
       "majorVersion": 1,
       "minorVersion": 2
     },
     {
-      "machineName": "H5P.FontIcons",
+      "machineName": "H5P.NDLAFontIcons",
       "majorVersion": 1,
       "minorVersion": 0
     },
     {
-      "machineName": "H5P.Chart",
+      "machineName": "H5P.NDLAChart",
       "majorVersion": 1,
       "minorVersion": 2
     },
     {
-      "machineName": "H5PEditor.ImageRadioGroup",
+      "machineName": "H5PEditor.NDLAImageRadioGroup",
       "majorVersion": 1,
       "minorVersion": 0
     }
