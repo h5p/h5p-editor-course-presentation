@@ -6,19 +6,8 @@
   margin-top: 6%;
 }
 
-/**
- * {1} 75% of the width, thus making the aspect ratio 4:3
- */
 .h5p-coursepresentation .h5p-wrapper {
   height: 0;
-  padding-top: 75%; /* {1} */
-}
-
-/**
- * {1} The height of the navigation line + the height of the footer
- */
- .h5peditor-form .h5p-coursepresentation .h5p-cp-navigation {
-  margin-top: -3.5em; /* {1} */
 }
 
 .h5p-coursepresentation .h5p-footer {
