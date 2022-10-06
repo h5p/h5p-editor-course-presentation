@@ -407,17 +407,8 @@
   box-shadow: 0 0 0.25em 0.125em #53a0ff;
   outline: none;
 }
-.h5peditor .h5p-active-surface {
-  margin-bottom: 6%;
-}
 .h5peditor .h5p-active-surface .h5p-box-wrapper {
   height: 100%;
-}
-.h5peditor .h5p-active-surface .h5p-slidecontrols {
-  bottom: -1.9em;
-}
-.h5peditor .h5p-active-surface .h5p-footer {
-  margin-top: -1em;
 }
 .h5peditor .field.disabled,
 .h5peditor .field.disabled .h5peditor-field-description {
