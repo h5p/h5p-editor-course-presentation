@@ -270,7 +270,7 @@
   height: 100%;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-coursepresentation .h5p-element {
+.h5p-ndlainteractiveboard-editor .h5p-coursepresentation .h5p-element {
   overflow: visible;
 }
 
@@ -407,26 +407,26 @@
   color: #9b9b9b;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-element.h5p-element-button-wrapper.focused {
+.h5p-ndlainteractiveboard-editor .h5p-element.h5p-element-button-wrapper.focused {
   outline: 1px solid #0099ff;
   outline-offset: -1px;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-element.h5p-element-button-wrapper .h5p-element-button {
+.h5p-ndlainteractiveboard-editor .h5p-element.h5p-element-button-wrapper .h5p-element-button {
   transition: none;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-element.h5p-element-button-wrapper .h5p-element-button:hover {
+.h5p-ndlainteractiveboard-editor .h5p-element.h5p-element-button-wrapper .h5p-element-button:hover {
   -webkit-transform: none;
   transform: none;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-coursepresentation a.h5p-element-button:focus {
+.h5p-ndlainteractiveboard-editor .h5p-coursepresentation a.h5p-element-button:focus {
   box-shadow: 0.15em 0.25em 0.25em 0 #191919;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-coursepresentation .h5p-element.h5p-element-button-wrapper:focus,
-.h5p-ndlacoursepresentation-editor .h5p-coursepresentation .h5p-element.h5p-element-button-wrapper.focused {
+.h5p-ndlainteractiveboard-editor .h5p-coursepresentation .h5p-element.h5p-element-button-wrapper:focus,
+.h5p-ndlainteractiveboard-editor .h5p-coursepresentation .h5p-element.h5p-element-button-wrapper.focused {
   border: 0;
 }
 
@@ -434,11 +434,11 @@
   display: none;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-progressbar {
+.h5p-ndlainteractiveboard-editor .h5p-progressbar {
   background-color: #fff;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-progressbar-part {
+.h5p-ndlainteractiveboard-editor .h5p-progressbar-part {
   position: relative;
   margin: 0 1px;
 }
@@ -447,36 +447,36 @@
   transition: transform 0.3s linear;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-progressbar-part:first-child {
+.h5p-ndlainteractiveboard-editor .h5p-progressbar-part:first-child {
   margin-left: 0;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-progressbar-part:last-child {
+.h5p-ndlainteractiveboard-editor .h5p-progressbar-part:last-child {
   margin-right: 0;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-progressbar-part-selected {
+.h5p-ndlainteractiveboard-editor .h5p-progressbar-part-selected {
   z-index: 1;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-progressbar-part:not(.h5p-progressbar-part-selected) {
+.h5p-ndlainteractiveboard-editor .h5p-progressbar-part:not(.h5p-progressbar-part-selected) {
   background: #999;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-hidden2 {
+.h5p-ndlainteractiveboard-editor .h5p-hidden2 {
   display: none;
 }
 
-.h5p-ndlacoursepresentation-editor .field-name-buttonSize label {
+.h5p-ndlainteractiveboard-editor .field-name-buttonSize label {
   display: inline-block;
   margin-right: 0.5em;
 }
 
-.h5p-ndlacoursepresentation-editor .h5p-hidden {
+.h5p-ndlainteractiveboard-editor .h5p-hidden {
   visibility: hidden;
 }
 
-.h5p-ndlacoursepresentation-editor > .h5peditor-semi-fullscreen .form-manager-head.form-manager-footer {
+.h5p-ndlainteractiveboard-editor > .h5peditor-semi-fullscreen .form-manager-head.form-manager-footer {
   position: relative;
   top: auto;
   left: auto;
@@ -501,6 +501,6 @@
  * {1} Hide form manager head created by H5P Core. Remove if the NDLA prefix is ever removed
  *     (https://github.com/h5p/h5p-editor-php-library/blob/c886fa6ded498bbe0148e9484f9b1534facc264e/scripts/h5peditor-form.js#L36-L43)
  */
-.h5p-ndlacoursepresentation-editor .h5peditor-form-manager-head {
+.h5p-ndlainteractiveboard-editor .h5peditor-form-manager-head {
   display: none !important; /* {1} */
 }

@@ -1,13 +1,14 @@
 import BackgroundSelector from './bg-selector';
+import { t } from './utils';
 
 export default (function ($, EventDispatcher) {
 
   /**
    * Create a Slide Selector with background settings
    *
-   * @class H5PEditor.NDLACoursePresentation.SlideSelector
+   * @class H5PEditor.NDLAInteractiveBoard.SlideSelector
    * @extends H5P.EventDispatcher Enables pub/sub
-   * @param {H5PEditor.NDLACoursePresentation} cpEditor CP editor for listening to events
+   * @param {H5PEditor.NDLAInteractiveBoard} cpEditor CP editor for listening to events
    * @param {jQuery} $slides Targeted slides
    * @param {Object} globalFields Global semantic fields
    * @param {Object} slideFields Single slide semantic fields
@@ -34,7 +35,7 @@ export default (function ($, EventDispatcher) {
     // DOM elements
     var $popup = $('<div class="h5p-background-selector">');
     var $title = $('<div class="h5p-background-selector-title">')
-      .html(H5PEditor.t('H5PEditor.NDLACoursePresentation', 'slideBackground', {}))
+      .html(t('slideBackground', {}))
       .appendTo($popup);
     $('<div>', {
       class: 'h5p-background-selector-close',
@@ -56,7 +57,7 @@ export default (function ($, EventDispatcher) {
     var $slideContent;
 
     // Single slide semantic fields
-    var singleSlideFields = H5PEditor.NDLACoursePresentation.findField('slideBackgroundSelector', slideFields.field.fields);
+    var singleSlideFields = H5PEditor.NDLAInteractiveBoard.findField('slideBackgroundSelector', slideFields.field.fields);
 
     /**
      * Init background selectors
@@ -65,21 +66,21 @@ export default (function ($, EventDispatcher) {
     var initBgSelectors = function () {
 
       // Global bg selector
-      var templateString = H5PEditor.t('H5PEditor.NDLACoursePresentation', 'template');
-      var currentSlideString = H5PEditor.t('H5PEditor.NDLACoursePresentation', 'currentSlide');
+      var templateString = t('template');
+      var currentSlideString = t('currentSlide');
       $globalContent = createSlideSelector(templateString, true);
 
       globalBackground = new BackgroundSelector($slides.children())
         .addBgSelector(globalFields, params, $globalContent, {isVisible: true})
-        .setDescription(H5PEditor.t('H5PEditor.NDLACoursePresentation', 'templateDescription', {':currentSlide': currentSlideString}))
+        .setDescription(t('templateDescription', {':currentSlide': currentSlideString}))
         .addResetButton();
 
       // Single slide bg selector
       $slideContent = createSlideSelector(currentSlideString, false);
       $slides.children().each(function (idx) {
         initSingleSlide($slideContent, idx)
-          .setDescription(H5PEditor.t('H5PEditor.NDLACoursePresentation', 'currentSlideDescription', {':template': templateString}))
-          .addResetButton(H5PEditor.t('H5PEditor.NDLACoursePresentation', 'resetToTemplate'));
+          .setDescription(t('currentSlideDescription', {':template': templateString}))
+          .addResetButton(t('resetToTemplate'));
       });
 
       // Select single slide if first slide has single slide options
@@ -146,10 +147,10 @@ export default (function ($, EventDispatcher) {
       // Must sanitize params before processing semantics
       sanitizeSlideParams(newSlideIndex);
       initSingleSlide($slideContent, newSlideIndex)
-        .setDescription(H5PEditor.t('H5PEditor.NDLACoursePresentation', 'currentSlideDescription', {
-          ':template': H5PEditor.t('H5PEditor.NDLACoursePresentation', 'template')
+        .setDescription(t('currentSlideDescription', {
+          ':template': t('template')
         }))
-        .addResetButton(H5PEditor.t('H5PEditor.NDLACoursePresentation', 'resetToTemplate'));
+        .addResetButton(t('resetToTemplate'));
 
       // Change to selected radio button
       var selectedIndex = singleSlides[newSlideIndex - 1].getSelectedIndex();
@@ -346,7 +347,7 @@ export default (function ($, EventDispatcher) {
      * Append slide selector to wrapper
      *
      * @param {jQuery} $wrapper Wrapper we attach to
-     * @returns {H5PEditor.NDLACoursePresentation.SlideSelector}
+     * @returns {H5PEditor.NDLAInteractiveBoard.SlideSelector}
      */
     self.appendTo = function ($wrapper) {
       self.$wrapper = $wrapper;
@@ -359,7 +360,7 @@ export default (function ($, EventDispatcher) {
 
     /**
      * Open popup
-     * @returns {H5PEditor.NDLACoursePresentation.SlideSelector}
+     * @returns {H5PEditor.NDLAInteractiveBoard.SlideSelector}
      */
     self.open = function () {
       if (self.$wrapper) {
@@ -372,7 +373,7 @@ export default (function ($, EventDispatcher) {
 
     /**
      * Close popup
-     * @returns {H5PEditor.NDLACoursePresentation.SlideSelector}
+     * @returns {H5PEditor.NDLAInteractiveBoard.SlideSelector}
      */
     self.close = function () {
       if (self.$wrapper) {
@@ -385,7 +386,7 @@ export default (function ($, EventDispatcher) {
 
     /**
      * Toggle popup state
-     * @returns {H5PEditor.NDLACoursePresentation.SlideSelector}
+     * @returns {H5PEditor.NDLAInteractiveBoard.SlideSelector}
      */
     self.toggleOpen = function () {
       if (self.$wrapper) {

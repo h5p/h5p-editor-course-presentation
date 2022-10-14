@@ -1,4 +1,7 @@
 /*global ns*/
+
+import { t } from './utils';
+
 // Create a new editor widget for boolean fields
 ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
 
@@ -42,7 +45,7 @@ ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
       }
 
       var $input = $element.find('input').on('change', function () {
-        if (confirm(H5PEditor.t('H5PEditor.NDLACoursePresentation', 'activeSurfaceWarning'))) {
+        if (confirm(t('activeSurfaceWarning'))) {
           checked = $input.is(':checked');
           setValue(field, checked);
           $input.attr('disabled', true);

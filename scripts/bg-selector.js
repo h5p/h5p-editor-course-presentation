@@ -1,3 +1,5 @@
+import { t } from './utils';
+
 export default (function ($, EventDispatcher) {
 
   /**
@@ -51,8 +53,8 @@ export default (function ($, EventDispatcher) {
 
     // Labels for radio buttons
     var radioLabels = [
-      H5PEditor.t('H5PEditor.NDLACoursePresentation', 'setImageBackground', {}),
-      H5PEditor.t('H5PEditor.NDLACoursePresentation', 'setColorFillBackground', {})
+      t('setImageBackground', {}),
+      t('setColorFillBackground', {})
     ];
 
     /**
@@ -220,7 +222,7 @@ export default (function ($, EventDispatcher) {
      * @returns {BackgroundSelector}
      */
     self.addResetButton = function (text) {
-      text = text || H5PEditor.t('H5PEditor.NDLACoursePresentation', 'resetToDefault');
+      text = text || t('resetToDefault');
 
       $resetButton = $('<button>', {
         'html': text,

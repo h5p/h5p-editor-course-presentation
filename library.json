@@ -4,7 +4,7 @@
   "minorVersion": 24,
   "patchVersion": 18,
   "runnable": 0,
-  "machineName": "H5PEditor.NDLACoursePresentation",
+  "machineName": "H5PEditor.NDLAInteractiveBoard",
   "author": "Joubel",
   "coreApi": {
     "majorVersion": 1,
@@ -119,7 +119,7 @@
       "minorVersion": 22
     },
     {
-      "machineName": "H5P.NDLACoursePresentation",
+      "machineName": "H5P.NDLAInteractiveBoard",
       "majorVersion": 1,
       "minorVersion": 24
     },

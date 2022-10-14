@@ -1,5 +1,5 @@
 // @ts-check
-import { hotspotParams } from "./utils";
+import { hotspotParams, t } from "./utils";
 
 export const ASM_TASK_BUTTONS_ID = "task-buttons";
 
@@ -23,8 +23,7 @@ export function createActiveSurfaceModeAnswerButtons() {
 function createTransparentHotspotButton(id, answerType) {
   return {
     id,
-    // @ts-expect-error H5PEditor is globally available
-    title: H5PEditor.t('H5PEditor.NDLACoursePresentation', `answerHotspot${capitalize(answerType)}`),
+    title: t(`answerHotspot${capitalize(answerType)}`),
     params: {
       ...hotspotParams,
       answerType,
@@ -36,8 +35,7 @@ function createTransparentHotspotButton(id, answerType) {
 function createGoToSummaryPageHotspotButton() {
   return {
     id: "summary-page-button",
-    // @ts-expect-error H5PEditor is globally available
-    title: H5PEditor.t('H5PEditor.NDLACoursePresentation', `goToSummarySlide`),
+    title: t("goToSummarySlide"),
     params: {
       ...hotspotParams,
       goToSlideType: "go-to-summary-slide",
