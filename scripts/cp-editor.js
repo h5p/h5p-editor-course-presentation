@@ -1793,7 +1793,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     var slideIndex = self.cp.$current.index();
 
     // Update visuals
-    element.$wrapper.appendTo(self.cp.$current);
+    element.$wrapper.appendTo(element.$wrapper.parent());
 
     // Find slide params
     var slide = self.params.slides[slideIndex].elements;
@@ -1819,7 +1819,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     var slideIndex = self.cp.$current.index();
 
     // Update visuals
-    element.$wrapper.prependTo(self.cp.$current);
+    element.$wrapper.prependTo(element.$wrapper.parent());
 
     // Find slide params
     var slide = self.params.slides[slideIndex].elements;
