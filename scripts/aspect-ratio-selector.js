@@ -15,7 +15,7 @@ export default (function () {
 
   /** 
    * @typedef {object} RatioView
-   * @property {string} ratio The ratio on the format 'width-height' (e.g. '4-3' for 4:3)
+   * @property {"4-3" | "3-4"} ratio The ratio on the format 'width-height' (e.g. '4-3' for 4:3)
    * @property {string} label The illustration's label (e.g. "portrait", "landscape")
    */
 

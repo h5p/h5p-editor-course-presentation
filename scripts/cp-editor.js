@@ -149,11 +149,10 @@ H5PEditor.NDLAInteractiveBoard.prototype.updateElementSizes = function (heightRa
  * @returns {number}
  */
 H5PEditor.NDLAInteractiveBoard.prototype.getTrueSlideAspectRatio = function () {
-  const footerHeight = this.slideRatio > 1 ? 95 : 50;
-  const wrapperHeight = this.cp.$wrapper.get(0).getBoundingClientRect().height;
-  const footerShareOfTotalHeight = footerHeight / wrapperHeight;
-  
-  return this.slideRatio + footerShareOfTotalHeight;  
+  const $slideElement = this.cp.$wrapper.find(".h5p-slide")
+  const { width, height } = $slideElement.get(0).getBoundingClientRect()
+
+  return width / height
 }
 
 /**
@@ -232,11 +231,12 @@ H5PEditor.NDLAInteractiveBoard.prototype.addElement = function (library, options
       }
     }
 
+    const trueAspectRatio = this.getTrueSlideAspectRatio();
     const hasSizeOverride = options.width && options.height;
     if (hasSizeOverride && !options.displayAsButton) {
       // Use specified size
       elementParams.width = options.width;
-      elementParams.height = options.height * this.slideRatio;
+      elementParams.height = options.height * trueAspectRatio;
     }
 
     if (options.displayAsButton) {

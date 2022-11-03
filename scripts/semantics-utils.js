@@ -20,7 +20,7 @@ export function alterDisplayAsButtonSemantics(element, $) {
      * @param {HTMLElement} element
      */
     (index, element) => {
-      // TODO: Use showWhen in semantics.json instead…
+      // TODO: Use showWhen in semantics.json instead
       const $displayAsButtonField = $(element);
       const $displayAsButtonCheckbox = $displayAsButtonField.find("input");
       const $parent = $displayAsButtonField.parent();
