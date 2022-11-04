@@ -1,5 +1,3 @@
-const glob = require('glob');
-
 module.exports = {
   mode: 'development',
   entry: [

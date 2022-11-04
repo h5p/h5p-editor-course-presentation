@@ -21,8 +21,7 @@
   "homepage": "https://github.com/NDLANO/h5p-editor-course-presentation#readme",
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "glob": "^7.1.6",
-    "webpack": "^5.27.1",
-    "webpack-cli": "^4.5.0"
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }
