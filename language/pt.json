@@ -35,7 +35,7 @@
     "slide": "Slide",
     "opacity": "Opacidade",
     "goToSlide": "Ir para o slide",
-    "expandBreadcrumbButtonLabel": "Go back",
-    "collapseBreadcrumbButtonLabel": "Close navigation"
+    "expandBreadcrumbButtonLabel": "Retornar",
+    "collapseBreadcrumbButtonLabel": "Fechar navegação"
   }
 }
