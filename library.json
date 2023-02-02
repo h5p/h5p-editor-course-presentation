@@ -1,8 +1,8 @@
 {
   "title": "Course Presentation Editor",
   "majorVersion": 1,
-  "minorVersion": 25,
-  "patchVersion": 1,
+  "minorVersion": 26,
+  "patchVersion": 0,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel",
@@ -126,6 +126,11 @@
     },
     {
       "machineName": "H5P.InteractiveVideo",
+      "majorVersion": 1,
+      "minorVersion": 22
+    },
+    {
+      "machineName": "H5P.CoursePresentation",
       "majorVersion": 1,
       "minorVersion": 26
     },
