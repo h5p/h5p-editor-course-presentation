@@ -177,6 +177,13 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
           elementParams.width = 50;
           elementParams.height = 64.5536;
           break;
+
+        case 'H5P.AudioRecorder':
+          elementParams.y = 11;
+          elementParams.width = 41.89;
+          elementParams.height = 78;
+          elementParams.backgroundOpacity = 100;
+          break;
       }
     }
 
@@ -322,12 +329,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     })
     .next()
     .click(function () {
-      var removeIndex = that.cp.$current.index();
-      var removed = that.removeSlide();
-      if (removed !== false) {
-        that.trigger('removeSlide', removeIndex);
-      }
-      that.updateSlidesSidebar();
+      that.removeSlide();
       return false;
     });
 
@@ -1130,6 +1132,9 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
     $remove.remove();
 
     H5P.ContinuousText.Engine.run(this);
+
+    this.trigger('removeSlide', index);
+    this.updateSlidesSidebar();
   });
 };
 
@@ -1574,10 +1579,11 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
  * @param {object} fileParams
  */
 H5PEditor.CoursePresentation.prototype.setVideoSize = function (elementParams, fileParams) {
-  if( fileParams === undefined){
+  if (!fileParams){
     return;
   }
-  if (fileParams.hasOwnProperty('aspectRatio') !== true) {
+
+  if (!fileParams.aspectRatio) {
     fileParams.aspectRatio = '16:9';
   }
 
@@ -1787,7 +1793,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     var slideIndex = self.cp.$current.index();
 
     // Update visuals
-    element.$wrapper.appendTo(self.cp.$current);
+    element.$wrapper.appendTo(element.$wrapper.parent());
 
     // Find slide params
     var slide = self.params.slides[slideIndex].elements;
@@ -1813,7 +1819,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     var slideIndex = self.cp.$current.index();
 
     // Update visuals
-    element.$wrapper.prependTo(self.cp.$current);
+    element.$wrapper.prependTo(element.$wrapper.parent());
 
     // Find slide params
     var slide = self.params.slides[slideIndex].elements;
