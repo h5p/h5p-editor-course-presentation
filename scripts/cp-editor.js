@@ -184,6 +184,10 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
           elementParams.height = 78;
           elementParams.backgroundOpacity = 100;
           break;
+
+        case 'H5P.MultiMediaChoice':
+          elementParams.action.params.behaviour = { aspectRatio: '16to9' }
+          break;
       }
     }
 
