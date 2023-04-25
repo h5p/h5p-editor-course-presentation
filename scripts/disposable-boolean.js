@@ -42,17 +42,26 @@ ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
       }
 
       var $input = $element.find('input').on('change', function () {
-        if (confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'activeSurfaceWarning'))) {
+        const confirmationDialog = new H5P.ConfirmationDialog({
+          headerText: H5PEditor.t('H5PEditor.CoursePresentation', 'activeSurfaceWarning'),
+          cancelText: H5PEditor.t('H5PEditor.CoursePresentation', 'cancel'),
+          confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok'),
+        }).appendTo(document.body);
+
+        confirmationDialog.show($element.offset().top);
+
+        confirmationDialog.on('confirmed', () => {
           checked = $input.is(':checked');
           setValue(field, checked);
           $input.attr('disabled', true);
           $element.addClass('disabled');
           self.trigger('checked');
-        }
-        else {
+        });
+
+        confirmationDialog.on('canceled', () => {
           // Reset
           $input.attr('checked', false);
-        }
+        });
       });
     };
 

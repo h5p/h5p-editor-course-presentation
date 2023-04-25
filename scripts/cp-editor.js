@@ -177,6 +177,17 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
           elementParams.width = 50;
           elementParams.height = 64.5536;
           break;
+
+        case 'H5P.AudioRecorder':
+          elementParams.y = 11;
+          elementParams.width = 41.89;
+          elementParams.height = 78;
+          elementParams.backgroundOpacity = 100;
+          break;
+
+        case 'H5P.MultiMediaChoice':
+          elementParams.action.params.behaviour = { aspectRatio: '16to9' }
+          break;
       }
     }
 
@@ -294,6 +305,10 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     .next()
     .click(function () {
       var newSlide = H5P.cloneObject(that.params.slides[that.cp.$current.index()], true);
+
+      // Set new subContentId for cloned contents
+      that.resetSubContentId(newSlide.elements);
+
       newSlide.keywords = [];
       that.addSlide(newSlide);
       H5P.ContinuousText.Engine.run(that);
@@ -318,12 +333,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     })
     .next()
     .click(function () {
-      var removeIndex = that.cp.$current.index();
-      var removed = that.removeSlide();
-      if (removed !== false) {
-        that.trigger('removeSlide', removeIndex);
-      }
-      that.updateSlidesSidebar();
+      that.removeSlide();
       return false;
     });
 
@@ -341,6 +351,30 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   });
 
   this.updateSlidesSidebar();
+};
+
+/**
+ * Recursively reset all subContentIds.
+ *
+ * @param {object} params Parameters to parse.
+ */
+H5PEditor.CoursePresentation.prototype.resetSubContentId = function (params) {
+  const that = this;
+
+  if (Array.isArray(params)) {
+    params.forEach(function (param) {
+      that.resetSubContentId(param);
+    });
+  }
+  else if (typeof params === 'object') {
+    if (params.library && params.subContentId) {
+      params.subContentId = H5P.createUUID();
+    }
+
+    for (param in params) {
+      that.resetSubContentId(params[param]);
+    }
+  }
 };
 
 /**
@@ -648,7 +682,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           that.dnb.focus(that.addElement(pasted.specific, options));
         }
         else {
-          alert(H5PEditor.t('H5P.DragNBar', 'unableToPaste'));
+          that.showConfirmationDialog({
+            headerText: H5PEditor.t('core', 'pasteError'),
+            dialogText: H5PEditor.t('H5P.DragNBar', 'unableToPaste'),
+            confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok')
+          });
         }
       }
       else if (pasted.generic) {
@@ -663,7 +701,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           that.dnb.focus(that.addElement(pasted.generic.library, options));
         }
         else {
-          alert(H5PEditor.t('H5P.DragNBar', 'unableToPaste'));
+          that.showConfirmationDialog({
+            headerText: H5PEditor.t('core', 'pasteError'),
+            dialogText: H5PEditor.t('H5P.DragNBar', 'unableToPaste'),
+            confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok')
+          });
         }
       }
     });
@@ -1041,53 +1083,63 @@ H5PEditor.CoursePresentation.prototype.removeSlide = function () {
   var $remove = this.cp.$current.add(this.cp.$currentKeyword);
   var isRemovingDnbContainer = this.cp.$current.index() === this.$dnbContainer.index();
 
-  // Confirm
-  if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmDeleteSlide'))) {
-    return false;
-  }
+  const confirmationDialog = this.showConfirmationDialog({
+    headerText: H5PEditor.t('H5PEditor.CoursePresentation', 'confirmDeleteSlide'),
+    cancelText: H5PEditor.t('H5PEditor.CoursePresentation', 'cancel'),
+    confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok')
+  });
 
-  // Remove elements from slide
-  var slideKids = this.elements[index];
-  if (slideKids !== undefined) {
-    for (var i = 0; i < slideKids.length; i++) {
-      this.removeElement(slideKids[i], slideKids[i].$wrapper, this.cp.elementInstances[index][i].libraryInfo && this.cp.elementInstances[index][i].libraryInfo.machineName === 'H5P.ContinuousText');
+  confirmationDialog.on('canceled', () => {
+    return;
+  });
+
+  confirmationDialog.on('confirmed', () => {
+    // Remove elements from slide
+    var slideKids = this.elements[index];
+    if (slideKids !== undefined) {
+      for (var i = 0; i < slideKids.length; i++) {
+        this.removeElement(slideKids[i], slideKids[i].$wrapper, this.cp.elementInstances[index][i].libraryInfo && this.cp.elementInstances[index][i].libraryInfo.machineName === 'H5P.ContinuousText');
+      }
     }
-  }
-  this.elements.splice(index, 1);
+    this.elements.splice(index, 1);
 
-  // Change slide
-  var move = this.cp.previousSlide() ? -1 : (this.cp.nextSlide(true) ? 0 : undefined);
+    // Change slide
+    var move = this.cp.previousSlide() ? -1 : (this.cp.nextSlide(true) ? 0 : undefined);
 
-  // Replace existing DnB container used for calculating dimensions of elements
-  if (isRemovingDnbContainer) {
-    // Set new dnb container
-    this.$dnbContainer = this.cp.$current;
-    this.dnb.setContainer(this.$dnbContainer);
-  }
-  if (move === undefined) {
-    return false; // No next or previous slide
-  }
+    // Replace existing DnB container used for calculating dimensions of elements
+    if (isRemovingDnbContainer) {
+      // Set new dnb container
+      this.$dnbContainer = this.cp.$current;
+      this.dnb.setContainer(this.$dnbContainer);
+    }
+    if (move === undefined) {
+      return false; // No next or previous slide
+    }
 
-  // ExportableTextArea needs to know about the deletion:
-  H5P.ExportableTextArea.CPInterface.onDeleteSlide(index);
+    // ExportableTextArea needs to know about the deletion:
+    H5P.ExportableTextArea.CPInterface.onDeleteSlide(index);
 
-  // Update presentation params.
-  this.params.slides.splice(index, 1);
+    // Update presentation params.
+    this.params.slides.splice(index, 1);
 
-  // Update the list of element instances
-  this.cp.elementInstances.splice(index, 1);
-  this.cp.elementsAttached.splice(index, 1);
+    // Update the list of element instances
+    this.cp.elementInstances.splice(index, 1);
+    this.cp.elementsAttached.splice(index, 1);
 
-  this.cp.removeChild(index);
+    this.cp.removeChild(index);
 
-  this.cp.updateKeywordMenuFromSlides();
-  this.initKeywordMenu();
-  this.updateNavigationLine(index + move);
+    this.cp.updateKeywordMenuFromSlides();
+    this.initKeywordMenu();
+    this.updateNavigationLine(index + move);
 
-  // Remove visuals.
-  $remove.remove();
+    // Remove visuals.
+    $remove.remove();
 
-  H5P.ContinuousText.Engine.run(this);
+    H5P.ContinuousText.Engine.run(this);
+
+    this.trigger('removeSlide', index);
+    this.updateSlidesSidebar();
+  });
 };
 
 /**
@@ -1531,10 +1583,11 @@ H5PEditor.CoursePresentation.prototype.setImageSize = function (element, element
  * @param {object} fileParams
  */
 H5PEditor.CoursePresentation.prototype.setVideoSize = function (elementParams, fileParams) {
-  if( fileParams === undefined){
+  if (!fileParams){
     return;
   }
-  if (fileParams.hasOwnProperty('aspectRatio') !== true) {
+
+  if (!fileParams.aspectRatio) {
     fileParams.aspectRatio = '16:9';
   }
 
@@ -1718,14 +1771,22 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
   element.$wrapper.find('*').attr('tabindex', '-1');
 
   dnbElement.contextMenu.on('contextMenuRemove', function () {
-    if (!confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'))) {
+    const confirmationDialog = self.showConfirmationDialog({
+      headerText: H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'),
+      cancelText: H5PEditor.t('H5PEditor.CoursePresentation', 'cancel'),
+      confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok'),
+    });
+
+    confirmationDialog.on('canceled', () => {
       return;
-    }
-    if (H5PEditor.Html) {
-      H5PEditor.Html.removeWysiwyg();
-    }
-    self.removeElement(element, element.$wrapper, (elementParams.action !== undefined && H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText'));
-    self.dnb.blurAll();
+    });
+    confirmationDialog.on('confirmed', () => {
+      if (H5PEditor.Html) {
+        H5PEditor.Html.removeWysiwyg();
+      }
+      self.removeElement(element, element.$wrapper, (elementParams.action !== undefined && H5P.libraryFromString(elementParams.action.library).machineName === 'H5P.ContinuousText'));
+      self.dnb.blurAll();
+    });
   });
 
   dnbElement.contextMenu.on('contextMenuBringToFront', function () {
@@ -1736,7 +1797,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     var slideIndex = self.cp.$current.index();
 
     // Update visuals
-    element.$wrapper.appendTo(self.cp.$current);
+    element.$wrapper.appendTo(element.$wrapper.parent());
 
     // Find slide params
     var slide = self.params.slides[slideIndex].elements;
@@ -1762,7 +1823,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     var slideIndex = self.cp.$current.index();
 
     // Update visuals
-    element.$wrapper.prependTo(self.cp.$current);
+    element.$wrapper.prependTo(element.$wrapper.parent());
 
     // Find slide params
     var slide = self.params.slides[slideIndex].elements;
@@ -1871,14 +1932,27 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
    * @private
    */
   const handleFormremove = function (e) {
-    e.preventRemove = !confirm(H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'));
-    if (e.preventRemove) {
+    const confirmationDialog = this.showConfirmationDialog({
+      headerText: H5PEditor.t('H5PEditor.CoursePresentation', 'confirmRemoveElement'),
+      cancelText: H5PEditor.t('H5PEditor.CoursePresentation', 'cancel'),
+      confirmText: H5PEditor.t('H5PEditor.CoursePresentation', 'ok'),
+    });
+    e.preventRemove = true;
+
+    confirmationDialog.on('canceled', () => {
       return;
-    }
-    that.removeElement(element, $wrapper, isContinuousText);
-    that.dnb.blurAll();
-    that.dnb.preventPaste = false;
+    });
+
+    confirmationDialog.on('confirmed', () => {
+      that.currentlyDeletingElement = true;
+      that.getFormManager().closeFormUntil(0);
+      that.removeElement(element, $wrapper, isContinuousText);
+      that.dnb.blurAll();
+      that.dnb.preventPaste = false;
+      that.currentlyDeletingElement = false;
+    });
   };
+
   that.on('formremove', handleFormremove);
 
   /**
@@ -1903,7 +1977,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
         that.dnb.focus($wrapper);
       }, 1);
     }
-    else {
+    else if (!that.currentlyDeletingElement) {
       that.redrawElement($wrapper, element, elementParams);
     }
 
@@ -1953,6 +2027,13 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
       '.h5p-dialog-box .h5peditor-text', libraryField.$myField)
       .eq(0)
       .focus();
+
+    // GotoSlide is not library therefore require separate focus
+    if (libraryField.$myField === undefined) {
+      H5P.jQuery('.h5p-coursepresentation-editor .form-manager-slidein .h5peditor-text')
+      .eq(0)
+      .focus();
+    }
   };
 
   // Determine if library is already loaded
@@ -2165,6 +2246,19 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
       return fields[i];
     }
   }
+};
+
+/**
+ * Add confirmation dialog
+ * @param {object} dialogOptions Dialog options.
+ * @returns {HTMLElement} confirmationDialog
+ */
+H5PEditor.CoursePresentation.prototype.showConfirmationDialog = function (dialogOptions) {
+  const confirmationDialog = new H5P.ConfirmationDialog(dialogOptions)
+    .appendTo(document.body);
+
+  confirmationDialog.show(this.$item.offset().top);
+  return confirmationDialog;
 };
 
 /** @constant {Number} */
