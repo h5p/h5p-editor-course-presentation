@@ -49,6 +49,7 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
 
       // Enable adjustments
       that.cp.$container.addClass('h5p-active-surface');
+      that.cp.$wrapper.addClass('h5p-course-presentation-active-surface');
 
       // Remove navigation
       that.cp.$progressbar.remove();
