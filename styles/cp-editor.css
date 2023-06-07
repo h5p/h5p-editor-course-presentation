@@ -505,15 +505,15 @@
   margin-top: 0;
 }
 
-.h5p-coursepresentation-editor .h5p-course-presentation-active-surface {
+.h5p-coursepresentation-editor .h5p-course-presentation .h5p-course-presentation-active-surface {
   margin-bottom: 3em;
 }
-.h5p-coursepresentation-editor .h5p-course-presentation-active-surface .h5p-footer {
+.h5p-coursepresentation-editor .h5p-course-presentation .h5p-course-presentation-active-surface .h5p-footer {
   position: absolute;
   top: 100%;
   background-color: transparent;
 }
-.h5p-coursepresentation-editor .h5p-course-presentation-active-surface .h5p-slidecontrols {
+.h5p-coursepresentation-editor .h5p-course-presentation .h5p-course-presentation-active-surface .h5p-slidecontrols {
   bottom: auto;
   top: 100%;
 }
