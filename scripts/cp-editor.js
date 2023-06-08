@@ -105,7 +105,7 @@ H5PEditor.CoursePresentation.prototype.updateElementSizes = function (heightRati
   // Go through all slides
   for (var i = 0; i < this.params.slides.length; i++) {
     var slide = this.params.slides[i];
-    var $slideElements = $slides.eq(i).children();
+    var $slideElements = $slides.eq(i).find('.h5p-element');
 
     for (var j = 0; j < slide.elements.length; j++) {
       var element = slide.elements[j];
