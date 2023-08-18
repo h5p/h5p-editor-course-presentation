@@ -2002,6 +2002,7 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
    * @private
    */
   const handleFormclose = function () {
+    that.dnb.toggleDrag(true);
     that.off('formremove', handleFormremove);
     that.off('formdone', handleFormdone);
     that.off('formclose', handleFormclose);
@@ -2056,6 +2057,9 @@ H5PEditor.CoursePresentation.prototype.showElementForm = function (element, $wra
     customTitle = H5PEditor.t('H5PEditor.CoursePresentation', 'goToSlide');
     customIconId = 'gotoslide';
   }
+
+  // Disable dragging in any new dnb elements
+  that.dnb.toggleDrag(false);
 
   // Open a new form pane with the element form
   that.openForm(libraryField, element.$form[0], null, customTitle, customIconId);
