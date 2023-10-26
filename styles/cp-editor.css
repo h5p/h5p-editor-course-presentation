@@ -242,6 +242,53 @@
 .h5p-course-presentation .h5p-element.focused .h5p-element-outer {
   outline: 1px solid #0099ff;
 }
+
+/* Table styling to imitate ckeditor 5 */
+.h5p-course-presentation .h5p-table-outer-element {
+  /* The figure around the table */
+  figure.table {
+    display: table;
+    table-layout: fixed;
+    margin-left: auto;
+    margin-right: auto;
+
+    /* The actual table */
+    table {
+      border-collapse: collapse;
+      height: 100%;
+      width: 100%;
+      border-spacing: 0;
+      border: 3px double #b3b3b3;
+
+      td, th {
+        padding: .4em;
+        border: 3px double #bfbfbf;
+      }
+
+      th {
+        text-align: center;
+        background-color: #0000000d;
+      }
+    }
+
+    figcaption {
+      background-color: #f7f7f7;
+      caption-side: top;
+      color: #333;
+      display: table-caption;
+      font-size: .75em;
+      outline-offset: -1px;
+      padding: .6em;
+      text-align: center;
+      word-break: break-word;
+    }
+  }
+
+  .table-overflow-protection {
+    clear: both;
+  }
+}
+
 .h5p-course-presentation .h5p-element > div {
   z-index: 1;
 }
