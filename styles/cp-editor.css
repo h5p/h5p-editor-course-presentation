@@ -249,8 +249,8 @@
   figure.table {
     display: table;
     table-layout: fixed;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
+    padding: 0;
 
     /* The actual table */
     table {
@@ -258,16 +258,15 @@
       height: 100%;
       width: 100%;
       border-spacing: 0;
-      border: 3px double #b3b3b3;
+      border: 1px solid #8C8C8C;
 
       td, th {
-        padding: .4em;
-        border: 3px double #bfbfbf;
+        padding: 0;
+        border: 1px solid #8C8C8C;
       }
 
       th {
         text-align: center;
-        background-color: #0000000d;
       }
     }
 
