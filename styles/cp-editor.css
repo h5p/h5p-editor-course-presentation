@@ -251,6 +251,7 @@
     table-layout: fixed;
     margin: 0 auto;
     padding: 0;
+    float: left;
 
     /* The actual table */
     table {
@@ -272,7 +273,6 @@
       }
 
       th {
-        text-align: center;
         border-width: .167em;
       }
 
