@@ -59,8 +59,7 @@ ns.widgets.disposableBoolean = (function ($, EventDispatcher) {
         });
 
         confirmationDialog.on('canceled', () => {
-          // Reset
-          $input.attr('checked', false);
+          $input[0].checked = false;
         });
       });
     };
