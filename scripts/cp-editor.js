@@ -83,6 +83,27 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     }
     that.dnb.setCanPaste(canPaste);
   });
+
+  /**
+   * Position label left or right depending on label size.
+   * @param {HTMLElement} labelElement Label element to position left/right.
+   */
+  this.positionLabel = (labelElement) => {
+    if (!labelElement) {
+      return;
+    }
+
+    labelElement.classList.remove('left');
+    const labelRect = labelElement.getBoundingClientRect();
+    const editorOffset = this.$item.get(0).offsetLeft;
+
+    if (
+      -editorOffset + labelRect.x + labelRect.width >
+        this.cp.$container.get(0).offsetWidth
+    ) {
+      labelElement.classList.add('left');
+    }
+  };
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.DragNBar.FormManager.prototype);
@@ -641,6 +662,11 @@ H5PEditor.CoursePresentation.prototype.initializeDNB = function () {
           that.showElementForm(element, that.dnb.$element, params);
         }
       }
+
+      // Position label left or right depending on label size
+      that.positionLabel(
+        element.$wrapper.get(0).querySelector('.h5p-element-button-label')
+      );
     };
 
     /**
@@ -1454,6 +1480,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
     if (type === 'H5P.ContinuousText' || type === 'H5P.Audio') {
       // Continuous Text or Go To Slide cannot be displayed as a button
       hideFields.push('displayAsButton');
+      hideFields.push('buttonLabel');
       hideFields.push('buttonSize');
     }
     else if (type === "H5P.Shape") {
@@ -1461,6 +1488,7 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
       hideFields.push('alwaysDisplayComments');
       hideFields.push('backgroundOpacity');
       hideFields.push('displayAsButton');
+      hideFields.push('buttonLabel');
       hideFields.push('buttonSize');
     }
 
@@ -1486,7 +1514,10 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
   }
 
   // Show or hide button size dropdown depending on display as button checkbox
-  element.$form.find('.field-name-displayAsButton').each(function () { // TODO: Use showWhen in semantics.json instead…
+  // TODO: Use showWhen in semantics.json instead… But crashes in parent.ready
+  // callback in constructor because showWhen does not have an exposed "changes"
+  // variable
+  element.$form.find('.field-name-displayAsButton').each(function () {
     var buttonSizeField = ns.$(this).parent().find('.field-name-buttonSize');
 
     if (!ns.$(this).find("input")[0].checked) {
@@ -1499,6 +1530,21 @@ H5PEditor.CoursePresentation.prototype.generateForm = function (elementParams, t
       }
       else {
         buttonSizeField.addClass("h5p-hidden2");
+      }
+    });
+
+    const buttonLabelField = ns.$(this).parent().find('.field-name-buttonLabel');
+
+    if (!ns.$(this).find("input")[0].checked) {
+      buttonLabelField.addClass("h5p-hidden2");
+    }
+
+    ns.$(this).find("input").change(function (e) {
+      if (e.target.checked) {
+        buttonLabelField.removeClass("h5p-hidden2");
+      }
+      else {
+        buttonLabelField.addClass("h5p-hidden2");
       }
     });
   });
