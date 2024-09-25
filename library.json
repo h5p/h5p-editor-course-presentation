@@ -2,13 +2,13 @@
   "title": "Course Presentation Editor",
   "majorVersion": 1,
   "minorVersion": 25,
-  "patchVersion": 10,
+  "patchVersion": 13,
   "runnable": 0,
   "machineName": "H5PEditor.CoursePresentation",
   "author": "Joubel",
   "coreApi": {
     "majorVersion": 1,
-    "minorVersion": 24
+    "minorVersion": 27
   },
   "preloadedJs": [
     {
@@ -77,7 +77,7 @@
     {
       "machineName": "H5P.Table",
       "majorVersion": 1,
-      "minorVersion": 1
+      "minorVersion": 2
     },
     {
       "machineName": "H5P.Video",
