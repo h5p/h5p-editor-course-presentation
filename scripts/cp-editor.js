@@ -974,10 +974,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   // Opacity for keywords list
   var $opacityKeywords = this.$bar.find('.h5p-keywords-opacity input').change(function () {
     var opacity = parseInt($opacityKeywords.val());
-    if (isNaN(opacity)) {
-      opacity = 90;
-    }
-    if (opacity > 100) {
+    if (isNaN(opacity) || opacity > 100) {
       opacity = 100;
     }
     if (opacity < 0) {
@@ -1004,7 +1001,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   checkDefault('keywordListEnabled', true);
   checkDefault('keywordListAlwaysShow', false);
   checkDefault('keywordListAutoHide', false);
-  checkDefault('keywordListOpacity', 90);
+  checkDefault('keywordListOpacity', 100);
 
   // Update HTML
   $enableKeywords.attr('checked', that.params.keywordListEnabled);
