@@ -1093,7 +1093,7 @@ H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
 
   // Update progressbar and footer
   this.cp.navigationLine.initProgressbar(hasSolutionArray);
-  this.cp.navigationLine.updateProgressBar(index);
+  this.cp.navigationLine.updateProgressBar(index, 0, false, true);
   this.cp.navigationLine.updateFooter(index);
 };
 
