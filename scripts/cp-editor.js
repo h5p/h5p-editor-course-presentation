@@ -1797,6 +1797,9 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
   };
 
+  if (type === 'H5P.Audio') {
+    options.minSize = 60;
+  }
   if (type === 'H5P.Shape') {
     options.minSize = 3;
     if (elementParams.action.params.type == 'vertical-line') {
