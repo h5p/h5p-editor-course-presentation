@@ -180,8 +180,8 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
       var libraryName = library.split(' ')[0];
       switch (libraryName) {
         case 'H5P.Audio':
-          elementParams.width = 2.577632696;
-          elementParams.height = 5.091753604;
+          elementParams.width = 6.90019;
+          elementParams.height = 13.45019;
           elementParams.action.params.fitToWrapper = true;
           break;
 
@@ -1798,7 +1798,9 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
   };
 
   if (type === 'H5P.Audio') {
-    options.minSize = 60;
+    if (!elementParams.action.params.fitToWrapper) {
+        options.disableResize = true;
+    }
   }
   if (type === 'H5P.Shape') {
     options.minSize = 3;
