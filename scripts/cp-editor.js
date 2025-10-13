@@ -179,7 +179,7 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
 
       var libraryName = library.split(' ')[0];
       switch (libraryName) {
-        case 'H5P.Audio':
+        case 'H5P.Audio': // 60 x 60 wrapper on biggest iframe size
           elementParams.width = 6.90019;
           elementParams.height = 13.45019;
           elementParams.action.params.fitToWrapper = true;
@@ -1802,7 +1802,7 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
         options.disableResize = true;
     }
   }
-  if (type === 'H5P.Shape') {
+  else if (type === 'H5P.Shape') {
     options.minSize = 3;
     if (elementParams.action.params.type == 'vertical-line') {
       options.directionLock = "vertical";
