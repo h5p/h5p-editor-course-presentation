@@ -179,9 +179,9 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
 
       var libraryName = library.split(' ')[0];
       switch (libraryName) {
-        case 'H5P.Audio':
-          elementParams.width = 2.577632696;
-          elementParams.height = 5.091753604;
+        case 'H5P.Audio': // 60 x 60 wrapper on biggest iframe size
+          elementParams.width = 6.90019;
+          elementParams.height = 13.45019;
           elementParams.action.params.fitToWrapper = true;
           break;
 
@@ -1797,7 +1797,12 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
   };
 
-  if (type === 'H5P.Shape') {
+  if (type === 'H5P.Audio') {
+    if (!elementParams.action.params.fitToWrapper) {
+        options.disableResize = true;
+    }
+  }
+  else if (type === 'H5P.Shape') {
     options.minSize = 3;
     if (elementParams.action.params.type == 'vertical-line') {
       options.directionLock = "vertical";
