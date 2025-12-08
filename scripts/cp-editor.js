@@ -2306,9 +2306,13 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
  * @param {object} dialogOptions Dialog options.
  * @returns {HTMLElement} confirmationDialog
  */
-H5PEditor.CoursePresentation.prototype.showConfirmationDialog = function (dialogOptions) {
-  const confirmationDialog = new H5P.ConfirmationDialog(dialogOptions)
-    .appendTo(document.body);
+H5PEditor.CoursePresentation.prototype.showConfirmationDialog = function (
+  dialogOptions
+) {
+  const confirmationDialog = new H5P.ConfirmationDialog({
+    ...dialogOptions,
+    theme: true,
+  }).appendTo(document.body);
 
   confirmationDialog.show(this.$item.offset().top);
   return confirmationDialog;
@@ -2316,7 +2320,6 @@ H5PEditor.CoursePresentation.prototype.showConfirmationDialog = function (dialog
 
 /** @constant {Number} */
 H5PEditor.CoursePresentation.RATIO_SURFACE = 16 / 9;
-
 
 // Tell the editor what widget we are.
 H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
