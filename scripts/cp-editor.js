@@ -1798,7 +1798,10 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
   };
 
   if (type === 'H5P.Audio') {
-    if (!elementParams.action.params.fitToWrapper) {
+    if (
+      !elementParams.action.params.fitToWrapper &&
+      elementParams.action.params.playerMode === 'minimalistic'
+    ) {
         options.disableResize = true;
     }
   }
