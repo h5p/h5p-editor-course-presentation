@@ -179,9 +179,9 @@ H5PEditor.CoursePresentation.prototype.addElement = function (library, options) 
 
       var libraryName = library.split(' ')[0];
       switch (libraryName) {
-        case 'H5P.Audio':
-          elementParams.width = 2.577632696;
-          elementParams.height = 5.091753604;
+        case 'H5P.Audio': // 60 x 60 wrapper on biggest iframe size
+          elementParams.width = 6.90019;
+          elementParams.height = 13.45019;
           elementParams.action.params.fitToWrapper = true;
           break;
 
@@ -974,10 +974,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   // Opacity for keywords list
   var $opacityKeywords = this.$bar.find('.h5p-keywords-opacity input').change(function () {
     var opacity = parseInt($opacityKeywords.val());
-    if (isNaN(opacity)) {
-      opacity = 90;
-    }
-    if (opacity > 100) {
+    if (isNaN(opacity) || opacity > 100) {
       opacity = 100;
     }
     if (opacity < 0) {
@@ -1004,7 +1001,7 @@ H5PEditor.CoursePresentation.prototype.initKeywordInteractions = function () {
   checkDefault('keywordListEnabled', true);
   checkDefault('keywordListAlwaysShow', false);
   checkDefault('keywordListAutoHide', false);
-  checkDefault('keywordListOpacity', 90);
+  checkDefault('keywordListOpacity', 100);
 
   // Update HTML
   $enableKeywords.attr('checked', that.params.keywordListEnabled);
@@ -1096,7 +1093,7 @@ H5PEditor.CoursePresentation.prototype.updateNavigationLine = function (index) {
 
   // Update progressbar and footer
   this.cp.navigationLine.initProgressbar(hasSolutionArray);
-  this.cp.navigationLine.updateProgressBar(index);
+  this.cp.navigationLine.updateProgressBar(index, 0, false, true);
   this.cp.navigationLine.updateFooter(index);
 };
 
@@ -1800,7 +1797,15 @@ H5PEditor.CoursePresentation.prototype.addToDragNBar = function (element, elemen
     cornerLock: (type === 'H5P.Image' || type === 'H5P.Shape')
   };
 
-  if (type === 'H5P.Shape') {
+  if (type === 'H5P.Audio') {
+    if (
+      !elementParams.action.params.fitToWrapper &&
+      elementParams.action.params.playerMode === 'minimalistic'
+    ) {
+        options.disableResize = true;
+    }
+  }
+  else if (type === 'H5P.Shape') {
     options.minSize = 3;
     if (elementParams.action.params.type == 'vertical-line') {
       options.directionLock = "vertical";
@@ -2304,9 +2309,13 @@ H5PEditor.CoursePresentation.findField = function (name, fields) {
  * @param {object} dialogOptions Dialog options.
  * @returns {HTMLElement} confirmationDialog
  */
-H5PEditor.CoursePresentation.prototype.showConfirmationDialog = function (dialogOptions) {
-  const confirmationDialog = new H5P.ConfirmationDialog(dialogOptions)
-    .appendTo(document.body);
+H5PEditor.CoursePresentation.prototype.showConfirmationDialog = function (
+  dialogOptions
+) {
+  const confirmationDialog = new H5P.ConfirmationDialog({
+    ...dialogOptions,
+    theme: true,
+  }).appendTo(document.body);
 
   confirmationDialog.show(this.$item.offset().top);
   return confirmationDialog;
@@ -2314,7 +2323,6 @@ H5PEditor.CoursePresentation.prototype.showConfirmationDialog = function (dialog
 
 /** @constant {Number} */
 H5PEditor.CoursePresentation.RATIO_SURFACE = 16 / 9;
-
 
 // Tell the editor what widget we are.
 H5PEditor.widgets.coursepresentation = H5PEditor.CoursePresentation;
